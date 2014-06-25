@@ -5,3 +5,7 @@ en:
     log_out: "Log out"
     password: "Password"
     nickname: "Nickname"
+    not_logged_in: "You are not logged in."
+    logged_in: "You are logged in as %{nick}."
+    index: "Index"
+    register: "Register"

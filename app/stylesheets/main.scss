@@ -1,0 +1,87 @@
+@import "variables.scss";
+
+body {
+    font-family: $sansfont;
+    font-size: $fontsize;
+}
+
+h1 {
+    border-bottom: 1px solid black;
+    font-size: 150%;
+}
+
+#header {
+    border: 1px solid black;
+    background-color: $lightgrey;
+    padding: 4px;
+
+    p {
+	margin: 0px;
+    }
+}
+
+#title {
+    font-size: 150%;
+}
+
+#navigation {
+    border: {
+	left: 1px solid black;
+	right: 1px solid black;
+	bottom: 1px solid black;
+    }
+
+    background-color: black;
+    padding: 4px;
+
+    ul {
+	@include vlist;
+
+	li a {
+	    color: $lightgrey;
+	    text-decoration: none;
+	    font-weight: bold;
+
+	    &:hover {
+		text-decoration: underline;
+	    }
+	}
+    }
+}
+
+#footer {
+    margin-top: 10px;
+    font-size: $smallfontsize;
+
+    ul {
+	@include vlist;
+    }
+}
+
+#time {
+    float: right;
+    text-align: right;
+
+    p {
+	margin: {
+	    left: 0px;
+	    top: 0px;
+	    bottom: 0px;
+	    right: 2px;
+	}
+    }
+}
+
+.forumgroup {
+    margin-bottom: 4px;
+    border: 1px solid black;
+    background-color: $lightgrey;
+
+    .forumgroupname {
+	margin: 0px;
+	border-bottom: 1px solid black;
+	background-color: black;
+	color: white;
+	padding-left: 4px;
+    }
+}

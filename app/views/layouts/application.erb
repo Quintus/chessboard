@@ -3,11 +3,18 @@
   <head>
     <meta charset="utf-8"/>
     <title><%= @pagetitle || "Chessboard" %></title>
+    <%= stylesheet_link_tag "main" %>
   </head>
   <body>
     <%= partial "layouts/header" %>
+    <%= partial "layouts/navigation" %>
 
-    <div id="navigation">
+    <div id="login-info">
+      <% if env["warden"].authenticated? %>
+	<%= I18n.t("general.logged_in", :nick => env["warden"].user.nickname) %>
+      <% else %>
+	<%= I18n.t("general.not_logged_in") %>
+      <% end %>
     </div>
 
     <div id="content">
@@ -16,6 +23,8 @@
 
       <%= yield %>
     </div>
+
+    <%= partial "layouts/footer" %>
 
   </body>
 </html>

@@ -1,0 +1,15 @@
+$sansfont: Helvetica, sans-serif;
+$fontsize: 12pt;
+$smallfontsize: 10pt;
+$lightgrey: #EEEEEE;
+
+@mixin vlist {
+    margin: 0px;
+    list-style-type: none;
+    padding: 0px;
+
+    li {
+	display: inline;
+	margin-left: 4px;
+    }
+}
