@@ -1,6 +1,10 @@
 RACK_ENV = 'test' unless defined?(RACK_ENV)
 require File.expand_path('../../config/boot', __FILE__)
 
+ENV["RACK_ENV"] = "test"
+puts "Resetting test database..."
+system("bundle exec rake db:drop db:create db:migrate")
+
 class MiniTest::Spec
   include Rack::Test::Methods
 

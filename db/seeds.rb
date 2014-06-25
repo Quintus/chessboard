@@ -1,4 +1,4 @@
 ########################################
-# Formus
+# Forums
 
-4.times{ Fabricate(:forum) }
+4.times{ Fabricate(:forum_group) }
