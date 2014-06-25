@@ -8,6 +8,8 @@ body {
 h1 {
     border-bottom: 1px solid black;
     font-size: 150%;
+    margin-top: 0.67em;
+    margin-bottom: 0.67em;
 }
 
 a {
@@ -232,4 +234,12 @@ table {
 
 .author-posts {
     font-size: $smallfontsize;
+}
+
+.post-forum {
+    font-size: $smallfontsize;
+    margin: {
+	top: 12px;
+	bottom: -12px;
+    }
 }
