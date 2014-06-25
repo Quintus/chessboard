@@ -14,7 +14,7 @@
 	</tr>
       </thead>
       <tbody>
-	<% partial "forums/list_forum", :collection => group.forums.order("name ASC") %>
+	<%= partial "forums/list_forum", :collection => group.forums.order("name ASC") %>
       </tbody>
     </table>
   </div>

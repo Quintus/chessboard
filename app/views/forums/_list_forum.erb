@@ -1,6 +1,6 @@
 <tr class="forum">
   <td class="forumname">
-    <%= list_forum.name %><br/>
+    <%= link_to list_forum.name, url(:forums, :show, list_forum.id) %><br/>
     <%= list_forum.description %>
   </td>
   <td class="forumtopics">
