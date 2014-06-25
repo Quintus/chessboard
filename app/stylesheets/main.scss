@@ -208,6 +208,7 @@ table {
 .post-author {
     width: 15%;
     display: table-cell;
+    padding-left: 4px;
     p { margin: 0px; }
 }
 
@@ -222,6 +223,10 @@ table {
 
 .author-name {
     font-weight: bold;
+}
+
+.author-rank {
+    font-size: 11pt;
 }
 
 .author-registered {
