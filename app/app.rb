@@ -9,7 +9,7 @@ module Chessboard
 
     use Warden::Manager do |manager|
       manager.default_strategies :password
-      manager.failure_app App
+      manager.failure_app = App
       manager.serialize_into_session{|user| user.id}
       manager.serialize_from_session{|id| User.find(id.to_i)}
     end
@@ -22,6 +22,31 @@ module Chessboard
       logger.warn("Authentication failure for #{request.ip}")
       flash[:alert] = "Invalid nickname or password."
       redirect "/login"
+    end
+
+    get "/login" do
+      if env["warden"].authenticated?
+        redirect "/forums"
+      else
+        render "misc/login"
+      end
+    end
+
+    post "/login" do
+      halt 400 if env["warden"].authenticated?
+
+      user = env["warden"].authenticate!
+      flash[:notice] = "Logged in successfully."
+      logger.info("Successful authentification for user #{user.nickname} from IP #{request.ip}")
+      redirect "/forums"
+    end
+
+    get "/logout" do
+      if env["warden"].authenticated?
+        env["warden"].logout
+        flash[:notice] = "Logged out successfully."
+      end
+      redirect "/forums"
     end
 
     ##

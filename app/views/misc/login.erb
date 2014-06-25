@@ -1,0 +1,16 @@
+<h1><%= I18n.t("general.log_in") %></h1>
+
+<% form_tag "/login", :method => :post do %>
+<p>
+  <%= I18n.t("general.nickname") %><br/>
+  <%= text_field_tag :nickname %>
+</p>
+
+<p>
+  <%= I18n.t("general.password") %><br/>
+  <%= text_field_tag :password %>
+</p>
+
+<p><%= submit_tag I18n.t("general.log_in") %></p>
+
+<% end %>

@@ -11,6 +11,9 @@
     </div>
 
     <div id="content">
+      <%= flash_tag :alert, :class => "flash alert" %>
+      <%= flash_tag :notice, :class => "flash notice" %>
+
       <%= yield %>
     </div>
 

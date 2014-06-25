@@ -1,3 +1,7 @@
 en:
   general:
     forum_overview: "Forum Overview"
+    log_in: "Log in"
+    log_out: "Log out"
+    password: "Password"
+    nickname: "Nickname"

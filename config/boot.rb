@@ -21,6 +21,8 @@ module Chessboard
 end
 load File.join(PADRINO_ROOT, "settings.rb")
 
+require_relative "warden"
+
 ##
 # ## Enable devel logging
 #

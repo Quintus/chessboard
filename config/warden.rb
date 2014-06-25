@@ -5,7 +5,7 @@ Warden::Strategies.add(:password) do
   end
 
   def authenticate!
-    user = User.find(nickname: params["nickname"])
+    user = User.find_by(nickname: params["nickname"])
     if user
       if user.authenticate(params["password"])
         success!(user)
