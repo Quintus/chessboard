@@ -51,10 +51,21 @@ h1 {
 
 #footer {
     margin-top: 10px;
+    padding-top: 4px;
     font-size: $smallfontsize;
+    border-top: 1px dashed #AAAAAA;
+    color: #AAAAAA;
 
     ul {
 	@include vlist;
+    }
+
+    a {
+	color: #AAAAAA;
+
+	&:hover {
+	    color: black;
+	}
     }
 }
 
@@ -84,4 +95,21 @@ h1 {
 	color: white;
 	padding-left: 4px;
     }
+}
+
+.notice {
+    border: 1px solid #00681c;
+    background-color: #77e494;
+}
+
+.alert {
+    border: 1px solid #b5340e;
+    background-color: #e48177;
+}
+
+.flash {
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 6px;
+    text-align: center;
 }
