@@ -9,6 +9,9 @@ Chessboard.configure do |config|
   config.title = "Chessboard Forum"
   config.subtitle = "Chessboard default forum."
 
+  # Default locale
+  config.default_locale = :en
+
   ########################################
   # Database configuration
 

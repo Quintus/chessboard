@@ -27,11 +27,11 @@ load File.join(PADRINO_ROOT, "settings.rb")
 # Padrino::Logger::Config[:development][:log_level]  = :devel
 # Padrino::Logger::Config[:development][:log_static] = true
 #
-# ## Configure your I18n
-#
-# I18n.default_locale = :en
-# I18n.enforce_available_locales = false
-#
+## Configure your I18n
+
+I18n.default_locale = Chessboard.config.default_locale
+I18n.enforce_available_locales = false
+
 # ## Configure your HTML5 data helpers
 #
 # Padrino::Helpers::TagHelpers::DATA_ATTRIBUTES.push(:dialog)

@@ -1,0 +1,11 @@
+en:
+  models:
+    forum:
+      name: Forum
+      attributes:
+        id: Id
+        name: Name
+        description: Description
+        created_at: Created at
+        updated_at: Updated at
+        forum_group_id: Forum group
