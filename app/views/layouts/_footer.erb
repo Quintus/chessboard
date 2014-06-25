@@ -7,8 +7,8 @@
   </div>
   <div id="stats">
     <ul>
-      <li>Posts: 0</li>
-      <li>Topics: 0</li>
+      <li>Posts: <%= Post.count %></li>
+      <li>Topics: <%= Topic.count %></li>
       <li>Members: <%= User.count %></li>
       <li>Newest member: <%= User.order(:created_at => :desc).limit(1).first.nickname %></li>
     </ul>
