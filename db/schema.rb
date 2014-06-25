@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2) do
+ActiveRecord::Schema.define(version: 3) do
 
   create_table "forum_groups", force: true do |t|
     t.string   "name"
@@ -25,6 +25,16 @@ ActiveRecord::Schema.define(version: 2) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "forum_group_id"
+  end
+
+  create_table "users", force: true do |t|
+    t.string   "nickname"
+    t.string   "realname"
+    t.string   "email"
+    t.string   "homepage"
+    t.string   "rank"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end
