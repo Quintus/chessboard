@@ -3,10 +3,10 @@
     <%= link_to list_forum.name, url(:forums, :show, list_forum.id) %><br/>
     <%= list_forum.description %>
   </td>
-  <td class="forumtopics">
+  <td class="forumtopics numbercell">
     <%= list_forum.topics.count %>
   </td>
-  <td class="forumposts">
+  <td class="forumposts numbercell">
     <%= list_forum.topics.joins(:posts).count %>
   </td>
   <td class="forumlastpost">

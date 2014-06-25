@@ -25,7 +25,9 @@ Chessboard::App.controllers :forums do
   end
 
   get :show, :map => "/forums/:id" do
-
+    @forum = Forum.find(params[:id])
+    @topics = @forum.topics.joins(:posts).order("posts.updated_at DESC")
+    render "show"
   end
 
 end
