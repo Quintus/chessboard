@@ -1,8 +1,21 @@
 <h1>Forum overview</h1>
 
-<p>List of forums:</p>
-<ul>
-<% @forums.each do |forum| %>
-  <li><%= forum.name %> (<%= forum.description %>)</li>
+<% @forum_groups.each do |group| %>
+  <div class="forumgroup">
+    <p class="forumgroupname"><%= group.name %></p>
+
+    <table class="forumlist">
+      <thead>
+	<tr>
+	  <th class="forumname">Forum</th>
+	  <th class="forumtopics">Topics</th>
+	  <th class="forumposts">Posts</th>
+	  <th class="forumlastpost">Last Post</th>
+	</tr>
+      </thead>
+      <tbody>
+	<% partial "forums/list_forum", :collection => group.forums.order("name ASC") %>
+      </tbody>
+    </table>
+  </div>
 <% end %>
-</ul>

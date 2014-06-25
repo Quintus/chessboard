@@ -20,7 +20,7 @@ Chessboard::App.controllers :forums do
   # end
   
   get :index, :map => "/forums" do
-    @forums = Forum.all
+    @forum_groups = ForumGroup.order(:name => :asc)
     render "index"
   end
 
