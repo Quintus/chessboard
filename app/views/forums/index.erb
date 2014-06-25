@@ -1,0 +1,8 @@
+<h1>Forum overview</h1>
+
+<p>List of forums:</p>
+<ul>
+<% @forums.each do |forum| %>
+  <li><%= forum.name %> (<%= forum.description %>)</li>
+<% end %>
+</ul>

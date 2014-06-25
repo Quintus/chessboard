@@ -7,6 +7,10 @@ module Chessboard
 
     enable :sessions
 
+    get "/" do
+      redirect "/forums"
+    end
+
     ##
     # Caching support.
     #
