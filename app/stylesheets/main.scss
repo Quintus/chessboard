@@ -158,8 +158,8 @@ table {
 .forumlist {
     table-layout: fixed;
 
-    .forumtopics { width: 7%; }
-    .forumposts { width: 7%; }
+    .forumtopics { width: 7%; text-align: center; }
+    .forumposts { width: 7%; text-align: center; }
     .forumlastpost { width: 11%; }
     .forumname { padding-left: 4px; }
 }
