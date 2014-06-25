@@ -1,6 +1,6 @@
 <tr class="forum-topic">
   <td class="list-topic">
-    <%= forum_topic.title %><br/>
+    <%= link_to forum_topic.title, url(:topics, :show, forum_topic.id) %><br/>
     <%= I18n.t("forums.author_by") %> <%= link_to forum_topic.author.nickname, "/" %>
   </td>
   <td class="list-replies numbercell"><%= forum_topic.posts.count %></td>

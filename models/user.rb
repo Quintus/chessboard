@@ -5,6 +5,8 @@ class User < ActiveRecord::Base
   validates :rank, :presence => true
   validates :encrypted_password, :presence => true
 
+  has_many :posts, :foreign_key => :author_id
+
   # Specify a new password.
   def password=(new_password)
     if new_password.to_s.length > 8

@@ -173,3 +173,63 @@ table {
 #login-info {
     margin-left: 2px;
 }
+
+.topic {
+}
+
+.post {
+    margin-top: 8px;
+    clear: both;
+    border: 1px solid black;
+    background-color: $lightgrey;
+
+    display: table;
+}
+
+.post-created {
+    float: right;
+    padding-right: 4px;
+}
+
+.post-num {
+    padding-left: 4px;
+}
+
+.post-header {
+    border-bottom: 1px solid black;
+    background-color: $darkgrey;
+    color: $lightgrey;
+
+    p { margin: 0px; }
+}
+
+.post-author {
+    width: 15%;
+    display: table-cell;
+    p { margin: 0px; }
+}
+
+.post-content {
+    border-left: 1px solid black;
+    display: table-cell;
+}
+
+.post-text {
+    padding-left: 4px;
+}
+
+.author-name {
+    font-weight: bold;
+}
+
+.author-registered {
+    font-size: $smallfontsize;
+}
+
+.post-author p.author-registered {
+    margin-top: 4px;
+}
+
+.author-posts {
+    font-size: $smallfontsize;
+}
