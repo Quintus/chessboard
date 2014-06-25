@@ -19,11 +19,7 @@ ActiveRecord::Base.configurations[:development] = {
 
 }
 
-ActiveRecord::Base.configurations[:production] = {
-  :adapter => 'sqlite3',
-  :database => Padrino.root('db', 'chessboard_production.db')
-
-}
+ActiveRecord::Base.configurations[:production] = Chessboard.config.database
 
 ActiveRecord::Base.configurations[:test] = {
   :adapter => 'sqlite3',

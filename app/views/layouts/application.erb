@@ -5,10 +5,14 @@
     <title><%= @pagetitle || "Chessboard" %></title>
   </head>
   <body>
+    <%= partial "layouts/header" %>
+
     <div id="navigation">
     </div>
+
     <div id="content">
       <%= yield %>
     </div>
+
   </body>
 </html>
