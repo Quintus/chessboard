@@ -3,4 +3,5 @@ class Forum < ActiveRecord::Base
   validates :description, :presence => true
 
   belongs_to :forum_group
+  has_many :topics
 end

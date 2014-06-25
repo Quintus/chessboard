@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 5) do
+ActiveRecord::Schema.define(version: 6) do
 
   create_table "forum_groups", force: true do |t|
     t.string   "name"
@@ -31,6 +31,19 @@ ActiveRecord::Schema.define(version: 5) do
     t.text     "content"
     t.string   "language",   default: "Markdown"
     t.integer  "edits",      default: 0
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "topic_id"
+    t.integer  "author_id"
+  end
+
+  create_table "topics", force: true do |t|
+    t.string   "title"
+    t.boolean  "sticky",       default: false
+    t.boolean  "announcement", default: false
+    t.boolean  "locked",       default: false
+    t.integer  "forum_id"
+    t.integer  "author_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
