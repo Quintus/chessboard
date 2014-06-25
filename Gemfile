@@ -16,6 +16,8 @@ gem 'rake'
 gem "kramdown"
 gem "fabrication"
 gem "faker"
+gem "warden"
+gem "bcrypt"
 
 # Component requirements
 gem 'sass'

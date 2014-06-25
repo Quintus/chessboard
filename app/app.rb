@@ -7,8 +7,21 @@ module Chessboard
 
     enable :sessions
 
+    use Warden::Manager do |manager|
+      manager.default_strategies :password
+      manager.failure_app App
+      manager.serialize_into_session{|user| user.id}
+      manager.serialize_from_session{|id| User.find(id.to_i)}
+    end
+
     get "/" do
       redirect "/forums"
+    end
+
+    post "/unauthenticated" do
+      logger.warn("Authentication failure for #{request.ip}")
+      flash[:alert] = "Invalid nickname or password."
+      redirect "/login"
     end
 
     ##

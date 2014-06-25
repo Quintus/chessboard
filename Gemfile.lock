@@ -15,6 +15,7 @@ GEM
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
     arel (5.0.1.20140414130214)
+    bcrypt (3.1.7)
     builder (3.2.2)
     erubis (2.7.0)
     fabrication (2.11.3)
@@ -89,12 +90,15 @@ GEM
       thread_safe (~> 0.1)
     url_mount (0.2.1)
       rack
+    warden (1.2.3)
+      rack (>= 1.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   activerecord (>= 3.1)
+  bcrypt
   erubis (~> 2.7.0)
   fabrication
   faker
@@ -105,3 +109,4 @@ DEPENDENCIES
   rake
   sass
   sqlite3
+  warden

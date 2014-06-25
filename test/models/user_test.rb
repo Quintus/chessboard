@@ -16,4 +16,25 @@ describe "User Model" do
     assert Fabricate(:user)
   end
 
+  it "should enforce long passwords" do
+    user = User.new(nickname: "username", email: "e@ma.il", rank: "none")
+    refute user.save # No password
+
+    assert_raises(ArgumentError){ Fabricate.build(:user, password: "foo") } # Password too short
+
+    u = Fabricate.build(:user)
+    u.encrypted_password = nil
+    refute user.save # No password
+
+    assert Fabricate(:user, password: "foofoofoo")
+  end
+
+  it "should authenticate properly" do
+    user = Fabricate(:user, password: "foofoofoo")
+
+    refute user.authenticate ""
+    refute user.authenticate "wrongpassword"
+    assert user.authenticate "foofoofoo"
+  end
+
 end
