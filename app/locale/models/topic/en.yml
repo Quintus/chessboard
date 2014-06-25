@@ -1,0 +1,14 @@
+en:
+  models:
+    topic:
+      name: Topic
+      attributes:
+        id: Id
+        title: Title
+        sticky: Sticky
+        announcement: Announcement
+        locked: Locked
+        forum_id: Forum
+        author_id: Author
+        created_at: Created at
+        updated_at: Updated at

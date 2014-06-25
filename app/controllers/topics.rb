@@ -1,8 +1,37 @@
 Chessboard::App.controllers :topics do
   
+  before :except => :show do
+    redirect "/login" unless env["warden"].authenticated?
+  end
+
+  get :new, :map => "/topics/new" do
+    @topic = Topic.new
+    @topic.posts.build
+    render "new"
+  end
+
   get :show, :map => "/topics/:id" do
     @topic = Topic.find(params[:id])
     render "show"
+  end
+
+  post :create, :map => "/topics/new" do
+    halt 400 unless params["topic"]["forum_id"]
+
+    @topic = Topic.new
+    @topic.title = params["topic"]["title"]
+    @topic.forum = Forum.find(params["topic"]["forum_id"])
+    @topic.author = env["warden"].user
+
+    initial_post = Post.new(params["topic"]["posts_attributes"]["0"])
+    @topic.posts << initial_post
+
+    if @topic.save
+      flash[:notice] = "Topic created"
+      redirect url(:topics, :show, @topic.id)
+    else
+      render "new"
+    end
   end
 
 end

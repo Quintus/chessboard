@@ -1,0 +1,14 @@
+en:
+  models:
+    user:
+      name: User
+      attributes:
+        id: Id
+        nickname: Nickname
+        realname: Realname
+        email: Email
+        homepage: Homepage
+        rank: Rank
+        created_at: Created at
+        updated_at: Updated at
+        encrypted_password: Encrypted password

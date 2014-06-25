@@ -1,0 +1,21 @@
+<h1><%= I18n.t("forums.new_topic") %></h1>
+
+<% form_for @topic, url(:topics, :create), :method => :post do |f| %>
+  <%= f.hidden_field :forum_id, :value => params[:forum] %>
+
+  <p>
+    <%= f.label :title %><br/>
+    <%= f.text_field :title %>
+  </p>
+
+  <p>
+  <% f.fields_for :posts do |f2| %>
+      <%= f2.label :content %><br/>
+      <%= f2.text_area :content %>
+    <% end %>
+  </p>
+
+  <p>
+    <%= f.submit I18n.t("general.create") %>
+  </p>
+<% end %>

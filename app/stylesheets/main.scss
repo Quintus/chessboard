@@ -22,6 +22,22 @@ a {
     }
 }
 
+
+input[type='text'] {
+    width: 50%;
+}
+
+textarea {
+    width: 50%;
+    height: 200px;
+}
+
+form {
+    border: 1px solid black;
+    background-color: $lightgrey;
+    padding: 4px;
+}
+
 table {
     border-collapse: collapse;
     width: 100%;
@@ -247,4 +263,10 @@ table {
 	top: 12px;
 	bottom: -12px;
     }
+}
+
+.new-topic {
+    margin: 0px 4px 0px 0px;
+    float: right;
+    font-size: $smallfontsize;
 }

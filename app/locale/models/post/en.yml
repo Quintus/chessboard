@@ -1,0 +1,13 @@
+en:
+  models:
+    post:
+      name: Post
+      attributes:
+        id: Id
+        content: Message
+        language: Markup Language
+        edits: Edits
+        created_at: Created at
+        updated_at: Updated at
+        topic_id: Topic
+        author_id: Author

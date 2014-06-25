@@ -1,3 +1,4 @@
+<p class="new-topic"><%= link_to I18n.t("forums.new_topic"), url(:topics, :new) + "?" + "forum=#{@forum.id}"%></p>
 <h1><%= @forum.name %></h1>
 
 <table class="topicslist">
