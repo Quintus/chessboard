@@ -26,19 +26,6 @@ class User < ActiveRecord::Base
     BCrypt::Password.new(encrypted_password) == password
   end
 
-  def avatar
-    if use_gravatar
-      # TODO
-      nil
-    else
-      if File.exists?(Padrino.root("public", "images", "avatars", "#{self.id}.png"))
-        "/images/avatars/#{self.id}.png"
-      else
-      nil
-      end
-    end
-  end
-
   private
 
   def setup_settings

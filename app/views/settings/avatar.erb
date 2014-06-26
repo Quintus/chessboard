@@ -1,0 +1,39 @@
+<h1><%= I18n.t("settings.avatar_settings") %></h1>
+
+<% form_for @settings, url(:settings, :avatar), :method => :patch, :class => "settings-form" do |f| %>
+  <div class="setting">
+    <div class="header settings-header">
+      <%= f.label :use_gravatar %>
+    </div>
+
+    <div class="settings-desc">
+      <%= I18n.t("settings.descriptions.gravatar") %>
+    </div>
+
+    <div class="settings-content">
+      <%= f.label :use_gravatar %><%= f.check_box :use_gravatar %>
+    </div>
+  </div>
+
+  <div class="setting">
+    <div class="header settings-header">
+      <label><%= I18n.t("settings.avatar") %></label>
+    </div>
+
+    <div class="settings-desc">
+      <%= I18n.t("settings.descriptions.avatar") %>
+    </div>
+
+    <div class="settings-content">
+      <%= f.file_field :avatar %>
+    </div>
+
+    <% if @settings.avatar %>
+      <%= image_tag @settings.avatar, :alt => "User avatar" %>
+    <% end %>
+
+    <p class="submit-separator">
+      <%= f.submit I18n.t("general.update") %>
+    </p>
+  </div>
+<% end %>

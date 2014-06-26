@@ -21,6 +21,8 @@ en:
     new_topic: "New Topic"
   settings:
     settings: "Settings"
+    avatar_settings: "Avatar settings"
+    avatar: "Avatar"
     descriptions:
       hide_status: >
         Activating this option makes your online status invisible
@@ -36,6 +38,14 @@ en:
         Force this time format to be used everywhere. If blank,
         a default time format will be used that fits the respective
         place. The format is determined by date(1).
+      gravatar: >
+        If you enable this, your email address will be used to
+        query the Gravatar service for your avatar image instead
+        of using the avatar image uploaded to this forum.
+      avatar: >
+        You can use this form to upload a small picture that is
+        shown next to your postings. This has no effect if you
+        have enabled the “use gravatar” option.
   time:
     time_ago_format: "%{time} ago"
     formats:

@@ -10,3 +10,4 @@ db/*.db
 .bundle
 .gems
 public/stylesheets
+public/images/avatars/*.png

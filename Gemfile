@@ -19,6 +19,7 @@ gem "fabrication"
 gem "faker"
 gem "warden"
 gem "bcrypt"
+gem "mini_magick"
 
 # Component requirements
 gem 'sass'
