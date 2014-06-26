@@ -9,8 +9,8 @@ describe "Post Model" do
 
   it "validates properly" do
     assert_raises(ActiveRecord::RecordInvalid){ Fabricate(:post, content: nil) }
-    assert_raises(ActiveRecord::RecordInvalid){ Fabricate(:post, language: nil) }
-    assert_raises(ActiveRecord::RecordInvalid){ Fabricate(:post, language: "invalid") }
+    assert_raises(ActiveRecord::RecordInvalid){ Fabricate(:post, markup_language: nil) }
+    assert_raises(ActiveRecord::RecordInvalid){ Fabricate(:post, markup_language: "invalid") }
     assert_raises(ActiveRecord::RecordInvalid){ Fabricate(:post, author: nil) }
 
     assert Fabricate(:post)

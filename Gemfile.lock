@@ -15,6 +15,7 @@ GEM
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
     arel (5.0.1.20140414130214)
+    bb-ruby (1.0.4)
     bcrypt (3.1.7)
     builder (3.2.2)
     erubis (2.7.0)
@@ -98,6 +99,7 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord (>= 3.1)
+  bb-ruby
   bcrypt
   erubis (~> 2.7.0)
   fabrication

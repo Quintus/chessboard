@@ -14,6 +14,7 @@ source 'https://rubygems.org'
 # Project requirements
 gem 'rake'
 gem "kramdown"
+gem "bb-ruby"
 gem "fabrication"
 gem "faker"
 gem "warden"

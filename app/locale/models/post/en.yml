@@ -5,7 +5,7 @@ en:
       attributes:
         id: Id
         content: Message
-        language: Markup Language
+        markup_language: Markup Language
         edits: Edits
         created_at: Created at
         updated_at: Updated at

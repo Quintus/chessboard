@@ -1,9 +1,9 @@
 class Post < ActiveRecord::Base
 
-  LANGUAGES = %w[Markdown].freeze
+  MARKUP_LANGUAGES = %w[BBCode Markdown].freeze
 
   validates :content, :presence => true
-  validates :language, :presence => true, :inclusion => { :in => LANGUAGES }
+  validates :markup_language, :presence => true, :inclusion => { :in => MARKUP_LANGUAGES }
   validates :author, :presence => true
 
   belongs_to :topic

@@ -29,8 +29,8 @@ ActiveRecord::Schema.define(version: 7) do
 
   create_table "posts", force: true do |t|
     t.text     "content"
-    t.string   "language",   default: "Markdown"
-    t.integer  "edits",      default: 0
+    t.string   "markup_language", default: "BBCode"
+    t.integer  "edits",           default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "topic_id"

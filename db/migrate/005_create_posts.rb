@@ -2,7 +2,7 @@ class CreatePosts < ActiveRecord::Migration
   def self.up
     create_table :posts do |t|
       t.text :content
-      t.string :language, :default => "Markdown"
+      t.string :markup_language, :default => Post::MARKUP_LANGUAGES.first
       t.integer :edits, :default => 0
       t.timestamps
     end
