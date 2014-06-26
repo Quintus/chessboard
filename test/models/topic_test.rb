@@ -9,6 +9,7 @@ describe "Topic Model" do
 
   it "should properly validate" do
     assert_raises(ActiveRecord::RecordInvalid){ Fabricate(:topic, title: nil) }
+    assert_raises(ActiveRecord::RecordInvalid){ Fabricate(:topic, author: nil) }
 
     assert Fabricate(:topic)
   end

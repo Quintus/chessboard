@@ -5,6 +5,8 @@ ENV["RACK_ENV"] = "test"
 puts "Resetting test database..."
 system("bundle exec rake db:drop db:create db:migrate")
 
+4.times{ Fabricate(:user) }
+
 class MiniTest::Spec
   include Rack::Test::Methods
 
