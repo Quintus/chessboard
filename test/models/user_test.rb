@@ -13,6 +13,8 @@ describe "User Model" do
     assert_raises(ActiveRecord::RecordInvalid){ Fabricate(:user, rank: nil) }
     assert_raises(ActiveRecord::RecordInvalid){ Fabricate(:user, nickname: "foo") ; Fabricate(:user, nickname: "foo") }
     assert_raises(ActiveRecord::RecordInvalid){ Fabricate(:user, email: "sfsf sgfd g h") }
+    assert_raises(ActiveRecord::RecordInvalid){ Fabricate(:user, preferred_markup_language: "sfsf sgfd g h") }
+    assert_raises(ActiveRecord::RecordInvalid){ Fabricate(:user, preferred_markup_language: nil) }
     assert Fabricate(:user)
   end
 

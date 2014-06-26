@@ -5,4 +5,5 @@ Fabricator(:user) do
   homepage { Faker::Internet.url }
   rank { "New Member" }
   password { Faker::Internet.password(8) }
+  preferred_markup_language{ Post::MARKUP_LANGUAGES.sample }
 end

@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
   validates :email, :presence => true, :format => /\A.*?@.*\Z/
   validates :rank, :presence => true
   validates :encrypted_password, :presence => true
+  validates :preferred_markup_language, :presence => true, :inclusion => {:in => Post::MARKUP_LANGUAGES}
 
   has_many :posts, :foreign_key => :author_id
 

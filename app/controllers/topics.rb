@@ -6,7 +6,7 @@ Chessboard::App.controllers :topics do
 
   get :new, :map => "/topics/new" do
     @topic = Topic.new
-    @topic.posts.build
+    @topic.posts.build(:markup_language => env["warden"].user.preferred_markup_language)
     render "new"
   end
 
