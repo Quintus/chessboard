@@ -12,6 +12,9 @@ Chessboard::App.controllers :topics do
 
   get :show, :map => "/topics/:id" do
     @topic = Topic.find(params[:id])
+    @topic.views += 1
+    @topic.save
+
     render "show"
   end
 
