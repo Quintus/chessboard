@@ -24,12 +24,14 @@ Chessboard::App.controllers :topics do
     @topic.author = env["warden"].user
 
     initial_post = Post.new(params["topic"]["posts_attributes"]["0"])
+    initial_post.author = env["warden"].user
     @topic.posts << initial_post
 
     if @topic.save
       flash[:notice] = "Topic created"
       redirect url(:topics, :show, @topic.id)
     else
+      @forum_id = params["topic"]["forum_id"]
       render "new"
     end
   end

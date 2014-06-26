@@ -10,6 +10,7 @@ en:
     index: "Index"
     register: "Register"
     create: "Create"
+    errors_occured: "Errors occured:"
   forums:
     forum: "Forum"
     topics: "Topics"
