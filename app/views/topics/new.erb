@@ -19,12 +19,15 @@
     <%= f.text_field :title %>
   </p>
 
-  <p>
   <% f.fields_for :posts do |f2| %>
+    <p>
       <%= f2.label :content %><br/>
       <%= f2.text_area :content %>
-    <% end %>
-  </p>
+    </p>
+    <p>
+      <%= f2.label :markup_language %>&nbsp;<%= f2.select(:markup_language, :options => Post::MARKUP_LANGUAGES) %>
+    </p>
+  <% end %>
 
   <p>
     <%= f.submit I18n.t("general.create") %>
