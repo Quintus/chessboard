@@ -43,6 +43,7 @@ Chessboard::App.controllers :settings do
     # Rack seems to have a maximum file size at at 1 GiB or so
     old_avatar_path = @settings.avatar_path
     @settings.avatar_path = env["warden"].user.id.to_s + File.extname(params["settings"]["avatar"][:filename])
+    logger.info "Writing avatar '#{@settings.avatar_path}'"
     File.open(Padrino.root("public", "images", "avatars", @settings.avatar_path), "wb") do |f|
       while chunk = params["settings"]["avatar"][:tempfile].read(1024)
         f.write(chunk)
@@ -52,6 +53,7 @@ Chessboard::App.controllers :settings do
     if @settings.save
       # Delete old avatar (unless already overwritten)
       if !old_avatar_path.blank? && @settings.avatar_path != old_avatar_path
+        logger.info "Deleting outdated avatar '#{old_avatar_path}'"
         File.delete(Padrino.root("public", "images", "avatars", old_avatar_path))
       end
 

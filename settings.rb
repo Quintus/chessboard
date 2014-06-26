@@ -18,6 +18,9 @@ Chessboard.configure do |config|
   # users.
   config.normal_time_format = ""
 
+  # Maximum width/height for avatars in pixels.
+  config.maximum_avatar_dimension = 80
+
   ########################################
   # Database configuration
 

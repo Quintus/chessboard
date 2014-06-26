@@ -1,5 +1,16 @@
 <h1><%= I18n.t("settings.avatar_settings") %></h1>
 
+<% unless @settings.errors.empty? %>
+<div class="flash alert">
+  <p><%= I18n.t("general.errors_occured") %></p>
+  <ul>
+    <% @settings.errors.messages.each do |key, msg| %>
+      <li><%= key %>: <%= msg %></li>
+    <% end %>
+  </ul>
+</div>
+<% end %>
+
 <% form_for @settings, url(:settings, :avatar), :method => :patch, :class => "settings-form" do |f| %>
   <div class="setting">
     <div class="header settings-header">

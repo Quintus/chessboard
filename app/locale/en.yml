@@ -50,3 +50,7 @@ en:
     time_ago_format: "%{time} ago"
     formats:
       plain: "%Y-%m-%d %H:%M"
+  errors:
+    settings:
+      avatar_path:
+        max_dimension: "Maximum image height/width is %{dim}px"

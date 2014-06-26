@@ -28,7 +28,9 @@ class Settings < ActiveRecord::Base
   def validate_avatar_image_format
     unless avatar_path.blank?
       img = MiniMagick::Image.open(Padrino.root("public", "images", "avatars", avatar_path))
-      # TODO
+      if img[:width] > Chessboard.config.maximum_avatar_dimension || img[:height] > Chessboard.config.maximum_avatar_dimension
+        errors.add(:avatar_path, I18n.t("errors.settings.avatar_path.max_dimension", :dim => Chessboard.config.maximum_avatar_dimension))
+      end
     end
   end
 
