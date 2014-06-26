@@ -12,6 +12,12 @@ Chessboard.configure do |config|
   # Default locale
   config.default_locale = :en
 
+  # Normal time format (see date(1)). Empty string means
+  # a special format using "a minute ago" and such.
+  # This format is used to disply times to unauthenticated
+  # users.
+  config.normal_time_format = ""
+
   ########################################
   # Database configuration
 

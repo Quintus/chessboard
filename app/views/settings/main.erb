@@ -43,6 +43,20 @@
     </div>
   </div>
 
+  <div class="setting">
+    <div class="header settings-header">
+      <%= f.label :time_format %>
+    </div>
+
+    <div class="settings-desc">
+      <%= I18n.t("settings.descriptions.time_format") %>
+    </div>
+
+    <div class="settings-content">
+      <%= f.text_field :time_format %>
+    </div>
+  </div>
+
   <p class="submit-separator">
     <%= f.submit I18n.t("general.update") %>
   </p>

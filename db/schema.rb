@@ -43,6 +43,7 @@ ActiveRecord::Schema.define(version: 9) do
     t.string   "preferred_markup_language", default: "BBCode"
     t.string   "string",                    default: "BBCode"
     t.string   "language",                  default: "en"
+    t.string   "time_format",               default: ""
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"

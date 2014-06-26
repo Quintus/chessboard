@@ -6,6 +6,7 @@ class CreateSettings < ActiveRecord::Migration
       t.boolean :use_gravatar, :default => false
       t.string :preferred_markup_language, :string, :default => Post::MARKUP_LANGUAGES.first
       t.string :language, :default => "en"
+      t.string :time_format, :default => ""
       t.references :user
       t.timestamps
     end

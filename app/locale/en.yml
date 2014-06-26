@@ -32,3 +32,11 @@ en:
       markup_language: >
         This is the default markup language that will be selected for
         new postings you are creating.
+      time_format: >
+        Force this time format to be used everywhere. If blank,
+        a default time format will be used that fits the respective
+        place. The format is determined by date(1).
+  time:
+    time_ago_format: "%{time} ago"
+    formats:
+      plain: "%Y-%m-%d %H:%M"

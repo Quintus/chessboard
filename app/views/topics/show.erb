@@ -14,7 +14,7 @@
     <div class="post-content">
       <div class="header post-header">
 	<div class="post-created">
-	  <p><%= post.created_at %></p>
+	  <p><%= I18n.l post.created_at, :format => :long %></p>
 	</div>
 	<div class="post-num">
 	  <p><a href="/topics/<%= @topic.id %>#p<%= post.id %>" name="p<%= post.id %>">#<%= i + 1 %></a></p>

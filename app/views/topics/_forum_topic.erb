@@ -7,7 +7,7 @@
   <td class="list-views numbercell"><%= forum_topic.views %></td>
   <td class="forumlastpost">
     <% post = forum_topic.posts.order("created_at DESC").first %>
-    <%= post.created_at.strftime("%Y-%m-%d %H:%M") %><br/>
+    <%= format_time post.created_at %><br/>
     <%= I18n.t("forums.author_by") %> <%= link_to post.author.nickname, "/" %>
   </td>
 </tr>
