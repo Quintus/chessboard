@@ -10,7 +10,7 @@ describe "Chessboard::App::ForumsHelper" do
     @helpers
   end
 
-  it "should return nil" do
-    assert_equal nil, helpers.foo
-  end
+  #it "should return nil" do
+  #  assert_equal nil, helpers.foo
+  #end
 end

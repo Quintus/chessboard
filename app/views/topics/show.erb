@@ -22,7 +22,7 @@
       </div>
 
       <div class="post-text">
-	<p><%= post.content %></p>
+	<%= process_markup(post.content, post.markup_language) %>
       </div>
     </div>
   </div>

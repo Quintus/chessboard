@@ -10,7 +10,18 @@ describe "Chessboard::App::PostsHelper" do
     @helpers
   end
 
-  it "should return nil" do
-    assert_equal nil, helpers.foo
+  it "should only allow valid markup languages" do
+    assert_raises(ArgumentError){ helpers.process_markup("", "invalid") }
+    assert_raises(ArgumentError){ helpers.process_markup("", "") }
+
+    assert helpers.process_markup("", "Markdown")
+    assert helpers.process_markup("", "BBCode")
   end
+
+  it "should remove/escape html tags" do
+    str = "foo <span>foo</span> *foo*"
+    assert_equal "<p>foo foo <strong>foo</strong></p>", helpers.process_markdown(str)
+    assert_equal "<p>foo &lt;span&gt;foo&lt;/span&gt; <strong>foo</strong></p>", helper.process_bbcode(str)
+  end
+
 end
