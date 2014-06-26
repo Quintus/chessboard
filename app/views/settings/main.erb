@@ -1,0 +1,49 @@
+<h1><%= I18n.t("settings.settings") %></h1>
+
+<% form_for @settings, url(:settings, :main), :method => :patch, :class => "settings-form" do |f| %>
+  <div class="setting">
+    <div class="header settings-header">
+      <%= f.label :hide_status %>
+    </div>
+
+    <div class="settings-desc">
+      <%= I18n.t("settings.descriptions.hide_status") %>
+    </div>
+
+    <div class="settings-content">
+      <%= f.label :hide_status %><%= f.check_box :hide_status %>
+    </div>
+  </div>
+
+  <div class="setting">
+    <div class="header settings-header">
+      <%= f.label :language %>
+    </div>
+
+    <div class="settings-desc">
+      <%= I18n.t("settings.descriptions.language") %>
+    </div>
+
+    <div class="settings-content">
+      <%= f.select :language, :options => I18n.available_locales.map(&:to_s) %>
+    </div>
+  </div>
+
+  <div class="setting">
+    <div class="header settings-header">
+      <%= f.label :preferred_markup_language %>
+    </div>
+
+    <div class="settings-desc">
+      <%= I18n.t("settings.descriptions.markup_language") %>
+    </div>
+
+    <div class="settings-content">
+      <%= f.select :preferred_markup_language, :options => Post::MARKUP_LANGUAGES %>
+    </div>
+  </div>
+
+  <p class="submit-separator">
+    <%= f.submit I18n.t("general.update") %>
+  </p>
+<% end %>

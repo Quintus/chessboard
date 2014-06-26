@@ -1,7 +1,12 @@
 <div id="navigation">
   <ul>
     <li><%= link_to(I18n.t("general.index"), url(:forums, :index)) %></li>
-    <li><a href="/register"><%= I18n.t("general.register") %></li>
+
+    <% if env["warden"].authenticated? %>
+      <li><%= link_to I18n.t("settings.settings"), url(:settings, :main) %></li>
+    <% else %>
+      <li><a href="/register"><%= I18n.t("general.register") %></li>
+    <% end %>
 
     <% if env["warden"].authenticated? %>
       <li><a href="/logout"><%= I18n.t("general.log_out") %></a></li>

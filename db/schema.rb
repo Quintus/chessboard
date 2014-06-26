@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 8) do
+ActiveRecord::Schema.define(version: 9) do
 
   create_table "forum_groups", force: true do |t|
     t.string   "name"
@@ -37,6 +37,17 @@ ActiveRecord::Schema.define(version: 8) do
     t.integer  "author_id"
   end
 
+  create_table "settings", force: true do |t|
+    t.boolean  "hide_status",               default: false
+    t.boolean  "use_gravatar",              default: false
+    t.string   "preferred_markup_language", default: "BBCode"
+    t.string   "string",                    default: "BBCode"
+    t.string   "language",                  default: "en"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "topics", force: true do |t|
     t.string   "title"
     t.boolean  "sticky",       default: false
@@ -58,7 +69,6 @@ ActiveRecord::Schema.define(version: 8) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "encrypted_password"
-    t.string   "preferred_markup_language", default: "BBCode"
   end
 
 end

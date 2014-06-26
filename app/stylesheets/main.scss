@@ -210,19 +210,18 @@ table {
 
 .post-created {
     float: right;
-    padding-right: 4px;
 }
 
-.post-num {
-    padding-left: 4px;
-}
-
-.post-header {
+.header {
     border-bottom: 1px solid black;
     background-color: $darkgrey;
     color: $lightgrey;
+    padding: 0px 4px 0px 4px;
 
     p { margin: 0px; }
+}
+
+.post-header {
 }
 
 .post-author {
@@ -273,4 +272,26 @@ table {
     margin: 0px 4px 0px 0px;
     float: right;
     font-size: $smallfontsize;
+}
+
+.setting {
+    margin-bottom: 10px;
+}
+
+.settings-form {
+    padding: 0px;
+}
+
+.settings-desc {
+    padding: 4px;
+}
+
+.settings-content {
+    padding: 4px;
+}
+
+.submit-separator {
+    border-top: 1px dashed $darkgrey;
+    padding-top: 4px;
+    padding-left: 4px;
 }

@@ -10,6 +10,7 @@ en:
     index: "Index"
     register: "Register"
     create: "Create"
+    update: "Update"
     errors_occured: "Errors occured:"
   forums:
     forum: "Forum"
@@ -18,3 +19,16 @@ en:
     lastpost: "Last Post"
     author_by: "by"
     new_topic: "New Topic"
+  settings:
+    settings: "Settings"
+    descriptions:
+      hide_status: >
+        Activating this option makes your online status invisible
+        for all other members except moderators and administrators.
+      language: >
+        Main board display language. All system messages will be shown
+        to you in this language; it has (of course) no influence on
+        the language other people use in their postings.
+      markup_language: >
+        This is the default markup language that will be selected for
+        new postings you are creating.

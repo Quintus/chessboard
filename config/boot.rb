@@ -31,8 +31,9 @@ require_relative "warden"
 #
 ## Configure your I18n
 
+I18n.available_locales = [:en, :de]
 I18n.default_locale = Chessboard.config.default_locale
-I18n.enforce_available_locales = false
+I18n.enforce_available_locales = true
 
 # ## Configure your HTML5 data helpers
 #
