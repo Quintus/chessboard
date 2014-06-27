@@ -1,4 +1,5 @@
 @import "variables.scss";
+@import "buttons.scss";
 
 body {
     font-family: $sansfont;
@@ -303,4 +304,16 @@ table {
     border-top: 1px dashed $darkgrey;
     padding-top: 4px;
     padding-left: 4px;
+}
+
+.quickreply-form {
+    margin-top: 10px;
+
+    h2 { margin-top: 0px; }
+}
+
+.post-actions {
+    @include vlist;
+    margin-top: 4px;
+    text-align: right;
 }

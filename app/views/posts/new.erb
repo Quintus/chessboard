@@ -1,0 +1,26 @@
+<h1><%= I18n.t("topics.reply") %></h1>
+
+<% unless @post.errors.empty? %>
+<div class="flash alert">
+  <p><%= I18n.t("general.errors_occured") %></p>
+  <ul>
+    <% @post.errors.messages.each do |key, msg| %>
+      <li><%= key %>: <%= msg %></li>
+    <% end %>
+  </ul>
+</div>
+<% end %>
+
+<% form_for @post, url(:posts, :create, @topic.id), :method => :post do |f| %>
+  <p>
+    <%= f.label :content %><br/>
+    <%= f.text_area :content %>
+  </p>
+  <p>
+    <%= f.label :markup_language %>&nbsp;<%= f.select(:markup_language, :options => Post::MARKUP_LANGUAGES) %>
+  </p>
+
+  <p class="submit-separator">
+    <%= f.submit I18n.t("general.create"), :class => "button-ok" %>
+  </p>
+<% end %>
