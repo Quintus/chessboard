@@ -2,6 +2,9 @@
   <td class="forumname">
     <%= link_to list_forum.name, url(:forums, :show, list_forum.id) %><br/>
     <%= list_forum.description %>
+    <% unless list_forum.moderators.empty? %>
+      <span class="mods"><%= I18n.t("forums.moderators") %> <%= list_forum.moderators.map(&:nickname).join(", ") %></span>
+    <% end %>
   </td>
   <td class="forumtopics numbercell">
     <%= list_forum.topics.count %>

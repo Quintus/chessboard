@@ -19,6 +19,7 @@ en:
     lastpost: "Last Post"
     author_by: "by"
     new_topic: "New Topic"
+    moderators: "Moderators:"
   topics:
     reply: "Post Reply"
     lock: "Lock Topic"
