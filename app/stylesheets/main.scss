@@ -128,6 +128,15 @@ table {
     }
 }
 
+#sidebar {
+    float: left;
+    width: 20%;
+}
+
+.with-sidebar {
+    margin-left: 21%;
+}
+
 #time {
     float: right;
     text-align: right;

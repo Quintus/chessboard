@@ -18,7 +18,17 @@
       <% end %>
     </div>
 
+    <% if content_for?(:sidebar) %>
+      <div id="sidebar">
+	<%= yield_content(:sidebar) %>
+      </div>
+    <% end %>
+
+    <% if content_for?(:sidebar) %>
+    <div id="content" class="with-sidebar">
+    <% else %>
     <div id="content">
+    <% end %>
       <%= flash_tag :alert, :class => "flash alert" %>
       <%= flash_tag :notice, :class => "flash notice" %>
 

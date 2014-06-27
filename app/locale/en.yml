@@ -21,6 +21,7 @@ en:
     new_topic: "New Topic"
   settings:
     settings: "Settings"
+    main_settings: "Main settings"
     avatar_settings: "Avatar settings"
     avatar: "Avatar"
     descriptions:

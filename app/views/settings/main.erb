@@ -1,4 +1,8 @@
-<h1><%= I18n.t("settings.settings") %></h1>
+<% content_for :sidebar do %>
+  <%= partial "settings/sidebar" %>
+<% end %>
+
+<h1><%= I18n.t("settings.main_settings") %></h1>
 
 <% form_for @settings, url(:settings, :main), :method => :patch, :class => "settings-form" do |f| %>
   <div class="setting">
