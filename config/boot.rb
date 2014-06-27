@@ -22,6 +22,7 @@ end
 load File.join(PADRINO_ROOT, "settings.rb")
 
 require_relative "warden"
+require_relative "emoticons"
 
 ##
 # ## Enable devel logging

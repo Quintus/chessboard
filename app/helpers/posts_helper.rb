@@ -5,22 +5,39 @@ module Chessboard
     module PostsHelper
 
       def process_markup(text, markup)
-        str = "process_#{markup.downcase}"
+        str = "markup_#{markup.downcase}"
         if respond_to?(str)
-          send(str, text)
+          result = send(str, text)
         else
           raise(ArgumentError, "Unknown markup language '#{markup}'!")
         end
+
+        replace_emoticons(result).html_safe
       end
 
-      def process_markdown(text)
+      def markup_markdown(text)
         kdoc = Kramdown::Document.new(text, :auto_ids => false, :remove_block_html_tags => true, :remove_span_html_tags => true)
         kdoc.to_remove_html_tags
-        kdoc.to_html.html_safe
+        kdoc.to_html
       end
 
-      def process_bbcode(text)
-        BBRuby.to_html_with_formatting(text).html_safe
+      def markup_bbcode(text)
+        BBRuby.to_html_with_formatting(text)
+      end
+
+      def replace_emoticons(text)
+        # Step 1: Common smileys :-) :-( ;-)
+        text = text.gsub(/:-?\)/, %Q!<img src="/images/emoticons/#{Chessboard.config.emoticons_set}/smile.gif" alt="smile"/>!)
+          .gsub(/:-?\(/, %Q!<img src="/images/emoticons/#{Chessboard.config.emoticons_set}/sad.gif" alt="sad"/>!)
+          .gsub(/;-?\)/, %Q!<img src="/images/emoticons/#{Chessboard.config.emoticons_set}/wink.gif" alt="wink"/>!)
+
+        # Step 2: Extended smiley escape sequence
+        text.gsub!(Chessboard.config.extended_emoticons_regexp) do
+          bare = $&.tr(":", "")
+          %Q!<img src="/images/emoticons/#{Chessboard.config.emoticons_set}/#{bare}.gif" alt="bare"/>!
+        end
+
+        text
       end
 
     end

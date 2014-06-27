@@ -21,6 +21,10 @@ Chessboard.configure do |config|
   # Maximum width/height for avatars in pixels.
   config.maximum_avatar_dimension = 80
 
+  # Name of the emoticons set to use (folder in
+  # public/images/emoticons).
+  config.emoticons_set = "default"
+
   ########################################
   # Database configuration
 

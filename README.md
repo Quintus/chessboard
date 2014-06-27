@@ -16,6 +16,14 @@ lightweight as possible.
 This is currently a development version. Do not use if you don’t know
 what you do.
 
+Emoticons
+---------
+
+You can easily add new emoticons by just dropping them into the
+`public/images/emoticons/default` folder, just ensure they are in GIF
+format and their filenames are all lowercase. They will automatically
+be picked up on the next restart of Chessboard.
+
 License
 -------
 
