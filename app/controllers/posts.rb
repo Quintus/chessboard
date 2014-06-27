@@ -40,4 +40,7 @@ Chessboard::App.controllers :posts do
     end
   end
 
+  get :edit, :map => "/topics/:topic_id/posts/:id" do
+  end
+
 end

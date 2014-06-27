@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 class User < ActiveRecord::Base
 
   validates :nickname, :presence => true, :uniqueness => true
@@ -31,6 +32,19 @@ class User < ActiveRecord::Base
   # forum.
   def moderator?
     !moderated_forums.empty?
+  end
+
+  # Returns true if this user has higher privileges, i.e. it’s
+  # an administrator or a moderator (or both).
+  def privileged?
+    admin? || moderator?
+  end
+
+  # Returns true if the given Forum instance is moderated by this user.
+  # Also returns true if the user is admin.
+  def moderates?(forum)
+    return true if admin?
+    moderated_forums.include?(forum)
   end
 
   private

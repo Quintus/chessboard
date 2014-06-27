@@ -5,7 +5,7 @@
   <%= partial "posts/show", :locals => {:post => post, :i => i} %>
 <% end %>
 
-<ul class="post-actions">
+<ul class="topic-actions">
   <li><%= link_to I18n.t("topics.lock"), "/", :class => "button-normal" %></li>
   <li><%= link_to I18n.t("topics.reply"), url(:posts, :new, @topic.id), :class => "button-normal" %></li>
 </ul>

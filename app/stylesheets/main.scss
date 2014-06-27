@@ -314,10 +314,14 @@ table {
     h2 { margin-top: 0px; }
 }
 
-.post-actions {
+.topic-actions {
     @include vlist;
     margin-top: 4px;
     text-align: right;
+}
+
+.post-actions {
+    @include vlist;
 }
 
 .mods {

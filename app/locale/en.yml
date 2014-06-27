@@ -23,6 +23,8 @@ en:
   topics:
     reply: "Post Reply"
     lock: "Lock Topic"
+  posts:
+    edit: "Edit"
   settings:
     settings: "Settings"
     main_settings: "Main settings"
