@@ -9,6 +9,7 @@ class User < ActiveRecord::Base
   has_many :posts, :foreign_key => :author_id
   has_one :settings
 
+  has_and_belongs_to_many :moderated_forums, :class_name => "Forum", :join_table => "moderation"
   before_validation :setup_settings
 
   # Specify a new password.
@@ -24,6 +25,12 @@ class User < ActiveRecord::Base
   # we have in our database. Returns true on success, false otherwise.
   def authenticate(password)
     BCrypt::Password.new(encrypted_password) == password
+  end
+
+  # Returns true if this user is allowed to moderate any specific
+  # forum.
+  def moderator?
+    !moderated_forums.empty?
   end
 
   private
