@@ -1,4 +1,4 @@
-<% form_for post, url(:posts, :create, topic.id), :method => :post, :class => "quickreply-form" do |f| %>
+<% form_for post, url(:posts, :create, topic.id), :method => :post, :class => "quickreply-form", :"data-topicid" => topic.id do |f| %>
   <h2><%= I18n.t("topics.reply") %></h2>
   <p>
     <%= f.label :content %><br/>
@@ -9,6 +9,6 @@
   </p>
 
   <p class="submit-separator">
-    <%= f.submit I18n.t("general.create") %>
+    <%= f.submit I18n.t("general.create"), :class => "button-ok" %>
   </p>
 <% end %>

@@ -27,3 +27,38 @@
     </div>
   </div>
 </div>
+
+<%# Template should only be once in the code; only 0th entry is guaranteed to exist. %>
+<% if i.zero? %>
+<script id="post-template" type="text/x-handlebars-template">
+  <div class="topic">
+
+    <div class="post">
+      <div class="post-author">
+      <p class="author-name"><%= post.author.nickname %></p>
+      <p class="author-rank"><%= post.author.rank %></p>
+      <% if post.author.settings.avatar %>
+	<p class="author-avatar"><%= image_tag post.author.settings.avatar, :alt => "User avatar" %></p>
+      <% end %>
+      <p class="author-registered">Registered: <%= post.author.created_at.strftime("%Y-%m-%d") %></p>
+	<p class="author-posts">Posts: {{ post_count }}</p>
+      </div>
+
+      <div class="post-content">
+	<div class="header post-header">
+	  <div class="post-created">
+	    <p>{{ post_created }}</p>
+	  </div>
+	  <div class="post-num">
+	    <p><a href="{{ post_link }}" name="p{{ post_num }}">#{{ post_num }}</a></p>
+	  </div>
+	</div>
+
+	<div class="post-text">
+	  {{{ post_content }}}
+	</div>
+      </div>
+    </div>
+  </div>
+</script>
+<% end %>

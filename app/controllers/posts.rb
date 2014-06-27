@@ -11,12 +11,26 @@ Chessboard::App.controllers :posts do
   end
 
   post :create, :map => "/topics/:topic_id/posts/new" do
+    halt 400 unless params["post"]
+
     @post = Post.new(params["post"])
     @post.topic = Topic.find(params["topic_id"])
     @post.author = env["warden"].user
 
     if request.xhr?
-      raise "TODO"
+      if @post.save
+        hsh = {"post_count" => env["warden"].user.posts.count,
+          "post_created" => I18n.l(@post.created_at, :format => :long),
+          "post_num" => @post.topic.posts.count,
+          "post_link" => url(:topics, :show, @post.topic.id) + "#p#{@post.id}",
+          "post_content" => process_markup(@post.content, @post.markup_language)}
+
+        p hsh
+
+        hsh.to_json
+      else
+        halt 400
+      end
     else
       if @post.save
         flash[:notice] = "Post created."
