@@ -15,7 +15,7 @@ module Chessboard
         end
 
         if timestr.blank?
-          if time < Time.now - 1.day
+          if time < Time.now - 2.days
             I18n.l time, :format => :plain
           else
             I18n.t("time.time_ago_format", :time => time_ago_in_words(time))
