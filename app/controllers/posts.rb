@@ -5,7 +5,7 @@ Chessboard::App.controllers :posts do
   end
 
   get :new, :map => "/topics/:topic_id/posts/new" do
-    @post = Post.new
+    @post = Post.new(:markup_language => env["warden"].user.settings.preferred_markup_language)
     @topic = Topic.find(params["topic_id"])
     render "posts/new"
   end
@@ -24,8 +24,6 @@ Chessboard::App.controllers :posts do
           "post_num" => @post.topic.posts.count,
           "post_link" => url(:topics, :show, @post.topic.id) + "#p#{@post.id}",
           "post_content" => process_markup(@post.content, @post.markup_language)}
-
-        p hsh
 
         hsh.to_json
       else

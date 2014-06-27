@@ -11,7 +11,7 @@
 </ul>
 
 <% if env["warden"].authenticated? %>
-  <% form_for Post.new, url(:posts, :create, @topic.id), :method => :post, :class => "quickreply-form", :"data-topicid" => @topic.id do |f| %>
+  <% form_for Post.new(:markup_language => env["warden"].user.settings.preferred_markup_language), url(:posts, :create, @topic.id), :method => :post, :class => "quickreply-form", :"data-topicid" => @topic.id do |f| %>
     <h2><%= I18n.t("topics.reply") %></h2>
     <%= partial "posts/form_fields", :locals => {:form => f} %>
 
