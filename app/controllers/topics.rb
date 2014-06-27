@@ -1,7 +1,7 @@
 Chessboard::App.controllers :topics do
   
   before :except => :show do
-    redirect "/login" unless env["warden"].authenticated?
+    env["warden"].authenticate!
   end
 
   get :new, :map => "/topics/new" do
