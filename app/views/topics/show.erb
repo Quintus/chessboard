@@ -1,33 +1,10 @@
 <p class="post-forum"><%= link_to "← #{@topic.forum.name}", url(:forums, :show, @topic.forum.id) %></p>
 <h1><%= @topic.title %></h1>
 
-<div class="topic">
 <% @topic.posts.order("created_at ASC").each_with_index do |post, i| %>
-  <div class="post">
-    <div class="post-author">
-      <p class="author-name"><%= post.author.nickname %></p>
-      <p class="author-rank"><%= post.author.rank %></p>
-      <% if post.author.settings.avatar %>
-	<p class="author-avatar"><%= image_tag post.author.settings.avatar, :alt => "User avatar" %></p>
-      <% end %>
-      <p class="author-registered">Registered: <%= post.author.created_at.strftime("%Y-%m-%d") %></p>
-      <p class="author-posts">Posts: <%= post.author.posts.count %></p>
-    </div>
-
-    <div class="post-content">
-      <div class="header post-header">
-	<div class="post-created">
-	  <p><%= I18n.l post.created_at, :format => :long %></p>
-	</div>
-	<div class="post-num">
-	  <p><a href="/topics/<%= @topic.id %>#p<%= post.id %>" name="p<%= post.id %>">#<%= i + 1 %></a></p>
-	</div>
-      </div>
-
-      <div class="post-text">
-	<%= process_markup(post.content, post.markup_language) %>
-      </div>
-    </div>
-  </div>
+  <%= partial "posts/show", :locals => {:post => post, :i => i} %>
 <% end %>
-</div>
+
+<% if env["warden"].authenticated? %>
+  <%= partial "posts/new", :locals => {:post => Post.new, :topic => @topic} %>
+<% end %>
