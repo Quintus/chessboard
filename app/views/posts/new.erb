@@ -12,13 +12,7 @@
 <% end %>
 
 <% form_for @post, url(:posts, :create, @topic.id), :method => :post do |f| %>
-  <p>
-    <%= f.label :content %><br/>
-    <%= f.text_area :content %>
-  </p>
-  <p>
-    <%= f.label :markup_language %>&nbsp;<%= f.select(:markup_language, :options => Post::MARKUP_LANGUAGES) %>
-  </p>
+  <%= partial "posts/form_fields", :locals => {:form => f} %>
 
   <p class="submit-separator">
     <%= f.submit I18n.t("general.create"), :class => "button-ok" %>

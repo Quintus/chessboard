@@ -20,16 +20,10 @@
   </p>
 
   <% f.fields_for :posts do |f2| %>
-    <p>
-      <%= f2.label :content %><br/>
-      <%= f2.text_area :content %>
-    </p>
-    <p>
-      <%= f2.label :markup_language %>&nbsp;<%= f2.select(:markup_language, :options => Post::MARKUP_LANGUAGES) %>
-    </p>
+    <%= partial "posts/form_fields", :locals => {:form => f2} %>
   <% end %>
 
   <p class="submit-separator">
-    <%= f.submit I18n.t("general.create") %>
+    <%= f.submit I18n.t("general.create"), :class => "button-ok" %>
   </p>
 <% end %>

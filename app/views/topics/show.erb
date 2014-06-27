@@ -11,5 +11,12 @@
 </ul>
 
 <% if env["warden"].authenticated? %>
-  <%= partial "posts/quickreply", :locals => {:post => Post.new, :topic => @topic} %>
+  <% form_for Post.new, url(:posts, :create, @topic.id), :method => :post, :class => "quickreply-form", :"data-topicid" => @topic.id do |f| %>
+    <h2><%= I18n.t("topics.reply") %></h2>
+    <%= partial "posts/form_fields", :locals => {:form => f} %>
+
+    <p class="submit-separator">
+      <%= f.submit I18n.t("general.create"), :class => "button-ok" %>
+    </p>
+  <% end %>
 <% end %>
