@@ -6,6 +6,8 @@ $(document).ready(function(){
 	var topic = $(".quickreply-form").attr("data-topicid");
 	var token = $("input[name='authenticity_token']").val();
 
+	$("input[type='submit']").prop("disabled", true);
+
 	jQuery.post("/topics/" + topic + "/posts/new?authenticity_token=" + token, {
 	    post: {
 		content: $("#post_content").val(),
@@ -17,6 +19,7 @@ $(document).ready(function(){
 
 	    // Clear form for next time
 	    $("#post_content").val("");
+	    $("input[type='submit']").prop("disabled", false);
 	});
 
 	return false;
