@@ -18,9 +18,9 @@ module Chessboard
       redirect "/forums"
     end
 
-    post "/unauthenticated" do
+    get "/unauthenticated" do
       logger.warn("Authentication failure for #{request.ip}")
-      flash[:alert] = "Invalid nickname or password."
+      flash[:alert] = "Authentication failure."
       redirect "/login"
     end
 
