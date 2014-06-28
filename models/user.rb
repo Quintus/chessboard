@@ -41,9 +41,10 @@ class User < ActiveRecord::Base
   end
 
   # Returns true if the given Forum instance is moderated by this user.
-  # Also returns true if the user is admin.
+  # Also returns true if the user is admin. Returns false if +forum+ is nil.
   def moderates?(forum)
     return true if admin?
+    return false unless forum
     moderated_forums.include?(forum)
   end
 

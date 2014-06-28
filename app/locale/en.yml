@@ -25,6 +25,7 @@ en:
     lock: "Lock Topic"
   posts:
     edit: "Edit"
+    edit_post: "Edit posting"
   settings:
     settings: "Settings"
     main_settings: "Main settings"
