@@ -6,6 +6,9 @@ user.save
 user.settings.preferred_markup_language = "Markdown"
 user.settings.save
 
+user = User.new(nickname: "user", password: "useruseruser", email: "user@user.us")
+user.save
+
 20.times{ Fabricate(:user) }
 
 ########################################
