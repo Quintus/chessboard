@@ -203,6 +203,7 @@ table {
 }
 
 .numbercell { width: 7%; text-align: center; }
+.imgcell { width: 24px; text-align: center; vertical-align: middle }
 .forumlastpost { width: 11%; }
 
 #login-info {
@@ -340,4 +341,14 @@ table {
 .mods {
     font-style: italic;
     font-size: small;
+}
+
+/****** Topic status *******/
+
+.topic-announcement {
+    background-color: #efc06b;
+}
+
+.topic-sticky {
+    background-color: #DDDDDD;
 }

@@ -12,7 +12,7 @@
 <% end %>
 
 <% form_for @topic, url(:topics, :create), :method => :post do |f| %>
-  <%= f.hidden_field :forum_id, :value => @forum_id || params[:forum] %>
+  <%= f.hidden_field :forum_id, :value => @forum.id %>
 
   <p>
     <%= f.label :title %><br/>
@@ -21,6 +21,18 @@
 
   <% f.fields_for :posts do |f2| %>
     <%= partial "posts/form_fields", :locals => {:form => f2} %>
+  <% end %>
+
+  <% if env["warden"].user.admin? || env["warden"].user.moderates?(@forum) %>
+    <p>
+      <%= f.check_box :sticky %><%= f.label :sticky %>
+    </p>
+  <% end %>
+
+  <% if env["warden"].user.admin? %>
+    <p>
+      <%= f.check_box :announcement %><%= f.label :announcement %>
+    </p>
   <% end %>
 
   <p class="submit-separator">
