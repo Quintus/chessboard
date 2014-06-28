@@ -42,7 +42,7 @@ Chessboard::App.controllers :posts do
 
   get :edit, :map => "/topics/:topic_id/posts/:id/edit" do
     @post = Post.find(params["id"])
-    halt 401 unless @post.can_user_change_this?(env["warden"].user)
+    halt 403 unless @post.can_user_change_this?(env["warden"].user)
 
     @topic = @post.topic
     render "posts/edit"
@@ -50,7 +50,7 @@ Chessboard::App.controllers :posts do
 
   put :update, :map => "/topics/:topic_id/posts/:id" do
     @post = Post.find(params["id"])
-    halt 401 unless @post.can_user_change_this?(env["warden"].user)
+    halt 403 unless @post.can_user_change_this?(env["warden"].user)
 
     if @post.update_attributes(params["post"])
       flash[:notice] = "Posting updated"
