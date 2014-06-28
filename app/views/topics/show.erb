@@ -6,11 +6,24 @@
 <% end %>
 
 <ul class="topic-actions">
-  <li><%= link_to I18n.t("topics.lock"), "/", :class => "button-normal" %></li>
-  <li><%= link_to I18n.t("topics.reply"), url(:posts, :new, @topic.id), :class => "button-normal" %></li>
+  <% if env["warden"].authenticated? %>
+    <% if env["warden"].user.moderates?(@topic.forum) %>
+      <% if @topic.locked? %>
+	<li><%= link_to I18n.t("topics.unlock"), url(:topics, :unlock, @topic.id) + "?authenticity_token=#{session[:csrf]}", :class => "button-normal", :method => :patch %></li>
+      <% else %>
+        <li><%= link_to I18n.t("topics.lock"), url(:topics, :lock, @topic.id) + "?authenticity_token=#{session[:csrf]}", :class => "button-normal", :method => :patch %></li>
+      <% end %>
+    <% end %>
+
+    <% if @topic.locked? %>
+      <li><%= I18n.t("topics.locked") %></li>
+    <% else %>
+      <li><%= link_to I18n.t("topics.reply"), url(:posts, :new, @topic.id), :class => "button-normal" %></li>
+    <% end %>
+  <% end %>
 </ul>
 
-<% if env["warden"].authenticated? %>
+<% if !@topic.locked? && env["warden"].authenticated? %>
   <% form_for Post.new(:markup_language => env["warden"].user.settings.preferred_markup_language), url(:posts, :create, @topic.id), :method => :post, :class => "quickreply-form", :"data-topicid" => @topic.id do |f| %>
     <h2><%= I18n.t("topics.reply") %></h2>
     <%= partial "posts/form_fields", :locals => {:form => f} %>

@@ -17,6 +17,8 @@ Chessboard::App.controllers :posts do
     @post.topic = Topic.find(params["topic_id"])
     @post.author = env["warden"].user
 
+    halt 403 if @post.topic.locked?
+
     if request.xhr?
       if @post.save
         hsh = {"post_count" => env["warden"].user.posts.count,
@@ -42,6 +44,7 @@ Chessboard::App.controllers :posts do
 
   get :edit, :map => "/topics/:topic_id/posts/:id/edit" do
     @post = Post.find(params["id"])
+    halt 403 if @post.topic.locked?
     halt 403 unless @post.can_user_change_this?(env["warden"].user)
 
     @topic = @post.topic
@@ -50,6 +53,7 @@ Chessboard::App.controllers :posts do
 
   put :update, :map => "/topics/:topic_id/posts/:id" do
     @post = Post.find(params["id"])
+    halt 403 if @post.topic.locked?
     halt 403 unless @post.can_user_change_this?(env["warden"].user)
 
     if @post.update_attributes(params["post"])
@@ -63,6 +67,7 @@ Chessboard::App.controllers :posts do
 
   delete :destroy, :map => "/topics/:topic_id/posts/:id" do
     @post = Post.find(params["id"])
+    halt 403 if @post.topic.locked?
     halt 403 unless @post.can_user_change_this?(env["warden"].user)
 
     forum = @post.topic.forum

@@ -15,6 +15,9 @@
     elsif forum_topic.sticky?
       extra_class = "topic-sticky topic-read"
       image = "icons/topic_sticky_read.png"
+    elsif forum_topic.locked?
+      extra_class = "topic-locked"
+      image = "icons/topic_normal_locked.png"
     elsif !is_read
       extra_class = "topic-unread"
       image = "icons/topic_normal_unread.png"
@@ -29,6 +32,9 @@
     elsif forum_topic.sticky?
       extra_clsas = "topic-sticky topic-read"
       image = "icons/topic_sticky_read.png"
+    elsif forum_topic.locked?
+      extra_class = "topic-locked"
+      image = "icons/topic_normal_locked.png"
     else
       extra_class = "topic-read"
       image = "icons/topic_normal_read.png"

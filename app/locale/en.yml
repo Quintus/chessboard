@@ -24,6 +24,9 @@ en:
   topics:
     reply: "Post Reply"
     lock: "Lock Topic"
+    unlock: "Unlock Topic"
+    locked: "Locked Topic."
+    unlocked: "Unlocked Topic."
   posts:
     edit: "Edit"
     edit_post: "Edit posting"

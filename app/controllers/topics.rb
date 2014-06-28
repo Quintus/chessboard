@@ -47,4 +47,22 @@ Chessboard::App.controllers :topics do
     end
   end
 
+  patch :lock, :map => "/topics/:id/lock" do
+    @topic = Topic.find(params["id"])
+    halt 403 unless env["warden"].user.moderates?(@topic.forum)
+
+    @topic.lock
+    flash[:notice] = I18n.t("topics.locked")
+    redirect url(:topics, :show, @topic.id)
+  end
+
+  patch :unlock, :map => "/topics/:id/unlock" do
+    @topic = Topic.find(params["id"])
+    halt 403 unless env["warden"].user.moderates?(@topic.forum)
+
+    @topic.unlock
+    flash[:notice] = I18n.t("topics.unlocked")
+    redirect url(:topics, :show, @topic.id)
+  end
+
 end
