@@ -62,3 +62,7 @@ en:
     settings:
       avatar_path:
         max_dimension: "Maximum image height/width is %{dim}px"
+  membership:
+    member: "Member"
+    moderator: "Moderator"
+    administrator: "Administrator"

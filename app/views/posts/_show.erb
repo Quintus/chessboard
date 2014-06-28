@@ -3,7 +3,7 @@
   <div class="post">
     <div class="post-author">
       <p class="author-name"><%= post.author.nickname %></p>
-      <p class="author-rank"><%= post.author.rank %></p>
+      <p class="author-membership"><%= post.author.membership %></p>
       <% if post.author.settings.avatar %>
 	<p class="author-avatar"><%= image_tag post.author.settings.avatar, :alt => "User avatar" %></p>
       <% end %>
@@ -44,7 +44,7 @@
     <div class="post">
       <div class="post-author">
       <p class="author-name"><%= post.author.nickname %></p>
-      <p class="author-rank"><%= post.author.rank %></p>
+      <p class="author-membership"><%= post.author.membership %></p>
       <% if post.author.settings.avatar %>
 	<p class="author-avatar"><%= image_tag post.author.settings.avatar, :alt => "User avatar" %></p>
       <% end %>
