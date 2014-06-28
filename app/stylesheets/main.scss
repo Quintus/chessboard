@@ -322,6 +322,13 @@ table {
 
 .post-actions {
     @include vlist;
+    float: right;
+    margin-top: 4px;
+    margin-right: 4px;
+
+    li {
+	margin-left: 4px;
+    }
 }
 
 .mods {

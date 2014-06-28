@@ -22,13 +22,11 @@
       </div>
 
       <% if env["warden"].authenticated? %>
-	<div class="post-actions">
-	  <ul>
-	    <% if env["warden"].user.moderates?(post.topic.forum) || post.author == env["warden"].user %>
-	      <li><%= link_to I18n.t("posts.edit"), url(:posts, :edit, post.topic.id, post.id) %></li>
-	    <% end %>
-	  </ul>
-	</div>
+	<ul class="post-actions">
+	  <% if env["warden"].user.moderates?(post.topic.forum) || post.author == env["warden"].user %>
+	    <li><%= link_to image_tag("icons/edit.png") + "&nbsp;".html_safe + I18n.t("posts.edit"), url(:posts, :edit, post.topic.id, post.id) %></li>
+	  <% end %>
+	</ul>
       <% end %>
 
       <div class="post-text">
