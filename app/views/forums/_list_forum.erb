@@ -13,7 +13,7 @@
     <%= list_forum.topics.joins(:posts).count %>
   </td>
   <td class="forumlastpost">
-    <% post = list_forum.topics.joins(:posts).order(:created_at => :desc).first %>
+    <% post = Post.joins(:topic).joins("INNER JOIN forums ON topics.forum_id = forums.id").where("forums.id = ?", list_forum.id).order(:created_at => :desc).first %>
     <%= format_time post.created_at %><br/>
     <%= I18n.t("forums.author_by") %> <%= link_to(post.author.nickname, "/") %>
   </td>
