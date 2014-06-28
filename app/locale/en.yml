@@ -12,6 +12,7 @@ en:
     create: "Create"
     update: "Update"
     errors_occured: "Errors occured:"
+    are_you_sure: "Are you sure?"
   forums:
     forum: "Forum"
     topics: "Topics"
@@ -26,6 +27,7 @@ en:
   posts:
     edit: "Edit"
     edit_post: "Edit posting"
+    delete: "Delete"
   settings:
     settings: "Settings"
     main_settings: "Main settings"

@@ -61,4 +61,23 @@ Chessboard::App.controllers :posts do
     end
   end
 
+  delete :destroy, :map => "/topics/:topic_id/posts/:id" do
+    @post = Post.find(params["id"])
+    halt 403 unless @post.can_user_change_this?(env["warden"].user)
+
+    forum = @post.topic.forum
+
+    if @post.destroy
+      flash[:notice] = "Posting deleted."
+
+      # Destroying the last post of a topic will automatically destroy
+      # the topic; we cannot rely on a topic existing here anymore, so
+      # redirect to the forum instead.
+      redirect url(:forums, :show, forum.id)
+    else
+      flash[:alert] = "Failed to delete posting."
+      rediret url(:topics, :show, @post.topic.id)
+    end
+  end
+
 end
