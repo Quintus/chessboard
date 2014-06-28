@@ -10,6 +10,7 @@ class User < ActiveRecord::Base
   has_one :settings
 
   has_and_belongs_to_many :moderated_forums, :class_name => "Forum", :join_table => "moderation"
+  has_and_belongs_to_many :read_topics, :class_name => "Topic", :join_table => "read_topics"
   before_validation :setup_settings
 
   # Specify a new password.
@@ -56,6 +57,11 @@ class User < ActiveRecord::Base
     return I18n.t("membership.administrator") if admin?
     return I18n.t("membership.moderator") if moderator?
     I18n.t("membership.member")
+  end
+
+  # Returns true if the User has read the given Topic.
+  def read?(topic)
+    read_topics.include?(topic)
   end
 
   private

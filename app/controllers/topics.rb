@@ -16,6 +16,7 @@ Chessboard::App.controllers :topics do
   get :show, :map => "/topics/:id" do
     @topic = Topic.find(params[:id])
     @topic.views += 1
+    @topic.users_who_read_this << env["warden"].user if env["warden"].authenticated? && !env["warden"].user.read?(@topic)
     @topic.save
 
     render "show"
