@@ -284,8 +284,10 @@ table {
 }
 
 .new-topic {
-    margin: 0px 4px 0px 0px;
+    margin: 0px;
     float: right;
+    position: relative;
+    top: -4px;
     font-size: $smallfontsize;
 }
 

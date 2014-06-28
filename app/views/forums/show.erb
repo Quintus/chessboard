@@ -1,4 +1,4 @@
-<p class="new-topic"><%= link_to image_tag("icons/new.png") + "&nbsp".html_safe + I18n.t("forums.new_topic"), url(:topics, :new) + "?" + "forum=#{@forum.id}"%></p>
+<p class="new-topic"><%= link_to I18n.t("forums.new_topic"), url(:topics, :new) + "?" + "forum=#{@forum.id}", :class => "button-normal" %></p>
 <h1><%= @forum.name %></h1>
 
 <table class="topicslist">
