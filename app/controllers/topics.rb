@@ -65,4 +65,25 @@ Chessboard::App.controllers :topics do
     redirect url(:topics, :show, @topic.id)
   end
 
+  get :move, :map => "/topics/:id/move" do
+    @topic = Topic.find(params["id"])
+    halt 403 unless env["warden"].user.moderates?(@topic.forum)
+
+    render "topics/move"
+  end
+
+  patch :move, :map => "/topics/:id/move" do
+    @topic = Topic.find(params["id"])
+    halt 403 unless env["warden"].user.moderates?(@topic.forum)
+
+    @topic.forum = Forum.find(params["topic"]["forum_id"])
+
+    if @topic.save
+      flash[:notice] = I18n.t("topics.moved")
+      redirect url(:topics, :show, @topic.id)
+    else
+      render "topics/move"
+    end
+  end
+
 end

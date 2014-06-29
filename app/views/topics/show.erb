@@ -13,6 +13,7 @@
       <% else %>
         <li><%= link_to I18n.t("topics.lock"), url(:topics, :lock, @topic.id) + "?authenticity_token=#{session[:csrf]}", :class => "button-normal", :method => :patch %></li>
       <% end %>
+      <li><%= link_to I18n.t("topics.move"), url(:topics, :move, @topic.id), :class => "button-normal" %></li>
     <% end %>
 
     <% if @topic.locked? %>
