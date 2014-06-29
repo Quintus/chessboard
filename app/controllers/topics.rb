@@ -86,4 +86,32 @@ Chessboard::App.controllers :topics do
     end
   end
 
+  get :merge, :map => "/topics/:id/merge" do
+    @topic = Topic.find(params["id"])
+    halt 403 unless env["warden"].user.moderates?(@topic.forum)
+
+    render "topics/merge"
+  end
+
+  delete :merge, :map => "/topics/:id/merge" do
+    @topic = Topic.find(params["id"])
+    halt 400 unless params["topic"]["target"] # Target topic required
+    halt 403 unless env["warden"].user.moderates?(@topic.forum)
+
+    target_topic = Topic.find(params["topic"]["target"])
+    halt 404 unless target_topic
+
+    # Move topics from source topic to target topic
+    # (automatically clears source topic).
+    target_topic.posts.concat(@topic.posts)
+
+    if target_topic.save
+      @topic.delete
+      flash[:notice] = I18n.t("topics.merged")
+      redirect url(:topics, :show, target_topic.id)
+    else
+      render "topics/merge"
+    end
+  end
+
 end

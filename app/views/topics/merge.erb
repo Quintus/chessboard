@@ -1,0 +1,26 @@
+<h1><%= I18n.t("topics.merge") %></h1>
+
+<% unless @topic.errors.empty? %>
+<div class="flash alert">
+  <p><%= I18n.t("general.errors_occured") %></p>
+  <ul>
+    <% @topic.errors.messages.each do |key, msg| %>
+      <li><%= key %>: <%= msg %></li>
+    <% end %>
+  </ul>
+</div>
+<% end %>
+
+<% form_for @topic, url(:topics, :merge, @topic.id), :method => :delete do |f| %>
+  <p>
+    <%= I18n.t("topics.merge_info") %>
+  </p>
+
+  <p>
+    <%= I18n.t("topics.merge_target") %> <%= f.text_field :target %>
+  </p>
+
+  <p class="submit-separator">
+    <%= f.submit I18n.t("topics.merge"), :class => "button-ok" %>
+  </p>
+<% end %>

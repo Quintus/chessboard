@@ -30,6 +30,17 @@ en:
     move: "Move Topic"
     move_target: "New forum"
     moved: "Moved Topic."
+    merge: "Merge Topic"
+    merge_target: "Target topic:"
+    merged: "Merged Topics."
+    merge_info: >
+      Using this form you can merge two topics into one. The posts are
+      inserted into the topic in their chronological order, which means
+      that the later you merge, the more confusion you will generate.
+      The topic you execute the merge on will be deleted in favour of
+      the target topic. In the field below, enter the ID of the target
+      topic you want to merge with (you can find this out by looking at
+      your browser’s URL bar when in the target topic).
   posts:
     edit: "Edit"
     edit_post: "Edit posting"
