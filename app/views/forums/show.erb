@@ -1,4 +1,6 @@
-<p class="new-topic"><%= link_to I18n.t("forums.new_topic"), url(:topics, :new) + "?" + "forum=#{@forum.id}", :class => "button-normal" %></p>
+<% if env["warden"].authenticated? %>
+  <p class="new-topic"><%= link_to I18n.t("forums.new_topic"), url(:topics, :new) + "?" + "forum=#{@forum.id}", :class => "button-normal" %></p>
+<% end %>
 <h1><%= @forum.name %></h1>
 
 <table class="topicslist">
