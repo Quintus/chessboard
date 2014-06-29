@@ -57,12 +57,14 @@ en:
     delete: "Delete"
   settings:
     settings: "Settings"
+    settings_updated: "Settings updated."
     main_settings: "Main settings"
     avatar_settings: "Avatar settings"
     avatar: "Avatar"
     avatar_updated: "Avatar updated."
     avatar_deleted: "Avatar deleted."
     avatar_not_deleted: "Nice try."
+    profile_settings: "Profile settings"
     descriptions:
       hide_status: >
         Activating this option makes your online status invisible
@@ -86,6 +88,10 @@ en:
         You can use this form to upload a small picture that is
         shown next to your postings. This has no effect if you
         have enabled the “use gravatar” option.
+      signature: >
+        This text is placed below each of your postings and shown
+        at the bottom of your profile page. You can use BBCode to
+        style it.
   time:
     time_ago_format: "%{time} ago"
     formats:

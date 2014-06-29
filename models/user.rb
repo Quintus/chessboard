@@ -6,6 +6,11 @@ class User < ActiveRecord::Base
   validates :encrypted_password, :presence => true
   validates :settings, :presence => true
   validates :signature, :length => {:maximum => 1024}
+  validates :location, :length => {:maximum => 30}
+  validates :profession, :length => {:maximum => 1024}
+  validates :jabber_id, :length => {:maximum => 1024}
+  validates :pgp_key, :length => {:maximum => 50} # length of $ gpg --fingerprint
+  validates :homepage, :format => %r<\Ahttps?://.*\Z>
 
   has_many :posts, :foreign_key => :author_id
   has_one :settings
@@ -13,6 +18,7 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :moderated_forums, :class_name => "Forum", :join_table => "moderation"
   has_and_belongs_to_many :read_topics, :class_name => "Topic", :join_table => "read_topics"
   before_validation :setup_settings
+  before_validation :ensure_protocol_prefix
 
   # Specify a new password.
   def password=(new_password)
@@ -69,6 +75,12 @@ class User < ActiveRecord::Base
 
   def setup_settings
     self.settings ||= Settings.new
+  end
+
+  def ensure_protocol_prefix
+    if !homepage.blank? && !homepage.start_with?("http")
+      self.homepage = "http://#{homepage}"
+    end
   end
 
 end

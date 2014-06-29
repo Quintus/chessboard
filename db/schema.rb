@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 14) do
+ActiveRecord::Schema.define(version: 15) do
 
   create_table "forum_groups", force: true do |t|
     t.string   "name"
@@ -82,6 +82,10 @@ ActiveRecord::Schema.define(version: 14) do
     t.string   "encrypted_password"
     t.boolean  "admin",              default: false
     t.string   "signature"
+    t.string   "location"
+    t.string   "profession"
+    t.string   "jabber_id"
+    t.string   "pgp_key"
   end
 
 end

@@ -22,7 +22,7 @@ Chessboard::App.controllers :settings do
     @settings.time_format               = params["settings"]["time_format"]
 
     if @settings.save
-      flash[:notice] = "Settings updated."
+      flash[:notice] = I18n.t("settings.settings_updated")
       redirect "/settings/main"
     else
       render "settings/main"
@@ -84,6 +84,30 @@ Chessboard::App.controllers :settings do
     else
       flash[:alert] = I18n.t("settings.avatar_not_deleted")
       redirect url(:settings, :avatar)
+    end
+  end
+
+  get :profile, :map => "/settings/profile" do
+    @user = env["warden"].user
+    render "settings/profile"
+  end
+
+  patch :profile, :map => "/settings/profile" do
+    @user = env["warden"].user
+
+    @user.realname   = params["user"]["realname"]
+    @user.homepage   = params["user"]["homepage"]
+    @user.signature  = params["user"]["signature"]
+    @user.location   = params["user"]["location"]
+    @user.profession = params["user"]["profession"]
+    @user.jabber_id  = params["user"]["jabber_id"]
+    @user.pgp_key    = params["user"]["pgp_key"]
+
+    if @user.save
+      flash[:notice] = I18n.t("settings.settings_updated")
+      redirect url(:settings, :profile)
+    else
+      render "settings/profile"
     end
   end
 

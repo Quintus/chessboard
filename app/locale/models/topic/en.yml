@@ -12,3 +12,5 @@ en:
         author_id: Author
         created_at: Created at
         updated_at: Updated at
+
+        views: Views

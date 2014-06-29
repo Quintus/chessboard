@@ -7,18 +7,20 @@
       <p class="profile-nickname"><%= @user.nickname %></p>
       <p class="profile-membership"><%= @user.membership %></p>
     </div>
-    <div class="profile-website">
-      <p><%= link_to I18n.t("models.user.attributes.homepage"), @user.homepage %></p>
-    </div>
+    <% unless @user.homepage.blank? %>
+      <div class="profile-website">
+	<p><%= link_to I18n.t("models.user.attributes.homepage"), @user.homepage %></p>
+      </div>
+    <% end %>
   </div>
   <div class="profile-user-info">
     <ul>
       <li><%= I18n.t("models.user.attributes.realname") %>: <%= @user.realname %></li>
       <li><%= I18n.t("models.user.attributes.email") %>: <%= @user.email %></li>
-      <li>Location</li>
-      <li>Profession</li>
-      <li>Jabber ID</li>
-      <li>PGP Key</li>
+      <li><%= I18n.t("models.user.attributes.location") %>: <%= @user.location %></li>
+      <li><%= I18n.t("models.user.attributes.profession") %>: <%= @user.profession %></li>
+      <li><%= I18n.t("models.user.attributes.jabber_id") %>: <%= @user.jabber_id %></li>
+      <li><%= I18n.t("models.user.attributes.pgp_key") %>: <%= @user.pgp_key %></li>
     </ul>
   </div>
   <table class="profile-user-stats">
