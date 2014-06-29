@@ -3,6 +3,5 @@ Fabricator(:user) do
   realname { Faker::Name.name }
   email { Faker::Internet.email }
   homepage { Faker::Internet.url }
-  rank { "New Member" }
   password { Faker::Internet.password(8) }
 end

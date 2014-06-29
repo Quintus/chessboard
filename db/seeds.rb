@@ -1,7 +1,7 @@
 ########################################
 # Users
 
-user = User.new(nickname: "admin", password: "adminadmin", email: "admin@admin.ad", rank: "Admin", admin: true)
+user = User.new(nickname: "admin", password: "adminadmin", email: "admin@admin.ad", admin: true)
 user.save
 user.settings.preferred_markup_language = "Markdown"
 user.settings.save
