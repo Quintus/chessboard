@@ -69,4 +69,22 @@ Chessboard::App.controllers :settings do
     end
   end
 
+  delete :avatar, :map => "/settings/avatar" do
+    @settings = env["warden"].user.settings
+
+    if !@settings.avatar_path.blank?
+      logger.info "Deleting avatar '#{@settings.avatar_path}' on request"
+      File.delete(Padrino.root("public", "images", "avatars", @settings.avatar_path))
+
+      @settings.avatar_path = nil
+      @settings.save
+
+      flash[:notice] = I18n.t("settings.avatar_deleted")
+      redirect url(:settings, :avatar)
+    else
+      flash[:alert] = I18n.t("settings.avatar_not_deleted")
+      redirect url(:settings, :avatar)
+    end
+  end
+
 end

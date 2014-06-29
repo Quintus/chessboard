@@ -11,6 +11,7 @@ en:
     register: "Register"
     create: "Create"
     update: "Update"
+    delete: "Delete"
     errors_occured: "Errors occured:"
     are_you_sure: "Are you sure?"
   forums:
@@ -60,6 +61,8 @@ en:
     avatar_settings: "Avatar settings"
     avatar: "Avatar"
     avatar_updated: "Avatar updated."
+    avatar_deleted: "Avatar deleted."
+    avatar_not_deleted: "Nice try."
     descriptions:
       hide_status: >
         Activating this option makes your online status invisible

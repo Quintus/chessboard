@@ -57,6 +57,7 @@
 
     <p class="submit-separator">
       <%= f.submit I18n.t("general.update"), :class => "button-ok" %>
+      <%= link_to I18n.t("general.delete"), url(:settings, :avatar) + "?authenticity_token=#{session[:csrf]}", :method => :delete, :class => "button-error" %>
     </p>
   </div>
 <% end %>
