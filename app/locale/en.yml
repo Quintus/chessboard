@@ -14,6 +14,7 @@ en:
     delete: "Delete"
     errors_occured: "Errors occured:"
     are_you_sure: "Are you sure?"
+    never: "Never"
   forums:
     forum: "Forum"
     topics: "Topics"

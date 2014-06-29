@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 15) do
+ActiveRecord::Schema.define(version: 16) do
 
   create_table "forum_groups", force: true do |t|
     t.string   "name"
@@ -86,6 +86,7 @@ ActiveRecord::Schema.define(version: 15) do
     t.string   "profession"
     t.string   "jabber_id"
     t.string   "pgp_key"
+    t.datetime "last_login"
   end
 
 end

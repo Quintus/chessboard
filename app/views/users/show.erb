@@ -34,7 +34,7 @@
     </thead>
     <tbody>
       <td><%= format_time(@user.created_at) %></td>
-      <td>TODO</td>
+      <td><%= @user.last_login? ? format_time(@user.last_login) : I18n.t("general.never") %></td>
       <td>TODO</td>
       <td><%= @user.posts.count %></td>
     </tbody>

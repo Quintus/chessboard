@@ -41,8 +41,12 @@ module Chessboard
       halt 400 if env["warden"].authenticated?
 
       user = env["warden"].authenticate!
+      env["warden"].user.last_login = Time.now
+      env["warden"].user.save
+
       flash[:notice] = "Logged in successfully."
       logger.info("Successful authentification for user #{user.nickname} from IP #{request.ip}")
+
       redirect "/forums"
     end
 
