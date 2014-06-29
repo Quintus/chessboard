@@ -1,0 +1,18 @@
+<h1><%= I18n.t("topics.split") %></h1>
+
+<% form_for @topic, url(:topics, :split, @topic.id), :method => :patch do |f| %>
+  <%= f.hidden_field :post, :value => params["post_id"] %>
+
+  <p>
+    <%= I18n.t("topics.split_info") %>
+  </p>
+
+  <p>
+    <%= f.label :title %><br/>
+    <%= f.text_field :title %>
+  </p>
+
+  <p class="submit-separator">
+    <%= f.submit I18n.t("topics.split"), :class => "button-ok" %>
+  </p>
+<% end %>

@@ -50,6 +50,7 @@ Chessboard::App.controllers :topics do
   patch :lock, :map => "/topics/:id/lock" do
     @topic = Topic.find(params["id"])
     halt 403 unless env["warden"].user.moderates?(@topic.forum)
+    halt 403 if @topic.locked?
 
     @topic.lock
     flash[:notice] = I18n.t("topics.locked")
@@ -68,6 +69,7 @@ Chessboard::App.controllers :topics do
   get :move, :map => "/topics/:id/move" do
     @topic = Topic.find(params["id"])
     halt 403 unless env["warden"].user.moderates?(@topic.forum)
+    halt 403 if @topic.locked?
 
     render "topics/move"
   end
@@ -75,6 +77,7 @@ Chessboard::App.controllers :topics do
   patch :move, :map => "/topics/:id/move" do
     @topic = Topic.find(params["id"])
     halt 403 unless env["warden"].user.moderates?(@topic.forum)
+    halt 403 if @topic.locked?
 
     @topic.forum = Forum.find(params["topic"]["forum_id"])
 
@@ -89,6 +92,7 @@ Chessboard::App.controllers :topics do
   get :merge, :map => "/topics/:id/merge" do
     @topic = Topic.find(params["id"])
     halt 403 unless env["warden"].user.moderates?(@topic.forum)
+    halt 403 if @topic.locked?
 
     render "topics/merge"
   end
@@ -97,6 +101,7 @@ Chessboard::App.controllers :topics do
     @topic = Topic.find(params["id"])
     halt 400 unless params["topic"]["target"] # Target topic required
     halt 403 unless env["warden"].user.moderates?(@topic.forum)
+    halt 403 if @topic.locked?
 
     target_topic = Topic.find(params["topic"]["target"])
     halt 404 unless target_topic
@@ -112,6 +117,40 @@ Chessboard::App.controllers :topics do
     else
       render "topics/merge"
     end
+  end
+
+  get :split, :map => "/topics/:id/split" do
+    @topic = Topic.find(params["id"])
+    halt 403 if @topic.locked?
+    halt 403 unless env["warden"].user.moderates?(@topic.forum)
+
+    render "topics/split"
+  end
+
+  patch :split, :map => "/topics/:id/split" do
+    @topic = Topic.find(params["id"])
+    halt 400 unless params["topic"]["post"]
+    halt 403 unless env["warden"].user.moderates?(@topic.forum)
+    halt 403 if @topic.locked?
+
+    post = Post.find(params["topic"]["post"])
+    posts = @topic.posts.order(:created_at => :asc)
+    offset = posts.index(post)
+
+    move_posts = posts.offset(offset)
+
+    new_topic = Topic.new
+    new_topic.forum = @topic.forum
+    new_topic.title = params["topic"]["title"]
+    new_topic.author = move_posts.first.author
+    new_topic.save
+
+    new_topic.posts.concat(move_posts) # Removes them from original topic
+    new_topic.save
+    @topic.save
+
+    flash[:notice] = I18n.t("topics.splitted")
+    redirect url(:topics, :show, new_topic.id)
   end
 
 end

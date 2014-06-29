@@ -41,6 +41,15 @@ en:
       the target topic. In the field below, enter the ID of the target
       topic you want to merge with (you can find this out by looking at
       your browser’s URL bar when in the target topic).
+    split: "Split Topic"
+    split_here: "Split here"
+    splitted: "Split Topic."
+    split_info: >
+      Submitting this form will split the selected topic from the requested
+      topic on into two ones. The new topic will be created with the title
+      you give below, and will be placed in the same forum as the old topic
+      (you can move it later if you need). The post you selected “split” on
+      will be the first post of the new topic.
   posts:
     edit: "Edit"
     edit_post: "Edit posting"
