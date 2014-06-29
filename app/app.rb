@@ -99,16 +99,17 @@ module Chessboard
     #   end
     #
 
-    ##
-    # You can manage errors like:
-    #
-    #   error 404 do
-    #     render 'errors/404'
-    #   end
-    #
-    #   error 505 do
-    #     render 'errors/505'
-    #   end
-    #
+    error 403 do
+      render "errors/403"
+    end
+
+    error 404 do
+      render "errors/404"
+    end
+
+    error 500 do
+      render "errors/500"
+    end
+
   end
 end
