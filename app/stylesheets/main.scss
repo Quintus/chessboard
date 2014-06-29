@@ -343,6 +343,18 @@ table {
     font-size: small;
 }
 
+.signature {
+    border-top: 1px dashed $darkgrey;
+    font-size: small;
+    color: $darkgrey;
+
+    padding: 0px 4px;
+}
+
+.profile-user-signature {
+    margin-top: 10px;
+}
+
 /****** Profile page *******/
 
 .user-profile {

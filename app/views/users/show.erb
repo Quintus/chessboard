@@ -37,7 +37,9 @@
       <td><%= @user.posts.count %></td>
     </tbody>
   </table>
-  <div class="signature profile-user-signature">
-    <p>TODO.</p>
-  </div>
+  <% if @user.signature? %>
+    <div class="signature profile-user-signature">
+      <%= markup_bbcode(@user.signature).html_safe %>
+    </div>
+  <% end %>
 </div>

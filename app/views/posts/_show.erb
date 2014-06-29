@@ -38,6 +38,12 @@
       <div class="post-text">
 	<%= process_markup(post.content, post.markup_language) %>
       </div>
+
+      <% if post.author.signature? %>
+	<div class="signature post-signature">
+	  <%= markup_bbcode(post.author.signature).html_safe %>
+	</div>
+      <% end %>
     </div>
   </div>
 </div>

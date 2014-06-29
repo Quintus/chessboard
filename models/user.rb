@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
   validates :email, :presence => true, :format => /\A.*?@.*\Z/
   validates :encrypted_password, :presence => true
   validates :settings, :presence => true
+  validates :signature, :length => {:maximum => 1024}
 
   has_many :posts, :foreign_key => :author_id
   has_one :settings
