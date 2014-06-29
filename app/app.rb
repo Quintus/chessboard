@@ -23,6 +23,11 @@ module Chessboard
       flash[:alert] = "Authentication failure."
       redirect "/login"
     end
+    post "/unauthenticated" do
+      logger.warn("Authentication failure for #{request.ip}")
+      flash[:alert] = "Authentication failure."
+      redirect "/login"
+    end
 
     get "/login" do
       if env["warden"].authenticated?
