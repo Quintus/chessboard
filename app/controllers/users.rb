@@ -1,8 +1,8 @@
 Chessboard::App.controllers :users do
     
   get :show, :map => "/users/:name" do
-    # TODO
-    halt 500
+    @user = User.find_by(:nickname => params["name"])
+    render "users/show"
   end
 
 end

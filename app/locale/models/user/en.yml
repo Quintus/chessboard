@@ -9,6 +9,6 @@ en:
         email: Email
         homepage: Homepage
         rank: Rank
-        created_at: Created at
+        created_at: Registered
         updated_at: Updated at
         encrypted_password: Encrypted password

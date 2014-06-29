@@ -53,6 +53,6 @@ end %>
   <td class="forumlastpost">
     <% post = forum_topic.posts.order("created_at DESC").first %>
     <%= format_time post.created_at %><br/>
-    <%= I18n.t("forums.author_by") %> <%= link_to post.author.nickname, "/" %>
+    <%= I18n.t("forums.author_by") %> <%= link_to post.author.nickname, url(:users, :show, post.author.nickname) %>
   </td>
 </tr>

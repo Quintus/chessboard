@@ -2,7 +2,7 @@
 
   <div class="post">
     <div class="post-author">
-      <p class="author-name"><%= post.author.nickname %></p>
+      <p class="author-name"><%= link_to post.author.nickname, url(:users, :show, post.author.nickname) %></p>
       <p class="author-membership"><%= post.author.membership %></p>
       <% if post.author.settings.avatar %>
 	<p class="author-avatar"><%= image_tag post.author.settings.avatar, :alt => "User avatar" %></p>
@@ -50,7 +50,7 @@
 
     <div class="post">
       <div class="post-author">
-      <p class="author-name"><%= user.nickname %></p>
+      <p class="author-name"><%= link_to user.nickname, url(:users, :show, user.nickname) %></p>
       <p class="author-membership"><%= user.membership %></p>
       <% if user.settings.avatar %>
 	<p class="author-avatar"><%= image_tag user.settings.avatar, :alt => "User avatar" %></p>

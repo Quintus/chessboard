@@ -343,6 +343,34 @@ table {
     font-size: small;
 }
 
+/****** Profile page *******/
+
+.user-profile {
+    border: 1px solid black;
+    background-color: $lightgrey;
+    padding: 4px;
+}
+
+.profile-avatar {
+    border: 1px solid black;
+    background-color: white;
+
+    .profile-nickname {
+	font-weight: bold;
+    }
+}
+
+.profile-system-info {
+    min-width: 100px; /* avatar max size 80x80px */
+    width: 5%;
+    float: right;
+    text-align: center;
+}
+
+.profile-user-stats {
+    clear: right;
+}
+
 /****** Topic status *******/
 
 .topic-announcement {

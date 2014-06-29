@@ -98,3 +98,6 @@ en:
     member: "Member"
     moderator: "Moderator"
     administrator: "Administrator"
+  users:
+    profile: "%{nick}’s user profile"
+    total_posts: "Total posts"

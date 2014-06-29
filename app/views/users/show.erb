@@ -1,0 +1,43 @@
+<h1><%= I18n.t("users.profile", :nick => @user.nickname) %></h1>
+
+<div class="user-profile">
+  <div class="profile-system-info">
+    <div class="profile-avatar">
+      <%= image_tag @user.settings.avatar if @user.settings.avatar %>
+      <p class="profile-nickname"><%= @user.nickname %></p>
+      <p class="profile-membership"><%= @user.membership %></p>
+    </div>
+    <div class="profile-website">
+      <p><%= link_to I18n.t("models.user.attributes.homepage"), @user.homepage %></p>
+    </div>
+  </div>
+  <div class="profile-user-info">
+    <ul>
+      <li><%= I18n.t("models.user.attributes.realname") %>: <%= @user.realname %></li>
+      <li><%= I18n.t("models.user.attributes.email") %>: <%= @user.email %></li>
+      <li>Location</li>
+      <li>Profession</li>
+      <li>Jabber ID</li>
+      <li>PGP Key</li>
+    </ul>
+  </div>
+  <table class="profile-user-stats">
+    <thead>
+      <tr>
+	<th><%= I18n.t("models.user.attributes.created_at") %></th>
+	<th>Last login</th>
+	<th>Warnings</th>
+	<th><%= I18n.t("users.total_posts") %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <td><%= format_time(@user.created_at) %></td>
+      <td>TODO</td>
+      <td>TODO</td>
+      <td><%= @user.posts.count %></td>
+    </tbody>
+  </table>
+  <div class="signature profile-user-signature">
+    <p>TODO.</p>
+  </div>
+</div>
