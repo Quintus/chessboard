@@ -9,6 +9,7 @@ class Post < ActiveRecord::Base
 
   belongs_to :topic
   belongs_to :author, :class_name => "User"
+  has_many :reports
 
   # Checks if +user+ has sufficient privileges to change this
   # posting. This is the case if:

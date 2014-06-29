@@ -108,3 +108,12 @@ en:
   users:
     profile: "%{nick}’s user profile"
     total_posts: "Total posts"
+  reports:
+    report: "Report posting"
+    report_this: "Report"
+    reported: "Posting reported."
+    report_info: >
+      Use this form to report a posting to the moderators. This
+      is a rude action as you blame somebody for doing something,
+      so you are asked to provide a reason for reporting (e.g. spam,
+      violation of forum rules, etc.).

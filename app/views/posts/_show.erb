@@ -27,6 +27,7 @@
 	    <% if env["warden"].user.moderates?(post.topic.forum) %>
 	      <li><%= link_to image_tag("icons/split.png") + "&nbsp;".html_safe + I18n.t("topics.split_here"), url(:topics, :split, post.topic.id) + "?post_id=#{post.id}" %></li>
 	    <% end %>
+	    <li><%= link_to image_tag("icons/report.png") + "&nbsp;".html_safe + I18n.t("reports.report_this"), url(:reports, :new) + "?post_id=#{post.id}" %></li>
 	    <% if env["warden"].user.moderates?(post.topic.forum) || post.author == env["warden"].user %>
 	      <li><%= link_to image_tag("icons/delete.png") + "&nbsp;".html_safe + I18n.t("posts.delete"), url(:posts, :destroy, post.topic.id, post.id) + "?authenticity_token=#{session[:csrf]}", :method => :delete, :confirm => I18n.t("general.are_you_sure") %></li>
 	      <li><%= link_to image_tag("icons/edit.png") + "&nbsp;".html_safe + I18n.t("posts.edit"), url(:posts, :edit, post.topic.id, post.id) %></li>

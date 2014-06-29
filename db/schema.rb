@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 16) do
+ActiveRecord::Schema.define(version: 17) do
 
   create_table "forum_groups", force: true do |t|
     t.string   "name"
@@ -45,6 +45,15 @@ ActiveRecord::Schema.define(version: 16) do
   create_table "read_topics", id: false, force: true do |t|
     t.integer "topic_id"
     t.integer "user_id"
+  end
+
+  create_table "reports", force: true do |t|
+    t.text     "description"
+    t.boolean  "closed",      default: false
+    t.integer  "post_id"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "settings", force: true do |t|
