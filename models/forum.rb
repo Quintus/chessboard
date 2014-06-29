@@ -12,19 +12,14 @@ class Forum < ActiveRecord::Base
   # 2. All stickies for this forum, ordered reversely by update
   # 3. All normal topics for this forum, ordered reversely by update
   def categorized_topics
-    # I really thought that `.order("posts.updated_at DESC")` would
-    # have been the way to sort topics by their last-post update date,
-    # but by trying I found that it must be `.order("topics.updated_at DESC")`.
-    # I do not understand this, but at least it works.
-
     # First announcements
-    result = Topic.where(:announcement => true).joins(:posts).uniq.order("topics.updated_at DESC")
+    result = Topic.where(:announcement => true).joins(:posts).group("topics.id").order("posts.updated_at DESC")
 
     # Next sticky topics
-    result += topics.where(:sticky => true).joins(:posts).uniq.order("topics.updated_at DESC")
+    result += topics.where(:sticky => true).joins(:posts).group("topics.id").order("posts.updated_at DESC")
 
     # Finally normal topics
-    result += topics.where(:sticky => false, :announcement => false).joins(:posts).uniq.order("topics.updated_at DESC")
+    result += topics.where(:sticky => false, :announcement => false).joins(:posts).group("topics.id").order("posts.updated_at DESC")
 
     # Result
     result
