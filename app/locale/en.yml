@@ -59,6 +59,7 @@ en:
     main_settings: "Main settings"
     avatar_settings: "Avatar settings"
     avatar: "Avatar"
+    avatar_updated: "Avatar updated."
     descriptions:
       hide_status: >
         Activating this option makes your online status invisible

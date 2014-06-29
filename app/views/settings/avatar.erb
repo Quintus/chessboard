@@ -28,6 +28,12 @@
     <div class="settings-content">
       <%= f.label :use_gravatar %><%= f.check_box :use_gravatar %>
     </div>
+
+    <%# Do not make a request to Gravatar when the user has
+      # not enabled it! Privacy concerns apply. %>
+    <% if @settings.use_gravatar %>
+      <%= image_tag @settings.gravatar, :alt => "User Gravatar" %>
+    <% end %>
   </div>
 
   <div class="setting">
@@ -43,12 +49,14 @@
       <%= f.file_field :avatar %>
     </div>
 
-    <% if @settings.avatar %>
-      <%= image_tag @settings.avatar, :alt => "User avatar" %>
+    <%# User may have not uploaded an avatar yet, then we would get
+      # nil %>
+    <% if @settings.normal_avatar %>
+      <%= image_tag @settings.normal_avatar, :alt => "User avatar" %>
     <% end %>
 
     <p class="submit-separator">
-      <%= f.submit I18n.t("general.update") %>
+      <%= f.submit I18n.t("general.update"), :class => "button-ok" %>
     </p>
   </div>
 <% end %>

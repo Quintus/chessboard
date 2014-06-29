@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 class Settings < ActiveRecord::Base
 
   validates :user, :presence => true
@@ -7,19 +8,35 @@ class Settings < ActiveRecord::Base
 
   belongs_to :user
 
+  # Always return’s the user’s Gravatar URI. This can directly be
+  # placed in an image tag.
+  def gravatar
+    md5 = Digest::MD5.hexdigest(user.email.strip)
+
+    "https://www.gravatar.com/avatar/#{md5}?s=80"
+  end
+
+  # Always returns the user’s normal avatar URI. This can directly
+  # be placed in an image tag, but be sure to check you didn’t
+  # get +nil+ (which is the case when no avatar was uploaded yet).
+  def normal_avatar
+    path = avatar_path
+    return nil if path.blank?
+
+    if File.exists?(Padrino.root("public", "images", "avatars", path))
+      "/images/avatars/#{path}"
+    else
+      nil
+    end
+  end
+
+  # Depending on the user’s settings, returns either #gravatar
+  # or #normal_avatar.
   def avatar
     if use_gravatar
-      # TODO
-      nil
+      gravatar
     else
-      path = avatar_path
-      return nil if path.blank?
-
-      if File.exists?(Padrino.root("public", "images", "avatars", path))
-        "/images/avatars/#{path}"
-      else
-        nil
-      end
+      normal_avatar
     end
   end
 
