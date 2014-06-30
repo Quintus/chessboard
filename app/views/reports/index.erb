@@ -2,16 +2,20 @@
 
 <% @reports.each do |report| %>
   <div class="report">
-    <p>
+    <p class="report-intro">
       On <%= I18n.l(report.created_at, :format => :long) %>, <%= link_to report.user.nickname, url(:users, :show, report.user.nickname) %>
       reported <%= link_to "the following post", url(:topics, :show, report.post.topic.id) + "#p#{report.post.id}" %>
       from the topic <strong><%= report.post.topic.title %></strong>:
     </p>
     <div class="report-post">
-      <p><%= I18n.t("models.post.attributes.author_id") %>: <%= link_to report.post.author.nickname, url(:users, :show, report.post.author.nickname) %></p>
       <div class="report-post-content">
+	<p class="report-author"><%= I18n.t("models.post.attributes.author_id") %>: <%= link_to report.post.author.nickname, url(:users, :show, report.post.author.nickname) %></p>
+
 	<%= process_markup(report.post.content, report.post.markup_language) %>
       </div>
+    </div>
+    <div class="report-reason">
+      <p><strong><%= I18n.t("reports.reason") %></strong>: <%= report.description %></p>
     </div>
   </div>
 <% end %>
