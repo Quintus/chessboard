@@ -8,14 +8,18 @@ Chessboard::App.controllers :reports do
   # moderates?
   #end
 
-  get :index, :map => "/reports" do
+  get :index, :map => "/moderation/reports" do
     user = env["warden"].user
     halt 403 unless user.privileged?
 
     # Only show those reports the user moderates the forum for
     @reports = Report.where(:closed => false).order(:created_at => :asc).select{|r| user.moderates?(r.post.topic.forum)}
 
-    render "reports/index"
+    render "moderation/reports/index"
+  end
+
+  get :user_index, :map => "/reports" do
+    # TODO: Show only logged in user's reports
   end
 
   get :new, :map => "/reports/new" do
@@ -43,9 +47,6 @@ Chessboard::App.controllers :reports do
       @post_id = params["report"]["post"]
       render "reports/new"
     end
-  end
-
-  get :show, :map => "/reports/:id" do
   end
 
 end
