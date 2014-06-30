@@ -15,7 +15,11 @@
 
   <p>
     <label id="warning[nickname]"><%= I18n.t("general.nickname") %>:</label><br/>
-    <%= f.text_field :nickname %>
+    <% if params["nickname"] %>
+      <%= f.text_field :nickname, :value => params["nickname"] %>
+    <% else %>
+      <%= f.text_field :nickname %>
+    <% end %>
   </p>
 
   <p>

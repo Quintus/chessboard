@@ -27,7 +27,7 @@
     </div>
     <ul class="buttons">
       <li><%= link_to I18n.t("reports.close"), url(:reports, :close, report.id) + "?authenticity_token=#{session[:csrf]}", :method => :patch, :class => "button-normal" %></li>
-      <li><%= link_to I18n.t("reports.warn_user"), url(:warnings, :new), :class => "button-warning" %></li>
+      <li><%= link_to I18n.t("reports.warn_user"), url(:warnings, :new) + "?nickname=#{report.post.author.nickname}", :class => "button-warning" %></li>
       <li><%= link_to I18n.t("reports.delete_post"), url(:posts, :destroy, report.post.topic.id, report.post.id)+ "?authenticity_token=#{session[:csrf]}", :method => :delete, :confirm => I18n.t("general.are_you_sure"), :class => "button-error" %></li>
     </ul>
   </div>
