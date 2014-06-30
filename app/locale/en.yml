@@ -123,3 +123,8 @@ en:
       violation of forum rules, etc.).
     all_reports: "All reports"
     reason: "Reason"
+  warnings:
+    warnings: "Warnings"
+    warnings_intro: "These are the ten users with the most warnings:"
+    new: "New warning"
+    warned: "User warned."

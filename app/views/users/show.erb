@@ -35,7 +35,7 @@
     <tbody>
       <td><%= format_time(@user.created_at) %></td>
       <td><%= @user.last_login? ? format_time(@user.last_login) : I18n.t("general.never") %></td>
-      <td>TODO</td>
+      <td><%= @user.received_warnings.count %></td>
       <td><%= @user.posts.count %></td>
     </tbody>
   </table>

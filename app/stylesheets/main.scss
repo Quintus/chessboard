@@ -46,6 +46,7 @@ form {
 table {
     border-collapse: collapse;
     width: 100%;
+    border-bottom: 1px solid $darkgrey;
 
     thead {
 
@@ -401,8 +402,9 @@ table {
     p.report-author { margin-top: 0px; }
 }
 
-.report-actions {
+.buttons {
     @include vlist;
+    margin-top: 6px;
 }
 
 /****** Topic status *******/

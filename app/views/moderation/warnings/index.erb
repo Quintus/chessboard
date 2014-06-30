@@ -2,4 +2,24 @@
   <%= partial "moderation/sidebar" %>
 <% end %>
 
-<h1>Warnings</h1>
+<h1><%= I18n.t("warnings.warnings") %></h1>
+
+<p><%= I18n.t("warnings.warnings_intro") %></p>
+
+<table>
+  <thead>
+    <tr><th><%= I18n.t("models.user.name") %></th><th><%= I18n.t("warnings.warnings") %></th></tr>
+  </thead>
+  <tbody>
+    <% @top_10_users.each do |user| %>
+      <tr>
+	<td><%= link_to user.nickname, url(:users, :show, user.nickname) %></td>
+	<td><%= user.received_warnings.count %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<ul class="buttons">
+  <li><%= link_to I18n.t("warnings.new"), url(:warnings, :new), :class => "button-normal" %></li>
+</ul>
