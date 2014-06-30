@@ -9,6 +9,13 @@ Chessboard::App.controllers :reports do
   #end
 
   get :index, :map => "/reports" do
+    user = env["warden"].user
+    halt 403 unless user.privileged?
+
+    # Only show those reports the user moderates the forum for
+    @reports = Report.where(:closed => false).order(:created_at => :asc).select{|r| user.moderates?(r.post.topic.forum)}
+
+    render "reports/index"
   end
 
   get :new, :map => "/reports/new" do
