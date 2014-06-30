@@ -29,7 +29,8 @@ Chessboard::App.controllers :reports do
   end
 
   get :user_index, :map => "/reports" do
-    # TODO: Show only logged in user's reports
+    @reports = env["warden"].user.reports.where(:closed => false).order(:created_at => :asc)
+    render "reports/index"
   end
 
   get :new, :map => "/reports/new" do
@@ -57,6 +58,16 @@ Chessboard::App.controllers :reports do
       @post_id = params["report"]["post"]
       render "reports/new"
     end
+  end
+
+  delete :destroy, :map => "/reports/:id" do
+    report = Report.find(params["id"])
+    halt 403 if report.closed?
+    halt 403 if env["warden"].user != report.user
+
+    report.destroy
+    flash[:notice] = I18n.t("reports.withdrawn")
+    redirect url(:reports, :user_index)
   end
 
 end

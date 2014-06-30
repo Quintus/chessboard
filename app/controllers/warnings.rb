@@ -36,4 +36,7 @@ Chessboard::App.controllers :warnings do
     end
   end
 
+  get :user_index, :map => "/warnings" do
+  end
+
 end

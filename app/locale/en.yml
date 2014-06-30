@@ -17,6 +17,7 @@ en:
     never: "Never"
     moderation: "Moderation"
     administration: "Administration"
+    withdraw: "Withdraw"
   forums:
     forum: "Forum"
     topics: "Topics"
@@ -68,6 +69,7 @@ en:
     avatar_deleted: "Avatar deleted."
     avatar_not_deleted: "Nice try."
     profile_settings: "Profile settings"
+    misc: "Miscellaneous"
     descriptions:
       hide_status: >
         Activating this option makes your online status invisible
@@ -112,6 +114,7 @@ en:
     total_posts: "Total posts"
   reports:
     report: "Report posting"
+    reports: "Reports"
     report_this: "Report"
     reported: "Posting reported."
     close: "Close"
@@ -125,6 +128,8 @@ en:
       violation of forum rules, etc.).
     all_reports: "All reports"
     reason: "Reason"
+    withdrawn: "Report withdrawn."
+    no_reports: "No reports."
   warnings:
     warnings: "Warnings"
     warnings_intro: "These are the ten users with the most warnings:"

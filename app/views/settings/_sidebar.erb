@@ -5,3 +5,10 @@
   <li><%= link_to I18n.t("settings.avatar_settings"), url(:settings, :avatar) %></li>
   <li><%= link_to I18n.t("settings.profile_settings"), url(:settings, :profile) %></li>
 </ul>
+
+<h3><%= I18n.t("settings.misc") %></h3>
+
+<ul>
+  <li><%= link_to I18n.t("warnings.warnings"), url(:warnings, :user_index) %></li>
+  <li><%= link_to I18n.t("reports.reports"), url(:reports, :user_index) %></li>
+</ul>

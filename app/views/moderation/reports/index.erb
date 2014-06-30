@@ -4,6 +4,10 @@
 
 <h1><%= I18n.t("reports.all_reports") %></h1>
 
+<% if @reports.empty? %>
+  <p><%= I18n.t("reports.no_reports") %></p>
+<% else %>
+
 <% @reports.each do |report| %>
   <div class="report">
     <p class="report-intro">
@@ -27,4 +31,6 @@
       <li><%= link_to I18n.t("reports.delete_post"), url(:posts, :destroy, report.post.topic.id, report.post.id)+ "?authenticity_token=#{session[:csrf]}", :method => :delete, :confirm => I18n.t("general.are_you_sure"), :class => "button-error" %></li>
     </ul>
   </div>
+<% end %>
+
 <% end %>
