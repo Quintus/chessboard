@@ -4,6 +4,12 @@
 
     <% if env["warden"].authenticated? %>
       <li><%= link_to I18n.t("settings.settings"), url(:settings, :main) %></li>
+      <% if env["warden"].user.admin? %>
+	<li><%= link_to I18n.t("general.administration"), "/" %></li>
+      <% end %>
+      <% if env["warden"].user.admin? || env["warden"].user.moderator? %>
+	<li><%= link_to I18n.t("general.moderation"), url(:reports, :index) %></li>
+      <% end %>
     <% else %>
       <li><a href="/register"><%= I18n.t("general.register") %></li>
     <% end %>
