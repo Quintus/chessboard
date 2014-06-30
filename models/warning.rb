@@ -7,11 +7,16 @@ class Warning < ActiveRecord::Base
   belongs_to :warning_user, :class_name => "User", :foreign_key => "warning_user_id"
 
   before_create do
-    self.expiration_date = Time.now + Chessboard.config.warning_expiration
+    if Chessboard.config.warning_expiration > 0
+      self.expiration_date = Time.now + Chessboard.config.warning_expiration
+    end
   end
 
   # Checks if this warning is expired.
   def expired?
+    # Do not expire if no expiration date is set.
+    return false unless expiration_date?
+
     Time.now >= self.expiration_date
   end
 

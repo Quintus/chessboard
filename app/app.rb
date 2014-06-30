@@ -44,6 +44,9 @@ module Chessboard
       env["warden"].user.last_login = Time.now
       env["warden"].user.save
 
+      # Delete those warnings that have expired
+      user.received_warnings.each{|warning| warning.expire!}
+
       flash[:notice] = "Logged in successfully."
       logger.info("Successful authentification for user #{user.nickname} from IP #{request.ip}")
 
