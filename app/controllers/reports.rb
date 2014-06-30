@@ -18,6 +18,16 @@ Chessboard::App.controllers :reports do
     render "moderation/reports/index"
   end
 
+  patch :close, :map => "/moderation/reports/:id/close" do
+    @report = Report.find(params["id"])
+    halt 403 unless env["warden"].user.moderates?(@report.post.topic.forum)
+
+    @report.close
+    flash[:notice] = I18n.t("reports.closed")
+
+    redirect url(:reports, :index)
+  end
+
   get :user_index, :map => "/reports" do
     # TODO: Show only logged in user's reports
   end

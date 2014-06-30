@@ -21,5 +21,10 @@
     <div class="report-reason">
       <p><strong><%= I18n.t("reports.reason") %></strong>: <%= report.description %></p>
     </div>
+    <ul class="report-actions">
+      <li><%= link_to I18n.t("reports.close"), url(:reports, :close, report.id) + "?authenticity_token=#{session[:csrf]}", :method => :patch, :class => "button-normal" %></li>
+      <li><%= link_to I18n.t("reports.warn_user"), url(:warnings, :new), :class => "button-warning" %></li>
+      <li><%= link_to I18n.t("reports.delete_post"), url(:posts, :destroy, report.post.topic.id, report.post.id)+ "?authenticity_token=#{session[:csrf]}", :method => :delete, :confirm => I18n.t("general.are_you_sure"), :class => "button-error" %></li>
+    </ul>
   </div>
 <% end %>

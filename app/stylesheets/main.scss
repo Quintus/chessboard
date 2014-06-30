@@ -401,6 +401,10 @@ table {
     p.report-author { margin-top: 0px; }
 }
 
+.report-actions {
+    @include vlist;
+}
+
 /****** Topic status *******/
 
 .topic-announcement {

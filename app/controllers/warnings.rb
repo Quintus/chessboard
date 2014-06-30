@@ -10,4 +10,7 @@ Chessboard::App.controllers :warnings do
     render "moderation/warnings/index"
   end
 
+  get :new, :map => "/moderation/warnings/new" do
+  end
+
 end

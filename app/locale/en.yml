@@ -112,6 +112,10 @@ en:
     report: "Report posting"
     report_this: "Report"
     reported: "Posting reported."
+    close: "Close"
+    closed: "Report closed."
+    delete_post: "Delete post"
+    warn_user: "Warn user"
     report_info: >
       Use this form to report a posting to the moderators. This
       is a rude action as you blame somebody for doing something,

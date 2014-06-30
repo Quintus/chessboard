@@ -9,7 +9,7 @@ class Post < ActiveRecord::Base
 
   belongs_to :topic
   belongs_to :author, :class_name => "User"
-  has_many :reports
+  has_many :reports, :dependent => :destroy
 
   # Checks if +user+ has sufficient privileges to change this
   # posting. This is the case if:
