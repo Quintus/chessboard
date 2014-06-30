@@ -1,3 +1,7 @@
+<% content_for :sidebar do %>
+  <%= partial "moderation/sidebar" %>
+<% end %>
+
 <h1><%= I18n.t("reports.all_reports") %></h1>
 
 <% @reports.each do |report| %>

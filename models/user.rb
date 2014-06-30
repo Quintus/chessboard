@@ -14,6 +14,8 @@ class User < ActiveRecord::Base
 
   has_many :posts, :foreign_key => :author_id
   has_many :reports
+  has_many :received_warnings, :class_name => "Warning", :foreign_key => :warned_user
+  has_many :issued_warnings, :class_name => "Warning", :foreign_key => :warning_user
   has_one :settings
 
   has_and_belongs_to_many :moderated_forums, :class_name => "Forum", :join_table => "moderation"

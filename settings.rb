@@ -25,6 +25,11 @@ Chessboard.configure do |config|
   # public/images/emoticons).
   config.emoticons_set = "default"
 
+  # After this time warnings expire and are auto-deleted
+  # on the user’s next login. Set to 0 to make warnings
+  # permanent.
+  config.warning_expiration = 60 * 60 * 24 * 365
+
   ########################################
   # Database configuration
 

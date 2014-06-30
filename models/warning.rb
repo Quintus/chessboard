@@ -1,0 +1,30 @@
+class Warning < ActiveRecord::Base
+  validates :reason, :presence => true
+  validates :warned_user, :presence => true
+  validates :warning_user, :presence => true
+
+  belongs_to :warned_user, :class_name => "User", :foreign_key => "warned_user_id"
+  belongs_to :warning_user, :class_name => "User", :foreign_key => "warning_user_id"
+
+  before_create do
+    self.expiration_date = Time.now + Chessboard.config.warning_expiration
+  end
+
+  # Checks if this warning is expired.
+  def expired?
+    Time.now >= self.expiration_date
+  end
+
+  # Checks if this warning is expired, and if so, destroys the
+  # database record and returns true. Otherwise does nothing
+  # and returns false.
+  def expire!
+    if expired?
+      destroy
+      true
+    else
+      false
+    end
+  end
+
+end
