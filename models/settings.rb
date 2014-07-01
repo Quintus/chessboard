@@ -4,7 +4,6 @@ class Settings < ActiveRecord::Base
   validates :user, :presence => true
   validates :preferred_markup_language, :presence => true, :inclusion => {:in => Post::MARKUP_LANGUAGES}
   validates :language, :inclusion => { :in => I18n.available_locales.map(&:to_s) }
-  validate :validate_avatar_image_format
 
   belongs_to :user
 
@@ -20,11 +19,11 @@ class Settings < ActiveRecord::Base
   # be placed in an image tag, but be sure to check you didn’t
   # get +nil+ (which is the case when no avatar was uploaded yet).
   def normal_avatar
-    path = avatar_path
-    return nil if path.blank?
+    av = avatar
+    return nil unless av
 
-    if File.exists?(Padrino.root("public", "images", "avatars", path))
-      "/images/avatars/#{path}"
+    if File.exists?(av.full_path)
+      av.full_uri
     else
       nil
     end
@@ -37,17 +36,6 @@ class Settings < ActiveRecord::Base
       gravatar
     else
       normal_avatar
-    end
-  end
-
-  private
-
-  def validate_avatar_image_format
-    unless avatar_path.blank?
-      img = MiniMagick::Image.open(Padrino.root("public", "images", "avatars", avatar_path))
-      if img[:width] > Chessboard.config.maximum_avatar_dimension || img[:height] > Chessboard.config.maximum_avatar_dimension
-        errors.add(:avatar_path, I18n.t("errors.settings.avatar_path.max_dimension", :dim => Chessboard.config.maximum_avatar_dimension))
-      end
     end
   end
 

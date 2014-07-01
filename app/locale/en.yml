@@ -63,11 +63,6 @@ en:
     settings: "Settings"
     settings_updated: "Settings updated."
     main_settings: "Main settings"
-    avatar_settings: "Avatar settings"
-    avatar: "Avatar"
-    avatar_updated: "Avatar updated."
-    avatar_deleted: "Avatar deleted."
-    avatar_not_deleted: "Nice try."
     profile_settings: "Profile settings"
     descriptions:
       hide_status: >
@@ -88,10 +83,6 @@ en:
         If you enable this, your email address will be used to
         query the Gravatar service for your avatar image instead
         of using the avatar image uploaded to this forum.
-      avatar: >
-        You can use this form to upload a small picture that is
-        shown next to your postings. This has no effect if you
-        have enabled the “use gravatar” option.
       signature: >
         This text is placed below each of your postings and shown
         at the bottom of your profile page. You can use BBCode to
@@ -101,8 +92,8 @@ en:
     formats:
       plain: "%Y-%m-%d %H:%M"
   errors:
-    settings:
-      avatar_path:
+    avatar:
+      path:
         max_dimension: "Maximum image height/width is %{dim}px"
   membership:
     member: "Member"
@@ -145,3 +136,13 @@ en:
   personal:
     personal_area: "Personal Area"
     misc: "Miscellaneous"
+  avatars:
+    avatar_settings: "Avatar settings"
+    avatar: "Avatar"
+    avatar_updated: "Avatar updated."
+    avatar_deleted: "Avatar deleted."
+    avatar_not_deleted: "Nice try."
+    avatar_info: >
+      You can use this form to upload a small picture that is
+      shown next to your postings. This has no effect if you
+      have enabled the “use gravatar” option.

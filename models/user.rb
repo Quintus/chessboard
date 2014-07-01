@@ -15,7 +15,8 @@ class User < ActiveRecord::Base
   has_many :reports
   has_many :received_warnings, :class_name => "Warning", :foreign_key => "warned_user_id"
   has_many :issued_warnings, :class_name => "Warning", :foreign_key => "warning_user_ud"
-  has_one :settings
+  has_one :settings, :dependent => :destroy
+  has_one :avatar, :dependent => :destroy
   has_one :registration_token, :dependent => :destroy
 
   has_and_belongs_to_many :moderated_forums, :class_name => "Forum", :join_table => "moderation"
