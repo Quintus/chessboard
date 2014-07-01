@@ -66,6 +66,12 @@ module Chessboard
       redirect url(:users, :user_new)
     end
 
+    get "/personal" do
+      env["warden"].authenticate!
+      @user = env["warden"].user
+      render "misc/personal"
+    end
+
     ##
     # Caching support.
     #
@@ -100,15 +106,6 @@ module Chessboard
     # disable :sessions             # Disabled sessions by default (enable if needed)
     # disable :flash                # Disables sinatra-flash (enabled by default if Sinatra::Flash is defined)
     # layout  :my_layout            # Layout can be in views/layouts/foo.ext or views/foo.ext (default :application)
-    #
-
-    ##
-    # You can configure for a specified environment like:
-    #
-    #   configure :development do
-    #     set :foo, :bar
-    #     disable :asset_stamp # no asset timestamping for dev
-    #   end
     #
 
     error 403 do

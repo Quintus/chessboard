@@ -69,7 +69,6 @@ en:
     avatar_deleted: "Avatar deleted."
     avatar_not_deleted: "Nice try."
     profile_settings: "Profile settings"
-    misc: "Miscellaneous"
     descriptions:
       hide_status: >
         Activating this option makes your online status invisible
@@ -143,3 +142,6 @@ en:
     # Note `expires' may be the translated string for "never"
     # or a definite date.
     warning_by: "Warning by %{modname} received on %{date}. Expires: %{expires}."
+  personal:
+    personal_area: "Personal Area"
+    misc: "Miscellaneous"

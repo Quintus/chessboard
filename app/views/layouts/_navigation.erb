@@ -3,7 +3,7 @@
     <li><%= link_to(I18n.t("general.index"), url(:forums, :index)) %></li>
 
     <% if env["warden"].authenticated? %>
-      <li><%= link_to I18n.t("settings.settings"), url(:settings, :main) %></li>
+      <li><%= link_to I18n.t("personal.personal_area"), "/personal" %></li>
       <% if env["warden"].user.admin? %>
 	<li><%= link_to I18n.t("general.administration"), "/" %></li>
       <% end %>

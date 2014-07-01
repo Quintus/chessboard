@@ -1,5 +1,5 @@
 <% content_for :sidebar do %>
-  <%= partial "settings/sidebar" %>
+  <%= partial "misc/personal_sidebar" %>
 <% end %>
 
 <h1><%= I18n.t("settings.profile_settings") %></h1>
@@ -15,7 +15,7 @@
 </div>
 <% end %>
 
-<% form_for @user, url(:settings, :profile), :method => :patch, :class => "settings-form" do |f| %>
+<% form_for @user, url(:users, :update, @user.nickname), :method => :patch, :class => "settings-form" do |f| %>
 
   <div class="setting">
     <div class="header settings-header">

@@ -87,28 +87,4 @@ Chessboard::App.controllers :settings do
     end
   end
 
-  get :profile, :map => "/settings/profile" do
-    @user = env["warden"].user
-    render "settings/profile"
-  end
-
-  patch :profile, :map => "/settings/profile" do
-    @user = env["warden"].user
-
-    @user.realname   = params["user"]["realname"]
-    @user.homepage   = params["user"]["homepage"]
-    @user.signature  = params["user"]["signature"]
-    @user.location   = params["user"]["location"]
-    @user.profession = params["user"]["profession"]
-    @user.jabber_id  = params["user"]["jabber_id"]
-    @user.pgp_key    = params["user"]["pgp_key"]
-
-    if @user.save
-      flash[:notice] = I18n.t("settings.settings_updated")
-      redirect url(:settings, :profile)
-    else
-      render "settings/profile"
-    end
-  end
-
 end

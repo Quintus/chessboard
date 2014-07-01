@@ -39,6 +39,43 @@ Chessboard::App.controllers :users do
     end
   end
 
+  get :show, :map => "/users/:name" do
+    @user = User.find_by(:nickname => params["name"])
+    render "users/show"
+  end
+
+  get :edit, :map => "/users/:name/edit" do
+    @user = env["warden"].user
+
+    # Can only edit your own user resource
+    halt 403 if @user.nickname != params["name"]
+
+    render "users/edit"
+  end
+
+  patch :update, :map => "/users/:name" do
+    @user = env["warden"].user
+
+    # Can only edit your own user resource
+    halt 403 if @user.nickname != params["name"]
+
+    @user.realname   = params["user"]["realname"]
+    @user.homepage   = params["user"]["homepage"]
+    @user.signature  = params["user"]["signature"]
+    @user.location   = params["user"]["location"]
+    @user.profession = params["user"]["profession"]
+    @user.jabber_id  = params["user"]["jabber_id"]
+    @user.pgp_key    = params["user"]["pgp_key"]
+
+    if @user.save
+      flash[:notice] = I18n.t("settings.settings_updated")
+      redirect url(:users, :edit, @user.nickname)
+    else
+      render "users/edit"
+    end
+
+  end
+
   get :confirm, :map => "/users/:name/confirm" do
     @user = User.find_by(:nickname => params["name"])
     render "users/confirm"
@@ -58,11 +95,6 @@ Chessboard::App.controllers :users do
       flash[:alert] = "Account activation failed. Did the token expire?"
       redirect "/"
     end
-  end
-
-  get :show, :map => "/users/:name" do
-    @user = User.find_by(:nickname => params["name"])
-    render "users/show"
   end
 
 end
