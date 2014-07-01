@@ -29,6 +29,7 @@ Chessboard::App.controllers :warnings do
     @warning.warning_user = env["warden"].user
 
     if @warning.save
+      deliver(:user, :warning_email, @warning.warned_user.email, @warning.warned_user.nickname, @warning.warning_user.nickname, @warning.reason, board_link)
       flash[:notice] = I18n.t("warnings.warned")
       redirect url(:warnings, :index)
     else

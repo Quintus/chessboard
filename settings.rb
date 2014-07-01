@@ -9,6 +9,11 @@ Chessboard.configure do |config|
   config.title = "Chessboard Forum"
   config.subtitle = "Chessboard default forum."
 
+  # This will be used as the domain part of all absolute links to
+  # the forum (mainly in emails) and as the domain part of email
+  # addresses used by the forum software.
+  config.domain = "localhost"
+
   # Default locale
   config.default_locale = :en
 

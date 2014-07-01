@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # Helper methods defined here can be accessed in any controller or view in the application
 
 module Chessboard
@@ -22,6 +23,17 @@ module Chessboard
           end
         else
           time.strftime(timestr)
+        end
+      end
+
+      # Absolute URL for the forum’s root page. If the current
+      # request came in over SSL, returns an HTTPS link, otherwise
+      # a normal HTTP one. Contains a trailing slash.
+      def board_link
+        if request.ssl?
+          "https://#{Chessboard.config.domain}/"
+        else
+          "http://#{Chessboard.config.domain}/"
         end
       end
 
