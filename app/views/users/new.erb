@@ -1,0 +1,40 @@
+<h1><%= I18n.t("general.register") %></h1>
+
+<% unless @user.errors.empty? %>
+<div class="flash alert">
+  <p><%= I18n.t("general.errors_occured") %></p>
+  <ul>
+    <% @user.errors.messages.each do |key, msg| %>
+      <li><%= key %>: <%= msg %></li>
+    <% end %>
+  </ul>
+</div>
+<% end %>
+
+<% form_for @user, url(:users, :create), :method => :post do |f| %>
+
+  <p>
+    <%= f.label :nickname %><br/>
+    <%= f.text_field :nickname %>
+  </p>
+
+  <p>
+    <%= f.label :email %><br/>
+    <%= f.text_field :email %>
+  </p>
+
+  <p>
+    <%= f.label :password %><br/>
+    <%= f.password_field :password %>
+  </p>
+
+  <p>
+    <%= f.label :password_confirmation %><br/>
+    <%= f.password_field :password_confirmation %>
+  </p>
+
+  <p class="submit-separator">
+    <%= f.submit I18n.t("general.register"), :class => "button-ok" %>
+  </p>
+
+<% end %>

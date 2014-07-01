@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 18) do
+ActiveRecord::Schema.define(version: 19) do
 
   create_table "forum_groups", force: true do |t|
     t.string   "name"
@@ -45,6 +45,15 @@ ActiveRecord::Schema.define(version: 18) do
   create_table "read_topics", id: false, force: true do |t|
     t.integer "topic_id"
     t.integer "user_id"
+  end
+
+  create_table "registration_tokens", force: true do |t|
+    t.datetime "expiration_date"
+    t.string   "encrypted_tokenstr"
+    t.string   "string"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "reports", force: true do |t|
@@ -96,6 +105,7 @@ ActiveRecord::Schema.define(version: 18) do
     t.string   "jabber_id"
     t.string   "pgp_key"
     t.datetime "last_login"
+    t.boolean  "confirmed",          default: false
   end
 
   create_table "warnings", force: true do |t|

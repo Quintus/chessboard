@@ -7,6 +7,10 @@ Warden::Strategies.add(:password) do
   def authenticate!
     user = User.find_by(nickname: params["nickname"])
     if user
+      if !user.confirmed?
+        fail!("User not confirmed yet.")
+        return
+      end
       if user.authenticate(params["password"])
         success!(user)
       else

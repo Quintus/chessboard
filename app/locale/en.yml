@@ -112,6 +112,10 @@ en:
   users:
     profile: "%{nick}’s user profile"
     total_posts: "Total posts"
+    registration: >
+      You have successfully registered. A confirmation email was sent
+      to your mail address, please follow the link it contains in order
+      to activate your account.
   reports:
     report: "Report posting"
     reports: "Reports"

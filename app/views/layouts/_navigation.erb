@@ -11,7 +11,7 @@
 	<li><%= link_to I18n.t("general.moderation"), url(:reports, :index) %></li>
       <% end %>
     <% else %>
-      <li><a href="/register"><%= I18n.t("general.register") %></li>
+      <li><%= link_to I18n.t("general.register"), url(:users, :new) %></li>
     <% end %>
 
     <% if env["warden"].authenticated? %>

@@ -35,6 +35,12 @@ Chessboard.configure do |config|
   # permanent.
   config.warning_expiration = 60 * 60 * 24 * 365
 
+  # After this time registration tokens are invalidated.
+  config.registration_expiration = 60 * 60 * 24
+
+  # Set to false to disable registration.
+  config.registration = true
+
   ########################################
   # Database configuration
 

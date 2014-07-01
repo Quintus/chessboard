@@ -62,6 +62,10 @@ module Chessboard
       redirect "/forums"
     end
 
+    get "/register" do
+      redirect url(:users, :user_new)
+    end
+
     ##
     # Caching support.
     #

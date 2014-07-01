@@ -10,13 +10,13 @@ class User < ActiveRecord::Base
   validates :profession, :length => {:maximum => 1024}
   validates :jabber_id, :length => {:maximum => 1024}
   validates :pgp_key, :length => {:maximum => 50} # length of $ gpg --fingerprint
-  validates :homepage, :format => %r<\Ahttps?://.*\Z>
 
   has_many :posts, :foreign_key => :author_id
   has_many :reports
   has_many :received_warnings, :class_name => "Warning", :foreign_key => "warned_user_id"
   has_many :issued_warnings, :class_name => "Warning", :foreign_key => "warning_user_ud"
   has_one :settings
+  has_one :registration_token, :dependent => :destroy
 
   has_and_belongs_to_many :moderated_forums, :class_name => "Forum", :join_table => "moderation"
   has_and_belongs_to_many :read_topics, :class_name => "Topic", :join_table => "read_topics"
