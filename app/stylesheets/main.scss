@@ -407,6 +407,23 @@ table {
     margin-top: 6px;
 }
 
+/********** warnings **********/
+
+.warning {
+    border: 1px solid black;
+    background-color: $lightgrey;
+    margin-bottom: 6px;
+
+    p.warning-header {
+	margin-top: 0px;
+	background-color: $darkgrey;
+    }
+
+    p.warning-reason {
+	padding: 4px;
+    }
+}
+
 /****** Topic status *******/
 
 .topic-announcement {

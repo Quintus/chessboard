@@ -37,6 +37,8 @@ Chessboard::App.controllers :warnings do
   end
 
   get :user_index, :map => "/warnings" do
+    @warnings = env["warden"].user.received_warnings.order(:created_at => :asc)
+    render "warnings/index"
   end
 
 end

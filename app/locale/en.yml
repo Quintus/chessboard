@@ -132,6 +132,10 @@ en:
     no_reports: "No reports."
   warnings:
     warnings: "Warnings"
+    no_warnings: "No warnings."
     warnings_intro: "These are the ten users with the most warnings:"
     new: "New warning"
     warned: "User warned."
+    # Note `expires' may be the translated string for "never"
+    # or a definite date.
+    warning_by: "Warning by %{modname} received on %{date}. Expires: %{expires}."

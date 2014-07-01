@@ -1,3 +1,7 @@
+<% content_for :sidebar do %>
+  <%= partial "settings/sidebar" %>
+<% end %>
+
 <h1><%= I18n.t("reports.reports") %></h1>
 
 <% if @reports.empty? %>
