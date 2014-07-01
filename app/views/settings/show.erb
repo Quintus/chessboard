@@ -32,6 +32,27 @@
 
   <div class="setting">
     <div class="header settings-header">
+      <%= f.label :use_gravatar %>
+    </div>
+
+    <div class="settings-desc">
+      <%= I18n.t("settings.descriptions.gravatar") %>
+    </div>
+
+    <div class="settings-content">
+      <%= f.label :use_gravatar %><%= f.check_box :use_gravatar %>
+    </div>
+
+    <%# Only fetch gravatar if requested, privacy concerns apply. %>
+    <% if @settings.use_gravatar %>
+      <div class="settings-content">
+	<%= image_tag @user.gravatar, :alt => "User gravatar" %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="setting">
+    <div class="header settings-header">
       <%= f.label :language %>
     </div>
 

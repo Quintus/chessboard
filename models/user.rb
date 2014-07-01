@@ -75,6 +75,34 @@ class User < ActiveRecord::Base
     read_topics.include?(topic)
   end
 
+  # Always return’s the user’s Gravatar URI. This can directly be
+  # placed in an image tag.
+  def gravatar
+    md5 = Digest::MD5.hexdigest(email.strip)
+
+    "https://www.gravatar.com/avatar/#{md5}?s=80"
+  end
+
+  # Always returns the user’s normal avatar URI. This can directly
+  # be placed in an image tag, but be sure to check you didn’t
+  # get +nil+ (which is the case when no avatar was uploaded yet).
+  def normal_avatar
+    av = avatar
+    return nil unless av
+
+    av.full_uri
+  end
+
+  # Depending on the user’s settings, returns either #gravatar
+  # or #normal_avatar.
+  def avatar_link
+    if settings.use_gravatar
+      gravatar
+    else
+      normal_avatar
+    end
+  end
+
   private
 
   def setup_settings

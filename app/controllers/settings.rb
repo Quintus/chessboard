@@ -22,6 +22,7 @@ Chessboard::App.controllers :settings do
     @settings.language                  = params["settings"]["language"]
     @settings.preferred_markup_language = params["settings"]["preferred_markup_language"]
     @settings.time_format               = params["settings"]["time_format"]
+    @settings.use_gravatar              = params["settings"]["use_gravatar"]
 
     if @settings.save
       flash[:notice] = I18n.t("settings.settings_updated")

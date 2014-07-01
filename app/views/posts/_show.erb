@@ -4,8 +4,8 @@
     <div class="post-author">
       <p class="author-name"><%= link_to post.author.nickname, url(:users, :show, post.author.nickname) %></p>
       <p class="author-membership"><%= post.author.membership %></p>
-      <% if post.author.settings.avatar %>
-	<p class="author-avatar"><%= image_tag post.author.settings.avatar, :alt => "User avatar" %></p>
+      <% if post.author.avatar_link %>
+	<p class="author-avatar"><%= image_tag post.author.avatar_link, :alt => "User avatar" %></p>
       <% end %>
       <p class="author-registered">Registered: <%= post.author.created_at.strftime("%Y-%m-%d") %></p>
       <p class="author-posts">Posts: <%= post.author.posts.count %></p>
@@ -59,8 +59,8 @@
       <div class="post-author">
       <p class="author-name"><%= link_to user.nickname, url(:users, :show, user.nickname) %></p>
       <p class="author-membership"><%= user.membership %></p>
-      <% if user.settings.avatar %>
-	<p class="author-avatar"><%= image_tag user.settings.avatar, :alt => "User avatar" %></p>
+      <% if user.avatar_link %>
+	<p class="author-avatar"><%= image_tag user.avatar_link, :alt => "User avatar" %></p>
       <% end %>
       <p class="author-registered">Registered: <%= user.created_at.strftime("%Y-%m-%d") %></p>
 	<p class="author-posts">Posts: {{ post_count }}</p>
