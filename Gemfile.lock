@@ -18,10 +18,14 @@ GEM
     bb-ruby (1.0.4)
     bcrypt (3.1.7)
     builder (3.2.2)
+    daemons (1.1.9)
     erubis (2.7.0)
+    eventmachine (1.0.3)
     fabrication (2.11.3)
     faker (1.3.0)
       i18n (~> 0.5)
+    haml (4.0.5)
+      tilt
     http_router (0.11.1)
       rack (>= 1.0.0)
       url_mount (~> 0.2.1)
@@ -31,6 +35,16 @@ GEM
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
+    mailcatcher (0.2.4)
+      eventmachine
+      haml
+      i18n
+      json
+      mail
+      sinatra
+      skinny (>= 0.1.2)
+      sqlite3-ruby
+      thin
     mime-types (1.25.1)
     mini_magick (3.7.0)
       subexec (~> 0.2.1)
@@ -82,8 +96,17 @@ GEM
       rack (~> 1.4)
       rack-protection (~> 1.4)
       tilt (~> 1.3, >= 1.3.4)
+    skinny (0.2.3)
+      eventmachine (~> 1.0.0)
+      thin (~> 1.5.0)
     sqlite3 (1.3.9)
+    sqlite3-ruby (1.3.3)
+      sqlite3 (>= 1.3.3)
     subexec (0.2.3)
+    thin (1.5.1)
+      daemons (>= 1.0.9)
+      eventmachine (>= 0.12.6)
+      rack (>= 1.0.0)
     thor (0.18.1)
     thread_safe (0.3.4)
     tilt (1.4.1)
@@ -108,6 +131,7 @@ DEPENDENCIES
   fabrication
   faker
   kramdown
+  mailcatcher
   mini_magick
   minitest
   padrino (= 0.12.2)

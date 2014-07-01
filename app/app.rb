@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 module Chessboard
   class App < Padrino::Application
     register ScssInitializer
@@ -116,6 +117,27 @@ module Chessboard
 
     error 500 do
       render "errors/500"
+    end
+
+    ########################################
+    # Mailer
+
+    # Use mailcatcher in development
+    configure :development do
+      set :delivery_method, :smtp => {
+        :address => "localhost",
+        :port => 1025
+      }
+    end
+
+    # No mailer in testing mode
+    configure :test do
+      set :delivery_method, :test
+    end
+
+    # Use user’s settings in production
+    configure :production do
+      set :delivery_method, Chessboard.config.mail[:type] => Chessboard.config.mail[:options]
     end
 
   end

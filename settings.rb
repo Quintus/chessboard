@@ -58,4 +58,29 @@ Chessboard.configure do |config|
   #  :password => "yourpassword",
   #  :database => "chessboard",
   #}
+
+  ########################################
+  # Mail configuration
+
+  # Example sendmail configuration
+  config.mail = {
+    :type => :sendmail,
+    #:options => {
+    #  :location => "/usr/sbin/sendmail"
+    #}
+  }
+
+  # Example SMTP configuration
+  #config.mail {
+  #  :type => :smtp,
+  #  :options => {
+  #    :address => "mailserver.com",
+  #    :port => 25,
+  #    :user_name => "user",
+  #    :password => "password",
+  #    :authentication => :plain, # or :login, or :cram_md5
+  #    :enable_starttls_auto => true
+  #  }
+  #}
+
 end
