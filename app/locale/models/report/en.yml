@@ -1,0 +1,12 @@
+en:
+  models:
+    report:
+      name: Report
+      attributes:
+        id: Id
+        description: Description
+        closed: Closed
+        post_id: Post
+        user_id: User
+        created_at: Created at
+        updated_at: Updated at

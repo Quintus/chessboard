@@ -11,11 +11,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20) do
+ActiveRecord::Schema.define(version: 21) do
 
   create_table "avatars", force: true do |t|
     t.string   "path"
     t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "bans", force: true do |t|
+    t.string   "nick_pattern"
+    t.string   "email_pattern"
+    t.string   "ip_range"
+    t.text     "reason"
+    t.datetime "expiration_date"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -12,12 +12,14 @@ en:
     create: "Create"
     update: "Update"
     delete: "Delete"
+    edit: "Edit"
     errors_occured: "Errors occured:"
     are_you_sure: "Are you sure?"
     never: "Never"
     moderation: "Moderation"
     administration: "Administration"
     withdraw: "Withdraw"
+    actions: "Actions"
   forums:
     forum: "Forum"
     topics: "Topics"
@@ -146,3 +148,28 @@ en:
       You can use this form to upload a small picture that is
       shown next to your postings. This has no effect if you
       have enabled the “use gravatar” option.
+  bans:
+    bans: "Bans"
+    new_ban: "New ban"
+    edit_ban: "Edit ban"
+    created: "Ban created."
+    updated: "Ban updated."
+    deleted: "Ban deleted."
+    ban_intro: >
+      This page lists all bans imposed on people using this forum.
+      If someone whose IP, nickname, or email address tries to log
+      into the forum, he will be rejected; if you ban someone who
+      is logged in currently, he will be kicked without being able
+      to log in afterwards. Be careful with general patterns; if you
+      accidentally ban all moderators/administrators only someone
+      with database access will be able to lift the ban again.
+    nick_pattern_intro: >
+      All users whose nicknames match the following Perl-compatible
+      Regular Expression will be banned.
+    email_pattern_intro: >
+      All users whose email addresses match the following Perl-compatible
+      Regular Expression will be banned.
+    ip_range_intro: >
+      All connections whose IP is contained in the CIDR range below
+      will be prevented from logging in. Both IPv4 and IPv6 CIDR
+      ranges are accepted.

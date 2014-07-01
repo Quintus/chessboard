@@ -11,6 +11,12 @@ Warden::Strategies.add(:password) do
         fail!("User not confirmed yet.")
         return
       end
+
+      if Ban.matches_any?(user, request)
+        fail!("User or IP banned.")
+        return
+      end
+
       if user.authenticate(params["password"])
         success!(user)
       else

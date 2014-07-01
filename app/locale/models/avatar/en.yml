@@ -1,0 +1,10 @@
+en:
+  models:
+    avatar:
+      name: Avatar
+      attributes:
+        id: Id
+        path: Path
+        user_id: User
+        created_at: Created at
+        updated_at: Updated at
