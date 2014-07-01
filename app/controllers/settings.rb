@@ -4,17 +4,19 @@ Chessboard::App.controllers :settings do
     env["warden"].authenticate! unless env["warden"].authenticated?
   end
 
-  get "/settings" do
-    redirect "/settings/main"
+  get :edit, :map => "/users/:name/settings/main" do
+    @user = env["warden"].user
+    halt 403 if @user.nickname != params["name"]
+
+    @settings = @user.settings
+    render "settings/edit"
   end
 
-  get :main, :map => "/settings/main" do
-    @settings = env["warden"].user.settings
-    render "settings/main"
-  end
+  patch :update, :map => "/users/:name/settings" do
+    @user = env["warden"].user
+    halt 403 if @user.nickname != params["name"]
 
-  patch :main, :map => "/settings/main" do
-    @settings = env["warden"].user.settings
+    @settings = @user.settings
 
     @settings.hide_status               = params["settings"]["hide_status"]
     @settings.language                  = params["settings"]["language"]

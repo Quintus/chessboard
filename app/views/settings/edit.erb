@@ -15,7 +15,7 @@
 </div>
 <% end %>
 
-<% form_for @settings, url(:settings, :main), :method => :patch, :class => "settings-form" do |f| %>
+<% form_for @settings, url(:settings, :update, @user.nickname), :method => :patch, :class => "settings-form" do |f| %>
   <div class="setting">
     <div class="header settings-header">
       <%= f.label :hide_status %>
