@@ -4,4 +4,5 @@ Fabricator(:user) do
   email { Faker::Internet.email }
   homepage { Faker::Internet.url }
   password { Faker::Internet.password(8) }
+  confirmed { true }
 end
