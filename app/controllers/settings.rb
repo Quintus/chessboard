@@ -4,12 +4,12 @@ Chessboard::App.controllers :settings do
     env["warden"].authenticate! unless env["warden"].authenticated?
   end
 
-  get :edit, :map => "/users/:name/settings/main" do
+  get :show, :map => "/users/:name/settings" do
     @user = env["warden"].user
     halt 403 if @user.nickname != params["name"]
 
     @settings = @user.settings
-    render "settings/edit"
+    render "settings/show"
   end
 
   patch :update, :map => "/users/:name/settings" do
@@ -25,9 +25,9 @@ Chessboard::App.controllers :settings do
 
     if @settings.save
       flash[:notice] = I18n.t("settings.settings_updated")
-      redirect "/settings/main"
+      redirect url(:settings, :show, @user.nickname)
     else
-      render "settings/main"
+      render "settings/show"
     end
   end
 
