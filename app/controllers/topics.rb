@@ -39,7 +39,7 @@ Chessboard::App.controllers :topics do
     @topic.posts << initial_post
 
     # This hook can prevent saving of the topic
-    unless call_hook(:ctrl_topic_create, :topic => @topic)
+    unless call_hook(:ctrl_topic_create, :topic => @topic, :params => params)
       @forum = Forum.find(params["topic"]["forum_id"])
       return render("topics/new")
     end
@@ -75,7 +75,7 @@ Chessboard::App.controllers :topics do
     @topic.announcement = params["topic"]["announcement"] == "1" if user.admin?
 
     # This hook can prevent saving of the topic
-    unless call_hook(:ctrl_topic_update, :topic => @topic)
+    unless call_hook(:ctrl_topic_update, :topic => @topic, :params => params)
       @forum = @topic.forum
       return render("topics/edit")
     end

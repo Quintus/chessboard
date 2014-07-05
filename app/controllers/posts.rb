@@ -20,7 +20,7 @@ Chessboard::App.controllers :posts do
     halt 403 if @post.topic.locked?
 
     # This hook can prevent saving of the post
-    unless call_hook(:ctrl_post_create, :post => @post)
+    unless call_hook(:ctrl_post_create, :post => @post, :params => params)
       if request.xhr?
         halt 400
       else
@@ -67,7 +67,7 @@ Chessboard::App.controllers :posts do
     halt 403 unless @post.can_user_change_this?(env["warden"].user)
 
     # This hook can prevent saving of the post
-    unless call_hook(:ctrl_post_update, :post => @post)
+    unless call_hook(:ctrl_post_update, :post => @post, :params => params)
       @topic = @post.topic
       return render("posts/new")
     end

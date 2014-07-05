@@ -82,6 +82,8 @@ module Chessboard::Plugin
   # Extra options received:
   # [:post]
   #   The post.
+  # [:form]
+  #   The form as per Padrino’s form helper.
   def hook_view_reply_pre_content(options)
     "".html_safe
   end
@@ -92,6 +94,8 @@ module Chessboard::Plugin
   # Extra options received:
   # [:post]
   #   The post.
+  # [:form]
+  #   The form as per Padrino’s form helper.
   def hook_view_reply_post_content(options)
     "".html_safe
   end
@@ -103,6 +107,8 @@ module Chessboard::Plugin
   # Extra options received:
   # [:post]
   #   The post being saved.
+  # [:params]
+  #   Request parameters hash.
   def hook_ctrl_post_create(options)
     true
   end
@@ -115,6 +121,8 @@ module Chessboard::Plugin
   # Extra options received:
   # [:post]
   #   The post being saved.
+  # [:params]
+  #   Request parameters hash.
   def hook_ctrl_post_update(options)
     true
   end
@@ -127,6 +135,8 @@ module Chessboard::Plugin
   # Extra options
   # [:topic]
   #   The topic being saved.
+  # [:params]
+  #   Request parameters hash.
   def hook_ctrl_topic_create(options)
     true
   end
@@ -139,6 +149,8 @@ module Chessboard::Plugin
   # Extra options:
   # [:topic]
   #   The topic being saved.
+  # [:params]
+  #   Request parameters hash.
   def hook_ctrl_topic_update(options)
     true
   end
