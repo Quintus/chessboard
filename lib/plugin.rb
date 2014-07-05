@@ -14,6 +14,7 @@ module Chessboard::Plugin
   include Padrino::Helpers::FormatHelpers
   #include Padrino::Helpers::RenderHelpers # Would render app/views, which is undesired
   include Padrino::Helpers::NumberHelpers
+  include Padrino::Mailer::Helpers
 
   # Worker class whose only purpose is to get all the plugin
   # modules included. This is only used internally; as a plugin
