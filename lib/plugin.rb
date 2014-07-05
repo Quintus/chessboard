@@ -146,7 +146,14 @@ module Chessboard::Plugin
 end
 
 # Load the available plugins
-Dir[Padrino.root("plugins", "*", "plugin.rb")].sort.each do |pluginpath|
-  Chessboard::App.logger.info("Found plugin file: #{pluginpath}")
-  require(pluginpath)
+Dir[Padrino.root("plugins", "*")].sort.each do |pluginpath|
+  pluginfile = File.join(pluginpath, "plugin.rb")
+  next unless File.exist?(pluginfile)
+
+  Chessboard::App.logger.info("Found plugin file: #{pluginfile}")
+  require(pluginfile)
+
+  # Add plugin's translations if there are any.
+  localedir = File.join(pluginpath, "locale")
+  I18n.load_path += localedir if File.exist?(localedir)
 end
