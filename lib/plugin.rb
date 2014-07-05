@@ -143,6 +143,34 @@ module Chessboard::Plugin
     true
   end
 
+  # This hook is called in the view of the registration page.
+  # You can use it to add additional fields to the registration
+  # form, which is available as an extra option to this hook.
+  #
+  # Extra options:
+  # [:user]
+  #   The user being created; either an empty User instance on
+  #   the first try or a partially contructed one if saving
+  #   failed for some reason.
+  # [:form]
+  #   The registration form as per Padrino’s form helper.
+  def hook_view_registration(options)
+    ""
+  end
+
+  # This hook is called before the newly registered user is
+  # saved into the database. Returning false from this prevents
+  # this step!
+  #
+  # Extra options:
+  # [:user]
+  #   The user who is trying to register.
+  # [:params]
+  #   params hash.
+  def hook_ctrl_registration(options)
+    true
+  end
+
 end
 
 # Load the available plugins

@@ -33,6 +33,8 @@
     <%= f.password_field :password_confirmation %>
   </p>
 
+  <%= call_hook(:view_registration, :form => f, :user => @user) %>
+
   <p class="submit-separator">
     <%= f.submit I18n.t("general.register"), :class => "button-ok" %>
   </p>

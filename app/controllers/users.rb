@@ -24,6 +24,10 @@ Chessboard::App.controllers :users do
 
     @user.password = params["user"]["password"]
 
+    unless call_hook :ctrl_registration, :user => @user, :params => params
+      return render("users/new")
+    end
+
     if @user.save
       tokenstr = RegistrationToken.generate_tokenstr
       token = RegistrationToken.new
