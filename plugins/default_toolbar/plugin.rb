@@ -24,6 +24,7 @@ module DefaultToolbarPlugin
   }
 
   def hook_html_header(options)
+    str = super
     str = content_tag("style", :type => "text/css") do
 <<CSS.html_safe
 .toolbar ul {
@@ -71,8 +72,7 @@ JS
   end
 
   def hook_reply_pre_content(options)
-    super
-    content_tag("div", :class => "toolbar") do
+    super + content_tag("div", :class => "toolbar") do
       result = "".html_safe
 
       if options[:post].markup_language == "BBCode"

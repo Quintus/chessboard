@@ -4,6 +4,8 @@
 # have your module recognized as a Chessboard plugin, you
 # have to include this module, which will automatically
 # make Padrino’s view helpers available in your module.
+#
+# See plugins.rdoc on how to write a plugin.
 module Chessboard::Plugin
   include Padrino::Helpers::OutputHelpers
   include Padrino::Helpers::TagHelpers
@@ -71,6 +73,7 @@ module Chessboard::Plugin
   # Note that in your javascript you can rely on JQuery
   # and Handlebars being loaded.
   def hook_html_header(options)
+    "".html_safe
   end
 
   # This hook is called in views where you can create
@@ -80,6 +83,7 @@ module Chessboard::Plugin
   # [:post]
   #   The post.
   def hook_reply_pre_content(options)
+    "".html_safe
   end
 
   # This hook is called in views where you can create
@@ -89,6 +93,7 @@ module Chessboard::Plugin
   # [:post]
   #   The post.
   def hook_reply_post_content(options)
+    "".html_safe
   end
 
   # This hook is called in the posts controller
