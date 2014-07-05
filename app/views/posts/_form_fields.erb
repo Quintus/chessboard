@@ -2,7 +2,7 @@
     are required at so many places. Be sure to pass the :form
     and :post local variables to this partial. %>
 
-<%= call_hook(:reply_pre_content, :post => post) %>
+<%= call_hook(:view_reply_pre_content, :post => post) %>
 
 <p>
   <%= form.label :content %><br/>
@@ -12,4 +12,4 @@
   <%= form.label :markup_language %>&nbsp;<%= form.select(:markup_language, :options => Post::MARKUP_LANGUAGES) %>
 </p>
 
-<%= call_hook(:reply_post_content, :post => post) %>
+<%= call_hook(:view_reply_post_content, :post => post) %>

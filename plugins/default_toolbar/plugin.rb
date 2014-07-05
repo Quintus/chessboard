@@ -71,7 +71,7 @@ JS
     str
   end
 
-  def hook_reply_pre_content(options)
+  def hook_view_reply_pre_content(options)
     super + content_tag("div", :class => "toolbar") do
       result = "".html_safe
 

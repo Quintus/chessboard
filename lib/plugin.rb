@@ -82,7 +82,7 @@ module Chessboard::Plugin
   # Extra options received:
   # [:post]
   #   The post.
-  def hook_reply_pre_content(options)
+  def hook_view_reply_pre_content(options)
     "".html_safe
   end
 
@@ -92,7 +92,7 @@ module Chessboard::Plugin
   # Extra options received:
   # [:post]
   #   The post.
-  def hook_reply_post_content(options)
+  def hook_view_reply_post_content(options)
     "".html_safe
   end
 
