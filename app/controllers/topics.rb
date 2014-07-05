@@ -31,7 +31,7 @@ Chessboard::App.controllers :topics do
     @topic.author = env["warden"].user
 
     # Only admins/moderators can enable these
-    @topic.sticky = params["topic"]["sticky"] == "1" if env["warden"].user.admin? || env["warden"].user.moderates?(@topic.forum)
+    @topic.sticky = params["topic"]["sticky"] == "1" if env["warden"].user.moderates?(@topic.forum)
     @topic.announcement = params["topic"]["announcement"] == "1" if env["warden"].user.admin?
 
     initial_post = Post.new(params["topic"]["posts_attributes"]["0"])
@@ -50,6 +50,42 @@ Chessboard::App.controllers :topics do
     else
       @forum = Forum.find(params["topic"]["forum_id"])
       render "new"
+    end
+  end
+
+  get :edit, :map => "/topics/:id/edit" do
+    @topic = Topic.find(params["id"])
+    halt 403 if @topic.locked?
+
+    @forum = @topic.forum
+    render "edit"
+  end
+
+  patch :update, :map => "/topics/:id" do
+    @topic = Topic.find(params["id"])
+    halt 403 if @topic.locked?
+
+    user = env["warden"].user
+    halt 403 if @topic.author != user && !user.moderates?(@topic.forum)
+
+    @topic.title = params["topic"]["title"]
+
+    # Only admins/moderators can enable these
+    @topic.sticky = params["topic"]["sticky"] == "1" if user.moderates?(@topic.forum)
+    @topic.announcement = params["topic"]["announcement"] == "1" if user.admin?
+
+    # This hook can prevent saving of the topic
+    unless call_hook(:ctrl_topic_update, :topic => @topic)
+      @forum = @topic.forum
+      return render("topics/edit")
+    end
+
+    if @topic.save
+      flash[:notice] = I18n.t("topics.edited")
+      redirect url(:topics, :show, @topic.id)
+    else
+      @forum = @topic.forum
+      render "edit"
     end
   end
 

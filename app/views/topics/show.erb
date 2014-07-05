@@ -20,6 +20,10 @@
     <% if @topic.locked? %>
       <li><%= I18n.t("topics.locked") %></li>
     <% else %>
+      <% if @topic.author == env["warden"].user || env["warden"].user.moderates?(@topic.forum) %>
+	<li><%= link_to I18n.t("topics.edit"), url(:topics, :edit, @topic.id), :class => "button-normal" %></li>
+      <% end %>
+
       <li><%= link_to I18n.t("topics.reply"), url(:posts, :new, @topic.id), :class => "button-normal" %></li>
     <% end %>
   <% end %>

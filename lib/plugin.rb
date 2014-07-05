@@ -131,6 +131,18 @@ module Chessboard::Plugin
     true
   end
 
+  # This hook is called in the topics controller
+  # when a topic is before being updated. Returning
+  # false from this hook will prevent the topic from
+  # being updated!
+  #
+  # Extra options:
+  # [:topic]
+  #   The topic being saved.
+  def hook_ctrl_topic_update(options)
+    true
+  end
+
 end
 
 # Load the available plugins
