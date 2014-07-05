@@ -167,7 +167,7 @@ module Chessboard::Plugin
   # [:form]
   #   The registration form as per Padrino’s form helper.
   def hook_view_registration(options)
-    ""
+    "".html_safe
   end
 
   # This hook is called before the newly registered user is
@@ -195,5 +195,5 @@ Dir[Padrino.root("plugins", "*")].sort.each do |pluginpath|
 
   # Add plugin's translations if there are any.
   localedir = File.join(pluginpath, "locale")
-  I18n.load_path += localedir if File.exist?(localedir)
+  I18n.load_path << Dir["#{localedir}/**/*.yml"] if File.exist?(localedir)
 end

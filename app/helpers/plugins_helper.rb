@@ -7,7 +7,7 @@ module Chessboard
       def call_hook(hook, options = {})
         return if Chessboard::Plugin.all_plugins.empty?
 
-        options.merge!({:request => request, :session => session, :env => env})
+        options.merge!({:request => request, :session => session, :env => env, :flash => flash})
 
         # This class has all plugins `include'd.
         evaluator = Chessboard::Plugin::Evaluator.new

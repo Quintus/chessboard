@@ -72,6 +72,8 @@ key-value entries:
   , which is the Warden authentifaction interface you can use
   to check if a user is logged in and which User instance
   corresponds to him.
+[:flash]
+  Padrino’s flash object.
 
 Apart from these entries, there may be even more entries depending on
 the hook. The +reply_post_content+ hook for example also adds an entry
