@@ -75,12 +75,55 @@ module Chessboard::Plugin
 
   # This hook is called in views where you can create
   # posts, before the main post content field.
+  #
+  # Extra options received:
+  # [:post]
+  #   The post.
   def hook_reply_pre_content(options)
   end
 
   # This hook is called in views where you can create
   # posts, after the main post content field.
+  #
+  # Extra options received:
+  # [:post]
+  #   The post.
   def hook_reply_post_content(options)
+  end
+
+  # This hook is called in the posts controller
+  # when a post is before being saved. Returning false from
+  # this hook will prevent the post from being saved!
+  #
+  # Extra options received:
+  # [:post]
+  #   The post being saved.
+  def hook_ctrl_post_create(options)
+    true
+  end
+
+  # This hook is called in the posts controller
+  # when a post is before being updated. Returning
+  # false from this hook will prevent the post from being
+  # updated!
+  #
+  # Extra options received:
+  # [:post]
+  #   The post being saved.
+  def hook_ctrl_post_update(options)
+    true
+  end
+
+  # This hook is called in the topics controller
+  # when a topic is before being created. Returning
+  # false from this hook will prevent the topic from
+  # being updated!
+  #
+  # Extra options
+  # [:topic]
+  #   The topic being saved.
+  def hook_ctrl_topic_create(options)
+    true
   end
 
 end

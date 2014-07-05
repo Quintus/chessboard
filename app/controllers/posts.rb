@@ -19,6 +19,16 @@ Chessboard::App.controllers :posts do
 
     halt 403 if @post.topic.locked?
 
+    # This hook can prevent saving of the post
+    unless call_hook(:ctrl_post_create, :post => @post)
+      if request.xhr?
+        halt 400
+      else
+        @topic = @post.topic
+        return render("posts/new")
+      end
+    end
+
     if request.xhr?
       if @post.save
         hsh = {"post_count" => env["warden"].user.posts.count,
@@ -55,6 +65,12 @@ Chessboard::App.controllers :posts do
     @post = Post.find(params["id"])
     halt 403 if @post.topic.locked?
     halt 403 unless @post.can_user_change_this?(env["warden"].user)
+
+    # This hook can prevent saving of the post
+    unless call_hook(:ctrl_post_update, :post => @post)
+      @topic = @post.topic
+      return render("posts/new")
+    end
 
     if @post.update_attributes(params["post"])
       flash[:notice] = "Posting updated"

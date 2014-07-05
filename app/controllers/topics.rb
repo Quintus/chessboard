@@ -38,6 +38,12 @@ Chessboard::App.controllers :topics do
     initial_post.author = env["warden"].user
     @topic.posts << initial_post
 
+    # This hook can prevent saving of the topic
+    unless call_hook(:ctrl_topic_create, :topic => @topic)
+      @forum = Forum.find(params["topic"]["forum_id"])
+      return render("topics/new")
+    end
+
     if @topic.save
       flash[:notice] = "Topic created"
       redirect url(:topics, :show, @topic.id)
