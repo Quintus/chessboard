@@ -20,7 +20,7 @@
   </p>
 
   <% f.fields_for :posts do |f2| %>
-    <%= partial "posts/form_fields", :locals => {:form => f2} %>
+    <%= partial "posts/form_fields", :locals => {:form => f2, :post => @topic.posts.first} %>
   <% end %>
 
   <% if env["warden"].user.admin? || env["warden"].user.moderates?(@forum) %>

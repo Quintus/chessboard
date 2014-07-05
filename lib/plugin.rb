@@ -55,6 +55,24 @@ module Chessboard::Plugin
   ########################################
   # Hooks
 
+  # This hook is called in the page layout’s <head>
+  # HTML tag. Use it for your custom CSS and Javascript.
+  # If your styling/scripting gets more complex, it is
+  # recommended to place your CSS and JS files inside
+  # one of the following folders:
+  #
+  # * Stylesheets: public/stylesheets/yourpluginname/
+  # * Javascripts: public/javascripts/yourpluginname/
+  #
+  # You can then use the ordinary +stylesheet_include_tag+
+  # and +javascript_include_tag+ helpers provided by
+  # Padrino to reference them from this hook.
+  #
+  # Note that in your javascript you can rely on JQuery
+  # and Handlebars being loaded.
+  def hook_html_header(options)
+  end
+
   # This hook is called in views where you can create
   # posts, before the main post content field.
   def hook_reply_pre_content(options)
