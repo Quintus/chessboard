@@ -2,6 +2,8 @@
     are required at so many places. Be sure to pass the :form
     local variable to this partial. %>
 
+<%= call_hook(:reply_pre_content) %>
+
 <p>
   <%= form.label :content %><br/>
   <%= form.text_area :content %>
@@ -9,3 +11,5 @@
 <p>
   <%= form.label :markup_language %>&nbsp;<%= form.select(:markup_language, :options => Post::MARKUP_LANGUAGES) %>
 </p>
+
+<%= call_hook(:reply_post_content) %>
