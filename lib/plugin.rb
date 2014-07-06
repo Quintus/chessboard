@@ -14,7 +14,6 @@ module Chessboard::Plugin
   include Padrino::Helpers::FormatHelpers
   #include Padrino::Helpers::RenderHelpers # Would render app/views, which is undesired
   include Padrino::Helpers::NumberHelpers
-  include Padrino::Mailer::Helpers
 
   # This struct represents a single markup language with
   # name and implementation.
@@ -254,6 +253,24 @@ module Chessboard::Plugin
   #   The formatted post.
   def hook_hlpr_post_markup(options)
     options[:html]
+  end
+
+  # This hook is called after a post has first been saved into
+  # the database. It doesn’t have any effect by default.
+  #
+  # Extra options:
+  # [:post]
+  #   The post that was saved.
+  def hook_ctrl_post_create_final(options)
+  end
+
+  # This hook is called after a topic has first been saved into
+  # the database. It doesn’t have any effect by default.
+  #
+  # Extra options:
+  # [:topic]
+  #   The topic that was saved.
+  def hook_ctrl_topic_create_final(options)
   end
 
 end

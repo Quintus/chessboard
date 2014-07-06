@@ -31,6 +31,8 @@ Chessboard::App.controllers :posts do
 
     if request.xhr?
       if @post.save
+        call_hook(:ctrl_post_create_final, :post => @post)
+
         hsh = {"post_count" => env["warden"].user.posts.count,
           "post_created" => I18n.l(@post.created_at, :format => :long),
           "post_num" => @post.topic.posts.count,
@@ -43,6 +45,7 @@ Chessboard::App.controllers :posts do
       end
     else
       if @post.save
+        call_hook(:ctrl_post_create_final, :post => @post)
         flash[:notice] = "Post created."
         redirect url(:topics, :show, @post.topic.id) + "#p#{@post.id}"
       else

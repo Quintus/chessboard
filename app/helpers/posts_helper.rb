@@ -38,6 +38,10 @@ module Chessboard
         text
       end
 
+      def post_url(post)
+        url(:topics, :show, post.topic.id) + "#p#{post.id}"
+      end
+
     end
 
     helpers PostsHelper

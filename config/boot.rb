@@ -9,6 +9,7 @@ require "ostruct"
 require "ipaddr"
 require "digest/md5"
 require 'bundler/setup'
+require "mail"
 Bundler.require(:default, RACK_ENV)
 
 # Load settings

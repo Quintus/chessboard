@@ -45,6 +45,7 @@ Chessboard::App.controllers :topics do
     end
 
     if @topic.save
+      call_hook(:ctrl_topic_create_final, :topic => @topic)
       flash[:notice] = "Topic created"
       redirect url(:topics, :show, @topic.id)
     else
