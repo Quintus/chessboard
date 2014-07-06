@@ -14,7 +14,9 @@ module Chessboard
           raise(ArgumentError, "Unknown markup language '#{markup}'!")
         end
 
-        replace_emoticons(result).html_safe
+        result = replace_emoticons(result)
+
+        call_hook(:hlpr_post_markup, :html => result).html_safe
       end
 
       def markup_default(text)

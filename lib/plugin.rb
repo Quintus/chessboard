@@ -240,6 +240,22 @@ module Chessboard::Plugin
     true
   end
 
+  # This hook is called in the helper that formats postings
+  # after the markup processing has taken place. You can use
+  # it to make final modifications to the text before it
+  # is send to to the client.
+  #
+  # The return value of this hook is what is send to the
+  # client. +html_safe+ is called on its return value
+  # automatically.
+  #
+  # Extra options:
+  # [:html]
+  #   The formatted post.
+  def hook_hlpr_post_markup(options)
+    options[:html]
+  end
+
 end
 
 # Load the available plugins
