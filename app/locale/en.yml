@@ -100,6 +100,8 @@ en:
     avatar:
       path:
         max_dimension: "Maximum image height/width is %{dim}px"
+    post:
+      markup_language: "Unknown markup language %{lang}."
   membership:
     member: "Member"
     moderator: "Moderator"

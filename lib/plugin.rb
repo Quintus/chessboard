@@ -16,6 +16,10 @@ module Chessboard::Plugin
   include Padrino::Helpers::NumberHelpers
   include Padrino::Mailer::Helpers
 
+  # This struct represents a single markup language with
+  # name and implementation.
+  MarkupLanguage = Struct.new(:plugin, :name, :implementation)
+
   # Worker class whose only purpose is to get all the plugin
   # modules included. This is only used internally; as a plugin
   # author you should not worry about this class.
@@ -37,9 +41,60 @@ module Chessboard::Plugin
 
   end
 
+  # The methods defined in this module are available on the
+  # module level of your plugin after including Chessboard::Plugin.
+  module ModuleMethods
+
+    # Register a new markup language users can use in their postings.
+    #
+    # == Parameters
+    # [name]
+    #   The name of your markup language as it is displayed
+    #   to the user. Be sure to pick a unique one.
+    # [options]
+    #   A hash for further options.
+    #   [:process]
+    #     The name of the method to invoke when this markup
+    #     of this kind needs to be processed. The method
+    #     must accept a single argument containing the markup
+    #     and is expected to return the HTML corresponding to
+    #     it. It is not required to call +html_safe+ on the
+    #     result, but the result MUST actually be html safe,
+    #     i.e. any HTML special characters have to be escaped
+    #     if you don’t want them to show up in the output.
+    #
+    # == Remarks
+    # * Emoticons processing will happen on the result of your
+    #   markup process method; you don’t have to do this yourself.
+    # * The same goes for any other post-processing that may be
+    #   imposed on the formatted output by other plugins.
+    #
+    # == Example
+    #   module MyPlugin
+    #     include Chessboard::Plugin
+    #
+    #     add_markup "MyMarkup", :process => :process_my_markup
+    #
+    #     def process_my_markup(text)
+    #       "<p>Formatted with my plugin: #{text}</p>"
+    #     end
+    #
+    #  end
+    def add_markup(name, options)
+      Chessboard::Plugin.plugin_markup_languages << MarkupLanguage.new(self, name, options[:process])
+    end
+
+  end
+
   # Returns the list of all loaded plugins.
   def self.all_plugins
     @plugins ||= []
+  end
+
+  # Returns an array of MarkupLanguage instances that describes
+  # all markup languages that have been added via plugins.
+  def self.plugin_markup_languages
+    @plugin_markup_languages ||= []
   end
 
   # Adds the module that includes this to the list
@@ -47,6 +102,7 @@ module Chessboard::Plugin
   # class, which is used by the hook helper.
   def self.included(other) # :nodoc:
     all_plugins << other
+    other.extend(Chessboard::Plugin::ModuleMethods)
     Chessboard::Plugin::Evaluator.send(:include, other)
   end
 

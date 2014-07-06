@@ -42,7 +42,7 @@
 
       <% if post.author.signature? %>
 	<div class="signature post-signature">
-	  <%= markup_bbcode(post.author.signature).html_safe %>
+	  <%= markup_default(post.author.signature).html_safe %>
 	</div>
       <% end %>
     </div>

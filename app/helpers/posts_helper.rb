@@ -5,9 +5,11 @@ module Chessboard
     module PostsHelper
 
       def process_markup(text, markup)
-        str = "markup_#{markup.downcase}"
-        if respond_to?(str)
-          result = send(str, text)
+        if markup == Post::DEFAULT_MARKUP_LANGUAGE
+          result = markup_default(text)
+        elsif lang = Chessboard::Plugin.plugin_markup_languages.find{|m| m.name == markup}
+          evaluator = Chessboard::Plugin::Evaluator.new
+          result = evaluator.send(lang.implementation, text)
         else
           raise(ArgumentError, "Unknown markup language '#{markup}'!")
         end
@@ -15,13 +17,7 @@ module Chessboard
         replace_emoticons(result).html_safe
       end
 
-      def markup_markdown(text)
-        kdoc = Kramdown::Document.new(text, :auto_ids => false, :remove_block_html_tags => true, :remove_span_html_tags => true)
-        kdoc.to_remove_html_tags
-        kdoc.to_html
-      end
-
-      def markup_bbcode(text)
+      def markup_default(text)
         BBRuby.to_html_with_formatting(text)
       end
 

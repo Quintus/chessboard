@@ -41,7 +41,7 @@
   </table>
   <% if @user.signature? %>
     <div class="signature profile-user-signature">
-      <%= markup_bbcode(@user.signature).html_safe %>
+      <%= markup_default(@user.signature).html_safe %>
     </div>
   <% end %>
 </div>

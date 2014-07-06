@@ -9,7 +9,7 @@
   <%= form.text_area :content %>
 </p>
 <p>
-  <%= form.label :markup_language %>&nbsp;<%= form.select(:markup_language, :options => Post::MARKUP_LANGUAGES) %>
+  <%= form.label :markup_language %>&nbsp;<%= form.select(:markup_language, :options => [Post::DEFAULT_MARKUP_LANGUAGE] + Chessboard::Plugin.plugin_markup_languages.map(&:name)) %>
 </p>
 
 <%= call_hook(:view_reply_post_content, :post => post, :form => form) %>

@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 class Post < ActiveRecord::Base
 
-  MARKUP_LANGUAGES = %w[BBCode Markdown].freeze
+  # Default markup language. This one is built right into
+  # Chessboard itself and is not provided via plugins.
+  DEFAULT_MARKUP_LANGUAGE = "BBCode".freeze
 
   validates :content, :presence => true
-  validates :markup_language, :presence => true, :inclusion => { :in => MARKUP_LANGUAGES }
   validates :author, :presence => true
+  validates :markup_language, :markup_language => true
 
   belongs_to :topic
   belongs_to :author, :class_name => "User"
