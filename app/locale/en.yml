@@ -178,3 +178,7 @@ en:
       All connections whose IP is contained in the CIDR range below
       will be prevented from logging in. Both IPv4 and IPv6 CIDR
       ranges are accepted.
+  pms:
+    overview: "PM overview"
+    created: "PM send"
+    deleted: "PM deleted"

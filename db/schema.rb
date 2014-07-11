@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 21) do
+ActiveRecord::Schema.define(version: 23) do
 
   create_table "avatars", force: true do |t|
     t.string   "path"
@@ -47,6 +47,22 @@ ActiveRecord::Schema.define(version: 21) do
   create_table "moderation", id: false, force: true do |t|
     t.integer "user_id"
     t.integer "forum_id"
+  end
+
+  create_table "personal_messages", force: true do |t|
+    t.string   "title"
+    t.integer  "author_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "personal_posts", force: true do |t|
+    t.text     "content"
+    t.string   "markup_language"
+    t.integer  "author_id"
+    t.integer  "personal_message_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "posts", force: true do |t|
