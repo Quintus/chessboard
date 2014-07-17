@@ -15,3 +15,8 @@ user.save
 # Forums
 
 4.times{ Fabricate(:forum_group) }
+
+########################################
+# Some PMs
+
+5.times{ Fabricate(:personal_message) }
