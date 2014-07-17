@@ -4,7 +4,7 @@ class CreateSettings < ActiveRecord::Migration
     create_table :settings do |t|
       t.boolean :hide_status, :default => false
       t.boolean :use_gravatar, :default => false
-      t.string :preferred_markup_language, :string, :default => Post::MARKUP_LANGUAGES.first
+      t.string :preferred_markup_language, :string, :default => Post::DEFAULT_MARKUP_LANGUAGE
       t.string :language, :default => "en"
       t.string :time_format, :default => ""
       t.references :user
@@ -14,6 +14,6 @@ class CreateSettings < ActiveRecord::Migration
 
   def self.down
     drop_table :settings
-    add_column :users, :preferred_markup_language, :string, :default => Post::MARKUP_LANGUAGES.first
+    add_column :users, :preferred_markup_language, :string, :default => Post::DEFAULT_MARKUP_LANGUAGE
   end
 end
