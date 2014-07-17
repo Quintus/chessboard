@@ -2,6 +2,7 @@ class PersonalPost < ActiveRecord::Base
 
   validates :content, :presence => true
   validates :author, :presence => true
+  validates :personal_message, :presence => true
   validates :markup_language, :markup_language => true
 
   belongs_to :personal_message

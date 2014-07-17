@@ -1,0 +1,25 @@
+<%
+  if !env["warden"].user.read?(index_pm)
+    extra_class = "topic-unread"
+    image = "icons/topic_normal_unread.png"
+  else
+    extra_class = "topic-read"
+    image = "icons/topic_normal_read.png"
+  end
+%>
+<tr class="forum-topic <%= extra_class %>">
+  <td class="list-icon imgcell">
+    <%= image_tag image %>
+  </td>
+  <td class="list-topic">
+    <%= link_to index_pm.title, url(:personal_messages, :show, index_pm.id) %><br/>
+    <%= I18n.t("forums.author_by") %> <%= link_to index_pm.author.nickname, url(:users, :show, index_pm.author.nickname) %>
+  </td>
+  <td class="list-replies numbercell"><%= index_pm.posts.count %></td>
+  <td class="list-views numbercell"><%= "index_pm.views" %></td>
+  <td class="forumlastpost">
+    <% post = index_pm.posts.order("created_at DESC").first %>
+    <%= format_time post.created_at %><br/>
+    <%= I18n.t("forums.author_by") %> <%= link_to post.author.nickname, url(:users, :show, post.author.nickname) %>
+  </td>
+</tr>

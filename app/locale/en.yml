@@ -179,6 +179,8 @@ en:
       will be prevented from logging in. Both IPv4 and IPv6 CIDR
       ranges are accepted.
   pms:
+    pms: "Personal messages"
     overview: "PM overview"
     created: "PM send"
     deleted: "PM deleted"
+    no_pms: "No PMs."
