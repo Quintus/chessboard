@@ -35,11 +35,16 @@ Chessboard::App.controllers :personal_messages do
 
   get :show, :map => "/pms/:id" do
     @pm = PersonalMessage.find(params["id"])
+    halt 403 unless @pm.allowed_users.include?(env["warden"].user)
+
     render "show"
   end
 
-  #get :edit
-  #patch :update
+  get :edit, :map => "/pms/:id/edit" do
+  end
+
+  patch :update, :map => "/pms/:id" do
+  end
 
   delete :destroy, :map => "/pms/:id" do
     @pm = PersonalMessage.find(params["id"])

@@ -1,0 +1,10 @@
+en:
+  models:
+    personal_message:
+      name: Personal Message
+      attributes:
+        id: Id
+        title: Title
+        author_id: Author
+        created_at: Created at
+        updated_at: Updated at

@@ -3,9 +3,7 @@
 module Chessboard
   class App
     module PersonalMessagesHelper
-      # def simple_helper_method
-      # ...
-      # end
+
     end
 
     helpers PersonalMessagesHelper

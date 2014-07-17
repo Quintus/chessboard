@@ -1,0 +1,15 @@
+<% content_for :sidebar do %>
+  <%= partial "misc/personal_sidebar" %>
+<% end %>
+
+<p class="post-forum"><%= I18n.t("models.personal_message.name") %></p>
+<h1><%= @pm.title %></h1>
+
+<div class="topic">
+  <% @pm.posts.order(:created_at => :asc).each_with_index do |post, i| %>
+    <%= partial "personal_posts/show", :locals => {:post => post, :i => i} %>
+  <% end %>
+</div>
+
+<ul class="topic-actions">
+</ul>
