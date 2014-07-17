@@ -24,6 +24,9 @@ class User < ActiveRecord::Base
 
   has_and_belongs_to_many :moderated_forums, :class_name => "Forum", :join_table => "moderation"
   has_and_belongs_to_many :read_topics, :class_name => "Topic", :join_table => "read_topics"
+  # Note this includes all the PMs we authored (i.e. #personal_messages)
+  has_and_belongs_to_many :allowed_pms, :class_name => "PersonalMessage", :join_table => "pm_access"
+
   before_validation :setup_settings
   before_validation :ensure_protocol_prefix
 

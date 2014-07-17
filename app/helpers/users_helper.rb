@@ -3,9 +3,11 @@
 module Chessboard
   class App
     module UsersHelper
-      # def simple_helper_method
-      # ...
-      # end
+
+      def user_link(user)
+        link_to(user.nickname, url(:users, :show, user.nickname))
+      end
+
     end
 
     helpers UsersHelper

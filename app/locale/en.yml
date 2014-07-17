@@ -184,3 +184,5 @@ en:
     created: "PM send"
     deleted: "PM deleted"
     no_pms: "No PMs."
+    # Following is a list of usernames the PM is addresses to
+    for: "For:"

@@ -5,7 +5,7 @@ Chessboard::App.controllers :personal_messages do
   end
 
   get :index, :map => "/pms" do
-    @pms = PersonalMessage.joins(:posts).group("personal_messages.id").order("personal_posts.updated_at DESC")
+    @pms = env["warden"].user.allowed_pms.joins(:posts).group("personal_messages.id").order("personal_posts.updated_at DESC")
     render "index"
   end
 

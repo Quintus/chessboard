@@ -14,6 +14,7 @@
   <td class="list-topic">
     <%= link_to index_pm.title, url(:personal_messages, :show, index_pm.id) %><br/>
     <%= I18n.t("forums.author_by") %> <%= link_to index_pm.author.nickname, url(:users, :show, index_pm.author.nickname) %>
+    <%= I18n.t("pms.for") %> <%= index_pm.recipients.map{|u| user_link(u)}.join(", ").html_safe %>
   </td>
   <td class="list-replies numbercell"><%= index_pm.posts.count %></td>
   <td class="list-views numbercell"><%= "index_pm.views" %></td>
