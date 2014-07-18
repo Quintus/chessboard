@@ -18,16 +18,26 @@ Chessboard::App.controllers :personal_messages do
 
   post :create, :map => "/pms" do
     @pm = PersonalMessage.new
+
     @pm.title = params["personal_message"]["title"]
     @pm.author = env["warden"].user
 
-    initial_post = PersonalPost.new(params["personal_message"]["personal_posts_attributes"]["0"])
+    initial_post = PersonalPost.new(params["personal_message"]["posts_attributes"]["0"])
     initial_post.author = env["warden"].user
     @pm.posts << initial_post
 
+    params["personal_message"]["allowed_users"].split(/,\s?/).each do |nickname|
+      if user = User.where(:nickname => nickname).first
+        @pm.allowed_users << user
+      else
+        @pm.errors.add(:allowed_users, I18n.t("errors.pm.unknown_recipient", :nickname => nickname))
+        return render("new")
+      end
+    end
+
     if @pm.save
       flash["notice"] = I18n.t("pms.created")
-      redirect url(:pms, :show, @pm.id)
+      redirect url(:personal_messages, :show, @pm.id)
     else
       render "new"
     end

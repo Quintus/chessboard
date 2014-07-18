@@ -2,7 +2,7 @@
 
 <ul>
   <li><%= link_to I18n.t("pms.overview"), url(:personal_messages, :index) %></li>
-  <li>New PM</li>
+  <li><%= link_to I18n.t("pms.new_pm"), url(:personal_messages, :new) %></li>
 </ul>
 
 <h3><%= I18n.t("settings.settings") %></h3>

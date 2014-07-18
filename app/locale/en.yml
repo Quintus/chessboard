@@ -102,6 +102,9 @@ en:
         max_dimension: "Maximum image height/width is %{dim}px"
     post:
       markup_language: "Unknown markup language %{lang}."
+    pm:
+      missing_recipient: "No recipient given."
+      unknown_recipient: "Unknown recipient %{nickname}"
   membership:
     member: "Member"
     moderator: "Moderator"
@@ -184,7 +187,9 @@ en:
     created: "PM send"
     deleted: "PM deleted"
     no_pms: "No PMs."
+    new_pm: "New PM"
     # Following is a list of usernames the PM is addresses to
     for: "For:"
     # Following is a list of users who read the PM
     viewed_by: "Viewed by:"
+    recipient_placeholder: "User1, User2, User3"

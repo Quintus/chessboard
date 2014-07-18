@@ -3,6 +3,7 @@ class PersonalMessage < ActiveRecord::Base
   validates :title, :presence => true
   validates :author, :presence => true
   validate :author_is_allowed?
+  validate :has_recipient?
 
   has_many :posts, :class_name => "PersonalPost"
   belongs_to :author, :class_name => "User"
@@ -28,6 +29,12 @@ class PersonalMessage < ActiveRecord::Base
 
   def author_is_allowed?
     allowed_users.include?(author)
+  end
+
+  def has_recipient?
+    if allowed_users.length <= 1 # Author is not self-recipient
+      errors.add(:allowed_users, I18n.t("errors.pm.missing_recipient"))
+    end
   end
 
 end

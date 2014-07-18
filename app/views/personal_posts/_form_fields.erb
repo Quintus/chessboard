@@ -1,0 +1,15 @@
+<%# Just the form fields required for creating a PM post, as they
+    are required at so many places. Be sure to pass the :form
+    and :post local variables to this partial. %>
+
+<%= call_hook(:view_pm_reply_pre_content, :post => post, :form => form) %>
+
+<p>
+  <%= form.label :content %><br/>
+  <%= form.text_area :content %>
+</p>
+<p>
+  <%= form.label :markup_language %>&nbsp;<%= form.select(:markup_language, :options => [Post::DEFAULT_MARKUP_LANGUAGE] + Chessboard::Plugin.plugin_markup_languages.map(&:name)) %>
+</p>
+
+<%= call_hook(:view_pm_reply_post_content, :post => post, :form => form) %>

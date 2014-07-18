@@ -156,6 +156,16 @@ module Chessboard::Plugin
     "".html_safe
   end
 
+  # Like #hook_view_reply_pre_content, but for PMs.
+  def hook_view_pm_reply_pre_content(options)
+    "".html_safe
+  end
+
+  # Like #hook_view_reply_post_content, but for PMs.
+  def hook_view_pm_reply_post_content(options)
+    "".html_safe
+  end
+
   # This hook is called in the posts controller
   # when a post is before being saved. Returning false from
   # this hook will prevent the post from being saved!

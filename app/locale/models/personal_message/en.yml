@@ -8,3 +8,4 @@ en:
         author_id: Author
         created_at: Created at
         updated_at: Updated at
+        allowed_users: Recipients
