@@ -1,27 +1,25 @@
-<div class="topic">
-
-  <div class="post">
-    <div class="post-author">
-      <p class="author-name"><%= link_to post.author.nickname, url(:users, :show, post.author.nickname) %></p>
-      <p class="author-membership"><%= post.author.membership %></p>
-      <% if post.author.avatar_link %>
+<div class="post">
+  <div class="post-author">
+    <p class="author-name"><%= link_to post.author.nickname, url(:users, :show, post.author.nickname) %></p>
+    <p class="author-membership"><%= post.author.membership %></p>
+    <% if post.author.avatar_link %>
 	<p class="author-avatar"><%= image_tag post.author.avatar_link, :alt => "User avatar" %></p>
-      <% end %>
-      <p class="author-registered">Registered: <%= post.author.created_at.strftime("%Y-%m-%d") %></p>
-      <p class="author-posts">Posts: <%= post.author.posts.count %></p>
-    </div>
+    <% end %>
+    <p class="author-registered">Registered: <%= post.author.created_at.strftime("%Y-%m-%d") %></p>
+    <p class="author-posts">Posts: <%= post.author.posts.count %></p>
+  </div>
 
-    <div class="post-content">
-      <div class="header post-header">
+  <div class="post-content">
+    <div class="header post-header">
 	<div class="post-created">
 	  <p><%= I18n.l post.created_at, :format => :long %></p>
 	</div>
 	<div class="post-num">
 	  <p><%= link_to "##{i + 1}", url(:topics, :show, post.topic.id) + "#p#{post.id}", :name => "p#{post.id}" %></p>
 	</div>
-      </div>
+    </div>
 
-      <% if env["warden"].authenticated? %>
+    <% if env["warden"].authenticated? %>
 	<ul class="post-actions">
 	  <% if !post.topic.locked? %>
 	    <% if env["warden"].user.moderates?(post.topic.forum) %>
@@ -34,18 +32,17 @@
 	    <% end %>
 	  <% end %>
 	</ul>
-      <% end %>
+    <% end %>
 
-      <div class="post-text">
+    <div class="post-text">
 	<%= process_markup(post.content, post.markup_language) %>
-      </div>
+    </div>
 
-      <% if post.author.signature? %>
+    <% if post.author.signature? %>
 	<div class="signature post-signature">
 	  <%= markup_default(post.author.signature).html_safe %>
 	</div>
-      <% end %>
-    </div>
+    <% end %>
   </div>
 </div>
 
@@ -53,20 +50,18 @@
 <% if i.zero? && env["warden"].authenticated? %>
 <% user = env["warden"].user %>
 <script id="post-template" type="text/x-handlebars-template">
-  <div class="topic">
-
-    <div class="post">
-      <div class="post-author">
-      <p class="author-name"><%= link_to user.nickname, url(:users, :show, user.nickname) %></p>
-      <p class="author-membership"><%= user.membership %></p>
-      <% if user.avatar_link %>
+  <div class="post">
+    <div class="post-author">
+    <p class="author-name"><%= link_to user.nickname, url(:users, :show, user.nickname) %></p>
+    <p class="author-membership"><%= user.membership %></p>
+    <% if user.avatar_link %>
 	<p class="author-avatar"><%= image_tag user.avatar_link, :alt => "User avatar" %></p>
-      <% end %>
-      <p class="author-registered">Registered: <%= user.created_at.strftime("%Y-%m-%d") %></p>
+    <% end %>
+    <p class="author-registered">Registered: <%= user.created_at.strftime("%Y-%m-%d") %></p>
 	<p class="author-posts">Posts: {{ post_count }}</p>
-      </div>
+    </div>
 
-      <div class="post-content">
+    <div class="post-content">
 	<div class="header post-header">
 	  <div class="post-created">
 	    <p>{{ post_created }}</p>
@@ -79,7 +74,6 @@
 	<div class="post-text">
 	  {{{ post_content }}}
 	</div>
-      </div>
     </div>
   </div>
 </script>
