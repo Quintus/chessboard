@@ -196,3 +196,5 @@ en:
     viewed_by: "Viewed by:"
     recipient_placeholder: "User1, User2, User3"
     reply: "Reply"
+    edit_post: "Edit posting"
+    edited_post: "Edited posting."

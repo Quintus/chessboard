@@ -2,7 +2,7 @@
   <%= partial "misc/personal_sidebar" %>
 <% end %>
 
-<h1><%= I18n.t("topics.reply") %></h1>
+<h1><%= I18n.t("pms.edit_post") %></h1>
 
 <% unless @post.errors.empty? %>
 <div class="flash alert">
@@ -15,10 +15,10 @@
 </div>
 <% end %>
 
-<% form_for @post, url(:personal_posts, :create, @post.personal_message.id), :method => :post do |f| %>
+<% form_for @post, url(:personal_posts, :update, @post.personal_message.id, @post.id), :method => :patch do |f| %>
   <%= partial "personal_posts/form_fields", :locals => {:form => f, :post => @post} %>
 
   <p class="submit-separator">
-    <%= f.submit I18n.t("general.create"), :class => "button-ok" %>
+    <%= f.submit I18n.t("general.update"), :class => "button-ok" %>
   </p>
 <% end %>
