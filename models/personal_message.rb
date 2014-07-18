@@ -5,7 +5,7 @@ class PersonalMessage < ActiveRecord::Base
   validate :author_is_allowed?
   validate :has_recipient?
 
-  has_many :posts, :class_name => "PersonalPost"
+  has_many :posts, :class_name => "PersonalPost", :dependent => :destroy
   belongs_to :author, :class_name => "User"
 
   has_and_belongs_to_many :users_who_read_this, :class_name => "User", :join_table => "read_pms"

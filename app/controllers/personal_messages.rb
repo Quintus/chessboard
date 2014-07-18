@@ -62,10 +62,12 @@ Chessboard::App.controllers :personal_messages do
 
   delete :destroy, :map => "/pms/:id" do
     @pm = PersonalMessage.find(params["id"])
+    halt 403 unless @pm.author == env["warden"].user
+
     @pm.destroy!
 
     flash[:notice] = I18n.t("pms.deleted")
-    redirect url(:pms, :index)
+    redirect url(:personal_messages, :index)
   end
 
 end

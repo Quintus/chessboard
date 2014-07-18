@@ -64,6 +64,7 @@ en:
     edit: "Edit"
     edit_post: "Edit posting"
     delete: "Delete"
+    deleted: "Posting deleted."
   settings:
     settings: "Settings"
     settings_updated: "Settings updated."
@@ -193,3 +194,4 @@ en:
     # Following is a list of users who read the PM
     viewed_by: "Viewed by:"
     recipient_placeholder: "User1, User2, User3"
+    reply: "Reply"
