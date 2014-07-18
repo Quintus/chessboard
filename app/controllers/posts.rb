@@ -46,7 +46,7 @@ Chessboard::App.controllers :posts do
     else
       if @post.save
         call_hook(:ctrl_post_create_final, :post => @post)
-        flash[:notice] = "Post created."
+        flash[:notice] = I18n.t("posts.created")
         redirect url(:topics, :show, @post.topic.id) + "#p#{@post.id}"
       else
         @topic = @post.topic

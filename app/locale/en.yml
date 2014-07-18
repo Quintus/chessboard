@@ -65,6 +65,7 @@ en:
     edit_post: "Edit posting"
     delete: "Delete"
     deleted: "Posting deleted."
+    created: "Posting created."
   settings:
     settings: "Settings"
     settings_updated: "Settings updated."
