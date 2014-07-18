@@ -24,6 +24,7 @@ class User < ActiveRecord::Base
 
   has_and_belongs_to_many :moderated_forums, :class_name => "Forum", :join_table => "moderation"
   has_and_belongs_to_many :read_topics, :class_name => "Topic", :join_table => "read_topics"
+  has_and_belongs_to_many :read_pms, :class_name => "PersonalMessage", :join_table => "read_pms"
   # Note this includes all the PMs we authored (i.e. #personal_messages)
   has_and_belongs_to_many :allowed_pms, :class_name => "PersonalMessage", :join_table => "pm_access"
 
@@ -79,6 +80,11 @@ class User < ActiveRecord::Base
   # Returns true if the User has read the given Topic.
   def read?(topic)
     read_topics.include?(topic)
+  end
+
+  # Returns true if the User has read the given PersonalMessage.
+  def read_pm?(pm)
+    read_pms.include?(pm)
   end
 
   # Always return’s the user’s Gravatar URI. This can directly be

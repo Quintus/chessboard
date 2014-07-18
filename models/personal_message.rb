@@ -7,6 +7,8 @@ class PersonalMessage < ActiveRecord::Base
   has_many :posts, :class_name => "PersonalPost"
   belongs_to :author, :class_name => "User"
 
+  has_and_belongs_to_many :users_who_read_this, :class_name => "User", :join_table => "read_pms"
+
   # Note this also includes the author.
   has_and_belongs_to_many :allowed_users, :class_name => "User", :join_table => :pm_access
 

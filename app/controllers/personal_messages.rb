@@ -37,6 +37,10 @@ Chessboard::App.controllers :personal_messages do
     @pm = PersonalMessage.find(params["id"])
     halt 403 unless @pm.allowed_users.include?(env["warden"].user)
 
+    @pm.views += 1
+    @pm.users_who_read_this << env["warden"].user unless env["warden"].user.read_pm?(@pm)
+    @pm.save
+
     render "show"
   end
 

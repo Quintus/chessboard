@@ -186,3 +186,5 @@ en:
     no_pms: "No PMs."
     # Following is a list of usernames the PM is addresses to
     for: "For:"
+    # Following is a list of users who read the PM
+    viewed_by: "Viewed by:"
