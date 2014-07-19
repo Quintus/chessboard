@@ -17,7 +17,13 @@ Chessboard::App.controllers :personal_posts do
 
     halt 403 unless @post.personal_message.allowed_users.include?(env["warden"].user)
 
+    # This hook can prevent saving
+    unless call_hook(:ctrl_pp_create, :post => @post, :params => params)
+      return render("new")
+    end
+
     if @post.save
+      call_hook(:ctrl_pp_create_final, :post => @post)
       flash[:notice] = I18n.t("posts.created")
       redirect ppost_url(@post)
     else
@@ -37,6 +43,11 @@ Chessboard::App.controllers :personal_posts do
     @post = PersonalPost.find(params["id"])
     halt 403 unless @post.author == env["warden"].user
     halt 403 unless @post.personal_message.allowed_users.include?(env["warden"].user) # author may have been removed from allowed users in the meanwhile
+
+    # This hook can prevent updating
+    unless call_hook(:ctrl_pp_update, :post => @post, :params => params)
+      return render("edit")
+    end
 
     if @post.update_attributes(params["personal_post"])
       flash[:notice] = I18n.t("pms.edited_post")

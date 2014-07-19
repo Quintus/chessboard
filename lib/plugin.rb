@@ -179,6 +179,20 @@ module Chessboard::Plugin
     true
   end
 
+  # This hook is called in the PersonalPosts controller
+  # when a personal post (those for PMs) is before being
+  # saved. Returning false from this hook will prevent the
+  # personal post from being saved!
+  #
+  # Extra options:
+  # [:post]
+  #   The PersonalPost being saved.
+  # [:params]
+  #   Request parameters hash.
+  def hook_ctrl_pp_create(options)
+    true
+  end
+
   # This hook is called in the posts controller
   # when a post is before being updated. Returning
   # false from this hook will prevent the post from being
@@ -193,6 +207,20 @@ module Chessboard::Plugin
     true
   end
 
+  # This hook is called in the personal posts (posts
+  # for PMs) controller when a post is before being
+  # updated. Returning false from this hook will prevent
+  # the post from being updated!
+  #
+  # Extra options received:
+  # [:post]
+  #   The PersonalPost being saved.
+  # [:params]
+  #   Request parameters hash.
+  def hook_ctrl_pp_update(options)
+    true
+  end
+
   # This hook is called in the topics controller
   # when a topic is before being created. Returning
   # false from this hook will prevent the topic from
@@ -204,6 +232,19 @@ module Chessboard::Plugin
   # [:params]
   #   Request parameters hash.
   def hook_ctrl_topic_create(options)
+    true
+  end
+
+  # This hook is called in the PM controller
+  # when a PM is before being created. Returning false
+  # from this hook will prevent the PM from being stored!
+  #
+  # Extra options
+  # [:pm]
+  #   The PersonalMessage being saved.
+  # [:params]
+  #   Request parameters hash.
+  def hook_ctrl_pm_create(options)
     true
   end
 
@@ -274,6 +315,16 @@ module Chessboard::Plugin
   def hook_ctrl_post_create_final(options)
   end
 
+  # This hook is called after a personal post (post
+  # for PMs) has first been saved into the database.
+  # It doesn’t have any effect by default.
+  #
+  # Extra options:
+  # [:post]
+  #   The PersonalPost that was saved.
+  def hook_ctrl_pp_create_final(options)
+  end
+
   # This hook is called after a topic has first been saved into
   # the database. It doesn’t have any effect by default.
   #
@@ -281,6 +332,15 @@ module Chessboard::Plugin
   # [:topic]
   #   The topic that was saved.
   def hook_ctrl_topic_create_final(options)
+  end
+
+  # This hook is called after a PM has first been saved into
+  # the database. It doesn’t have any effect by default.
+  #
+  # Extra options:
+  # [:pm]
+  #   The PersonalMessage that was saved.
+  def hook_ctrl_pm_create_final(options)
   end
 
 end

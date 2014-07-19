@@ -35,7 +35,13 @@ Chessboard::App.controllers :personal_messages do
       end
     end
 
+    # This hook can prevent saving of the PM
+    unless call_hook(:ctrl_pm_create, :pm => @pm, :params => params)
+      return render("new")
+    end
+
     if @pm.save
+      call_hook(:ctrl_pm_create_final, :pm => @pm)
       flash["notice"] = I18n.t("pms.created")
       redirect url(:personal_messages, :show, @pm.id)
     else
