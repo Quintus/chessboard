@@ -54,7 +54,7 @@ CSS
 <<JS.html_safe
 $(document).ready(function(){
   $(".tool-emoticon").click(function(){
-    $("#post_content").insertAtCaret(":" + $(this).attr("alt") + ":");
+    $("#post_content, #personal_post_content, #topic_posts_attributes_0_content, #personal_message_posts_attributes_0_content").insertAtCaret(":" + $(this).attr("alt") + ":");
   });
 
   #{
@@ -97,6 +97,10 @@ JS
 
       result
     end
+  end
+
+  def hook_view_pm_reply_pre_content(options)
+    super + hook_view_reply_pre_content(options)
   end
 
 end
