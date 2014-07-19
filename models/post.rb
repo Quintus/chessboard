@@ -13,6 +13,13 @@ class Post < ActiveRecord::Base
   belongs_to :author, :class_name => "User"
   has_many :reports, :dependent => :destroy
 
+  # Returns a list of all available markup language names,
+  # including both DEFAULT_MARKUP_LANGUAGE and all the
+  # plugin-defined languages.
+  def self.all_markup_languages
+    [Post::DEFAULT_MARKUP_LANGUAGE] + Chessboard::Plugin.plugin_markup_languages.map(&:name)
+  end
+
   # Checks if +user+ has sufficient privileges to change this
   # posting. This is the case if:
   # * The user is an administrator.

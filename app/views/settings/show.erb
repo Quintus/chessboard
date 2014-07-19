@@ -75,7 +75,7 @@
     </div>
 
     <div class="settings-content">
-      <%= f.select :preferred_markup_language, :options => Post::MARKUP_LANGUAGES %>
+      <%= f.select :preferred_markup_language, :options => Post.all_markup_languages %>
     </div>
   </div>
 
