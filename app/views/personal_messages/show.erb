@@ -14,6 +14,7 @@
 <ul class="topic-actions">
   <% if @pm.author == env["warden"].user %>
     <li><%= link_to I18n.t("general.delete"), url(:personal_messages, :destroy, @pm.id) + "?authenticity_token=#{session[:csrf]}", :method => :delete, :confirm => I18n.t("general.are_you_sure"), :class => "button-error" %></li>
+    <li><%= link_to I18n.t("general.edit"), url(:personal_messages, :edit, @pm.id), :class => "button-normal" %></li>
   <% end %>
   <li><%= link_to I18n.t("pms.reply"), url(:personal_posts, :new, @pm.id), :class => "button-normal" %></li>
 </ul>

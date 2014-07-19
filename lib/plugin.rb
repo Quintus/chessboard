@@ -262,6 +262,20 @@ module Chessboard::Plugin
     true
   end
 
+  # This hook is called in the PMs controller when
+  # a PM is before being updated. Returning false
+  # from this hook will prevent the topic from
+  # being updated!
+  #
+  # Extra options:
+  # [:pm]
+  #   The PersonalMessage being saved.
+  # [:params]
+  #   Request parameters hash.
+  def hook_ctrl_pm_update(options)
+    true
+  end
+
   # This hook is called in the view of the registration page.
   # You can use it to add additional fields to the registration
   # form, which is available as an extra option to this hook.

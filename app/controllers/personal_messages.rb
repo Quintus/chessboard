@@ -61,9 +61,29 @@ Chessboard::App.controllers :personal_messages do
   end
 
   get :edit, :map => "/pms/:id/edit" do
+    @pm = PersonalMessage.find(params["id"])
+    halt 403 unless @pm.author == env["warden"].user
+
+    render "edit"
   end
 
   patch :update, :map => "/pms/:id" do
+    @pm = PersonalMessage.find(params["id"])
+    halt 403 unless @pm.author == env["warden"].user
+
+    @pm.title = params["personal_message"]["title"]
+
+    # This hook can prevent updating
+    unless call_hook(:ctrl_pm_update, :pm => @pm, :params => params)
+      return render("edit")
+    end
+
+    if @pm.save
+      flash[:notice] = I18n.t("pms.edited_pm")
+      redirect url(:personal_messages, :show, @pm.id)
+    else
+      render "edit"
+    end
   end
 
   delete :destroy, :map => "/pms/:id" do
