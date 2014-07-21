@@ -1,3 +1,7 @@
+<% content_for :sidebar do %>
+  <%= partial "misc/personal_sidebar" %>
+<% end %>
+
 <h1><%= I18n.t("pms.edit_pm") %></h1>
 
 <% unless @pm.errors.empty? %>
