@@ -1,0 +1,27 @@
+<h1><%= I18n.t("users.list") %></h1>
+
+<% form_tag("/users", :method => :get, :id => "user-search") do %>
+  <h2><%= I18n.t("general.search") %></h2>
+
+  <p><%= I18n.t("users.list_form") %></p>
+  <p>
+    <label for="user-query"><%= I18n.t("users.list_query") %></label><br/>
+    <input type="text" name="query" id="query" value="<%= params[:query] if params[:query] %>" />
+  </p>
+  <p class="submit-separator">
+    <input class="button-ok" type="submit" value="Search"/>
+  </p>
+<% end %>
+
+<div class="search-results">
+  <h2><%= I18n.t("general.search_results") %></h2>
+  <ul class="user-search-results">
+    <% @users.each do |user| %>
+      <% if !params[:query] || (params[:query] && user.nickname.include?(params[:query])) %>
+	<li><%= user_link(user) %></li>
+      <% else %>
+	<li style="display: none"><%= user_link(user) %></li>
+      <% end %>
+    <% end %>
+  </ul>
+</div>

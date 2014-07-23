@@ -4,6 +4,11 @@ Chessboard::App.controllers :users do
     env["warden"].authenticate!
   end
 
+  get :index, :map => "/users" do
+    @users = User.order(:nickname => :asc)
+    render "users/index"
+  end
+
   get :new, :map => "/users/new" do
     halt 403 unless Chessboard.config.registration
     @user = User.new

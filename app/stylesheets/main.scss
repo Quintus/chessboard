@@ -351,11 +351,28 @@ table {
     padding: 0px 4px;
 }
 
-.profile-user-signature {
-    margin-top: 10px;
+.search-results {
+    margin-top: 8px;
+    border: 1px solid black;
+    background-color: $lightgrey;
+    padding: 4px;
+
+    ul {
+	list-style-type: none;
+	padding: 0px;
+
+	li {
+	    display: inline;
+	    margin-left: 4px;
+	}
+    }
 }
 
 /****** Profile page *******/
+
+.profile-user-signature {
+    margin-top: 10px;
+}
 
 .user-profile {
     border: 1px solid black;

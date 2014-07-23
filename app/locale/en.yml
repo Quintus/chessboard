@@ -13,6 +13,8 @@ en:
     update: "Update"
     delete: "Delete"
     edit: "Edit"
+    search: "Search"
+    search_results: "Search results"
     errors_occured: "Errors occured:"
     are_you_sure: "Are you sure?"
     never: "Never"
@@ -112,6 +114,11 @@ en:
     moderator: "Moderator"
     administrator: "Administrator"
   users:
+    list: Member list
+    list_form: >
+      Use this form to search the board’s member list for
+      a user whose nickname contains the given characters.
+    list_query: "Query:"
     profile: "%{nick}’s user profile"
     total_posts: "Total posts"
     registration: >
