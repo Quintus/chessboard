@@ -60,7 +60,7 @@ $(document).ready(function(){
   #{
   BB_TAGS.reduce("".html_safe) do |str, (ident, hsh)|
     str + %Q<$("#tool-#{ident.html_safe}").click(function(){
-      $("#post_content").insertAtCaret("#{hsh[:code].html_safe}");
+      $("#post_content, #personal_post_content, #topic_posts_attributes_0_content, #personal_message_posts_attributes_0_content").insertAtCaret("#{hsh[:code].html_safe}");
     });>.html_safe + "\n".html_safe
   end
   }
