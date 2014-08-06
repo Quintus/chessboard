@@ -3,7 +3,7 @@
 <div class="user-profile">
   <div class="profile-system-info">
     <div class="profile-avatar">
-      <%= image_tag @user.settings.avatar if @user.settings.avatar %>
+      <%= image_tag @user.avatar_link if @user.avatar_link %>
       <p class="profile-nickname"><%= @user.nickname %></p>
       <p class="profile-membership"><%= @user.membership %></p>
     </div>
