@@ -15,6 +15,15 @@ module Chessboard
       manager.serialize_from_session{|id| User.find(id.to_i)}
     end
 
+    before do
+      # Check if the user has been banned, and if so, forcibly end his session.
+      if env["warden"].authenticated? && Ban.matches_any?(env["warden"].user, request)
+        env["warden"].logout
+        flash[:alert] = I18n.t("bans.banned")
+        redirect "/"
+      end
+    end
+
     get "/" do
       redirect "/forums"
     end

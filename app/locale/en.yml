@@ -183,6 +183,7 @@ en:
     created: "Ban created."
     updated: "Ban updated."
     deleted: "Ban deleted."
+    banned: "You have been banned!"
     ban_intro: >
       This page lists all bans imposed on people using this forum.
       If someone whose IP, nickname, or email address tries to log
