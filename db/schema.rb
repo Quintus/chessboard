@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 25) do
+ActiveRecord::Schema.define(version: 26) do
 
   create_table "avatars", force: true do |t|
     t.string   "path"
@@ -149,6 +149,7 @@ ActiveRecord::Schema.define(version: 25) do
     t.string   "pgp_key"
     t.datetime "last_login"
     t.boolean  "confirmed",          default: false
+    t.string   "forced_rank"
   end
 
   create_table "warnings", force: true do |t|

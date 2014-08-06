@@ -72,6 +72,7 @@ class User < ActiveRecord::Base
   # * "Administrator"
   # depending on the user’s membership status.
   def membership
+    return forced_rank unless forced_rank.blank?
     return I18n.t("membership.administrator") if admin?
     return I18n.t("membership.moderator") if moderator?
     I18n.t("membership.member")
