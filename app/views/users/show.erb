@@ -44,4 +44,16 @@
       <%= markup_default(@user.signature).html_safe %>
     </div>
   <% end %>
+
+  <% if env["warden"].user.privileged? %>
+    <h2><%= I18n.t("warnings.warnings") %></h2>
+
+    <% if @user.received_warnings.empty? %>
+      <p><%= I18n.t("warnings.no_warnings") %></p>
+    <% else %>
+      <div class="profile-user-warnings">
+	<%= partial "warnings/list_warning", :collection => @user.received_warnings.order(:created_at => :desc) %>
+      </div>
+    <% end %>
+  <% end %>
 </div>

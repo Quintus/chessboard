@@ -8,14 +8,6 @@
   <p><%= I18n.t("warnings.no_warnings") %></p>
 <% else %>
 
-<% @warnings.each do |warning| %>
-  <div class="warning">
-    <p class="warning-header">
-      <%= image_tag "icons/warn.png" %>
-      <%= I18n.t("warnings.warning_by", :modname => link_to(warning.warning_user.nickname, url(:users, :show, warning.warning_user.nickname)) , :date => I18n.l(warning.created_at, :format => :long), :expires => warning.expiration_date? ? I18n.l(warning.expiration_date, :format => :long) : I18n.t("general.never")).html_safe %>
-    </p>
-    <p class="warning-reason"><%= warning.reason %></p>
-  </div>
-<% end %>
+<%= partial "warnings/list_warning", :collection => @warnings %>
 
 <% end %>
