@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 Chessboard::App.controllers :users do
 
   before :except => [:new, :create, :confirm] do
@@ -11,19 +12,22 @@ Chessboard::App.controllers :users do
 
   get :new, :map => "/users/new" do
     halt 403 unless Chessboard.config.registration
+    redirect "/" if env["warden"].authenticated? # Already logged in
+
     @user = User.new
     render "users/new"
   end
 
   post :create, :map => "/users/new" do
     halt 403 if !Chessboard.config.registration && !(env["warden"].authenticated && env["warden"].user.admin?)
+    halt 400 if env["warden"].authenticated? # Already logged in
     @user = User.new
 
     @user.nickname = params["user"]["nickname"]
     @user.email = params["user"]["email"]
 
     if params["user"]["password"] != params["user"]["password_confirmation"]
-      @user.errors.add(:password, "Password mismatch.")
+      @user.errors.add(:password, I18n.t("errors.user.password_mismatch"))
       return render("users/new")
     end
 
@@ -83,6 +87,39 @@ Chessboard::App.controllers :users do
       render "users/edit"
     end
 
+  end
+
+  get :passwd, :map => "/users/:name/password" do
+    @user = env["warden"].user
+    halt 403 if @user.nickname != params["name"]
+
+    render "users/password"
+  end
+
+  patch :passwd, :map => "/users/:name/password" do
+    @user = env["warden"].user
+    halt 403 if @user.nickname != params["name"]
+
+    # Can’t be a validation, because at validation time the password
+    # is already hashed and hence of unknown length. Therefore this
+    # is checked here.
+    if params["user"]["password"].length < 8
+      @user.errors.add(:password, I18n.t("errors.user.password_too_short"))
+      return render("users/password")
+    end
+
+    if params["user"]["password"] != params["user"]["password_confirmation"]
+      @user.errors.add(:password, I18n.t("errors.user.password_mismatch"))
+      return render("users/password")
+    end
+
+    @user.password = params["user"]["password"]
+    if @user.save
+      flash[:notice] = I18n.t("users.password_changed")
+      redirect "/"
+    else
+      return render("users/password")
+    end
   end
 
   get :confirm, :map => "/users/:name/confirm" do

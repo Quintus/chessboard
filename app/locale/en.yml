@@ -109,6 +109,9 @@ en:
     pm:
       missing_recipient: "No recipient given."
       unknown_recipient: "Unknown recipient %{nickname}"
+    user:
+      password_mismatch: "Password mismatch."
+      password_too_short: "Passwort to short (at least 8 chars)"
   membership:
     member: "Member"
     moderator: "Moderator"
@@ -125,6 +128,14 @@ en:
       You have successfully registered. A confirmation email was sent
       to your mail address, please follow the link it contains in order
       to activate your account.
+    change_password: "Change password"
+    change_password_desc: >
+      Use this form to change your password. You are encouraged to use
+      a strong password containing several special characters, numbers,
+      etc. To keep track of your passwords, use a “password manager”
+      program instead of trying to remember all your passwords. The
+      password must at least be 8 characters long.
+    password_changed: "Password changed successfully."
   reports:
     report: "Report posting"
     reports: "Reports"

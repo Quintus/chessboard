@@ -10,6 +10,7 @@
       <% if env["warden"].user.admin? || env["warden"].user.moderator? %>
 	<li><%= link_to I18n.t("general.moderation"), url(:reports, :index) %></li>
       <% end %>
+      <li><%= link_to I18n.t("users.list"), url(:users, :index) %></li>
     <% else %>
       <li><%= link_to I18n.t("general.register"), url(:users, :new) %></li>
     <% end %>

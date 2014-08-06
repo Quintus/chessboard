@@ -33,7 +33,7 @@ class User < ActiveRecord::Base
 
   # Specify a new password.
   def password=(new_password)
-    if new_password.to_s.length > 8
+    if new_password.to_s.length >= 8
       self.encrypted_password = BCrypt::Password.create(new_password)
     else
       raise(ArgumentError, "Password to short!")

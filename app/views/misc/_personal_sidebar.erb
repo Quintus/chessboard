@@ -11,6 +11,7 @@
   <li><%= link_to I18n.t("settings.main_settings"), url(:settings, :show, env["warden"].user.nickname) %></li>
   <li><%= link_to I18n.t("avatars.avatar_settings"), url(:avatars, :show, env["warden"].user.nickname) %></li>
   <li><%= link_to I18n.t("settings.profile_settings"), url(:users, :edit, env["warden"].user.nickname) %></li>
+  <li><%= link_to I18n.t("users.change_password"), url(:users,   :passwd, env["warden"].user.nickname) %></li>
 </ul>
 
 <h3><%= I18n.t("personal.misc") %></h3>
