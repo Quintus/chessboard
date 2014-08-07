@@ -1,0 +1,70 @@
+<h1><%= I18n.t("configuration.configuration") %></h1>
+
+<% unless @configuration.errors.empty? %>
+<div class="flash alert">
+  <p><%= I18n.t("general.errors_occured") %></p>
+  <ul>
+    <% @configuration.errors.messages.each do |key, msg| %>
+      <li><%= key %>: <%= msg %></li>
+    <% end %>
+  </ul>
+</div>
+<% end %>
+
+<% form_for @configuration, url(:global_configuration, :configuration), :method => :patch, :class => "settings-form" do |f| %>
+  <div class="setting">
+    <div class="header settings-header">
+      <%= f.label :default_time_format %>
+    </div>
+    <div class="settings-desc">
+      <p><%= I18n.t("configuration.default_time_format") %></p>
+    </div>
+    <div class="settings-content">
+      <%= f.text_field :default_time_format %>
+    </div>
+
+    <div class="header settings-header">
+      <%= f.label :maximum_avatar_dimension %>
+    </div>
+    <div class="settings-desc">
+      <p><%= I18n.t("configuration.maximum_avatar_dimension") %></p>
+    </div>
+    <div class="settings-content">
+      <%= f.text_field :maximum_avatar_dimension %>
+    </div>
+
+    <div class="header settings-header">
+      <%= f.label :warning_expiration %>
+    </div>
+    <div class="settings-desc">
+      <p><%= I18n.t("configuration.warning_expiration") %></p>
+    </div>
+    <div class="settings-content">
+      <%= f.text_field :warning_expiration %>
+    </div>
+
+    <div class="header settings-header">
+      <%= f.label :registration_expiration %>
+    </div>
+    <div class="settings-desc">
+      <p><%= I18n.t("configuration.registration_expiration") %></p>
+    </div>
+    <div class="settings-content">
+      <%= f.text_field :registration_expiration %>
+    </div>
+
+    <div class="header settings-header">
+      <%= f.label :registration %>
+    </div>
+    <div class="settings-desc">
+      <p><%= I18n.t("configuration.registration") %></p>
+    </div>
+    <div class="settings-content">
+      <%= f.label :registration %> <%= f.check_box :registration %>
+    </div>
+
+    <p class="submit-separator">
+      <%= f.submit :class => "button-ok" %>
+    </p>
+  </div>
+<% end %>

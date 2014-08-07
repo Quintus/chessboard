@@ -219,3 +219,29 @@ en:
     edited_post: "Edited posting."
     edit_pm: "Edit PM"
     edited_pm: "Edited PM."
+  configuration:
+    configuration: "Configuration"
+    updated: "Configuration updated."
+    default_time_format: >-
+      The default time format to use, which is the only time format
+      available for users that are not logged in. Leave this empty
+      for a special style that uses “a minute ago” and such. See
+      date(1) for possible formatting directives.
+    maximum_avatar_dimension: >-
+      Maximum number of pixels an avatar image edge is allowed to
+      have.
+    warning_expiration: >-
+      Number of seconds before a warning automatically expires.
+      Warnings are expired when the user logs in the next time
+      after the expiration date. An expired warning is deleted
+      completely, with no way to recover. Set to 0 if you don’t
+      want warnings to ever expire.
+    registration_expiration: >-
+      Number of seconds before a registration token expires.
+      A newly registered user must provide his registration token
+      before he can log in for the first time; if he doesn’t do so
+      within the time defined here, the token is invalidated an
+      he can’t ever log in.
+    registration: >-
+      Whether or not to allow registration. If you disable this,
+      you have to create new users manually on the console.
