@@ -7,7 +7,7 @@ class RegistrationToken < ActiveRecord::Base
 
   before_validation do
     if new_record?
-      self.expiration_date = Time.now + Chessboard.config.registration_expiration
+      self.expiration_date = Time.now + GlobalConfiguration.instance.registration_expiration
     end
   end
 

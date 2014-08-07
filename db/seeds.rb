@@ -1,4 +1,9 @@
 ########################################
+# Global configuration
+
+GlobalConfiguration.create
+
+########################################
 # Users
 
 user = User.new(nickname: "admin", password: "adminadmin", email: "admin@admin.ad", admin: true, confirmed: true)

@@ -6,13 +6,13 @@ module Chessboard
     module ForumsHelper
 
       # Format +time+ according to the user's settings.
-      # Uses Chessboard.config.normal_time_format for
+      # Uses global config’s default time format for
       # unauthenticated users.
       def format_time(time)
         if env["warden"].authenticated?
           timestr = env["warden"].user.settings.time_format
         else
-          timestr = Chessboard.config.normal_time_format
+          timestr = GlobalConfiguration.instance.default_time_format
         end
 
         if timestr.blank?

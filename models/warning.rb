@@ -7,8 +7,8 @@ class Warning < ActiveRecord::Base
   belongs_to :warning_user, :class_name => "User", :foreign_key => "warning_user_id"
 
   before_create do
-    if Chessboard.config.warning_expiration > 0
-      self.expiration_date = Time.now + Chessboard.config.warning_expiration
+    if GlobalConfiguration.instance.warning_expiration > 0
+      self.expiration_date = Time.now + GlobalConfiguration.instance.warning_expiration
     end
   end
 

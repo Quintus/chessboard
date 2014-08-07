@@ -11,7 +11,7 @@ Chessboard::App.controllers :users do
   end
 
   get :new, :map => "/users/new" do
-    halt 403 unless Chessboard.config.registration
+    halt 403 unless GlobalConfiguration.instance.registration
     redirect "/" if env["warden"].authenticated? # Already logged in
 
     @user = User.new
@@ -19,7 +19,7 @@ Chessboard::App.controllers :users do
   end
 
   post :create, :map => "/users/new" do
-    halt 403 if !Chessboard.config.registration && !(env["warden"].authenticated && env["warden"].user.admin?)
+    halt 403 if !GlobalConfiguration.instance.registration && !(env["warden"].authenticated && env["warden"].user.admin?)
     halt 400 if env["warden"].authenticated? # Already logged in
     @user = User.new
 
