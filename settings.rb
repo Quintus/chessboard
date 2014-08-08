@@ -87,4 +87,13 @@ Chessboard.configure do |config|
     RULES
   }
 
+  config.plugins.ImprintPlugin = {
+    :imprint => <<-IMPRINT
+<h1>Imprint</h1>
+Information as per §5 TMG / §55 RStV:
+
+This forum is run and administered by somone, somewhere.
+    IMPRINT
+  }
+
 end
