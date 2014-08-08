@@ -9,7 +9,7 @@ module Chessboard
     enable :sessions
 
     use Warden::Manager do |manager|
-      manager.default_strategies :password
+      manager.default_strategies(*Chessboard.config.authentication_methods)
       manager.failure_app = App
       manager.serialize_into_session{|user| user.id}
       manager.serialize_from_session{|id| User.find(id.to_i)}

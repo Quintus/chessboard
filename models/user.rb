@@ -50,12 +50,6 @@ class User < ActiveRecord::Base
     newpw
   end
 
-  # Process +password+ and compare it with the encrypted password
-  # we have in our database. Returns true on success, false otherwise.
-  def authenticate(password)
-    BCrypt::Password.new(encrypted_password) == password
-  end
-
   # Returns true if this user is allowed to moderate any specific
   # forum.
   def moderator?

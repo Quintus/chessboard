@@ -1,3 +1,5 @@
+require "digest/sha1"
+
 Warden::Strategies.add(:password) do
 
   def valid?
@@ -6,24 +8,38 @@ Warden::Strategies.add(:password) do
 
   def authenticate!
     user = User.find_by(nickname: params["nickname"])
-    if user
-      if !user.confirmed?
-        fail!("User not confirmed yet.")
-        return
-      end
+    return unless user
+    return unless user.confirmed?
+    return(fail!("User or IP banned.")) if Ban.matches_any?(user, request)
 
-      if Ban.matches_any?(user, request)
-        fail!("User or IP banned.")
-        return
-      end
+    begin
+      pw = BCrypt::Password.new(user.encrypted_password)
+    rescue BCrypt::Errors::InvalidHash
+      return # Not in BCrypt format
+    end
 
-      if user.authenticate(params["password"])
-        success!(user)
-      else
-        fail!("Invalid password.")
-      end
-    else
-      fail!("Invalid user name.")
+    if pw == params["password"]
+      success!(user)
+    end
+  end
+
+end
+
+# This strategy is for importing FluxBB passwords, which are unsalted
+# SHA1-hashed passwords.
+Warden::Strategies.add(:sha1password) do
+
+  def valid?
+    params["nickname"] && params["password"]
+  end
+
+  def authenticate!
+    user = User.find_by(:nickname => params["nickname"])
+    return unless user
+    return unless user.confirmed?
+
+    if user.encrypted_password == Digest::SHA1.hexdigest(params["password"])
+      success!(user)
     end
   end
 

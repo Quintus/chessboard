@@ -21,6 +21,18 @@ Chessboard.configure do |config|
   # public/images/emoticons).
   config.emoticons_set = "default"
 
+  # Allowed authentication methods for logging in a user. The default
+  # authentication methods are:
+  # [:password]
+  #   BCrypt-encrypted password. This is the strongest authentication
+  #   method available and is recommended and required. New users
+  #   that register will always use BCrypt'ed passwords!
+  # [:sha1password]
+  #   SHA1-hashed password. This is provided for compatibility with
+  #   FluxBB. This is much weaker then :password, so only use it
+  #   in the transition phase!
+  config.authentication_methods = [:password, :sha1password]
+
   ########################################
   # Database configuration
 
