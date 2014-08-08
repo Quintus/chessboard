@@ -1,0 +1,14 @@
+<% content_for :sidebar do %>
+  <%= partial "administration/sidebar" %>
+<% end %>
+
+<h1><%= I18n.t("admin.users.users") %></h1>
+
+<% form_tag url(:administration, :users) do %>
+  <p>
+    <%= I18n.t("admin.users.administer") %>:<br/>
+    <%= text_field_tag :nickname %>
+    <%= submit_tag I18n.t("general.ok"), :class => "button-ok" %>
+  </p>
+
+<% end %>

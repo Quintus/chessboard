@@ -1,0 +1,19 @@
+<% content_for :sidebar do %>
+  <%= partial "administration/sidebar" %>
+<% end %>
+
+<h1><%= I18n.t("admin.users.administer_user", :nick => @user.nickname) %></h1>
+
+<% form_for @user, url(:administration, :user, @user.nickname), :method => :patch do |f| %>
+
+  <p>
+    <%= f.label :forced_rank %><br/>
+    <%= f.text_field :forced_rank %>
+  </p>
+
+  <p class="submit-separator">
+    <%= f.submit I18n.t("general.update"), :class => "button-ok" %>
+    <%= link_to I18n.t("general.delete"), url(:administration, :user, @user.nickname) + "?authenticity_token=#{session[:csrf]}", :method => :delete, :confirm => I18n.t("general.are_you_sure"), :class => "button-error" %>
+  </p>
+
+<% end %>

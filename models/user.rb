@@ -11,13 +11,13 @@ class User < ActiveRecord::Base
   validates :jabber_id, :length => {:maximum => 1024}
   validates :pgp_key, :length => {:maximum => 50} # length of $ gpg --fingerprint
 
-  has_many :topics, :foreign_key => :author_id
-  has_many :posts, :foreign_key => :author_id
-  has_many :personal_messages, :foreign_key => :author_id
-  has_many :personal_posts, :foreign_key => :author_id
-  has_many :reports
-  has_many :received_warnings, :class_name => "Warning", :foreign_key => "warned_user_id"
-  has_many :issued_warnings, :class_name => "Warning", :foreign_key => "warning_user_ud"
+  has_many :topics, :foreign_key => :author_id, :dependent => :destroy
+  has_many :posts, :foreign_key => :author_id, :dependent => :destroy
+  has_many :personal_messages, :foreign_key => :author_id, :dependent => :destroy
+  has_many :personal_posts, :foreign_key => :author_id, :dependent => :destroy
+  has_many :reports, :dependent => :destroy
+  has_many :received_warnings, :class_name => "Warning", :foreign_key => "warned_user_id", :dependent => :destroy
+  has_many :issued_warnings, :class_name => "Warning", :foreign_key => "warning_user_id", :dependent => :destroy
   has_one :settings, :dependent => :destroy
   has_one :avatar, :dependent => :destroy
   has_one :registration_token, :dependent => :destroy

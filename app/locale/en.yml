@@ -14,6 +14,7 @@ en:
     delete: "Delete"
     edit: "Edit"
     search: "Search"
+    ok: "OK"
     search_results: "Search results"
     errors_occured: "Errors occured:"
     are_you_sure: "Are you sure?"
@@ -246,3 +247,9 @@ en:
       registration: >-
         Whether or not to allow registration. If you disable this,
         you have to create new users manually on the console.
+    users:
+      users: "Users"
+      administer: "Administer user"
+      not_found: "User not found."
+      administer_user: "Administer %{nick}"
+      deleted: "User successfully deleted."

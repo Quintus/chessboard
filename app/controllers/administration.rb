@@ -21,4 +21,31 @@ Chessboard::App.controllers :administration do
     end
   end
 
+  get :users, :map => "/admin/users" do
+    render "users"
+  end
+
+  post :users, :map => "/admin/users" do
+    user = User.where(:nickname => params["nickname"]).first
+    unless user
+      flash[:alert] = I18n.t("admin.users.not_found")
+      return redirect(url(:administration, :users))
+    end
+
+    redirect url(:administration, :user, user.nickname)
+  end
+
+  get :user, :map => "/admin/user/:nickname" do
+    @user = User.find_by!(:nickname => params["nickname"])
+    render "user"
+  end
+
+  delete :user, :map => "/admin/user/:nickname" do
+    @user = User.find_by!(:nickname => params["nickname"])
+    @user.destroy!
+
+    flash[:notice] = I18n.t("admin.users.deleted")
+    redirect url(:administration, :users)
+  end
+
 end
