@@ -1,4 +1,8 @@
-<h1><%= I18n.t("configuration.configuration") %></h1>
+<% content_for :sidebar do %>
+  <%= partial "administration/sidebar" %>
+<% end %>
+
+<h1><%= I18n.t("admin.configuration.configuration") %></h1>
 
 <% unless @configuration.errors.empty? %>
 <div class="flash alert">
@@ -11,13 +15,13 @@
 </div>
 <% end %>
 
-<% form_for @configuration, url(:global_configuration, :configuration), :method => :patch, :class => "settings-form" do |f| %>
+<% form_for @configuration, url(:administration, :configuration), :method => :patch, :class => "settings-form" do |f| %>
   <div class="setting">
     <div class="header settings-header">
       <%= f.label :default_time_format %>
     </div>
     <div class="settings-desc">
-      <p><%= I18n.t("configuration.default_time_format") %></p>
+      <p><%= I18n.t("admin.configuration.default_time_format") %></p>
     </div>
     <div class="settings-content">
       <%= f.text_field :default_time_format %>
@@ -27,7 +31,7 @@
       <%= f.label :maximum_avatar_dimension %>
     </div>
     <div class="settings-desc">
-      <p><%= I18n.t("configuration.maximum_avatar_dimension") %></p>
+      <p><%= I18n.t("admin.configuration.maximum_avatar_dimension") %></p>
     </div>
     <div class="settings-content">
       <%= f.text_field :maximum_avatar_dimension %>
@@ -37,7 +41,7 @@
       <%= f.label :warning_expiration %>
     </div>
     <div class="settings-desc">
-      <p><%= I18n.t("configuration.warning_expiration") %></p>
+      <p><%= I18n.t("admin.configuration.warning_expiration") %></p>
     </div>
     <div class="settings-content">
       <%= f.text_field :warning_expiration %>
@@ -47,7 +51,7 @@
       <%= f.label :registration_expiration %>
     </div>
     <div class="settings-desc">
-      <p><%= I18n.t("configuration.registration_expiration") %></p>
+      <p><%= I18n.t("admin.configuration.registration_expiration") %></p>
     </div>
     <div class="settings-content">
       <%= f.text_field :registration_expiration %>
@@ -57,14 +61,14 @@
       <%= f.label :registration %>
     </div>
     <div class="settings-desc">
-      <p><%= I18n.t("configuration.registration") %></p>
+      <p><%= I18n.t("admin.configuration.registration") %></p>
     </div>
     <div class="settings-content">
       <%= f.label :registration %> <%= f.check_box :registration %>
     </div>
 
     <p class="submit-separator">
-      <%= f.submit :class => "button-ok" %>
+      <%= f.submit I18n.t("general.update"), :class => "button-ok" %>
     </p>
   </div>
 <% end %>

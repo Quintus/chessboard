@@ -5,7 +5,7 @@
     <% if env["warden"].authenticated? %>
       <li><%= link_to I18n.t("personal.personal_area"), "/personal" %></li>
       <% if env["warden"].user.admin? %>
-	<li><%= link_to I18n.t("general.administration"), url(:global_configuration, :configuration) %></li>
+	<li><%= link_to I18n.t("general.administration"), url(:administration, :configuration) %></li>
       <% end %>
       <% if env["warden"].user.admin? || env["warden"].user.moderator? %>
 	<li><%= link_to I18n.t("general.moderation"), url(:reports, :index) %></li>

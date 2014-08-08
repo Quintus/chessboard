@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../test_config.rb')
 
-describe "GlobalConfigurationController" do
+describe "AdministrationController" do
   before do
     get '/'
   end
