@@ -19,6 +19,7 @@ en:
         profession: Profession
         jabber_id: "Jabber-ID"
         pgp_key: PGP key
+        moderated_forums: "Moderated forums"
 
         last_login: Last login
         confirmed: Confirmed

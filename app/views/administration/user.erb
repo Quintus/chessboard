@@ -4,11 +4,38 @@
 
 <h1><%= I18n.t("admin.users.administer_user", :nick => @user.nickname) %></h1>
 
+<% unless @user.errors.empty? %>
+<div class="flash alert">
+  <p><%= I18n.t("general.errors_occured") %></p>
+  <ul>
+    <% @user.errors.messages.each do |key, msg| %>
+      <li><%= key %>: <%= msg %></li>
+    <% end %>
+  </ul>
+</div>
+<% end %>
+
 <% form_for @user, url(:administration, :user, @user.nickname), :method => :patch do |f| %>
 
   <p>
     <%= f.label :forced_rank %><br/>
     <%= f.text_field :forced_rank %>
+  </p>
+
+  <p>
+    <%= f.label :moderated_forums %>
+  </p>
+
+  <ul>
+    <% Forum.order(:name => :asc).each do |forum| %>
+      <% key = "user[moderated_forums][#{forum.id}]" %>
+      <li><%= check_box_tag key, :id => key, :checked => @user.moderated_forums.include?(forum) %> <label for="<%= key %>"><%= forum.name %></label></li>
+      <%# Can't use User#moderates? because admins always moderate everything #>
+    <% end %>
+  </ul>
+
+  <p>
+    <%= f.check_box :admin %> <%= f.label :admin %>
   </p>
 
   <p class="submit-separator">

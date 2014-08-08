@@ -40,6 +40,27 @@ Chessboard::App.controllers :administration do
     render "user"
   end
 
+  patch :user, :map => "/admin/user/:nickname" do
+    @user = User.find_by!(:nickname => params["nickname"])
+
+    params["user"]["moderated_forums"] ||= {} # Allow deletion of all moderation rights
+
+    @user.moderated_forums.clear
+    params["user"]["moderated_forums"].each_pair do |fid, mods|
+      @user.moderated_forums << Forum.find(fid) if mods.to_i == 1
+    end
+
+    @user.forced_rank = params["user"]["forced_rank"]
+    @user.admin = params["user"]["admin"].to_i == 1
+
+    if @user.save
+      flash[:notice] = I18n.t("admin.users.updated")
+      redirect url(:administration, :user, @user.nickname)
+    else
+      render "user"
+    end
+  end
+
   delete :user, :map => "/admin/user/:nickname" do
     @user = User.find_by!(:nickname => params["nickname"])
     @user.destroy!

@@ -253,3 +253,4 @@ en:
       not_found: "User not found."
       administer_user: "Administer %{nick}"
       deleted: "User successfully deleted."
+      updated: "User updated."
