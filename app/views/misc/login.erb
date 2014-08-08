@@ -11,6 +11,9 @@
   <%= password_field_tag :password %>
 </p>
 
-<p class="submit-separator"><%= submit_tag I18n.t("general.log_in"), :class => "button-ok" %></p>
+<p class="submit-separator">
+  <%= submit_tag I18n.t("general.log_in"), :class => "button-ok" %>
+  <%= link_to I18n.t("users.forgotpw.forgot"), url(:users, :forgotpw) %>
+</p>
 
 <% end %>

@@ -16,4 +16,12 @@ Chessboard::App.mailer :user do
     render "user/warning_email"
   end
 
+  email :password_forgotten_email do |email, nickname, password, boardlink|
+    from "automailer@" + Chessboard.config.domain
+    to email
+    subject "Password reset"
+    locals :nickname => nickname, :password => password, :boardlink => boardlink
+    render "user/password_forgotten_email"
+  end
+
 end

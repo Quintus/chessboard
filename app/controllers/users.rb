@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 Chessboard::App.controllers :users do
 
-  before :except => [:new, :create, :confirm] do
+  before :except => [:new, :create, :confirm, :forgotpw] do
     env["warden"].authenticate!
   end
 
@@ -159,6 +159,20 @@ Chessboard::App.controllers :users do
       flash[:alert] = "Account activation failed. Did the token expire?"
       redirect "/"
     end
+  end
+
+  get :forgotpw, :map => "/forgotpw" do
+    render "forgotpw"
+  end
+
+  post :forgotpw, :map => "/forgotpw" do
+    @user = User.find_by!(:nickname => params["nickname"])
+
+    pw = @user.reset_password!
+    deliver :user, :password_forgotten_email, @user.email, @user.nickname, pw, board_link
+
+    flash[:notice] = I18n.t("users.forgotpw.reset")
+    redirect "/login"
   end
 
 end

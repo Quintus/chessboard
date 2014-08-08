@@ -40,6 +40,16 @@ class User < ActiveRecord::Base
     end
   end
 
+  # Resets the user’s password to a random password and returns that
+  # password in clear. The resource is automatically saved to the
+  # database.
+  def reset_password!
+    newpw = Array.new(10){("a".."z").to_a.sample}.join("")
+    self.password = newpw
+    save!
+    newpw
+  end
+
   # Process +password+ and compare it with the encrypted password
   # we have in our database. Returns true on success, false otherwise.
   def authenticate(password)

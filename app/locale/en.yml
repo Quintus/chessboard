@@ -15,6 +15,7 @@ en:
     edit: "Edit"
     search: "Search"
     ok: "OK"
+    reset: "Reset"
     search_results: "Search results"
     errors_occured: "Errors occured:"
     are_you_sure: "Are you sure?"
@@ -143,6 +144,16 @@ en:
       This form allows you to delete your account. Along with your
       account, all your posts, topics, PMs, etc. are completely
       erased, without any possibility to recover.
+    forgotpw:
+      forgot: "Forgot password?"
+      forgotpw: "Reset password"
+      forgotpw_desc: >
+        Use this form to reset your password if you forgot it.
+        You will receive an email with a temporary password you
+        are advised to change after logging in again.
+        See this as your friendly reminder to use a password
+        manager program.
+      reset: "A new password has been emailed to you."
   reports:
     report: "Report posting"
     reports: "Reports"
