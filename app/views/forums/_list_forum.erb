@@ -14,7 +14,11 @@
   </td>
   <td class="forumlastpost">
     <% post = Post.joins(:topic).joins("INNER JOIN forums ON topics.forum_id = forums.id").where("forums.id = ?", list_forum.id).order(:created_at => :desc).first %>
-    <%= format_time post.created_at %><br/>
-    <%= I18n.t("forums.author_by") %> <%= link_to(post.author.nickname, url(:users, :show, post.author.nickname)) %>
+    <% if post %>
+      <%= format_time post.created_at %><br/>
+      <%= I18n.t("forums.author_by") %> <%= link_to(post.author.nickname, url(:users, :show, post.author.nickname)) %>
+    <% else %>
+      <%= I18n.t("general.never") %>
+    <% end %>
   </td>
 </tr>
