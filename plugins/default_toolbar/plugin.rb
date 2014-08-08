@@ -1,9 +1,14 @@
 # -*- coding: utf-8 -*-
 
+# = Toolbar plugin
+#
 # This plugin provides Chessboard’s default toolbar used
 # when creating new posts or replying. Currently for Markdown
 # only the emoticons toolbar is provided, BBCode also has a
 # tool toolbar with buttons to insert BBCode.
+#
+# == Configuration
+# None.
 module DefaultToolbarPlugin
   include Chessboard::Plugin
 

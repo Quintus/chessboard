@@ -1,7 +1,12 @@
 # -*- coding: utf-8 -*-
 
+# = Mention plugin
+#
 # Plugin that sends email for GitHub-like @ mentions.
 # Only works for creating topics and posts, not for editing them.
+#
+# == Configuration
+# None.
 module MentionPlugin
   include Chessboard::Plugin
 

@@ -1,3 +1,11 @@
+# = Default spam-protection plugin
+#
+# This plugin injects a simple anti-spam function into your
+# registration form. The user is required to complete a
+# simple calculation in order to complete the registration.
+#
+# == Configuration
+# None.
 module DefaultSpamprotectPlugin
   include Chessboard::Plugin
 

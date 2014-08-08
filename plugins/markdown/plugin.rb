@@ -1,5 +1,10 @@
+# = Markdown plugin
+#
 # This plugin provides Markdown post markup via
 # the kramdown RubyGem.
+#
+# == Configuration
+# None.
 module MarkdownPlugin
   include Chessboard::Plugin
 
