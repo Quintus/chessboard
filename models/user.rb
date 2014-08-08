@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 class User < ActiveRecord::Base
 
-  validates :nickname, :presence => true, :uniqueness => true
+  validates :nickname, :presence => true, :uniqueness => true, :format => {:with => /\A[[:graph:]]+\Z/}
   validates :email, :presence => true, :format => /\A.*?@.*\Z/
   validates :encrypted_password, :presence => true
   validates :settings, :presence => true
