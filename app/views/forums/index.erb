@@ -1,3 +1,6 @@
+<% if env["warden"].authenticated? %>
+  <p class="top-right-nav"><%= link_to I18n.t("topics.mark_all_as_read"), url(:users, :all_read, env["warden"].user.nickname) + "?authenticity_token=#{session[:csrf]}", :method => :post, :class => "button-normal" %></p>
+<% end %>
 <h1><%= I18n.t("general.forum_overview") %></h1>
 
 <% @forum_groups.each do |group| %>

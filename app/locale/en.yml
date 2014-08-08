@@ -41,6 +41,8 @@ en:
     edit_topic: "Edit Topic"
     edited: "Topic edited."
     edit: "Edit Topic"
+    mark_all_as_read: "Mark all read"
+    marked_all_as_read: "All topics marked as read."
     move: "Move Topic"
     move_target: "New forum"
     moved: "Moved Topic."

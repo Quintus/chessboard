@@ -175,4 +175,14 @@ Chessboard::App.controllers :users do
     redirect "/login"
   end
 
+  post :all_read, :map => "/users/:name/read" do
+    @user = env["warden"].user
+    halt 403 if @user.nickname != params["name"]
+
+    Topic.all.each{|topic| @user.read_topics << topic; @user.save}
+
+    flash[:notice] = I18n.t("topics.marked_all_as_read")
+    redirect url(:forums, :index)
+  end
+
 end
