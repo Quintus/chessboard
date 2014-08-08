@@ -96,6 +96,36 @@ should append to, controller hooks usually use true/false to indicate
 whether a record shall be saved or not. If this is not the case for a
 specific hook, it will be mentioned in the documentation.
 
+== Adding routes and pages
+
+You can add new routes to the application with your plugin by
+utilizing Padrino’s and Sinatra’s functionality. Use the following
+structure:
+
+  module YourPlugin
+    include Chessboard::Plugin
+
+    Chessboard::App.controllers :yourplugin do
+      get :somepage, :map => "/somepage" do
+        render :erb, "<p>Your ERuby markup</p>"
+      end
+    end
+  end
+
+Inside the +controllers+ block you can define any Padrino routes you
+want. The controller name (+yourplugin+ in the above example) is
+free-form, but choose one that is not already used by the application
+itself (use <tt>rake routes</tt> to find those out) or by other
+plugins. It is recommended to use your downcased and concatenated
+plugin name.
+
+With the above example, a new page <tt>/somepage</tt> will be
+available in the application that renders the given ERuby markup with
+ERB. Note that it will not automatically be linked somewhere; this
+must be done manually. If you want to add it to the main menu at the
+top for example, override the +hook_layout_navigation+ hook
+accordingly.
+
 == Reloading
 
 Currently plugins aren’t reloaded automatically when you reload the
