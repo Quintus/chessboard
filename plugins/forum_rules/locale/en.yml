@@ -3,3 +3,4 @@ en:
     forum_rules:
       forum_rules: "Forum rules"
       accept: "I have read and accept the <a href='/rules'>forum rules</a>."
+      must_accept: "You have to accept the forum rules."
