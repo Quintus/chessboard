@@ -89,6 +89,24 @@ Chessboard::App.controllers :users do
 
   end
 
+  get :delete, :map => "/users/:name/delete" do
+    @user = env["warden"].user
+    halt 403 if @user.nickname != params["name"]
+
+    render "delete"
+  end
+
+  delete :user, :map => "/users/:name" do
+    @user = env["warden"].user
+    halt 403 if @user.nickname != params["name"]
+
+    env["warden"].logout
+    @user.destroy!
+
+    flash[:notice] = I18n.t("users.deleted")
+    redirect "/"
+  end
+
   get :passwd, :map => "/users/:name/password" do
     @user = env["warden"].user
     halt 403 if @user.nickname != params["name"]

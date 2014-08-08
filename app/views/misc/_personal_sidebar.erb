@@ -19,4 +19,5 @@
 <ul>
   <li><%= link_to I18n.t("warnings.warnings"), url(:warnings, :user_index) %></li>
   <li><%= link_to I18n.t("reports.reports"), url(:reports, :user_index) %></li>
+  <li><%= link_to I18n.t("users.delete"), url(:users, :delete, env["warden"].user.nickname) %></li>
 </ul>

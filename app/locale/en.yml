@@ -137,6 +137,12 @@ en:
       program instead of trying to remember all your passwords. The
       password must at least be 8 characters long.
     password_changed: "Password changed successfully."
+    delete: "Delete account"
+    deleted: "Your account has been deleted."
+    delete_desc: >
+      This form allows you to delete your account. Along with your
+      account, all your posts, topics, PMs, etc. are completely
+      erased, without any possibility to recover.
   reports:
     report: "Report posting"
     reports: "Reports"
