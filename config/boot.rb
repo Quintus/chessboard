@@ -16,6 +16,7 @@ Bundler.require(:default, RACK_ENV)
 module Chessboard
   def self.configure
     @config = OpenStruct.new
+    @config.plugins = OpenStruct.new
     yield(@config)
   end
   def self.config

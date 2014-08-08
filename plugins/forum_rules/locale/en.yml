@@ -1,0 +1,5 @@
+en:
+  plugins:
+    forum_rules:
+      forum_rules: "Forum rules"
+      accept: "I have read and accept the <a href='/rules'>forum rules</a>."

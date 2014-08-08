@@ -2,6 +2,8 @@
   <ul>
     <li><%= link_to(I18n.t("general.index"), url(:forums, :index)) %></li>
 
+    <%= call_hook :layout_navigation %>
+
     <% if env["warden"].authenticated? %>
       <li><%= link_to I18n.t("personal.personal_area"), "/personal" %></li>
       <% if env["warden"].user.admin? %>

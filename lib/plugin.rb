@@ -357,6 +357,14 @@ module Chessboard::Plugin
   def hook_ctrl_pm_create_final(options)
   end
 
+  # This hook is called during construction of the main menu
+  # at the top of the site. You are inside an <ul></ul> block
+  # there, so you can just return <li> elements to add new
+  # entries to the main menu.
+  def hook_layout_navigation(options)
+    "".html_safe
+  end
+
 end
 
 # Load the available plugins
