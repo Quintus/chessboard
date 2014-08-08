@@ -5,11 +5,14 @@
 # an entire FluxBB database into Chessboard. Run it with -h to see
 # the available options. Ensure you have a clean database with nothing
 # in it before you run this!
+#
+# Tested against FluxBB 1.5.4.
 
 require_relative "../config/boot"
 require "optparse"
+require "open-uri"
 
-$config = {:external => {}, :guest_id => 9999}
+$config = {:external => {}, :guest_id => 9999, :avatar_url => "http://example.org/avatars/%d.png"}
 
 OptionParser.new do |opts|
   opts.banner = <<-USAGE
@@ -28,6 +31,7 @@ you import into.
   opts.on("-P", "--external-password PASSWORD", "External password."){|str| $config[:external][:password] = str}
   opts.on("-D", "--external-database DBNAME", "External DB name."){|str| $config[:external][:database] = str}
   opts.on("-g", "--guest-id", Integer, "ID for the helper Guest user"){|int| $config[:guest_id] = int}
+  opts.on("-u", "--avatar-url URL", "URL prefix for avatar downloads. User ID", "will be substituted for %d."){|str| $config[:avatar_url] = str}
 
   opts.on("-h", "--help", "Print this message.") do
     puts opts
@@ -134,7 +138,22 @@ External::User.all.each do |euser|
                    :location => euser.location,
                    :jabber_id => euser.jabber,
                    :confirmed => true)
+
   iuser.save!
+
+  url = sprintf($config[:avatar_url], euser.id)
+  begin
+    open(url, "rb") do |page|
+      File.open(Padrino.root("public", "images", "avatars", "#{euser.id}.png"), "wb") do |file|
+        file.write(page.read)
+      end
+    end
+
+    a = Avatar.new(:path => "#{euser.id}.png", :user_id => euser.id)
+    a.save!
+  rescue OpenURI::HTTPError
+    puts "This user has no avatar, ignoring."
+  end
 end
 
 External::Forum.all.each do |eforum|
