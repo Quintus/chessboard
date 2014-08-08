@@ -13,8 +13,43 @@ Chessboard is written in Ruby, with help of the
 [Padrino](http://padrinorb.com) web framework in order to stay as
 lightweight as possible.
 
+Note that Chessboard is not a Rails/Padrino engine. It is not meant to
+be included in an existing web application, but instead to be run as
+an application on its own. Check the
+[RubyToolbox](https://www.ruby-toolbox.com/categories/forum_systems)
+if that was what you’re looking for.
+
 This is currently a development version. Do not use if you don’t know
 what you do.
+
+Setup
+-----
+
+Only development-mode setup currently.
+
+~~~~~~~~~~~~~~~~~~~~~
+$ bundle install
+$ bundle exec rake ar:create ar:schema:load db:seed
+~~~~~~~~~~~~~~~~~~~~~
+
+In order to use the development-mode mailer, you have to install the
+[Mailcatcher](http://mailcatcher.me) gem and run the Mailcatcher
+daemon:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+$ gem install mailcatcher
+$ mailcatcher
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Now start the server:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+$ bundle exec padrino s
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+There are two user accounts you can log into: `admin`, with password
+`adminadmin`, and `user`, with password `useruseruser`. `admin` has
+complete administrative rights, `user` is a normal board member.
 
 Emoticons
 ---------
@@ -28,6 +63,7 @@ License
 -------
 
 Chessboard is a bulletin-board forum for the world wide web.
+
 Copyright © 2014  Marvin Gülker
 
 This program is free software: you can redistribute it and/or modify

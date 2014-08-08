@@ -4,7 +4,7 @@
 
 <h1><%= I18n.t("users.delete") %></h1>
 
-<% form_for @user, url(:users, :user, @user.nickname), :method => :delete do |f| %>
+<% form_for @user, url(:users, :destroy, @user.nickname), :method => :delete do |f| %>
   <p><%= I18n.t("users.delete_desc") %></p>
   <p><%= f.submit I18n.t("general.delete"), :class => "button-error" %></p>
 <% end %>

@@ -96,7 +96,7 @@ Chessboard::App.controllers :users do
     render "delete"
   end
 
-  delete :user, :map => "/users/:name" do
+  delete :destroy, :map => "/users/:name" do
     @user = env["warden"].user
     halt 403 if @user.nickname != params["name"]
 
