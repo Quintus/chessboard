@@ -1,0 +1,191 @@
+#!/usr/bin/env ruby
+# fluxbb_import - Import script to import a (simple) FluxBB database.
+#
+# Unleash the power of ActiveRecord! ;-) This script tries to import
+# an entire FluxBB database into Chessboard. Run it with -h to see
+# the available options. Ensure you have a clean database with nothing
+# in it before you run this!
+
+require_relative "../config/boot"
+require "optparse"
+
+$config = {:external => {}, :guest_id => 9999}
+
+OptionParser.new do |opts|
+  opts.banner = <<-USAGE
+Usage:
+  fluxbb_import <extern options> <intern options>
+
+OPTIONS:
+
+"External DB" is the database you import from; "Internal DB" is the database
+you import into.
+  USAGE
+
+  opts.on("-A", "--external-adapter ADAPTER", "Adapter to use for the external DB."){|str| $config[:external][:adapter] = str}
+  opts.on("-H", "--external-host HOST", "External hostname."){|str| $config[:external][:host] = str}
+  opts.on("-U", "--external-user USER", "External username."){|str| $config[:external][:username] = str}
+  opts.on("-P", "--external-password PASSWORD", "External password."){|str| $config[:external][:password] = str}
+  opts.on("-D", "--external-database DBNAME", "External DB name."){|str| $config[:external][:database] = str}
+  opts.on("-g", "--guest-id", Integer, "ID for the helper Guest user"){|int| $config[:guest_id] = int}
+
+  opts.on("-h", "--help", "Print this message.") do
+    puts opts
+    exit 1
+  end
+
+end.parse!
+
+if !$config[:external][:adapter]
+  $stderr.puts "No external adapter specified."
+  exit 1
+end
+
+case $config[:external][:adapter]
+when "postgresql" then require("pg")
+when "sqlite3" then require("sqlite3")
+when "mysql2" then require("mysql2")
+else
+  $stderr.puts "Warning: Unknown adapeter '#{adapter}', continueing anyway."
+end
+
+if !$config[:external][:password] && !$config[:external][:adapter] == "sqlite3"
+  print "External DB password: "
+  $config[:external][:password] = $stdin.gets.chomp
+end
+
+################################################################################
+# Start of program
+
+########################################
+# Wrap some ActiveRecord models around the existing FluxBB database so we
+# can work with it more easy.
+module External
+
+  class User < ActiveRecord::Base
+    establish_connection $config[:external]
+
+    has_many :posts, :class_name => "External::Post", :foreign_key => :poster_id
+  end
+
+  class Topic < ActiveRecord::Base
+    establish_connection $config[:external]
+
+    belongs_to :forum, :class_name => "External::Forum"
+    has_many :posts, :class_name => "External::Post", :foreign_key => :topic_id
+
+    def poster
+      posts.first.poster rescue nil
+    end
+  end
+
+  class Post < ActiveRecord::Base
+    establish_connection $config[:external]
+
+    belongs_to :topic, :class_name => "External::Topic"
+    belongs_to :poster, :class_name => "External::User"
+  end
+
+  class Forum < ActiveRecord::Base
+    establish_connection $config[:external]
+
+    has_many :topics, :class_name => "External::Topic", :foreign_key => :forum_id
+  end
+
+end
+
+########################################
+# With these models in place, we can now start the actual conversion.
+
+def info(str)
+  puts Paint[str, :blue, :bold]
+end
+
+def warning(str)
+  $stderr.puts(Paint[str, :yellow, :bold])
+  sleep 1
+end
+
+info "Creating global configuration"
+GlobalConfiguration.create
+
+info "Creating helper user with ID #{$config[:guest_id]} for Guest posts we do not have"
+User.new(:id => $config[:guest_id], :nickname => "Guest", :email => "guest@example.invalid", :confirmed => true, :realname => "Old FluxBB Guest user", :encrypted_password => "Invalid password", :forced_rank => "Guest").save!
+
+info "Creating the one and only forum group."
+ForumGroup.new(:name => "All forums").save!
+
+External::User.all.each do |euser|
+  info "Importing user #{euser.username}..."
+
+  if euser.username == "Guest"
+    warning "Not importing Guest user."
+    next
+  end
+
+  iuser = User.new(:id => euser.id,
+                   :nickname => euser.username,
+                   :realname => euser.realname,
+                   :email => euser.email,
+                   :homepage => euser.url,
+                   :created_at => Time.at(euser.registered),
+                   :encrypted_password => euser.password,
+                   :signature => euser.signature,
+                   :location => euser.location,
+                   :jabber_id => euser.jabber,
+                   :confirmed => true)
+  iuser.save!
+end
+
+External::Forum.all.each do |eforum|
+
+  info "========> Importing forum #{eforum.forum_name} <==========="
+  iforum = Forum.new(:id => eforum.id,
+                     :name => eforum.forum_name,
+                     :description => eforum.forum_desc,
+                     :forum_group_id => ForumGroup.first.id)
+  iforum.save!
+
+  info "-- Importings topics..."
+  eforum.topics.each do |etopic|
+    itopic = Topic.new(:id => etopic.id,
+                       :title => etopic.subject,
+                       :forum_id => iforum.id,
+                       :created_at => Time.at(etopic.posted),
+                       :updated_at => Time.at(etopic.posted),
+                       :views => etopic.num_views)
+
+    if etopic.poster.nil? || etopic.poster.username == "Guest"
+      warning "Importing Guest topic '#{etopic.subject}'."
+      itopic.author_id = $config[:guest_id]
+    else
+      itopic.author_id = etopic.poster.id
+    end
+
+    itopic.save!
+
+    etopic.posts.each do |epost|
+      info "-- -- Importing posts..."
+
+      ipost = Post.new(:id => epost.id,
+                       :content => epost.message,
+                       :markup_language => "BBCode",
+                       :created_at => Time.at(epost.posted),
+                       :updated_at => Time.at(epost.posted),
+                       :topic_id => epost.topic.id)
+
+    if epost.poster.nil? || epost.poster.username == "Guest"
+      warning "Importing Guest post in topic '#{epost.topic.subject}'."
+      ipost.author_id = $config[:guest_id]
+    else
+      ipost.author_id = epost.poster.id
+    end
+
+      ipost.save!
+    end
+  end
+end
+
+puts "COMPLETE."
+puts "No user has administrative or moderation rights. Use the console"
+puts "to give at least one user administrative rights."

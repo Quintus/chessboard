@@ -20,12 +20,14 @@ gem "faker"
 gem "warden"
 gem "bcrypt"
 gem "mini_magick"
+gem "paint"
 
 # Component requirements
 gem 'sass'
 gem 'erubis', '~> 2.7.0'
 gem 'activerecord', '>= 3.1', :require => 'active_record'
-gem 'sqlite3'
+gem 'sqlite3', :group => "sqlite"
+gem "pg", :group => "postgres"
 
 # Test requirements
 gem 'minitest', :require => 'minitest/autorun', :group => 'test'
