@@ -15,7 +15,7 @@
 </div>
 <% end %>
 
-<% form_for @user, url(:administration, :user, @user.nickname), :method => :patch do |f| %>
+<% form_for @user, url(:administration, :update_user, @user.nickname), :method => :patch do |f| %>
 
   <p>
     <%= f.label :forced_rank %><br/>
@@ -30,7 +30,7 @@
     <% Forum.order(:name => :asc).each do |forum| %>
       <% key = "user[moderated_forums][#{forum.id}]" %>
       <li><%= check_box_tag key, :id => key, :checked => @user.moderated_forums.include?(forum) %> <label for="<%= key %>"><%= forum.name %></label></li>
-      <%# Can't use User#moderates? because admins always moderate everything #>
+      <%# Can't use User#moderates? because admins always moderate everything %>
     <% end %>
   </ul>
 
@@ -40,7 +40,7 @@
 
   <p class="submit-separator">
     <%= f.submit I18n.t("general.update"), :class => "button-ok" %>
-    <%= link_to I18n.t("general.delete"), url(:administration, :user, @user.nickname) + "?authenticity_token=#{session[:csrf]}", :method => :delete, :confirm => I18n.t("general.are_you_sure"), :class => "button-error" %>
+    <%= link_to I18n.t("general.delete"), url(:administration, :destroy_user, @user.nickname) + "?authenticity_token=#{session[:csrf]}", :method => :delete, :confirm => I18n.t("general.are_you_sure"), :class => "button-error" %>
   </p>
 
 <% end %>

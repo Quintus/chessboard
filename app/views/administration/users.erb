@@ -4,7 +4,7 @@
 
 <h1><%= I18n.t("admin.users.users") %></h1>
 
-<% form_tag url(:administration, :users) do %>
+<% form_tag url(:administration, :index_users) do %>
   <p>
     <%= I18n.t("admin.users.administer") %>:<br/>
     <%= text_field_tag :nickname %>

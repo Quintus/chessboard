@@ -21,26 +21,26 @@ Chessboard::App.controllers :administration do
     end
   end
 
-  get :users, :map => "/admin/users" do
+  get :index_users, :map => "/admin/users" do
     render "users"
   end
 
-  post :users, :map => "/admin/users" do
+  post :index_users, :map => "/admin/users" do
     user = User.where(:nickname => params["nickname"]).first
     unless user
       flash[:alert] = I18n.t("admin.users.not_found")
-      return redirect(url(:administration, :users))
+      return redirect(url(:administration, :index_users))
     end
 
-    redirect url(:administration, :user, user.nickname)
+    redirect url(:administration, :show_user, user.nickname)
   end
 
-  get :user, :map => "/admin/user/:nickname" do
+  get :show_user, :map => "/admin/users/:nickname" do
     @user = User.find_by!(:nickname => params["nickname"])
     render "user"
   end
 
-  patch :user, :map => "/admin/user/:nickname" do
+  patch :update_user, :map => "/admin/users/:nickname" do
     @user = User.find_by!(:nickname => params["nickname"])
 
     params["user"]["moderated_forums"] ||= {} # Allow deletion of all moderation rights
@@ -55,13 +55,13 @@ Chessboard::App.controllers :administration do
 
     if @user.save
       flash[:notice] = I18n.t("admin.users.updated")
-      redirect url(:administration, :user, @user.nickname)
+      redirect url(:administration, :show_user, @user.nickname)
     else
       render "user"
     end
   end
 
-  delete :user, :map => "/admin/user/:nickname" do
+  delete :destroy_user, :map => "/admin/users/:nickname" do
     @user = User.find_by!(:nickname => params["nickname"])
     @user.destroy!
 
