@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 Chessboard::App.controllers :posts do
 
   before do
@@ -34,6 +35,18 @@ Chessboard::App.controllers :posts do
       if @post.save
         call_hook(:ctrl_post_create_final, :post => @post)
 
+        # Honour auto-watch setting: When it is enabled, add the author to
+        # the watcher list (unless already watching of course).
+        if @post.author.settings.auto_watch? && !@post.topic.watchers.include?(@post.author)
+          @post.topic.watchers << @post.author
+        end
+
+        @post.topic.watchers.each do |user|
+          next if user == @post.author # Don’t email the author about his own post
+
+          deliver :posts, :watch_email, user.email, user.nickname, @post, post_url(@post), url(:topics, :show, @post.topic.id), board_link
+        end
+
         hsh = {"post_count" => env["warden"].user.posts.count,
           "post_created" => I18n.l(@post.created_at, :format => :long),
           "post_num" => @post.topic.posts.count,
@@ -47,6 +60,17 @@ Chessboard::App.controllers :posts do
     else
       if @post.save
         call_hook(:ctrl_post_create_final, :post => @post)
+
+        if @post.author.settings.auto_watch? && !@post.topic.watchers.include?(@post.author)
+          @post.topic.watchers << @post.author
+        end
+
+        @post.topic.watchers.each do |user|
+          next if user == @post.author # Don’t email the author about his own post
+
+          deliver :posts, :watch_email, user.email, user.nickname, @post, post_url(@post), url(:topics, :show, @post.topic.id), board_link
+        end
+
         flash[:notice] = I18n.t("posts.created")
         redirect url(:topics, :show, @post.topic.id) + "#p#{@post.id}"
       else

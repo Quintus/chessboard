@@ -11,3 +11,5 @@ en:
         updated_at: Updated at
         topic_id: Topic
         author_id: Author
+
+        ip: Ip

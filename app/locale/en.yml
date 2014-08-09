@@ -38,6 +38,10 @@ en:
     unlock: "Unlock Topic"
     locked: "Locked Topic."
     unlocked: "Unlocked Topic."
+    watch: "Watch"
+    unwatch: "Unwatch"
+    watched: "Now watching this topic."
+    unwatched: "No longer watching this topic."
     edit_topic: "Edit Topic"
     edited: "Topic edited."
     edit: "Edit Topic"
@@ -85,6 +89,8 @@ en:
       hide_email: >-
         If this option is active, your email address will not be shown
         on your profile page (board staff can still see it).
+      auto_watch: >-
+        Automatically watch all topics you create or reply to.
       language: >
         Main board display language. All system messages will be shown
         to you in this language; it has (of course) no influence on

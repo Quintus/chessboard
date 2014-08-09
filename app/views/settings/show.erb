@@ -46,6 +46,20 @@
 
   <div class="setting">
     <div class="header settings-header">
+      <%= f.label :auto_watch %>
+    </div>
+
+    <div class="settings-desc">
+      <%= I18n.t("settings.descriptions.auto_watch") %>
+    </div>
+
+    <div class="settings-content">
+      <%= f.label :auto_watch %><%= f.check_box :auto_watch %>
+    </div>
+  </div>
+
+  <div class="setting">
+    <div class="header settings-header">
       <%= f.label :use_gravatar %>
     </div>
 

@@ -20,6 +20,7 @@ Chessboard::App.controllers :settings do
 
     @settings.hide_status               = params["settings"]["hide_status"].to_i == 1
     @settings.hide_email                = params["settings"]["hide_email"].to_i == 1
+    @settings.auto_watch                = params["settings"]["auto_watch"].to_i == 1
     @settings.language                  = params["settings"]["language"]
     @settings.preferred_markup_language = params["settings"]["preferred_markup_language"]
     @settings.time_format               = params["settings"]["time_format"]

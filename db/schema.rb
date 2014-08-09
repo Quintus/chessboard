@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 29) do
+ActiveRecord::Schema.define(version: 30) do
 
   create_table "avatars", force: true do |t|
     t.string   "path"
@@ -131,6 +131,7 @@ ActiveRecord::Schema.define(version: 29) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "hide_email",                default: true
+    t.boolean  "auto_watch",                default: false
   end
 
   create_table "topics", force: true do |t|
@@ -171,6 +172,11 @@ ActiveRecord::Schema.define(version: 29) do
     t.datetime "expiration_date"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "watchers", id: false, force: true do |t|
+    t.integer "topic_id"
+    t.integer "user_id"
   end
 
 end

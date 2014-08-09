@@ -109,6 +109,26 @@ Chessboard::App.controllers :topics do
     redirect url(:topics, :show, @topic.id)
   end
 
+  patch :watch, :map => "/topics/:id/watch" do
+    @topic = Topic.find(params["id"])
+    user   = env["warden"].user
+
+    @topic.watchers << user unless @topic.watchers.include?(user)
+    flash[:notice] = I18n.t("topics.watched")
+
+    redirect url(:topics, :show, @topic.id)
+  end
+
+  patch :unwatch, :map => "/topics/:id/unwatch" do
+    @topic = Topic.find(params["id"])
+    user   = env["warden"].user
+
+    @topic.watchers.delete(user) if @topic.watchers.include?(user)
+    flash[:notice] = I18n.t("topics.unwatched")
+
+    redirect url(:topics, :show, @topic.id)
+  end
+
   get :move, :map => "/topics/:id/move" do
     @topic = Topic.find(params["id"])
     halt 403 unless env["warden"].user.moderates?(@topic.forum)

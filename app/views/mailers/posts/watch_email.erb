@@ -1,0 +1,16 @@
+Hi <%= nickname %>,
+
+there is a new reply to the topic “<%= post.topic.title %>”.
+Follow this link in order to view it:
+
+<%= boardlink.chop + posturl %>
+
+To view the topic:
+
+<%= boardlink.chop + topicurl %>
+
+If you don’t want to receive emails on this topic any longer, click
+the “Unwatch” button at the bottom of the topic page.
+
+--
+You are receiving this mail as a member of the forum at <%= boardlink %>.
