@@ -20,7 +20,7 @@ module Chessboard
       end
 
       def markup_default(text)
-        BBRuby.to_html_with_formatting(text)
+        BBRuby.to_html_with_alternative_formatting(text)
       end
 
       def replace_emoticons(text)

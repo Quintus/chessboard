@@ -1,5 +1,6 @@
 @import "variables.scss";
 @import "buttons.scss";
+@import "coderay.scss";
 
 body {
     font-family: $sansfont;
@@ -73,6 +74,30 @@ table {
 	    }
 	}
     }
+}
+
+table.CodeRay {
+    font-size: $smallfontsize;
+}
+
+td.line-numbers pre {
+    background-color: hsl(180,65%,90%) !important;
+}
+
+code, pre {
+  background-color: hsl(0,0%,95%);
+  border: 1px solid silver;
+  color: black;
+  font-size: $smallfontsize;
+}
+
+pre code {
+    border: none;
+}
+
+.CodeRay pre {
+    margin: 0px;
+    border: none;
 }
 
 #header {

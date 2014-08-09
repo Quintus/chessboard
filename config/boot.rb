@@ -25,6 +25,7 @@ module Chessboard
 end
 load File.join(PADRINO_ROOT, "settings.rb")
 
+require_relative "bbruby"
 require_relative "warden"
 require_relative "emoticons"
 
