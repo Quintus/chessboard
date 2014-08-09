@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 28) do
+ActiveRecord::Schema.define(version: 29) do
 
   create_table "avatars", force: true do |t|
     t.string   "path"
@@ -89,6 +89,7 @@ ActiveRecord::Schema.define(version: 28) do
     t.datetime "updated_at"
     t.integer  "topic_id"
     t.integer  "author_id"
+    t.string   "ip"
   end
 
   create_table "read_pms", id: false, force: true do |t|

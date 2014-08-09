@@ -16,6 +16,7 @@ Chessboard::App.controllers :posts do
     @post = Post.new(params["post"])
     @post.topic = Topic.find(params["topic_id"])
     @post.author = env["warden"].user
+    @post.ip = request.ip unless Chessboard.config.ip_save_time < 0
 
     halt 403 if @post.topic.locked?
 
@@ -75,7 +76,9 @@ Chessboard::App.controllers :posts do
       return render("posts/new")
     end
 
-    if @post.update_attributes(params["post"])
+    attrs = params["post"]
+    attrs.merge!("ip" => request.ip) unless Chessboard.config.ip_save_time < 0
+    if @post.update_attributes(attrs)
       flash[:notice] = "Posting updated"
       redirect url(:topics, :show, @post.topic.id) + "#p#{@post.id}"
     else

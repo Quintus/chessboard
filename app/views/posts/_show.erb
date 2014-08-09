@@ -36,6 +36,17 @@
 
     <div class="post-text">
 	<%= process_markup(post.content, post.markup_language) %>
+	<% if env["warden"].authenticated? && env["warden"].user.privileged? %>
+	  <p class="post-ip">
+	    IP:
+	    <% if post.ip.blank? %>
+	      <%= I18n.t("posts.no_ip") %>
+	    <% else %>
+	      <%= post.ip %>
+	    <% end %>
+	  </p>
+	<% end %>
+	<div class="clear"><!-- Ensure all floating material ends with end of post --></div>
     </div>
 
     <% if post.author.signature? %>

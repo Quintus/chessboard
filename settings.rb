@@ -33,6 +33,15 @@ Chessboard.configure do |config|
   #   in the transition phase!
   config.authentication_methods = [:password, :sha1password]
 
+  # This option defines (in seconds) how long IP addresses are stored before
+  # they are cleared when running the :clear_ips Rake task.
+  # Set to -1 to disable IP storing completely.
+  # You likely need to adjust this setting to comply with your
+  # local data protection laws. Note no clearing is done automatically
+  # by default -- you have to run the task from Cron if you want to
+  # do that.
+  config.ip_save_time = 60 * 60 * 24 * 7
+
   ########################################
   # Database configuration
 

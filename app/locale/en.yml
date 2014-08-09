@@ -72,6 +72,7 @@ en:
     delete: "Delete"
     deleted: "Posting deleted."
     created: "Posting created."
+    no_ip: "(not available)"
   settings:
     settings: "Settings"
     settings_updated: "Settings updated."

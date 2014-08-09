@@ -214,6 +214,10 @@ table {
 .topic {
 }
 
+.clear {
+    clear: both;
+}
+
 .post {
     margin-top: 8px;
     border: 1px solid black;
@@ -336,6 +340,14 @@ table {
     li {
 	margin-left: 4px;
     }
+}
+
+.post-ip {
+    float: right;
+    color: #b6a23c;
+    font-style: italic;
+    font-size: small;
+    margin: 0px 4px 0px 4px;
 }
 
 .mods {
