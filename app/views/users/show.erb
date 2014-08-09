@@ -16,7 +16,7 @@
   <div class="profile-user-info">
     <ul>
       <li><%= I18n.t("models.user.attributes.realname") %>: <%= @user.realname %></li>
-      <li><%= I18n.t("models.user.attributes.email") %>: <%= @user.email %></li>
+      <li><%= I18n.t("models.user.attributes.email") %>: <%= @user.settings.hide_email? ? I18n.t("users.hidden_email") : @user.email %></li>
       <li><%= I18n.t("models.user.attributes.location") %>: <%= @user.location %></li>
       <li><%= I18n.t("models.user.attributes.profession") %>: <%= @user.profession %></li>
       <li><%= I18n.t("models.user.attributes.jabber_id") %>: <%= @user.jabber_id %></li>

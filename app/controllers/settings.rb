@@ -18,11 +18,12 @@ Chessboard::App.controllers :settings do
 
     @settings = @user.settings
 
-    @settings.hide_status               = params["settings"]["hide_status"]
+    @settings.hide_status               = params["settings"]["hide_status"].to_i == 1
+    @settings.hide_email                = params["settings"]["hide_email"].to_i == 1
     @settings.language                  = params["settings"]["language"]
     @settings.preferred_markup_language = params["settings"]["preferred_markup_language"]
     @settings.time_format               = params["settings"]["time_format"]
-    @settings.use_gravatar              = params["settings"]["use_gravatar"]
+    @settings.use_gravatar              = params["settings"]["use_gravatar"].to_i == 1
 
     if @settings.save
       flash[:notice] = I18n.t("settings.settings_updated")

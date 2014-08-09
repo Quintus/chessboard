@@ -81,6 +81,9 @@ en:
       hide_status: >
         Activating this option makes your online status invisible
         for all other members except moderators and administrators.
+      hide_email: >-
+        If this option is active, your email address will not be shown
+        on your profile page (board staff can still see it).
       language: >
         Main board display language. All system messages will be shown
         to you in this language; it has (of course) no influence on
@@ -128,6 +131,7 @@ en:
     list_query: "Query:"
     profile: "%{nick}’s user profile"
     total_posts: "Total posts"
+    hidden_email: "Hidden"
     registration: >
       You have successfully registered. A confirmation email was sent
       to your mail address, please follow the link it contains in order

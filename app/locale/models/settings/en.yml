@@ -14,3 +14,5 @@ en:
         created_at: Created at
         updated_at: Updated at
         avatar_path: Avatar path
+
+        hide_email: Hide email

@@ -32,6 +32,20 @@
 
   <div class="setting">
     <div class="header settings-header">
+      <%= f.label :hide_email %>
+    </div>
+
+    <div class="settings-desc">
+      <%= I18n.t("settings.descriptions.hide_email") %>
+    </div>
+
+    <div class="settings-content">
+      <%= f.label :hide_email %><%= f.check_box :hide_email %>
+    </div>
+  </div>
+
+  <div class="setting">
+    <div class="header settings-header">
       <%= f.label :use_gravatar %>
     </div>
 
