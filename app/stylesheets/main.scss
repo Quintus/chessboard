@@ -28,6 +28,13 @@ a {
     }
 }
 
+blockquote {
+    border: 1px solid gray;
+    border-left: 3px solid gray;
+    background-color: white;
+    padding: 0px 4px;
+    font-style: italic;
+}
 
 input[type='text'], input[type='password'] {
     width: 50%;

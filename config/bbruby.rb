@@ -34,17 +34,34 @@ module BBRuby
                                      'My favorite people (order of importance): [list][li]Jenny[/li][li]Alex[/li][li]Beth[/li][/list]',
                                      :unorderedlist],
 
+                ### Ordered list compatible to FluxBB ###
                 'Ordered List' => [/\[list=1\](.*?)\[\/list\]/mi,
                                    '<ol>\1</ol>',
                                    'Ordered list',
                                    'My favorite people (alphabetical order): [list=1][li]Jenny[/li][li]Alex[/li][li]Beth[/li][/list]',
                                    :orderedlist],
 
+                ### List item compatible to FluxBB ###
                 'List Item (alternative)' => [/\[\*\](.*?)(?:\[\/\*\]|$)/mi,
                                               '<li>\1</li>',
                                               'List item (alternative)',
                                               '[*]list item',
                                               :listitem],
+
+                ### <fieldset> is overkill for quotes ###
+                'Quote' => [
+                            /\[quote(:.*)?=(?:&quot;)?(.*?)(?:&quot;)?\](.*?)\[\/quote\1?\]/mi,
+                            '<blockquote><strong>\2:</strong><br/>\3</blockquote>',
+                            'Quote with citation',
+                            "[quote=mike]Now is the time...[/quote]",
+                            :quote],
+
+                ### <fieldset> is overkill for quotes ###
+                'Quote (Sourceless)' => [/\[quote(:.*)?\](.*?)\[\/quote\1?\]/mi,
+                                         '<blockquote>\2</blockquote>',
+                                         'Quote (sourceclass)',
+                                         "[quote]Now is the time...[/quote]",
+                                         :quote],
                )
 
   # Similar to the original ::to_html_with_formatting, but does NOT
