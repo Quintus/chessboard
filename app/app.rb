@@ -86,22 +86,22 @@ module Chessboard
     # HTTP error handling
 
     error 403 do
-      render "errors/403"
+      [403, render("errors/403")]
     end
 
     error 404 do
-      render "errors/404"
+      [404, render("errors/404")]
     end
 
     error 500 do
-      render "errors/500"
+      [500, render("errors/500")]
     end
 
     ########################################
     # Special exception handling
 
     error ActiveRecord::RecordNotFound do
-      logger.info "Showing ActiveRecord::RecordNotFoud (#{env['sinatra.error'].message}) as 404."
+      logger.info "Showing ActiveRecord::RecordNotFound (#{env['sinatra.error'].message}) as 404."
       [404, render("errors/404")]
     end
 
