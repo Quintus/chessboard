@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 31) do
+ActiveRecord::Schema.define(version: 32) do
 
   create_table "avatars", force: true do |t|
     t.string   "path"
@@ -156,7 +156,6 @@ ActiveRecord::Schema.define(version: 31) do
     t.datetime "updated_at"
     t.string   "encrypted_password"
     t.boolean  "admin",              default: false
-    t.string   "signature"
     t.string   "location"
     t.string   "profession"
     t.string   "jabber_id"
@@ -164,6 +163,7 @@ ActiveRecord::Schema.define(version: 31) do
     t.datetime "last_login"
     t.boolean  "confirmed",          default: false
     t.string   "forced_rank"
+    t.text     "signature"
   end
 
   create_table "warnings", force: true do |t|
