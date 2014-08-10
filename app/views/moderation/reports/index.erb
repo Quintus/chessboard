@@ -12,7 +12,7 @@
   <div class="report">
     <p class="report-intro">
       On <%= I18n.l(report.created_at, :format => :long) %>, <%= link_to report.user.nickname, url(:users, :show, report.user.nickname) %>
-      reported <%= link_to "the following post", url(:topics, :show, report.post.topic.id) + "#p#{report.post.id}" %>
+      reported <%= link_to "the following post", post_url(report.post) %>
       from the topic <strong><%= report.post.topic.title %></strong>:
     </p>
     <div class="report-post">

@@ -17,7 +17,7 @@
       <tr>
 	<td><%= format_time report.created_at %></td>
 	<td><%= link_to report.post.author.nickname, url(:users, :show, report.post.author.nickname) %></td>
-	<td><%= link_to report.post.topic.title, url(:topics, :show, report.post.topic.id) + "#p#{report.post.id}" %></td>
+	<td><%= link_to report.post.topic.title, post_url(report.post) %></td>
 	<td><%= link_to I18n.t("general.withdraw"), url(:reports, :destroy, report.id) + "?authenticity_token=#{session[:csrf]}", report.id, :method => :delete, :confirm => I18n.t("general.are_you_sure"), :class => "button-error" %></td>
       </tr>
     <% end %>

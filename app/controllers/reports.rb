@@ -53,7 +53,7 @@ Chessboard::App.controllers :reports do
 
     if @report.save
       flash[:notice] = I18n.t("reports.reported")
-      redirect url(:topics, :show, post.topic.id) + "#p#{post.id}"
+      redirect post_url(post)
     else
       @post_id = params["report"]["post"]
       render "reports/new"

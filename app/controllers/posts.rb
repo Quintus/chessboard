@@ -58,7 +58,7 @@ Chessboard::App.controllers :posts do
         hsh = {"post_count" => env["warden"].user.posts.count,
           "post_created" => I18n.l(@post.created_at, :format => :long),
           "post_num" => @post.topic.posts.count,
-          "post_link" => url(:topics, :show, @post.topic.id) + "#p#{@post.id}",
+          "post_link" => post_url(@post),
           "post_content" => process_markup(@post.content, @post.markup_language)}
 
         hsh.to_json
@@ -84,7 +84,7 @@ Chessboard::App.controllers :posts do
         ActiveRecord::Base.connection.execute("DELETE FROM read_topics WHERE read_topics.user_id IN (#{ids.join(',')}) AND read_topics.topic_id = #{@post.topic.id}")
 
         flash[:notice] = I18n.t("posts.created")
-        redirect url(:topics, :show, @post.topic.id) + "#p#{@post.id}"
+        redirect post_url(@post)
       else
         @topic = @post.topic
         render "posts/new"
@@ -116,7 +116,7 @@ Chessboard::App.controllers :posts do
     attrs.merge!("ip" => request.ip) unless Chessboard.config.ip_save_time < 0
     if @post.update_attributes(attrs)
       flash[:notice] = "Posting updated"
-      redirect url(:topics, :show, @post.topic.id) + "#p#{@post.id}"
+      redirect post_url(@post)
     else
       @topic = @post.topic
       render "posts/edit"
