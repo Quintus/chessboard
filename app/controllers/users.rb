@@ -179,11 +179,17 @@ Chessboard::App.controllers :users do
     @user = env["warden"].user
     halt 403 if @user.nickname != params["name"]
 
-    Topic.all.each do |topic|
-      unless @user.read_topics.include?(topic)
-        @user.read_topics << topic
-      end
-    end
+    # ActiveRecord’s query interface does not allow for mass insertion
+    # into the HABTM association join table. Inserting all pairs one
+    # at a time spawns dozens of SQL queries, so instead we use raw
+    # SQL for performance reasons.
+    uid       = @user.id
+    topic_ids = Topic.pluck(:id)
+    values    = topic_ids.map{|tid| "(#{tid},#{uid})"}.join(",")
+
+    # Prevent duplicate entries by marking all as unread first
+    ActiveRecord::Base.connection.execute("DELETE FROM read_topics WHERE user_id = #{uid}")
+    ActiveRecord::Base.connection.execute("INSERT INTO read_topics (topic_id,user_id) VALUES #{values}")
 
     flash[:notice] = I18n.t("topics.marked_all_as_read")
     redirect url(:forums, :index)
