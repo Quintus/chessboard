@@ -56,36 +56,3 @@
     <% end %>
   </div>
 </div>
-
-<%# Template should only be once in the code; only 0th entry is guaranteed to exist. %>
-<% if i.zero? && env["warden"].authenticated? %>
-<% user = env["warden"].user %>
-<script id="post-template" type="text/x-handlebars-template">
-  <div class="post">
-    <div class="post-author">
-    <p class="author-name"><%= link_to user.nickname, url(:users, :show, user.nickname) %></p>
-    <p class="author-membership"><%= user.membership %></p>
-    <% if user.avatar_link %>
-	<p class="author-avatar"><%= image_tag user.avatar_link, :alt => "User avatar" %></p>
-    <% end %>
-    <p class="author-registered">Registered: <%= user.created_at.strftime("%Y-%m-%d") %></p>
-	<p class="author-posts">Posts: {{ post_count }}</p>
-    </div>
-
-    <div class="post-content">
-	<div class="header post-header">
-	  <div class="post-created">
-	    <p>{{ post_created }}</p>
-	  </div>
-	  <div class="post-num">
-	    <p><a href="{{ post_link }}" name="p{{ post_num }}">#{{ post_num }}</a></p>
-	  </div>
-	</div>
-
-	<div class="post-text">
-	  {{{ post_content }}}
-	</div>
-    </div>
-  </div>
-</script>
-<% end %>

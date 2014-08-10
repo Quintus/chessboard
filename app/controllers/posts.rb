@@ -23,72 +23,38 @@ Chessboard::App.controllers :posts do
 
     # This hook can prevent saving of the post
     unless call_hook(:ctrl_post_create, :post => @post, :params => params)
-      if request.xhr?
-        halt 400
-      else
-        @topic = @post.topic
-        return render("posts/new")
-      end
+      @topic = @post.topic
+      return render("posts/new")
     end
 
-    if request.xhr?
-      if @post.save
-        call_hook(:ctrl_post_create_final, :post => @post)
+    if @post.save
+      call_hook(:ctrl_post_create_final, :post => @post)
 
-        # Honour auto-watch setting: When it is enabled, add the author to
-        # the watcher list (unless already watching of course).
-        if @post.author.settings.auto_watch? && !@post.topic.watchers.include?(@post.author)
-          @post.topic.watchers << @post.author
-        end
-
-        @post.topic.watchers.each do |user|
-          next if user == @post.author # Don’t email the author about his own post
-
-          deliver :posts, :watch_email, user.email, user.nickname, @post, post_url(@post), url(:topics, :show, @post.topic.id), board_link
-        end
-
-        # Unset read mark for all users except the author
-        # Sadly, mass-deletion from HABTM is not possible with ActiveRecord’s
-        # query interface (only one-by-one deletion would be possible,
-        # spawning a lot of SQL DELETE queries), so we do raw SQL for
-        # performance reasons.
-        ids = User.where.not("users.id" => @post.author.id).pluck(:id)
-        ActiveRecord::Base.connection.execute("DELETE FROM read_topics WHERE read_topics.user_id IN (#{ids.join(',')}) AND read_topics.topic_id = #{@post.topic.id}")
-
-        hsh = {"post_count" => env["warden"].user.posts.count,
-          "post_created" => I18n.l(@post.created_at, :format => :long),
-          "post_num" => @post.topic.posts.count,
-          "post_link" => post_url(@post),
-          "post_content" => process_markup(@post.content, @post.markup_language)}
-
-        hsh.to_json
-      else
-        halt 400
+      # Honour auto-watch setting: When it is enabled, add the author to
+      # the watcher list (unless already watching of course).
+      if @post.author.settings.auto_watch? && !@post.topic.watchers.include?(@post.author)
+        @post.topic.watchers << @post.author
       end
+
+      @post.topic.watchers.each do |user|
+        next if user == @post.author # Don’t email the author about his own post
+
+        deliver :posts, :watch_email, user.email, user.nickname, @post, post_url(@post), url(:topics, :show, @post.topic.id), board_link
+      end
+
+      # Unset read mark for all users except the author
+      # Sadly, mass-deletion from HABTM is not possible with ActiveRecord’s
+      # query interface (only one-by-one deletion would be possible,
+      # spawning a lot of SQL DELETE queries), so we do raw SQL for
+      # performance reasons.
+      ids = User.where.not("users.id" => @post.author.id).pluck(:id)
+      ActiveRecord::Base.connection.execute("DELETE FROM read_topics WHERE read_topics.user_id IN (#{ids.join(',')}) AND read_topics.topic_id = #{@post.topic.id}")
+
+      flash[:notice] = I18n.t("posts.created")
+      redirect post_url(@post)
     else
-      if @post.save
-        call_hook(:ctrl_post_create_final, :post => @post)
-
-        if @post.author.settings.auto_watch? && !@post.topic.watchers.include?(@post.author)
-          @post.topic.watchers << @post.author
-        end
-
-        @post.topic.watchers.each do |user|
-          next if user == @post.author # Don’t email the author about his own post
-
-          deliver :posts, :watch_email, user.email, user.nickname, @post, post_url(@post), url(:topics, :show, @post.topic.id), board_link
-        end
-
-        # Unset read mark for all users except the author
-        ids = User.where.not("users.id" => @post.author.id).pluck(:id)
-        ActiveRecord::Base.connection.execute("DELETE FROM read_topics WHERE read_topics.user_id IN (#{ids.join(',')}) AND read_topics.topic_id = #{@post.topic.id}")
-
-        flash[:notice] = I18n.t("posts.created")
-        redirect post_url(@post)
-      else
-        @topic = @post.topic
-        render "posts/new"
-      end
+      @topic = @post.topic
+      render "posts/new"
     end
   end
 
