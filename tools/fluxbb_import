@@ -151,7 +151,7 @@ External::User.all.each do |euser|
 
     a = Avatar.new(:path => "#{euser.id}.png", :user_id => euser.id)
     a.save!
-  rescue OpenURI::HTTPError
+  rescue OpenURI::HTTPError, Errno::ENOENT
     puts "This user has no avatar, ignoring."
   end
 end
