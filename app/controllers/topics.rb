@@ -1,6 +1,6 @@
 Chessboard::App.controllers :topics do
   
-  before :except => :show do
+  before :except => [:show, :feed] do
     env["warden"].authenticate!
   end
 
@@ -11,6 +11,13 @@ Chessboard::App.controllers :topics do
     @topic.posts.build(:markup_language => env["warden"].user.settings.preferred_markup_language)
     @forum = Forum.find(params["forum"])
     render "new"
+  end
+
+  get :feed, :map => "/topics/feed", :provides => [:atom] do
+    content_type "application/atom+xml;charset=utf8"
+
+    @posts = Post.order(:updated_at => :desc).limit(20)
+    render "topics/feed", :layout => false
   end
 
   get :show, :map => "/topics/:id" do

@@ -8,6 +8,7 @@ require 'rubygems' unless defined?(Gem)
 require "ostruct"
 require "ipaddr"
 require "digest/md5"
+require "time"
 require 'bundler/setup'
 require "mail"
 Bundler.require(:default, RACK_ENV)

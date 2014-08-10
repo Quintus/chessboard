@@ -12,7 +12,7 @@ Chessboard.configure do |config|
   # This will be used as the domain part of all absolute links to
   # the forum (mainly in emails) and as the domain part of email
   # addresses used by the forum software.
-  config.domain = "localhost"
+  config.domain = "localhost:3000"
 
   # Default locale
   config.default_locale = :en
