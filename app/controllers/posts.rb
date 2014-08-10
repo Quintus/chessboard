@@ -47,6 +47,14 @@ Chessboard::App.controllers :posts do
           deliver :posts, :watch_email, user.email, user.nickname, @post, post_url(@post), url(:topics, :show, @post.topic.id), board_link
         end
 
+        # Unset read mark for all users except the author
+        # Sadly, mass-deletion from HABTM is not possible with ActiveRecord’s
+        # query interface (only one-by-one deletion would be possible,
+        # spawning a lot of SQL DELETE queries), so we do raw SQL for
+        # performance reasons.
+        ids = User.where.not("users.id" => @post.author.id).pluck(:id)
+        ActiveRecord::Base.connection.execute("DELETE FROM read_topics WHERE read_topics.user_id IN (#{ids.join(',')}) AND read_topics.topic_id = #{@post.topic.id}")
+
         hsh = {"post_count" => env["warden"].user.posts.count,
           "post_created" => I18n.l(@post.created_at, :format => :long),
           "post_num" => @post.topic.posts.count,
@@ -70,6 +78,10 @@ Chessboard::App.controllers :posts do
 
           deliver :posts, :watch_email, user.email, user.nickname, @post, post_url(@post), url(:topics, :show, @post.topic.id), board_link
         end
+
+        # Unset read mark for all users except the author
+        ids = User.where.not("users.id" => @post.author.id).pluck(:id)
+        ActiveRecord::Base.connection.execute("DELETE FROM read_topics WHERE read_topics.user_id IN (#{ids.join(',')}) AND read_topics.topic_id = #{@post.topic.id}")
 
         flash[:notice] = I18n.t("posts.created")
         redirect url(:topics, :show, @post.topic.id) + "#p#{@post.id}"
