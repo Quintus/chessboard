@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 30) do
+ActiveRecord::Schema.define(version: 31) do
 
   create_table "avatars", force: true do |t|
     t.string   "path"
@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(version: 30) do
     t.boolean  "registration",             default: true
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "page_post_num",            default: 15
   end
 
   create_table "moderation", id: false, force: true do |t|

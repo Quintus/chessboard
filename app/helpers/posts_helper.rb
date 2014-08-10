@@ -39,7 +39,7 @@ module Chessboard
       end
 
       def post_url(post)
-        url(:topics, :show, post.topic.id) + "#p#{post.id}"
+        url(:posts, :show, post.topic.id, post.id)
       end
 
     end

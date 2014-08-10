@@ -92,6 +92,19 @@ Chessboard::App.controllers :posts do
     end
   end
 
+  # This route redirects you to the topic :show view onto
+  # the correct page with the correct anchor for the specific
+  # post you requested.
+  get :show, :map => "/topics/:topic_id/posts/:id" do
+    topic = Topic.find(params["topic_id"])
+    post  = Post.find(params["id"])
+
+    previous_posts_count = topic.posts.where("posts.id <= ?", post.id).count
+    page = (previous_posts_count.to_f / GlobalConfiguration.instance.page_post_num.to_f).ceil
+
+    redirect url(:topics, :show, topic.id) + "?page=#{page}" + "#p#{post.id}"
+  end
+
   get :edit, :map => "/topics/:topic_id/posts/:id/edit" do
     @post = Post.find(params["id"])
     halt 403 if @post.topic.locked?

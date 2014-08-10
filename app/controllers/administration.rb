@@ -14,8 +14,8 @@ Chessboard::App.controllers :administration do
     @configuration = GlobalConfiguration.instance
 
     if @configuration.update_attributes(params["global_configuration"])
-      flash[:notice] = I18n.t("configuration.updated")
-      redirect url(:global_configuration, :configuration)
+      flash[:notice] = I18n.t("admin.configuration.updated")
+      redirect url(:administration, :configuration)
     else
       render "configuration"
     end

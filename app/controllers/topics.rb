@@ -26,6 +26,16 @@ Chessboard::App.controllers :topics do
     @topic.users_who_read_this << env["warden"].user if env["warden"].authenticated? && !env["warden"].user.read?(@topic)
     @topic.save
 
+    num_posts = GlobalConfiguration.instance.page_post_num
+    page = params["page"].to_i # = 0 if not given
+    page = 1 if page < 1 # No negative pages
+    page -= 1 # First page is 1
+
+    @posts = @topic.posts.order(:created_at => :asc).offset(num_posts * page).limit(num_posts)
+    @null_i = num_posts * page # Number of the first post of this page in the topic
+    @total_pages = (@topic.posts.count.to_f / num_posts.to_f).ceil
+    @current_page = page + 1
+
     render "show"
   end
 

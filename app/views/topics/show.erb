@@ -2,10 +2,16 @@
 <h1><%= @topic.title %></h1>
 
 <div class="topic">
-  <% @topic.posts.order("created_at ASC").each_with_index do |post, i| %>
-    <%= partial "posts/show", :locals => {:post => post, :i => i} %>
+  <% @posts.each_with_index do |post, i| %>
+    <%= partial "posts/show", :locals => {:post => post, :i => @null_i + i} %>
   <% end %>
 </div>
+
+<% if @total_pages > 1 %>
+  <ul class="topic-pages topic-pages-topic">
+    <%= partial "topics/topic_pages", :locals => {:topic => @topic, :total_pages => @total_pages, :current_page_num => @current_page} %>
+  </ul>
+<% end %>
 
 <ul class="topic-actions">
   <% if env["warden"].authenticated? %>
@@ -36,6 +42,8 @@
     <% end %>
   <% end %>
 </ul>
+
+<div class="clear"></div>
 
 <% if !@topic.locked? && env["warden"].authenticated? %>
   <% post = Post.new(:markup_language => env["warden"].user.settings.preferred_markup_language) %>

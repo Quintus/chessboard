@@ -47,6 +47,14 @@ end %>
   <td class="list-topic">
     <%= link_to forum_topic.title, url(:topics, :show, forum_topic.id) %><br/>
     <%= I18n.t("forums.author_by") %> <%= link_to forum_topic.author.nickname, url(:users, :show, forum_topic.author.nickname) %>
+
+    <% total_pages = (forum_topic.posts.count.to_f / GlobalConfiguration.instance.page_post_num.to_f).ceil %>
+    <% if total_pages > 1 %>
+      | <%= I18n.t("topics.pages") %>
+      <ul class="topic-pages topic-pages-forum">
+	<%= partial "topics/topic_pages", :locals => {:topic => forum_topic, :total_pages => total_pages} %>
+      </ul>
+    <% end %>
   </td>
   <td class="list-replies numbercell"><%= forum_topic.posts.count %></td>
   <td class="list-views numbercell"><%= forum_topic.views %></td>

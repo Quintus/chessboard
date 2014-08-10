@@ -47,6 +47,9 @@ en:
     edit: "Edit Topic"
     mark_all_as_read: "Mark all read"
     marked_all_as_read: "All topics marked as read."
+    pages: "Pages:"
+    next_page: "Next →"
+    prev_page: "← Previous"
     move: "Move Topic"
     move_target: "New forum"
     moved: "Moved Topic."
@@ -277,6 +280,9 @@ en:
       registration: >-
         Whether or not to allow registration. If you disable this,
         you have to create new users manually on the console.
+      page_post_num: >-
+        The number of posts to display per page. Must be equal to or
+        more than 5.
     users:
       users: "Users"
       administer: "Administer user"

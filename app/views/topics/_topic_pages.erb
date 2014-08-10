@@ -1,0 +1,27 @@
+<%# Partial for creating a pages selector for long topics.
+  # Requires a :topic and a :total_pages argument. Yields
+  # <li> elements you have to place inside a list of your
+  # choice.
+  # If you pass also :current_page_num, you will get "previous"
+  # and "next" entries.
+%>
+
+<% if defined?(current_page_num) && current_page_num > 1 %>
+  <li><%= link_to I18n.t("topics.prev_page"), url(:topics, :show, topic.id) + "?page=#{current_page_num - 1}" %></li>
+<% end %>
+
+<% if total_pages <= 5 %>
+  <% 1.upto(total_pages) do |i| %>
+    <li><%= link_to i, url(:topics, :show, topic.id) + "?page=#{i}" %></li>
+  <% end %>
+<% elsif total_pages > 5 %>
+  <% 1.upto(4) do |i| %>
+    <li><%= link_to i, url(:topics, :show, topic.id) + "?page=#{i}" %></li>
+  <% end %>
+  <li>…</li>
+  <li><%= link_to total_pages, url(:topics, :show, topic.id) + "?page=#{total_pages}" %></li>
+<% end %>
+
+<% if defined?(current_page_num) && current_page_num < total_pages %>
+  <li><%= link_to I18n.t("topics.next_page"), url(:topics, :show, topic.id) + "?page=#{current_page_num + 1}" %></li>
+<% end %>

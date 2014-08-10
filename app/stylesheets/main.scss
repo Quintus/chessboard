@@ -363,6 +363,20 @@ pre code {
     text-align: right;
 }
 
+.topic-pages {
+    @include vlist;
+}
+
+.topic-pages-topic {
+    float: left;
+}
+
+.topic-pages-forum {
+    display: inline;
+
+    li:first-child { margin-left: 0px; }
+}
+
 .post-actions {
     @include vlist;
     float: right;
