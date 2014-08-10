@@ -53,7 +53,7 @@ Chessboard::App.controllers :users do
   end
 
   get :show, :map => "/users/:name" do
-    @user = User.find_by(:nickname => params["name"])
+    @user = User.find_by!(:nickname => params["name"])
     render "users/show"
   end
 
@@ -141,13 +141,13 @@ Chessboard::App.controllers :users do
   end
 
   get :confirm, :map => "/users/:name/confirm" do
-    @user = User.find_by(:nickname => params["name"])
+    @user = User.find_by!(:nickname => params["name"])
     render "users/confirm"
   end
 
   patch :confirm, :map => "/users/:name/confirm" do
     halt 400 unless params["token"]
-    @user = User.find_by(:nickname => params["name"])
+    @user = User.find_by!(:nickname => params["name"])
 
     halt 400 if @user.confirmed?
     token = @user.registration_token
