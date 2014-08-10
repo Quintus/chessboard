@@ -36,10 +36,9 @@ Chessboard::App.controllers :posts do
         @post.topic.watchers << @post.author
       end
 
-      @post.topic.watchers.each do |user|
-        next if user == @post.author # Don’t email the author about his own post
-
-        deliver :posts, :watch_email, user.email, user.nickname, @post, post_url(@post), url(:topics, :show, @post.topic.id), board_link
+      # Email all watchers (except the author)
+      @post.topic.watchers.where.not(:id => @post.author.id).pluck(:email, :nickname).each do |email, nickname|
+        deliver :posts, :watch_email, email, nickname, @post, post_url(@post), url(:topics, :show, @post.topic.id), board_link
       end
 
       # Unset read mark for all users except the author
