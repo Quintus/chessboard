@@ -42,6 +42,12 @@ Chessboard::App.controllers :personal_messages do
 
     if @pm.save
       call_hook(:ctrl_pm_create_final, :pm => @pm)
+
+      @pm.allowed_users.each do |user|
+        next if user == @pm.author # Don't email the author about his own PM
+        deliver :personal_messages, :pm_email, user.email, user.nickname, @pm.author.nickname, @pm.title, board_link
+      end
+
       flash["notice"] = I18n.t("pms.created")
       redirect url(:personal_messages, :show, @pm.id)
     else
