@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 Chessboard::App.controllers :posts do
 
-  before do
+  before :except => [:show] do
     env["warden"].authenticate!
   end
 
