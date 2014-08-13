@@ -13,13 +13,13 @@ class Forum < ActiveRecord::Base
   # 3. All normal topics for this forum, ordered reversely by update
   def categorized_topics
     # First announcements
-    result = Topic.where(:announcement => true).joins(:posts).group("topics.id").sort_by(&:updated_at).reverse
+    result = Topic.where(:announcement => true).joins(:posts).group("topics.id").order("MAX(posts.updated_at) DESC")
 
     # Next sticky topics
-    result += topics.where(:sticky => true).joins(:posts).group("topics.id").sort_by(&:updated_at).reverse
+    result += topics.where(:sticky => true).joins(:posts).group("topics.id").order("MAX(posts.updated_at) DESC")
 
     # Finally normal topics
-    result += topics.where(:sticky => false, :announcement => false).joins(:posts).group("topics.id").sort_by(&:updated_at).reverse
+    result += topics.where(:sticky => false, :announcement => false).joins(:posts).group("topics.id").order("MAX(posts.updated_at) DESC")
 
     # Result
     result
