@@ -82,6 +82,14 @@ module Chessboard
       render "misc/personal"
     end
 
+    post "/preview", :provides => [:json] do
+      halt 400 unless request.xhr?
+      halt 400 unless params["text"]
+      halt 400 unless params["markup_language"]
+
+      {:text => process_markup(params["text"], params["markup_language"])}.to_json
+    end
+
     ########################################
     # HTTP error handling
 

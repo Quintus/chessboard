@@ -16,5 +16,8 @@
 
   <p class="submit-separator">
     <%= f.submit I18n.t("general.create"), :class => "button-ok" %>
+    <%= button_tag I18n.t("general.preview"), :class => "button-normal", :id => "preview-button" %>
   </p>
 <% end %>
+
+<div class="preview"></div>

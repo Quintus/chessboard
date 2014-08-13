@@ -506,3 +506,14 @@ pre code {
 .topic-sticky {
     background-color: #DDDDDD;
 }
+
+/********** Preview **********/
+
+div.preview {
+    margin-top: 4px;
+    border: 1px solid black;
+    background-color: $lightgrey;
+    background-image: url("/images/misc/draft.png");
+    display: none; /* shown on preview */
+    padding: 4px;
+}
