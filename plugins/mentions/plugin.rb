@@ -10,6 +10,10 @@
 module MentionPlugin
   include Chessboard::Plugin
 
+  # Regular expression for extracting @ mentions.
+  # ">" is for closing HTML tag
+  FIND_MENTION_REGEXP = /(^|\s|>)(@[[:alnum:]]+)/
+
   # Template for the email sent do mentioned users.
   MENTION_EMAIL = Erubis::Eruby.new(<<-EMAIL)
 Hi <%= nickname %>,
@@ -32,7 +36,7 @@ You are receiving this mail as a member of the forum at <%= boardlink %>.
   def hook_hlpr_post_markup(options)
     result = super
 
-    result.gsub(/(^|\s)(@[[:alnum:]]+)/) do
+    result.gsub(FIND_MENTION_REGEXP) do
       "#$1<strong class='mention'>#$2</strong>"
     end
   end
@@ -55,8 +59,8 @@ You are receiving this mail as a member of the forum at <%= boardlink %>.
     text = post.content
     board_link = request.ssl? ? "https://#{Chessboard.config.domain}/" : "http://#{Chessboard.config.domain}/"
 
-    text.scan(/(?:^|\s)@([[:alnum:]]+)/) do |ary|
-      user = User.find_by(:nickname => ary[0])
+    text.scan(FIND_MENTION_REGEXP) do |ary|
+      user = User.find_by(:nickname => ary[1][1..-1]) # [1..-1] removes leading @
       next unless user
 
       mail         = Mail.new
