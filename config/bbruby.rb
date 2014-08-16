@@ -4,7 +4,7 @@ require "strscan"
 # Extensions/replacements for bb-ruby
 module BBRuby
   @@tags.merge!("Code"=> ### Syntax highlighting ###
-               [/\[code(=.+)?\](.*?)\[\/code\1?\]/mi,
+               [/\[code(=.+?)?\](.*?)\[\/code\1?\]/mi,
                 lambda{|match|
                   lang = match[1]
                   content = CGI.unescape_html(match[2].strip)
@@ -18,7 +18,12 @@ module BBRuby
                   end
 
                   if lang
-                    CodeRay.scan(content, lang).html(:wrap => :div, :line_numbers => :table, :css => :class)
+                    lang = "cpp" if lang == "c++" # c++ was the old ID, but CodeRay wants cpp
+                    begin
+                      CodeRay.scan(content, lang).html(:wrap => :div, :line_numbers => :table, :css => :class)
+                    rescue ArgumentError => e
+                      "<pre>ERROR: #{e.message}</pre>"
+                    end
                   else
                     "<pre>#{content}</pre>"
                   end
