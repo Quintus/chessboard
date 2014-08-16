@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # = FluxBB compatibility plugin
 #
-# Makes FluxBB post URLs work in Chessboard.
+# Makes FluxBB topic URLs work in Chessboard.
 #
 # Like this: viewtopic.php?id=31
 #
@@ -14,8 +14,8 @@ module FluxbbCompatPlugin
     get :post_compat, :map => "/viewtopic.php" do
       halt 400 unless params["id"]
 
-      post = Post.find(params["id"])
-      redirect post_url(post), 301
+      topic = Topic.find(params["id"])
+      redirect url(:topics, :show, topic.id), 301
     end
   end
 
