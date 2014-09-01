@@ -362,7 +362,7 @@ pre code {
     text-align: right;
 }
 
-.topic-pages {
+.topic-pages, .forum-pages {
     @include vlist;
 }
 
