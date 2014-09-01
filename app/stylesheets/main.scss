@@ -87,6 +87,7 @@ div.CodeRay, pre {
     max-height: 250px;
     overflow-x: auto;
     overflow-y: auto;
+    position: relative;
 }
 
 code, pre {
@@ -102,6 +103,15 @@ div.CodeRay > div.code > pre {
 
 pre code {
     border: none;
+}
+
+.hide-codelines {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 20;
+    display: none;
+    cursor: pointer;
 }
 
 #header {
