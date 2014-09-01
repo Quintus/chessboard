@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 32) do
+ActiveRecord::Schema.define(version: 33) do
 
   create_table "avatars", force: true do |t|
     t.string   "path"
@@ -53,6 +53,7 @@ ActiveRecord::Schema.define(version: 32) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "page_post_num",            default: 15
+    t.integer  "page_topic_num",           default: 15
   end
 
   create_table "moderation", id: false, force: true do |t|

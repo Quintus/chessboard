@@ -284,6 +284,9 @@ en:
       page_post_num: >-
         The number of posts to display per page. Must be equal to or
         more than 5.
+      page_topic_num: >-
+        The number of topics to display per forum overview page. Must
+        be equal to or more than 5.
     users:
       users: "Users"
       administer: "Administer user"
