@@ -20,7 +20,7 @@ module BBRuby
                   if lang
                     lang = "cpp" if lang == "c++" # c++ was the old ID, but CodeRay wants cpp
                     begin
-                      CodeRay.scan(content, lang).html(:wrap => :div, :line_numbers => :table, :css => :class)
+                      CodeRay.scan(content, lang).html(:wrap => :div, :line_numbers => :inline, :css => :class)
                     rescue ArgumentError => e
                       "<pre>ERROR: #{e.message}</pre>"
                     end
@@ -78,17 +78,17 @@ module BBRuby
     result = ""
 
     until ss.eos?
-      if target_str = ss.scan_until(/<table class="CodeRay">/)
-        result << format_paragraphs(target_str[0..-24]) << '<table class="CodeRay">' # Don’t format <table class="CodeRay"> tag start itself
+      if target_str = ss.scan_until(/<div class="CodeRay">/) # CodeRay
+        result << format_paragraphs(target_str[0..-22]) << '<div class="CodeRay">' # Don’t format <div class="CodeRay"> tag start itself
 
-        raw_str = ss.scan_until(/<\/table>/)
+        raw_str = ss.scan_until(/<\/div>.*?<\/div>/m)
         result << raw_str
       elsif target_str = ss.scan_until(/<pre>/)
         result << format_paragraphs(target_str[0..-6]) << "<pre>" # Don’t format <pre> tag start itself
 
         raw_str = ss.scan_until(/<\/pre>/)
         result << raw_str
-      else # No <pre> or <table class="CodeRay"> at all/anymore
+      else # No <pre> or <div class="CodeRay"> at all/anymore
         result << format_paragraphs(ss.rest)
         ss.terminate
       end

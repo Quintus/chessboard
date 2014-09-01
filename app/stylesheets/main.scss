@@ -83,12 +83,10 @@ table {
     }
 }
 
-table.CodeRay {
-    font-size: $smallfontsize;
-}
-
-td.line-numbers pre {
-    background-color: hsl(180,65%,90%) !important;
+div.CodeRay, pre {
+    max-height: 250px;
+    overflow-x: auto;
+    overflow-y: auto;
 }
 
 code, pre {
@@ -98,12 +96,11 @@ code, pre {
   font-size: $smallfontsize;
 }
 
-pre code {
+div.CodeRay > div.code > pre {
     border: none;
 }
 
-.CodeRay pre {
-    margin: 0px;
+pre code {
     border: none;
 }
 
@@ -290,6 +287,7 @@ pre code {
 
 .post-text {
     padding-left: 4px;
+    padding-right: 4px;
 }
 
 .author-name {
