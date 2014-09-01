@@ -88,6 +88,18 @@ class User < ActiveRecord::Base
     read_topics.include?(topic)
   end
 
+  # Returns true if the User has read all topics in the
+  # given forum.
+  # TODO: Either limit the test to the first X pages of
+  # a forum or find a way to query the read status for
+  # all topics at once via SQL. The way it is done currently
+  # is very performance-heavy as each topic is queried
+  # after one another, which especially for large forums
+  # with many read topics does not perform.
+  def read_forum?(forum)
+    forum.topics.all?{|t| read?(t)}
+  end
+
   # Returns true if the User has read the given PersonalMessage.
   def read_pm?(pm)
     read_pms.include?(pm)

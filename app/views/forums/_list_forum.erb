@@ -1,4 +1,11 @@
 <tr class="forum">
+  <td class="forumicon">
+    <% if env["warden"].authenticated? && !env["warden"].user.read_forum?(list_forum) %>
+      <%= image_tag "icons/forum_unread.png" %>
+    <% else %>
+      <%= image_tag "icons/forum_read.png" %>
+    <% end %>
+  </td>
   <td class="forumname">
     <%= link_to list_forum.name, url(:forums, :show, list_forum.id) %><br/>
     <%= list_forum.description %>
