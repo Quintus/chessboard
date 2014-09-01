@@ -14,6 +14,8 @@
     </tr>
   </thead>
   <tbody>
-    <%= partial "topics/forum_topic", :collection => @topics %>
+    <%= partial "topics/forum_topic", :collection => @topics[:announcements] %>
+    <%= partial "topics/forum_topic", :collection => @topics[:stickies] %>
+    <%= partial "topics/forum_topic", :collection => @topics[:normal] %>
   </tbody>
 </table>
