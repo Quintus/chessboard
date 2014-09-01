@@ -90,14 +90,11 @@ class User < ActiveRecord::Base
 
   # Returns true if the User has read all topics in the
   # given forum.
-  # TODO: Either limit the test to the first X pages of
-  # a forum or find a way to query the read status for
-  # all topics at once via SQL. The way it is done currently
-  # is very performance-heavy as each topic is queried
-  # after one another, which especially for large forums
-  # with many read topics does not perform.
   def read_forum?(forum)
-    forum.topics.all?{|t| read?(t)}
+    read_topics  = forum.topics.joins(:users_who_read_this).where("read_topics.user_id" => id).count
+    total_topics = forum.topics.count
+
+    read_topics == total_topics
   end
 
   # Returns true if the User has read the given PersonalMessage.
