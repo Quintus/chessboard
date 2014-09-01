@@ -56,7 +56,7 @@ end %>
       </ul>
     <% end %>
   </td>
-  <td class="list-replies numbercell"><%= forum_topic.posts.count %></td>
+  <td class="list-replies numbercell"><%= forum_topic.posts.count - 1 %><%# OP is not a reply %></td>
   <td class="list-views numbercell"><%= forum_topic.views %></td>
   <td class="forumlastpost">
     <% post = forum_topic.posts.order("created_at DESC").first %>
