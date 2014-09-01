@@ -54,6 +54,7 @@ Chessboard::App.controllers :users do
 
   get :show, :map => "/users/:name" do
     @user = User.find_by!(:nickname => params["name"])
+    @pagetitle = @user.nickname
     render "users/show"
   end
 

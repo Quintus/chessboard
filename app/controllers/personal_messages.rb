@@ -63,6 +63,7 @@ Chessboard::App.controllers :personal_messages do
     @pm.users_who_read_this << env["warden"].user unless env["warden"].user.read_pm?(@pm)
     @pm.save
 
+    @pagetitle = @pm.title
     render "show"
   end
 

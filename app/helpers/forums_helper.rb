@@ -39,6 +39,15 @@ module Chessboard
 
     end
 
+    # If +nil+ is given, returns the application title as
+    # per the settings. Otherwise constructs a readable
+    # page title consisting of both the given +pagetitle+
+    # and the application title as per the settings.
+    def make_pagetitle(pagetitle)
+      return Chessboard.config.title unless pagetitle
+      "#{pagetitle} ¦ #{Chessboard.config.title}"
+    end
+
     helpers ForumsHelper
   end
 end

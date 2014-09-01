@@ -36,6 +36,7 @@ Chessboard::App.controllers :topics do
     @total_pages = (@topic.posts.count.to_f / num_posts.to_f).ceil
     @current_page = page + 1
 
+    @pagetitle = @topic.title
     render "show"
   end
 
