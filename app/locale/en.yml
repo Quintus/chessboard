@@ -80,6 +80,7 @@ en:
     delete: "Delete"
     deleted: "Posting deleted."
     created: "Posting created."
+    updated: "Posting updated."
     no_ip: "(not available)"
   settings:
     settings: "Settings"

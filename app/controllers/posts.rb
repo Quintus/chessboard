@@ -93,7 +93,7 @@ Chessboard::App.controllers :posts do
     attrs = params["post"]
     attrs.merge!("ip" => request.ip) unless Chessboard.config.ip_save_time < 0
     if @post.update_attributes(attrs)
-      flash[:notice] = "Posting updated"
+      flash[:notice] = I18n.t("posts.updated")
       redirect post_url(@post)
     else
       @topic = @post.topic
@@ -109,7 +109,7 @@ Chessboard::App.controllers :posts do
     forum = @post.topic.forum
 
     if @post.destroy
-      flash[:notice] = "Posting deleted."
+      flash[:notice] = I18n.t("posts.deleted")
 
       # Destroying the last post of a topic will automatically destroy
       # the topic; we cannot rely on a topic existing here anymore, so
