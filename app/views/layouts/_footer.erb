@@ -6,11 +6,34 @@
     </p>
   </div>
   <div id="stats">
-    <ul>
-      <li>Posts: <%= Post.count %></li>
-      <li>Topics: <%= Topic.count %></li>
-      <li>Members: <%= User.count %></li>
-      <li>Newest member: <%= User.order(:created_at => :desc).limit(1).first.nickname %></li>
-    </ul>
+    <p>
+      <%= Post.count %> <%= I18n.t("forums.posts") %> ·
+      <%= Topic.count %> <%= I18n.t("forums.topics") %> ·
+      <%= User.count %> <%= I18n.t("users.users") %> ·
+      <%= I18n.t("users.newest") %>: <%= User.order(:created_at => :desc).limit(1).first.nickname %>
+      <br/>
+      <% Chessboard::ActiveUserInfo.handle_active_users do |active_users| %>
+	<% if env["warden"].authenticated? && env["warden"].user.privileged? %>
+	  <% result = active_users %>
+	<% else %>
+	  <% result = active_users.reject(&:is_hidden) %>
+	<% end %>
+
+	<% if result.empty? %>
+	  <%= I18n.t("users.no_active_users") %>
+	<% else %>
+	  <%= I18n.t("users.active_users") %>
+	  <% result.first(4).each_with_index do |info, i| %>
+	    <%= ", " unless i.zero? %>
+
+	    <%= link_to info.nickname, url(:users, :show, info.nickname), :class => info.is_hidden ? "hidden-user" : "normal-user" %>
+	  <% end %>
+
+	  <% if result.size > 4 %>
+	    <%= I18n.t("users.and_n_more", :num => result.size - 4) %>
+	  <% end %>
+	<% end %>
+      <% end %>
+    </p>
   </div>
 </div>

@@ -16,11 +16,18 @@ module Chessboard
     end
 
     before do
-      # Check if the user has been banned, and if so, forcibly end his session.
-      if env["warden"].authenticated? && Ban.matches_any?(env["warden"].user, request)
-        env["warden"].logout
-        flash[:alert] = I18n.t("bans.banned")
-        redirect "/"
+      if env["warden"].authenticated?
+        user = env["warden"].user
+
+        # Check if the user has been banned, and if so, forcibly end his session.
+        if Ban.matches_any?(user, request)
+          env["warden"].logout
+          flash[:alert] = I18n.t("bans.banned")
+          redirect "/"
+        end
+
+        # Report active users
+        ActiveUserInfo.add(user.nickname, user.settings.hide_status, Time.now)
       end
     end
 
@@ -118,6 +125,8 @@ module Chessboard
 
     # Use mailcatcher in development
     configure :development do
+      Thread.abort_on_exception = true
+
       set :delivery_method, :smtp => {
         :address => "localhost",
         :port => 1025

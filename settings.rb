@@ -42,6 +42,11 @@ Chessboard.configure do |config|
   # do that.
   config.ip_save_time = 60 * 60 * 24 * 7
 
+  # How long a user is considered active as per the activity
+  # overview after he has taken some action, in seconds.
+  # It is recommended to set this to five minutes or higher.
+  config.online_duration = 60 * 5
+
   ########################################
   # Database configuration
 

@@ -138,6 +138,11 @@ en:
     moderator: "Moderator"
     administrator: "Administrator"
   users:
+    newest: "Newest member"
+    active_users: "Recently active users:"
+    no_active_users: "No visible active users."
+    and_n_more: ", and %{num} more."
+    users: "Users"
     list: Member list
     list_form: >
       Use this form to search the board’s member list for

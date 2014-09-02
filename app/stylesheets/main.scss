@@ -196,6 +196,21 @@ pre code {
     }
 }
 
+#stats {
+    p {
+	margin: {
+	    left: 2px;
+	    top: 0px;
+	    bottom: 0px;
+	    right: 2px;
+	}
+    }
+}
+
+.hidden-user {
+    font-style: italic;
+}
+
 .forumgroup {
     margin-bottom: 8px;
     border: 1px solid black;
