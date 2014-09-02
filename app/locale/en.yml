@@ -146,6 +146,7 @@ en:
     profile: "%{nick}’s user profile"
     total_posts: "Total posts"
     hidden_email: "Hidden"
+    hidden_email_for_unprivileged: "Hidden for unprivileged users"
     registration: >
       You have successfully registered. A confirmation email was sent
       to your mail address, please follow the link it contains in order
