@@ -117,7 +117,7 @@ Chessboard::App.controllers :posts do
       redirect url(:forums, :show, forum.id)
     else
       flash[:alert] = "Failed to delete posting."
-      rediret url(:topics, :show, @post.topic.id)
+      redirect url(:topics, :show, @post.topic.id)
     end
   end
 

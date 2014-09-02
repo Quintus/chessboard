@@ -35,6 +35,8 @@ en:
     moderators: "Moderators:"
   topics:
     reply: "Post Reply"
+    delete: "Delete Topic"
+    deleted: "Topic deleted."
     lock: "Lock Topic"
     unlock: "Unlock Topic"
     locked: "Locked Topic."

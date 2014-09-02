@@ -234,4 +234,19 @@ Chessboard::App.controllers :topics do
     redirect url(:topics, :show, new_topic.id)
   end
 
+  delete :destroy, :map => "/topics/:id" do
+    @topic = Topic.find(params["id"])
+    halt 403 if @topic.locked?
+    halt 403 unless env["warden"].user.moderates?(@topic.forum)
+
+    forum = @topic.forum
+    if @topic.destroy
+      flash[:notice] = I18n.t("topics.deleted")
+      redirect url(:forums, :show, forum.id)
+    else
+      flash[:alert] = "Failed to delete topic."
+      redirect url(:topics, :show, @topic.id)
+    end
+  end
+
 end
