@@ -13,6 +13,8 @@ class Post < ActiveRecord::Base
   belongs_to :author, :class_name => "User"
   has_many :reports, :dependent => :destroy
 
+  before_destroy :delete_empty_topic
+
   # Returns a list of all available markup language names,
   # including both DEFAULT_MARKUP_LANGUAGE and all the
   # plugin-defined languages.
@@ -31,6 +33,20 @@ class Post < ActiveRecord::Base
     return true if self.author == user
     return true if user.moderates?(self.topic.forum)
     false
+  end
+
+  private
+
+  def delete_empty_topic
+    # If we are the only post in our topic, delete the entire topic.
+    if topic.posts.count == 1
+      # Note that #delete does not run callbacks on the topic,
+      # neither does in honour :dependent. The latter is what we
+      # want here as the topic instance would otherwise
+      # delete all its dependent posts (which only is this
+      # post), resulting in an infinite recursion.
+      topic.delete
+    end
   end
 
 end
