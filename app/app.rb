@@ -86,6 +86,13 @@ module Chessboard
     get "/personal" do
       env["warden"].authenticate!
       @user = env["warden"].user
+      @postcount = @user.posts.count
+      @topiccount = @user.topics.count
+      @signtime = @user.created_at
+      @pmcount = @user.personal_messages.count
+      @ppcount = @user.personal_posts.count
+      @watchcount = @user.watched_topics.count
+      @lastlogintime = @user.last_login
       render "misc/personal"
     end
 

@@ -215,6 +215,17 @@ en:
   personal:
     personal_area: "Personal Area"
     misc: "Miscellaneous"
+    stats: >-
+      Since you first signed up on %{signtime}, you have
+      opened %{topiccount} topics and authored %{postcount}
+      postings in total. %{pmcount} personal topics were
+      created by you, while a total of %{ppcount}
+      personal posts in those and other personal topics were written.
+    stats2: >-
+      You are watching %{watchcount} topics, and your last login
+      was on %{lastlogintime}.
+    rank:
+      You have been granted the “%{rank}” forum title by the administrators.
   avatars:
     avatar_settings: "Avatar settings"
     avatar: "Avatar"
