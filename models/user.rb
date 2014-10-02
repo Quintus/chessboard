@@ -10,6 +10,7 @@ class User < ActiveRecord::Base
   validates :profession, :length => {:maximum => 1024}
   validates :jabber_id, :length => {:maximum => 1024}
   validates :pgp_key, :length => {:maximum => 50} # length of $ gpg --fingerprint
+  validate :validate_password_length
 
   has_many :topics, :foreign_key => :author_id, :dependent => :destroy
   has_many :posts, :foreign_key => :author_id, :dependent => :destroy
@@ -37,7 +38,8 @@ class User < ActiveRecord::Base
     if new_password.to_s.length >= 8
       self.encrypted_password = BCrypt::Password.create(new_password)
     else
-      raise(ArgumentError, "Password to short!")
+      # Do nothing and prepare for adding a validation error
+      @_pwlen = new_password.length
     end
   end
 
@@ -45,7 +47,7 @@ class User < ActiveRecord::Base
   # password in clear. The resource is automatically saved to the
   # database.
   def reset_password!
-    newpw = Array.new(10){("a".."z").to_a.sample}.join("")
+    newpw = Array.new(10){("a".."z").to_a.sample}.join("") # Must be long enough to pass test in #password=
     self.password = newpw
     save!
     newpw
@@ -140,6 +142,15 @@ class User < ActiveRecord::Base
     if !homepage.blank? && !homepage.start_with?("http")
       self.homepage = "http://#{homepage}"
     end
+  end
+
+  def validate_password_length
+    if defined?(@_pwlen) && @_pwlen < 8
+      errors.add(:password, I18n.t("errors.user.password_too_short"))
+    end
+    # if @_pwlen is not defined, the resource has been modified otherwise,
+    # not on the #password= setter. As encrypted_password must be present
+    # (this is validated), we don’t have to revalidate it here again.
   end
 
 end
