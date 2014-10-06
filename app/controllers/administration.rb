@@ -4,7 +4,10 @@ Chessboard::App.controllers :administration do
     env["warden"].authenticate!
     halt 403 unless env["warden"].user.admin?
   end
-  
+
+  ########################################
+  # GlobalConfiguration object
+
   get :configuration, :map => "/admin/configuration" do
     @configuration = GlobalConfiguration.instance
     render "configuration"
@@ -20,6 +23,9 @@ Chessboard::App.controllers :administration do
       render "configuration"
     end
   end
+
+  ########################################
+  # User administration
 
   get :index_users, :map => "/admin/users" do
     render "users"
@@ -69,6 +75,9 @@ Chessboard::App.controllers :administration do
     redirect url(:administration, :users)
   end
 
+  ########################################
+  # ForumGroup administration
+
   get :index_forum_groups, :map => "/admin/forum_groups" do
     @forum_groups = ForumGroup.order(:ordernum => :asc)
     render "administration/forum_groups/index"
@@ -111,6 +120,56 @@ Chessboard::App.controllers :administration do
     @forum_group.destroy
     flash[:notice] = I18n.t("admin.forum_groups.deleted")
     redirect url(:administration, :index_forum_groups)
+  end
+
+  ########################################
+  # Forum administration
+
+  get :index_forums, :map => "/admin/forums" do
+    @forum_groups = ForumGroup.order(:name => :asc)
+    render "administration/forums/index"
+  end
+
+  patch :update_forums, :map => "/admin/forums" do
+    params["forum"]["id"].each_with_index do |id, i|
+      forum = Forum.find(id)
+
+      forum.name        = params["forum"]["name"][i]
+      forum.forum_group = ForumGroup.find(params["forum"]["forum_group"][i])
+      forum.ordernum    = params["forum"]["ordernum"][i]
+      forum.description = params["forum"]["description"][i]
+
+      unless forum.save
+        flash[:alert] = I18n.t("general.errors_occured")
+        return redirect(url(:administration, :index_forums))
+      end
+    end
+
+    redirect url(:administration, :index_forums)
+  end
+
+  get :new_forum, :map => "/admin/forums/new" do
+    @forum = Forum.new
+    render "administration/forums/new"
+  end
+
+  post :create_forum, :map => "/admin/forums" do
+    params["forum"]["forum_group"] = ForumGroup.find(params["forum"]["forum_group"])
+    @forum = Forum.new(params["forum"])
+
+    if @forum.save
+      flash[:notice] = I18n.t("admin.forums.created")
+      redirect url(:administration, :index_forums)
+    else
+      render "administration/forums/new"
+    end
+  end
+
+  delete :destroy_forum, :map => "/admin/forums/:id" do
+    @forum = Forum.find(params["id"])
+    @forum.destroy
+    flash[:notice] = I18n.t("admin.forums.deleted")
+    redirect url(:administration, :index_forums)
   end
 
 end

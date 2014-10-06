@@ -307,7 +307,10 @@ en:
     forum_groups:
       forum_groups: "Forum Groups"
       new: "New Group"
-      created: "Created new forum group"
+      created: "Created new forum group."
       deleted: "Deleted forum group."
     forums:
-      forums: "Forms"
+      forums: "Forums"
+      new: "New Forum"
+      created: "Created new forum."
+      deleted: "Deleted forum."

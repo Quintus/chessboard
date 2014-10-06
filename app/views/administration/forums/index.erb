@@ -1,0 +1,40 @@
+<% content_for :sidebar do %>
+  <%= partial "administration/sidebar" %>
+<% end %>
+
+<h1><%= I18n.t("admin.forums.forums") %></h1>
+
+<% form_tag url(:administration, :update_forums), :method => :patch do %>
+  <% @forum_groups.each do |group| %>
+    <h2><%= group.name %></h2>
+    <table>
+      <thead>
+      <tr>
+	<th><%= I18n.t("models.forum.attributes.name") %></th>
+	<th><%= I18n.t("models.forum.attributes.forum_group") %></th>
+	<th><%= I18n.t("models.forum.attributes.ordernum") %></th>
+	<th><%= I18n.t("models.forum.attributes.description") %></th>
+	<th><%= I18n.t("general.actions") %></th>
+      </tr>
+      </thead>
+      <tbody>
+	<% group.forums.order(:ordernum => :asc).each do |forum| %>
+	  <% fields_for forum do |fields| %>
+	    <tr>
+	      <td><%= fields.hidden_field :id, :name => "forum[id][]" %><%= fields.text_field :name, :name => "forum[name][]" %></td>
+	      <td><%= fields.select :forum_group, :collection => @forum_groups, :fields => [:name, :id], :selected => forum.forum_group.id.to_s, :name => "forum[forum_group][]" %></td>
+	      <td><%= fields.text_field :ordernum, :name => "forum[ordernum][]" %></td>
+	      <td><%= fields.text_field :description, :name => "forum[description][]" %></td>
+	      <td><%= link_to I18n.t("general.delete"), url(:administration, :destroy_forum, forum.id) + "?authenticity_token=#{session[:csrf]}", :class => "button-error", :confirm => I18n.t("general.are_you_sure"), :method => :delete %>
+	    </tr>
+	  <% end %>
+	<% end %>
+      </tbody>
+    </table>
+  <% end %>
+
+  <p class="submit-separator">
+    <%= submit_tag I18n.t("general.update"), :class => "button-ok" %>
+    <%= link_to I18n.t("admin.forums.new"), url(:administration, :new_forum), :class => "button-normal" %>
+  </p>
+<% end %>
