@@ -1,6 +1,7 @@
 class Forum < ActiveRecord::Base
   validates :name, :presence => true
   validates :description, :presence => true
+  validates :ordernum, :numericality => {:greater_than_or_equal_to => 0}
 
   has_and_belongs_to_many :moderators, :class_name => "User", :join_table => "moderation"
   belongs_to :forum_group

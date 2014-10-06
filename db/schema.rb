@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 33) do
+ActiveRecord::Schema.define(version: 34) do
 
   create_table "avatars", force: true do |t|
     t.string   "path"
@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(version: 33) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "ordernum",   default: 0
   end
 
   create_table "forums", force: true do |t|
@@ -42,6 +43,7 @@ ActiveRecord::Schema.define(version: 33) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "forum_group_id"
+    t.integer  "ordernum",       default: 0
   end
 
   create_table "global_configurations", force: true do |t|

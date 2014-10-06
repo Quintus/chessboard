@@ -1,7 +1,7 @@
 Chessboard::App.controllers :forums do
 
   get :index, :map => "/forums" do
-    @forum_groups = ForumGroup.order(:name => :asc)
+    @forum_groups = ForumGroup.order(:ordernum => :asc)
     render "index"
   end
 
