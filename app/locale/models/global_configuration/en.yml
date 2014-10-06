@@ -11,3 +11,6 @@ en:
         registration: Registration
         created_at: Created at
         updated_at: Updated at
+
+        page_post_num: Page post num
+        page_topic_num: Page topic num

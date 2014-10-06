@@ -69,4 +69,48 @@ Chessboard::App.controllers :administration do
     redirect url(:administration, :users)
   end
 
+  get :index_forum_groups, :map => "/admin/forum_groups" do
+    @forum_groups = ForumGroup.order(:ordernum => :asc)
+    render "administration/forum_groups/index"
+  end
+
+  patch :update_forum_groups, :map => "/admin/forum_groups" do
+    params["forum_group"]["id"].each_with_index do |id, i|
+      group = ForumGroup.find(id)
+
+      group.name     = params["forum_group"]["name"][i]
+      group.ordernum = params["forum_group"]["ordernum"][i]
+
+      unless group.save
+        flash[:alert] = I18n.t("general.errors_occured")
+        return redirect(url(:administration, :index_forum_groups))
+      end
+    end
+
+    redirect "/admin/forum_groups"
+  end
+
+  get :new_forum_group, :map => "/admin/forum_groups/new" do
+    @forum_group = ForumGroup.new
+    render "administration/forum_groups/new"
+  end
+
+  post :create_forum_group, :map => "/admin/forum_groups" do
+    @forum_group = ForumGroup.new(params["forum_group"])
+    if @forum_group.save
+      flash[:notice] = I18n.t("admin.forum_groups.created")
+      redirect url(:administration, :index_forum_groups)
+    else
+      render "administration/forum_groups/new"
+    end
+  end
+
+  delete :destroy_forum_group, :map => "/admin/forum_groups/:id" do
+    @forum_group = ForumGroup.find(params["id"])
+
+    @forum_group.destroy
+    flash[:notice] = I18n.t("admin.forum_groups.deleted")
+    redirect url(:administration, :index_forum_groups)
+  end
+
 end

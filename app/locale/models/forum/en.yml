@@ -9,3 +9,4 @@ en:
         created_at: Created at
         updated_at: Updated at
         forum_group_id: Forum group
+        ordernum: Ordering number

@@ -25,6 +25,7 @@ en:
     withdraw: "Withdraw"
     actions: "Actions"
     preview: "Preview"
+    errors_occured: "Errors occured."
   forums:
     forum: "Forum"
     topics: "Topics"
@@ -303,3 +304,10 @@ en:
       administer_user: "Administer %{nick}"
       deleted: "User successfully deleted."
       updated: "User updated."
+    forum_groups:
+      forum_groups: "Forum Groups"
+      new: "New Group"
+      created: "Created new forum group"
+      deleted: "Deleted forum group."
+    forums:
+      forums: "Forms"

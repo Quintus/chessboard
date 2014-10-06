@@ -7,3 +7,4 @@ en:
         name: Name
         created_at: Created at
         updated_at: Updated at
+        ordernum: Ordering number

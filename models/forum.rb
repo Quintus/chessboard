@@ -5,7 +5,7 @@ class Forum < ActiveRecord::Base
 
   has_and_belongs_to_many :moderators, :class_name => "User", :join_table => "moderation"
   belongs_to :forum_group
-  has_many :topics
+  has_many :topics, :dependent => :destroy
 
   # Returns all topics for this forum plus any announcements, as
   # a hash with the following keys:
