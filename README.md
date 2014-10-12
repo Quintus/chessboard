@@ -29,7 +29,13 @@ Only development-mode setup currently.
 
 ~~~~~~~~~~~~~~~~~~~~~
 $ bundle install
-$ bundle exec rake ar:create ar:schema:load db:seed
+$ bundle exec rake ar:create initialize
+~~~~~~~~~~~~~~~~~~~~~
+
+If you want example data:
+
+~~~~~~~~~~~~~~~~~~~~~
+$ bundle exec rake db:seed
 ~~~~~~~~~~~~~~~~~~~~~
 
 In order to use the development-mode mailer, you have to install the
