@@ -100,6 +100,7 @@ CSS
     # in the database. The header checked for here is set in
     # the #construct_common_mail method.
     return if mail["X-Chessboard-Post"]
+    return if mail["X-no-archive"] # Honour user’s request to not save his article to the WWW
 
     post                 = Post.new
     post.content         = extract_mail_body(mail)
