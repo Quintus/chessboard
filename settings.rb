@@ -127,7 +127,8 @@ This forum is run and administered by somone, somewhere.
     :forum_id => 2,
     :bracket_marked_ml => true,
     :markup_language => "ML Markup",
-    :ml_address => "test-ml@example.invalid"
+    :ml_address => "test-ml@example.invalid",
+    :from_address => "automailer@example.invalid"
   }
 
 end

@@ -26,7 +26,8 @@
 #    :forum_id => 2,
 #    :bracket_marked_ml => true,
 #    :markup_language => "ML Markup",
-#    :ml_address => "test-ml@example.invalid"
+#    :ml_address => "test-ml@example.invalid",
+#    :from_address => "automailer@example.com"
 #  }
 #
 # === Keywords
@@ -50,6 +51,11 @@
 # [ml_address]
 #   The main email address of the mirrored mailinglist, i.e. where posts
 #   are sent to when they are created on the website.
+# [from_address]
+#   The address to use in order to post to the mailinglist. Ensure this
+#   address has a) write access to the mailinglist and b) does not receive
+#   any posts from the mailinglist if you can’t handle skipping them on
+#   your mail server.
 module MailinglistPlugin
   include Chessboard::Plugin
 
@@ -273,7 +279,8 @@ CSS
   # the constructed Mail instance, which has not yet been sent.
   def construct_common_mail(warden, post)
     mail = Mail.new
-    mail.from = warden.user.email
+    mail.from = Chessboard.config.plugins.MailinglistPlugin[:from_address]
+    mail.reply_to = warden.user.email
     mail.to = Chessboard.config.plugins.MailinglistPlugin[:ml_address]
     mail.body = post.content + "\n\n" + "-- " + "\n" + "Sent by Chessboard." # The signature separator is "-- " (with space) per RFC.
     mail.header["X-Chessboard-Topic"] = post.topic.id
