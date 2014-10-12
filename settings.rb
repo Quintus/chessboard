@@ -122,4 +122,8 @@ This forum is run and administered by somone, somewhere.
     IMPRINT
   }
 
+  config.plugins.MailinglistPlugin = {
+    :ml_path => "/tmp/ml/archive"
+  }
+
 end

@@ -23,6 +23,7 @@ GEM
     fabrication (2.11.3)
     faker (1.4.3)
       i18n (~> 0.5)
+    ffi (1.9.6)
     http_router (0.11.1)
       rack (>= 1.0.0)
       url_mount (~> 0.2.1)
@@ -80,6 +81,8 @@ GEM
     rack-test (0.6.2)
       rack (>= 1.0)
     rake (10.3.2)
+    rb-inotify (0.9.5)
+      ffi (>= 0.5.0)
     sass (3.3.14)
     sinatra (1.4.5)
       rack (~> 1.4)
@@ -119,6 +122,7 @@ DEPENDENCIES
   pg
   rack-test
   rake
+  rb-inotify
   sass
   sqlite3
   warden
