@@ -30,7 +30,7 @@ module DefaultToolbarPlugin
 
   def hook_html_header(options)
     str = super
-    str = content_tag("style", :type => "text/css") do
+    str += content_tag("style", :type => "text/css") do
 <<CSS.html_safe
 .toolbar ul {
   margin: 0px;

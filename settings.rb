@@ -123,7 +123,10 @@ This forum is run and administered by somone, somewhere.
   }
 
   config.plugins.MailinglistPlugin = {
-    :ml_path => "/tmp/ml/archive"
+    :ml_path => "/tmp/ml/archive",
+    :forum_id => 2,
+    :bracket_marked_ml => true,
+    :markup_language => "ML Markup"
   }
 
 end

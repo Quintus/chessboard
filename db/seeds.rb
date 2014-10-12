@@ -9,7 +9,13 @@ GlobalConfiguration.create
 user = User.new(nickname: "user", password: "useruseruser", email: "user@user.us", confirmed: true)
 user.save
 
-20.times{ Fabricate(:user) }
+20.times do
+  begin
+    Fabricate(:user)
+  rescue => e
+    $stderr.puts("WARNING: Failed to create user: #{e.class.name}: #{e.message}")
+  end
+end
 
 ########################################
 # Forums
