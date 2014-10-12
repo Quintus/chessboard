@@ -132,6 +132,19 @@ Currently plugins aren’t reloaded automatically when you reload the
 page. When you edit a plugin file and want the changes to take effect,
 you have to restart the application server.
 
+== Additional Gems
+
+If your plugins needs additional gems, i.e. others than those already
+listed in Chessboard’s main +Gemfile+, you can simply place another
++Gemfile+ in your plugins’s main directory (next to the +plugin.rb+
+file). When the user uses <tt>bundle install</tt>, the additional
+Gemfile will be detected and its Gems will be loaded. Note that as you
+do not have the possibility to provide a +Gemfile.lock+, you might
+want to be explicit about the version of the gem you require.
+
+Do _not_ add a +source+ line to your plugin’s Gemfile. The +source+
+has already been specified in Chessboard’s main Gemfile.
+
 == Conclusion
 
 That’s it basically. You can now have a look at the documentation of

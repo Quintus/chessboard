@@ -37,10 +37,11 @@ gem 'rack-test', :require => 'rack/test', :group => 'test'
 # Padrino Stable Gem
 gem 'padrino', '0.12.3'
 
-# Or Padrino Edge
-# gem 'padrino', :github => 'padrino/padrino-framework'
+# Plugins
+Dir["plugins/*/Gemfile"].sort.each do |path|
+  puts "Loading plugin Gemfile '#{path}'"
 
-# Or Individual Gems
-# %w(core support gen helpers cache mailer admin).each do |g|
-#   gem 'padrino-' + g, '0.12.2'
-# end
+  # This is necessary to trick bundler into thinking that the plugin
+  # Gemfiles are part of the main Gemfile.
+  eval(File.read(path), binding)
+end
