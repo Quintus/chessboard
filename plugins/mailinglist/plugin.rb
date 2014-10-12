@@ -1,4 +1,55 @@
 # -*- coding: utf-8 -*-
+# = Mailinglist plugin
+#
+# This plugin allows you to mirror a mailinglist both for read
+# and write access to your Chessboard forum. Note that this requires
+# that each post to the mailinglist is stored in a separate file
+# on the disk when it comes in; this is exactly how the
+# {mlmmj mailinglist software}[http://www.mlmmj.org] works, so if
+# you use that one, this plugin should work just as advertised.
+#
+# It currently is only possible to mirror one single mailinglist;
+# multiple mailinglists are not possible. The mailinglist is mirrored
+# to exactly one forum on the site.
+#
+# This plugin relies on inotify, a feature specific to the Linux kernel,
+# which may not be available on all filesystems. It allows to watch
+# directories and files for changes in realtime. Please check you can
+# use inotify on your target system before adding this plugin to your
+# Chessboard instance.
+#
+# == Configuration
+# Add the following to your settings.rb:
+#
+#  config.plugins.MailinglistPlugin = {
+#    :ml_path => "/var/spool/mlmmj/test-ml/archive",
+#    :forum_id => 2,
+#    :bracket_marked_ml => true,
+#    :markup_language => "ML Markup",
+#    :ml_address => "test-ml@example.invalid"
+#  }
+#
+# === Keywords
+# [ml_path]
+#   This is the path to the archive of the mailinglist you want
+#   to mirror.
+# [forum_id]
+#   This is the ID of the target forum. You can find it in your
+#   browser’s URL bar when you look at the target forum in your
+#   browser.
+# [bracket_marked_ml]
+#   Set this to true if the subject of any emails sent to your
+#   ML get prefixed with something like "[ml-name]". It ensures
+#   the main topic title is extracted properly.
+# [markup_language]
+#   The markup language which mails to the ML are assumed to be in.
+#   This plugin adds a special markup language called "ML Markup",
+#   which wraps the entire mail text body in a PRE tag. If you can’t
+#   get your mailinglist users to use a uniform markup, this is probably
+#   the best you can do.
+# [ml_address]
+#   The main email address of the mirrored mailinglist, i.e. where posts
+#   are sent to when they are created on the website.
 module MailinglistPlugin
   include Chessboard::Plugin
 
