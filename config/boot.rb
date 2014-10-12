@@ -68,3 +68,8 @@ Padrino.after_load do
 end
 
 Padrino.load!
+
+# Call the boot hook to allow plugins to initialize themselves.
+unless Chessboard::Plugin.all_plugins.empty?
+  Chessboard::Plugin::Evaluator.new.call_hook(:boot, :root => Chessboard::App.root)
+end

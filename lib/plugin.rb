@@ -113,6 +113,37 @@ module Chessboard::Plugin
   ########################################
   # Hooks
 
+  # This hook is called on bootup. Note that the options hash
+  # for this hook, unlike all other hooks, does not contain
+  # the default option keys such as :request, because there
+  # are no useful values to fill in for them. This hook only
+  # receives a :root option, which contains the path to the
+  # root directory of the Chessboard application.
+  #
+  # This is the place where you want to place initialization
+  # code for your plugin if you need that. This hook is called
+  # exactly once, when the application starts up, after all plugins
+  # have been loaded and the settings have been read from the
+  # configuration file. Its return value is ignored.
+  #
+  # Note that you shouldn’t set any state on the plugin object
+  # unless you know what you do. The instance of the Plugin::Evaluator
+  # class is abandoned after all hooks have been called, and when
+  # the next time hooks need to be called a new instance is created.
+  # Hence setting instance variables on it is useless. If you absolutely
+  # must store state for your plugin, store it in the module itself, perhaps
+  # using a module instance variable.
+  #
+  # Beware that this hook is not only called when the server is started. It
+  # is also called each time the console is used via the "padrino console",
+  # which may well happen when the server is running already, so don’t
+  # assume that the running instance of the application is the only one running
+  # currently. Server and console may well run in parallel, or even multiple
+  # consoles may be running aside with the server.
+  def hook_boot(options)
+    nil
+  end
+
   # This hook is called in the page layout’s <head>
   # HTML tag. Use it for your custom CSS and Javascript.
   # If your styling/scripting gets more complex, it is
