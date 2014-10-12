@@ -35,6 +35,12 @@ class Post < ActiveRecord::Base
     false
   end
 
+  # Returns true if this post is the first post of the topic
+  # it belongs to, false otherwise.
+  def op?
+    topic.posts.first == self
+  end
+
   private
 
   def delete_empty_topic
