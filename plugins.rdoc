@@ -41,9 +41,9 @@ Such a mimimal plugin does not really help; it doesn’t do
 anything. This is where _hooks_ come in. Hooks are predefined places
 in Chessboard’s code where you can "hook" into in order to execute
 your own code and provide your own behaviour. There exists for example
-a "reply_post_content" hook that allows you to insert HTML below the
+a "view_reply_post_content" hook that allows you to insert HTML below the
 text area used for replying to posts, creating topics, etc. In order
-to do so, you define the method +hook_reply_post_content+ like this:
+to do so, you define the method +hook_view_reply_post_content+ like this:
 
   module MyPlugin
     include Chessboard::Plugin
@@ -76,7 +76,7 @@ key-value entries:
   Padrino’s flash object.
 
 Apart from these entries, there may be even more entries depending on
-the hook. The +reply_post_content+ hook for example also adds an entry
+the hook. The +view_reply_post_content+ hook for example also adds an entry
 :post that contains the Post instance being edited. These extra
 entries are mentioned in the respective plugin’s documentation.
 
