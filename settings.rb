@@ -126,7 +126,8 @@ This forum is run and administered by somone, somewhere.
     :ml_path => "/tmp/ml/archive",
     :forum_id => 2,
     :bracket_marked_ml => true,
-    :markup_language => "ML Markup"
+    :markup_language => "ML Markup",
+    :ml_address => "test-ml@example.invalid"
   }
 
 end
