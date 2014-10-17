@@ -122,13 +122,4 @@ This forum is run and administered by somone, somewhere.
     IMPRINT
   }
 
-  config.plugins.MailinglistPlugin = {
-    :ml_path => "/tmp/ml/archive",
-    :forum_id => 2,
-    :bracket_marked_ml => true,
-    :markup_language => "ML Markup",
-    :ml_address => "test-ml@example.invalid",
-    :from_address => "automailer@example.invalid"
-  }
-
 end
