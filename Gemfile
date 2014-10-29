@@ -15,7 +15,7 @@ gem "paint", "~> 0.8.7"
 
 # Component requirements
 gem 'sass', "~> 3.3.14"
-gem 'erubis', '~> 2.7.0'
+gem 'erubis'
 gem 'activerecord', '>= 3.1', :require => 'active_record'
 gem 'sqlite3', :group => "sqlite"
 gem "pg", :group => "postgres"
@@ -25,7 +25,7 @@ gem 'minitest', :require => 'minitest/autorun', :group => 'test'
 gem 'rack-test', :require => 'rack/test', :group => 'test'
 
 # Padrino Stable Gem
-gem 'padrino', '0.12.3'
+gem 'padrino', '0.12.4'
 
 # Plugins
 Dir["plugins/*/Gemfile"].sort.each do |path|
