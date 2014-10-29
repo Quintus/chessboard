@@ -15,8 +15,11 @@ module MarkdownPlugin
                                   :auto_ids => false,
                                   :remove_block_html_tags => true,
                                   :remove_span_html_tags => true,
-                                  :coderay_css => :class,
-                                  :coderay_line_numbers => :inline)
+                                  :synax_highlighter => "coderay",
+                                  :syntax_highlighter_opts => {
+                                    :css => :class,
+                                    :line_numbers => :inline
+                                  })
     kdoc.to_remove_html_tags
     kdoc.to_html
   end
