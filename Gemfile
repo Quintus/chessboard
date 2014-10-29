@@ -1,30 +1,20 @@
 # -*- ruby -*-
 source 'https://rubygems.org'
 
-# Distribute your app as a gem
-# gemspec
-
-# Server requirements
-# gem 'thin' # or mongrel
-# gem 'trinidad', :platform => 'jruby'
-
-# Optional JSON codec (faster performance)
-# gem 'oj'
-
 # Project requirements
 gem 'rake'
 gem "kramdown"
 gem "coderay"
-gem "bb-ruby"
-gem "fabrication"
-gem "faker"
-gem "warden"
-gem "bcrypt"
-gem "mini_magick"
-gem "paint"
+gem "bb-ruby", "~> 1.0.4"
+gem "fabrication", "~> 2.11.3"
+gem "faker", "~> 1.4.3"
+gem "warden", "~> 1.2.3"
+gem "bcrypt", "~> 3.1.7"
+gem "mini_magick", "~> 3.8.0"
+gem "paint", "~> 0.8.7"
 
 # Component requirements
-gem 'sass'
+gem 'sass', "~> 3.3.14"
 gem 'erubis', '~> 2.7.0'
 gem 'activerecord', '>= 3.1', :require => 'active_record'
 gem 'sqlite3', :group => "sqlite"
