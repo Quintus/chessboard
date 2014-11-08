@@ -12,4 +12,10 @@
   <%= form.label :markup_language %>&nbsp;<%= form.select(:markup_language, :options => Post.all_markup_languages) %>
 </p>
 
+<p class="add-attachments"><button class="button-normal">I18n.t("posts.add_attachment")</button></p>
+
+<div class="edit-attachments">
+  <!-- TODO: Target for JavaScript -->
+</div>
+
 <%= call_hook(:view_reply_post_content, :post => post, :form => form) %>
