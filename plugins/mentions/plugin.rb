@@ -67,7 +67,7 @@ You are receiving this mail as a member of the forum at <%= boardlink %>.
       mail.from    = "automailer@" + Chessboard.config.domain
       mail.to      = user.email
       mail.subject = "You have been mentioned"
-      mail.body    = MENTION_EMAIL.result(:nickname => user.nickname, :text => text, :post_url => board_link.chop + url(:topics, :show, post.topic.id) + "#p#{post.id}", :boardlink => board_link)
+      mail.body    = MENTION_EMAIL.result(:nickname => user.nickname, :text => text, :post_url => board_link.chop + url(:posts, :show, post.topic.id, post.id), :boardlink => board_link)
 
       # Don’t send mail in test mode
       next if Chessboard::App.delivery_method.keys.first == :test
