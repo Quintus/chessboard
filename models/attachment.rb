@@ -8,8 +8,9 @@ class Attachment < ActiveRecord::Base
   belongs_to :post
 
   before_destroy do
-    logger.info "Deleting destroyed attachment's file '#{self.full_path}'"
-    File.delete(self.full_path)
+    logger.info "Deleting destroyed attachment's file '#{full_path}'"
+    File.delete(full_path)
+    Dir.delete(File.dirname(full_path)) if Dir.entries(File.dirname(full_path)).count == 2 # . and ..
   end
 
   # Creates an Attachment from a given basename, a short description,+
@@ -21,6 +22,8 @@ class Attachment < ActiveRecord::Base
     attachment.description = description # may be nil
 
     logger.info "Writing attachment '#{attachment.filename}'"
+    File.mkdir(File.dirname(attachment.full_path)) unless File.directory?(File.dirname(attachment.full_path))
+
     File.open(attachment.full_path, "wb") do |f|
       while chunk = uploadhsh[:tempfile].read(1024)
         f.write(chunk)
