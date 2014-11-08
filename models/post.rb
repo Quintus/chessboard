@@ -12,6 +12,7 @@ class Post < ActiveRecord::Base
   belongs_to :topic
   belongs_to :author, :class_name => "User"
   has_many :reports, :dependent => :destroy
+  has_many :attachments, :dependent => :destroy
 
   before_destroy :delete_empty_topic
 

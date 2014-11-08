@@ -25,7 +25,7 @@ class Avatar < ActiveRecord::Base
     if av.save
       av
     else
-      File.delete(av.full_path) if File.exists?(av.full_path)
+      File.delete(av.full_path) if File.exist?(av.full_path)
       raise("Failed to save avatar '#{av.path}'!")
     end
   end

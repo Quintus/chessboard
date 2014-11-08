@@ -13,3 +13,9 @@ en:
         author_id: Author
 
         ip: Ip
+  errors:
+    post:
+      filename:
+        taken: "The filename '%{filename}' has already been taken in this post."
+        too_large: "The file '%{filename}' is too large (Maximum: %{maximum})."
+        disallowed_mime: "The file '%{filename}' has a disallowed MIME type."

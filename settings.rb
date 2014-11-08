@@ -47,6 +47,24 @@ Chessboard.configure do |config|
   # It is recommended to set this to five minutes or higher.
   config.online_duration = 60 * 5
 
+  # Maximum size of a file uploaded as an attachment to a post,
+  # in bytes. Default is 1 MiB.
+  config.attachment_max_size = 1024 * 1024
+
+  # Types of files users are allowed to upload.
+  config.attachment_allowed_mime_types = %w[
+    text/plain
+    image/jpeg
+    image/png
+    application/x-gzip
+    application/zip
+  ]
+
+  # Path to the file(1) command that is used to determine
+  # the MIME type of a file. It will be passed "--brief --mime-type"
+  # as options.
+  config.attachment_file_command = "/usr/bin/file"
+
   ########################################
   # Database configuration
 
