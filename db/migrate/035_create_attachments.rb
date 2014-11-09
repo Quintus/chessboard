@@ -3,6 +3,7 @@ class CreateAttachments < ActiveRecord::Migration
     create_table :attachments do |t|
       t.string :filename
       t.text :description
+      t.references :post
       t.timestamps
     end
   end

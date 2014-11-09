@@ -85,7 +85,8 @@ en:
     created: "Posting created."
     updated: "Posting updated."
     no_ip: "(not available)"
-    add_attachment: "Add attachment"
+    add_attachment: "Add Attachment"
+    failed_attachment: "Failed to upload attachment '%{name}'"
   settings:
     settings: "Settings"
     settings_updated: "Settings updated."

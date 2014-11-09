@@ -12,10 +12,12 @@
   <%= form.label :markup_language %>&nbsp;<%= form.select(:markup_language, :options => Post.all_markup_languages) %>
 </p>
 
-<p class="add-attachments"><button class="button-normal">I18n.t("posts.add_attachment")</button></p>
+<% if Chessboard.config.attachments_enabled %>
+  <p class="add-attachment"><button class="button-normal large-button"><%= I18n.t("posts.add_attachment") %></button></p>
 
-<div class="edit-attachments">
-  <!-- TODO: Target for JavaScript -->
-</div>
+  <div class="edit-attachments">
+    <!-- Target for JavaScript -->
+  </div>
+<% end %>
 
 <%= call_hook(:view_reply_post_content, :post => post, :form => form) %>

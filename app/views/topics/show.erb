@@ -48,7 +48,7 @@
 
 <% if !@topic.locked? && env["warden"].authenticated? %>
   <% post = Post.new(:markup_language => env["warden"].user.settings.preferred_markup_language) %>
-  <% form_for post, url(:posts, :create, @topic.id), :method => :post, :class => "quickreply-form", :"data-topicid" => @topic.id do |f| %>
+  <% form_for post, url(:posts, :create, @topic.id), :method => :post, :multipart => true, :class => "quickreply-form", :"data-topicid" => @topic.id do |f| %>
     <h2><%= I18n.t("topics.reply") %></h2>
     <%= partial "posts/form_fields", :locals => {:form => f, :post => post} %>
 

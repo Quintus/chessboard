@@ -28,6 +28,17 @@ Chessboard::App.controllers :posts do
     end
 
     if @post.save
+      if Chessboard.config.attachments_enabled && !params["attachments"].blank?
+        params["attachments"].each do |attach_hsh|
+          begin
+            Attachment.from_upload!(@post, attach_hsh["description"], attach_hsh["attachment"])
+          rescue => e
+            logger.error("Failed to save attachment: #{e.class}: #{e.message}: #{e.backtrace.join('\n\t')}")
+            flash[:alert] = I18n.t("posts.failed_attachment", :name => attach_hsh["attachment"][:filename])
+          end
+        end
+      end
+
       call_hook(:ctrl_post_create_final, :post => @post)
 
       # Honour auto-watch setting: When it is enabled, add the author to

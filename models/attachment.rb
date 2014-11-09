@@ -13,16 +13,17 @@ class Attachment < ActiveRecord::Base
     Dir.delete(File.dirname(full_path)) if Dir.entries(File.dirname(full_path)).count == 2 # . and ..
   end
 
-  # Creates an Attachment from a given basename, a short description,+
-  # and the Rack file upload hash. Raises a RuntimeError if for some
-  # reason the attachment fails to save to the database.
-  def self.from_upload(filename, description, uploadhsh)
+  # Creates an Attachment for a post from a short description
+  # and the Rack file upload hash. Raises database save! errors
+  # if sav!ng fails.
+  def self.from_upload!(post, description, uploadhsh)
     attachment = new
-    attachment.filename = filename
+    attachment.filename = uploadhsh[:filename].strip
     attachment.description = description # may be nil
+    attachment.post = post
 
     logger.info "Writing attachment '#{attachment.filename}'"
-    File.mkdir(File.dirname(attachment.full_path)) unless File.directory?(File.dirname(attachment.full_path))
+    Dir.mkdir(File.dirname(attachment.full_path)) unless File.directory?(File.dirname(attachment.full_path))
 
     File.open(attachment.full_path, "wb") do |f|
       while chunk = uploadhsh[:tempfile].read(1024)
@@ -30,12 +31,15 @@ class Attachment < ActiveRecord::Base
       end
     end
 
-    if attachment.save
-      attachment
-    else
+    begin
+      attachment.save!
+    rescue
+      logger.error "Failed to save attachment: #{attachment.full_path}"
       File.delete(attachment.full_path) if File.exist?(attachment.full_path)
-      raise("Failed to save attachment '#{attachment.path}'!")
+      raise # re-raise
     end
+
+    attachment
   end
 
   # Full path to the attachment file on the filesystem.
@@ -55,8 +59,13 @@ class Attachment < ActiveRecord::Base
   # Returns the MIME type of the underlying file as determined
   # by the file(1) command, as a string.
   def mime_type
-    IO.popen([Chessboard.config.attachment_file_command, "--brief", "--mime-type", full_path]) do |io|
-      io.read.strip
+    cmd = [Chessboard.config.attachment_file_command, "--brief", "--mime-type", full_path]
+    logger.debug("Command: #{cmd.inspect}")
+
+    IO.popen(cmd) do |io|
+      str = io.read.strip
+      logger.debug("Command result: #{str.inspect}")
+      str
     end
   end
 

@@ -47,6 +47,9 @@ Chessboard.configure do |config|
   # It is recommended to set this to five minutes or higher.
   config.online_duration = 60 * 5
 
+  # Set to false to disable file attachments to posts.
+  config.attachments_enabled = true
+
   # Maximum size of a file uploaded as an attachment to a post,
   # in bytes. Default is 1 MiB.
   config.attachment_max_size = 1024 * 1024
