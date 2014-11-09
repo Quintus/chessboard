@@ -49,6 +49,19 @@
 	<div class="clear"><!-- Ensure all floating material ends with end of post --></div>
     </div>
 
+    <% unless post.attachments.empty? %>
+      <div class="post-attachments">
+	<% post.attachments.order(:filename => :asc).each do |attachment| %>
+	  <div class="post-attachment">
+	    <p>
+	      <strong><%= I18n.t("posts.attachment") %></strong> <%= link_to(attachment.filename, attachment.full_uri) %> (<%= File.size(attachment.full_path) %> Bytes)<br/>
+	      <%= attachment.description.blank? ? I18n.t("posts.no_attachment_description") : simple_format(attachment.description) %>
+	    </p>
+	  </div>
+	<% end %>
+      </div>
+    <% end %>
+
     <% if post.author.signature? %>
 	<div class="signature post-signature">
 	  <%= markup_default(post.author.signature).html_safe %>
