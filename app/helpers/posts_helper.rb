@@ -42,6 +42,19 @@ module Chessboard
         url(:posts, :show, post.topic.id, post.id)
       end
 
+      # Takes a number and formats it as a byte size with appropriate
+      # size suffix (B, KiB, MiB, GiB).
+      def readable_bytesize(number)
+        case number
+        when 0..1024                                   then "#{number}&nbsp;B".html_safe
+        when (1024..(1024*1024))                       then "#{number/1024}&nbsp;KiB".html_safe
+        when ((1024*1024)..(1024*1024*1024))           then "#{number/1024/1024}&nbsp;MiB".html_safe
+        when ((1024*1024*1024)..(1024*1024*1024*1024)) then "#{number/1024/1024/1024}&nbsp;GiB".html_safe
+        else
+          "#{number/1024/1024/1024}&nbsp;GiB".html_safe
+        end
+      end
+
     end
 
     helpers PostsHelper

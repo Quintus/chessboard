@@ -54,9 +54,9 @@
 	<% post.attachments.order(:filename => :asc).each do |attachment| %>
 	  <div class="post-attachment">
 	    <p>
-	      <strong><%= I18n.t("posts.attachment") %></strong> <%= link_to(attachment.filename, attachment.full_uri) %> (<%= File.size(attachment.full_path) %> Bytes)<br/>
-	      <%= attachment.description.blank? ? I18n.t("posts.no_attachment_description") : simple_format(attachment.description) %>
+	      <strong><%= I18n.t("posts.attachment") %></strong> <%= link_to(attachment.filename, attachment.full_uri) %> (<%= readable_bytesize(File.size(attachment.full_path)) %>)
 	    </p>
+	    <%= attachment.description.blank? ? I18n.t("posts.no_attachment_description") : simple_format(attachment.description) %>
 	  </div>
 	<% end %>
       </div>
