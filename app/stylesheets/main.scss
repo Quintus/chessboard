@@ -540,3 +540,16 @@ div.preview {
     display: none; /* shown on preview */
     padding: 4px;
 }
+
+/********* attachments *********/
+
+.post-attachment {
+    border: 1px dashed gray;
+    background-color: white;
+    padding: 4px;
+    margin: 4px;
+
+    p {
+	margin: 0px;
+    }
+}
