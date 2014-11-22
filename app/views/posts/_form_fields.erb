@@ -16,6 +16,18 @@
   <p class="add-attachment"><button class="button-normal large-button"><%= I18n.t("posts.add_attachment") %></button></p>
 
   <div class="edit-attachments">
+    <% post.attachments.each do |attach| %>
+      <div class="old-attachment">
+	<p>
+	  <strong><%= attach.filename %></strong>
+	  <input type="hidden" name="attachments[][_delete]" value="0"/><!-- transmit 0 if unset -->
+	  <input type="checkbox" name="attachments[][_delete]"/> Delete<br/>
+	  <%= attach.description %>
+	  <input type="hidden" name="attachments[][id]" value="<%= attach.id %>"/>
+	</p>
+      </div>
+    <% end %>
+
     <!-- Target for JavaScript -->
   </div>
 <% end %>
