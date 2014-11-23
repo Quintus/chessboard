@@ -312,6 +312,14 @@ en:
       page_topic_num: >-
         The number of topics to display per forum overview page. Must
         be equal to or more than 5.
+      maximum_attachment_size: >-
+        Maximum allowed size of attachments, in byte.
+      allowed_attachment_mime_types: >-
+        List of MIME types files uploaded as attachments are allowed
+        to have. The forum uses the file(1) command to determine the
+        MIME type of uploaded files, so the types you give here must
+        match the output of file(1) in order for an uploaded file to
+        be allowed. This is a comma-separated list of MIME types.
     users:
       users: "Users"
       administer: "Administer user"

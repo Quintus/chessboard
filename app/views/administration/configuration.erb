@@ -58,6 +58,26 @@
     </div>
 
     <div class="header settings-header">
+      <%= f.label :maximum_attachment_size %>
+    </div>
+    <div class="settings-desc">
+      <p><%= I18n.t("admin.configuration.maximum_attachment_size") %></p>
+    </div>
+    <div class="settings-content">
+      <%= f.text_field :maximum_attachment_size %>
+    </div>
+
+    <div class="header settings-header">
+      <%= f.label :allowed_attachment_mime_types %>
+    </div>
+    <div class="settings-desc">
+      <p><%= I18n.t("admin.configuration.allowed_attachment_mime_types") %></p>
+    </div>
+    <div class="settings-content">
+      <%= f.text_field :allowed_attachment_mime_types %>
+    </div>
+
+    <div class="header settings-header">
       <%= f.label :warning_expiration %>
     </div>
     <div class="settings-desc">

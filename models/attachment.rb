@@ -93,13 +93,14 @@ class Attachment < ActiveRecord::Base
   end
 
   def validate_size
-    if File.size(full_path) > Chessboard.config.attachment_max_size
-      errors.add(:filename, I18n.t("errors.post.filename.too_large", :filename => filename, :maximum => Chessboard.config.attachment_max_size))
+    config = GlobalConfiguration.instance
+    if File.size(full_path) > config.maximum_attachment_size
+      errors.add(:filename, I18n.t("errors.post.filename.too_large", :filename => filename, :maximum => config.maximum_attachment_size))
     end
   end
 
   def validate_mime_type
-    unless Chessboard.config.attachment_allowed_mime_types.include?(mime_type)
+    unless GlobalConfiguration.instance.attachment_mime_type_allowed?(mime_type)
       errors.add(:filename, I18n.t("errors.post.filename.disallowed_mime", :filename => filename))
     end
   end

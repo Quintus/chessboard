@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 35) do
+ActiveRecord::Schema.define(version: 36) do
 
   create_table "attachments", force: true do |t|
     t.string   "filename"
@@ -55,15 +55,17 @@ ActiveRecord::Schema.define(version: 35) do
   end
 
   create_table "global_configurations", force: true do |t|
-    t.string   "default_time_format",      default: ""
-    t.integer  "maximum_avatar_dimension", default: 80
-    t.integer  "warning_expiration",       default: 31536000
-    t.integer  "registration_expiration",  default: 86400
-    t.boolean  "registration",             default: true
+    t.string   "default_time_format",           default: ""
+    t.integer  "maximum_avatar_dimension",      default: 80
+    t.integer  "warning_expiration",            default: 31536000
+    t.integer  "registration_expiration",       default: 86400
+    t.boolean  "registration",                  default: true
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "page_post_num",            default: 15
-    t.integer  "page_topic_num",           default: 15
+    t.integer  "page_post_num",                 default: 15
+    t.integer  "page_topic_num",                default: 15
+    t.integer  "maximum_attachment_size",       default: 1048576
+    t.string   "allowed_attachment_mime_types", default: "text/plain, image/jpeg, image/png, application/x-gzip, application/zip"
   end
 
   create_table "moderation", id: false, force: true do |t|
