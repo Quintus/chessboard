@@ -11,7 +11,7 @@
 </div>
 <% end %>
 
-<% form_for @post, url(:posts, :update, @topic.id, @post.id), :method => :put do |f| %>
+<% form_for @post, url(:posts, :update, @topic.id, @post.id), :method => :put, :multipart => true do |f| %>
   <%= partial "posts/form_fields", :locals => {:form => f, :post => @post} %>
 
   <p class="submit-separator">

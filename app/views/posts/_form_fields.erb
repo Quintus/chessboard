@@ -20,10 +20,12 @@
       <div class="old-attachment">
 	<p>
 	  <strong><%= attach.filename %></strong>
-	  <input type="hidden" name="attachments[][_delete]" value="0"/><!-- transmit 0 if unset -->
-	  <input type="checkbox" name="attachments[][_delete]"/> Delete<br/>
-	  <%= attach.description %>
-	  <input type="hidden" name="attachments[][id]" value="<%= attach.id %>"/>
+	  <input type="hidden" name="delete_attachments[][_delete]" value="0"/><!-- transmit 0 if unset -->
+	  <input type="checkbox" name="delete_attachments[][_delete]"/> Delete<br/>
+	  <div class="attachment-description">
+	    <%= attach.description.blank? ? content_tag("p", I18n.t("posts.no_attachment_description")) : simple_format(attach.description) %>
+	  </div>
+	  <input type="hidden" name="delete_attachments[][id]" value="<%= attach.id %>"/>
 	</p>
       </div>
     <% end %>
