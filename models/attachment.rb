@@ -59,14 +59,7 @@ class Attachment < ActiveRecord::Base
   # Returns the MIME type of the underlying file as determined
   # by the file(1) command, as a string.
   def mime_type
-    cmd = [Chessboard.config.attachment_file_command, "--brief", "--mime-type", full_path]
-    logger.debug("Command: #{cmd.inspect}")
-
-    IO.popen(cmd) do |io|
-      str = io.read.strip
-      logger.debug("Command result: #{str.inspect}")
-      str
-    end
+    execute_command(Chessboard.config.attachment_file_command, "--brief", "--mime-type", full_path)
   end
 
   private
@@ -86,6 +79,16 @@ class Attachment < ActiveRecord::Base
   def validate_mime_type
     unless Chessboard.config.attachment_allowed_mime_types.include?(mime_type)
       errors.add(:filename, I18n.t("errors.post.filename.disallowed_mime", :filename => filename))
+    end
+  end
+
+  def execute_command(*args)
+    logger.debug("Command: #{args.inspect}")
+
+    IO.popen(args) do |io|
+      str = io.read.strip
+      logger.debug("Command result: #{str.inspect}")
+      str
     end
   end
 
