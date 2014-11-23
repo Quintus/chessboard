@@ -1,4 +1,12 @@
+# coding: utf-8
 class Attachment < ActiveRecord::Base
+
+  # Defines the width and height of an image attachment.
+  Dimensions = Struct.new(:width, :height) do
+    def to_s # :nodoc:
+      "#{width}x#{height}"
+    end
+  end
 
   validates :filename, :presence => true, :format => /\A[[:alnum:]_\-\.]+\z/
   validate :validate_unique_filename
@@ -60,6 +68,20 @@ class Attachment < ActiveRecord::Base
   # by the file(1) command, as a string.
   def mime_type
     execute_command(Chessboard.config.attachment_file_command, "--brief", "--mime-type", full_path)
+  end
+
+  # Returns a Dimension instance for an image attachment. Raises
+  # ArgumentError if this isn’t an image.
+  def dimensions
+    raise(ArgumentError, "'#{full_path}' is not an image!") unless image?
+
+    img = MiniMagick::Image.open(full_path)
+    Dimensions.new(img[:width], img[:height])
+  end
+
+  # Returns true if this attachment is an image, false otherwise.
+  def image?
+    mime_type.start_with?("image/")
   end
 
   private
