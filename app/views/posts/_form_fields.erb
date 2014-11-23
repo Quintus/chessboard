@@ -13,7 +13,10 @@
 </p>
 
 <% if Chessboard.config.attachments_enabled %>
-  <p class="add-attachment"><button class="button-normal large-button"><%= I18n.t("posts.add_attachment") %></button></p>
+  <p class="add-attachment">
+    <button class="button-normal large-button"><%= I18n.t("posts.add_attachment") %></button>
+    <%= I18n.t("posts.attachment_max_size", :size => readable_bytesize(GlobalConfiguration.instance.maximum_attachment_size)).html_safe %>
+  </p>
 
   <div class="edit-attachments">
     <% post.attachments.each do |attach| %>

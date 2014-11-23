@@ -89,6 +89,7 @@ en:
     failed_attachment: "Failed to upload attachment '%{name}': %{error}"
     attachment: "Attachment:"
     no_attachment_description: "(No description provided.)"
+    attachment_max_size: "(Maximum attachment size: %{size})"
   settings:
     settings: "Settings"
     settings_updated: "Settings updated."
