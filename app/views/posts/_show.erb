@@ -53,6 +53,7 @@
       <div class="post-attachments">
 	<% post.attachments.order(:filename => :asc).each do |attachment| %>
 	  <div class="post-attachment">
+	    <div class="attachment-icon"><!-- for screenreaders not an <img> --></div>
 	    <p>
 	      <strong><%= I18n.t("posts.attachment") %></strong> <%= link_to(attachment.filename, attachment.full_uri) %> (<%= readable_bytesize(File.size(attachment.full_path)) %>)
 	    </p>
