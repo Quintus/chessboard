@@ -572,3 +572,16 @@ div.preview {
     float: left;
     margin-right: 2px;
 }
+
+.attachment-preview {
+    display: inline-block;
+    border: 1px solid gray;
+    background: url("/images/misc/image-background.png") repeat;
+    padding: 4px;
+
+    img {
+	vertical-align: middle;
+	max-height: 300px;
+	overflow: auto;
+    }
+}

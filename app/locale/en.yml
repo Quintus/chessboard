@@ -86,7 +86,7 @@ en:
     updated: "Posting updated."
     no_ip: "(not available)"
     add_attachment: "Add Attachment"
-    failed_attachment: "Failed to upload attachment '%{name}'"
+    failed_attachment: "Failed to upload attachment '%{name}': %{error}"
     attachment: "Attachment:"
     no_attachment_desciption: "No description."
   settings:

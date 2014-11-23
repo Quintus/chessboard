@@ -18,7 +18,7 @@ class Attachment < ActiveRecord::Base
   # if sav!ng fails.
   def self.from_upload!(post, description, uploadhsh)
     attachment = new
-    attachment.filename = uploadhsh[:filename].strip
+    attachment.filename = uploadhsh[:filename].strip.gsub(" ", "_")
     attachment.description = description # may be nil
     attachment.post = post
 
