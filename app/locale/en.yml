@@ -88,7 +88,7 @@ en:
     add_attachment: "Add Attachment"
     failed_attachment: "Failed to upload attachment '%{name}': %{error}"
     attachment: "Attachment:"
-    no_attachment_desciption: "No description."
+    no_attachment_description: "(No description provided.)"
   settings:
     settings: "Settings"
     settings_updated: "Settings updated."
