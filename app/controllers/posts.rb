@@ -106,20 +106,27 @@ Chessboard::App.controllers :posts do
     attrs = params["post"]
     attrs.merge!("ip" => request.ip) unless Chessboard.config.ip_save_time < 0
     if @post.update_attributes(attrs)
-      # Delete requested attachments
-      params["delete_attachments"].each do |attach_hsh|
-        if attach_hsh["id"] && attach_hsh["_delete"] == "on"
-          Attachment.find(attach_hsh["id"]).destroy!
-        end
-      end
+      if Chessboard.config.attachments_enabled
 
-      # Create new attachments
-      params["attachments"].each do |attach_hsh|
-        begin
-          Attachment.from_upload!(@post, attach_hsh["description"], attach_hsh["attachment"])
-        rescue => e
-          logger.error("Failed to save attachment: #{e.class}: #{e.message}: #{e.backtrace.join('\n\t')}")
-          flash[:alert] = I18n.t("posts.failed_attachment", :name => attach_hsh["attachment"][:filename], :error => e.message)
+        # Delete requested attachments
+        unless params["delete_attachments"].blank?
+          params["delete_attachments"].each do |attach_hsh|
+            if attach_hsh["id"] && attach_hsh["_delete"] == "on"
+              Attachment.find(attach_hsh["id"]).destroy!
+            end
+          end
+        end
+
+        # Create new attachments
+        unless params["attachments"].blank?
+          params["attachments"].each do |attach_hsh|
+            begin
+              Attachment.from_upload!(@post, attach_hsh["description"], attach_hsh["attachment"])
+            rescue => e
+              logger.error("Failed to save attachment: #{e.class}: #{e.message}: #{e.backtrace.join('\n\t')}")
+              flash[:alert] = I18n.t("posts.failed_attachment", :name => attach_hsh["attachment"][:filename], :error => e.message)
+            end
+          end
         end
       end
 
