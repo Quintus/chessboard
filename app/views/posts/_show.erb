@@ -15,7 +15,7 @@
         <p><%= I18n.l post.created_at, :format => :long %></p>
       </div>
       <div class="post-num">
-        <p><%= link_to "##{i + 1}", url(:topics, :show, post.topic.id) + "#p#{post.id}", :name => "p#{post.id}" %></p>
+        <p><%= link_to "##{i + 1}", url(:posts, :show, post.topic.id, post.id), :name => "p#{post.id}" %></p>
       </div>
     </div>
 
