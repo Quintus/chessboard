@@ -35,6 +35,7 @@
     <% end %>
 
     <div class="post-text">
+	<%= flash_tag :postalert, :class => "flash alert" if flash[:postid] == post.id %>
 	<%= process_markup(post.content, post.markup_language) %>
 	<% if env["warden"].authenticated? && env["warden"].user.privileged? %>
 	  <p class="post-ip">

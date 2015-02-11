@@ -34,7 +34,8 @@ Chessboard::App.controllers :posts do
             Attachment.from_upload!(@post, attach_hsh["description"], attach_hsh["attachment"])
           rescue => e
             logger.error("Failed to save attachment: #{e.class}: #{e.message}: #{e.backtrace.join('\n\t')}")
-            flash[:alert] = I18n.t("posts.failed_attachment", :name => attach_hsh["attachment"][:filename], :error => e.message)
+            flash[:alert] = flash[:postalert] = I18n.t("posts.failed_attachment", :name => attach_hsh["attachment"][:filename], :error => e.message)
+            flash[:postid] = @post.id
             # Do not die and void the entire post just because an attachment failed to
             # upload. Redoing the upload is easier than rewriting all your text!
           end
