@@ -452,6 +452,33 @@ pre code {
     }
 }
 
+/******** Spoiler **********/
+
+.spoiler {
+    max-height: 150px;
+    border: 1px solid black;
+    overflow: auto;
+}
+
+.spoilerwarning {
+    background-color: #AAAAAA;
+    color: yellow;
+    font-weight: bold;
+    font-variant: small-caps;
+
+    img {
+	margin-right: 4px;
+    }
+}
+
+.spoilercontent {
+    padding: 4px;
+}
+
+div.expandspoiler {
+    max-height: none;
+}
+
 /****** Profile page *******/
 
 .profile-user-signature {

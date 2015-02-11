@@ -67,6 +67,14 @@ module BBRuby
                                          'Quote (sourceclass)',
                                          "[quote]Now is the time...[/quote]",
                                          :quote],
+
+                ### New spoiler tag
+                'Spoiler' => [
+                  /\[spoiler\](.*?)\[\/spoiler\]/mi,
+                  '<div class="spoiler"><div class="spoilerwarning"><img src="/images/icons/warn.png" alt="Warningsign"/>Spoiler <a class="expandspoiler" href="#">(⇔)</a></div><div class="spoilercontent">\1</div></div>',
+                  'Spoiler',
+                  '[spoiler]Very long text here[/spoiler]',
+                  :spoiler],
                )
 
   # Similar to the original ::to_html_with_formatting, but does NOT
