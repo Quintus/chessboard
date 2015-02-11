@@ -26,6 +26,7 @@ en:
     actions: "Actions"
     preview: "Preview"
     errors_occured: "Errors occured."
+    search: "Search"
   forums:
     forum: "Forum"
     topics: "Topics"
@@ -338,3 +339,7 @@ en:
       new: "New Forum"
       created: "Created new forum."
       deleted: "Deleted forum."
+  search:
+    name: "Search"
+    text_missing: "The search query does not include a text query."
+    results: "Search results"

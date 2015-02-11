@@ -1,0 +1,35 @@
+<h1><%= I18n.t("general.search") %></h1>
+
+<% form_tag url(:topics, :search), :method => :post do %>
+
+  <p>
+    This form allows you to search the topics and posts made to this
+    forum. Fields you leave empty will not be considered. Queries are
+    always made for fragments as a whole, fancy stuff like AND or OR
+    queries is not (yet) supported.
+  </p>
+
+  <p>
+    Text must include the following (this field can’t be blank):<br/>
+    <%= text_field_tag :text_query %>
+  </p>
+
+  <p>
+    Author must include the following:<br/>
+    <%= text_field_tag :author_query %>
+  </p>
+
+  <p>
+    Creation date must be after (format is YYYY-MM-DD):<br/>
+    <%= text_field_tag :startdate_query %>
+  </p>
+
+  <p>
+    Creation date must be before (format is YYYY-MM-DD):<br/>
+    <%= text_field_tag :finaldate_query %>
+  </p>
+
+  <p class="submit-separator">
+    <%= submit_tag I18n.t("general.search"), :class => "button-ok" %>
+  </p>
+<% end %>

@@ -38,14 +38,20 @@
     else
       extra_class = "topic-read"
       image = "icons/topic_normal_read.png"
+    end
   end
-end %>
+
+  topicurl = url(:topics, :show, forum_topic.id)
+  if defined?(urlquerystr)
+    topicurl += "?#{urlquerystr}"
+  end
+%>
 <tr class="forum-topic <%= extra_class %>">
   <td class="list-icon imgcell">
     <%= image_tag image %>
   </td>
   <td class="list-topic">
-    <%= link_to forum_topic.title, url(:topics, :show, forum_topic.id) %><br/>
+    <%= link_to forum_topic.title, topicurl %><br/>
     <%= I18n.t("forums.author_by") %> <%= link_to forum_topic.author.nickname, url(:users, :show, forum_topic.author.nickname) %>
 
     <% total_pages = (forum_topic.posts.count.to_f / GlobalConfiguration.instance.page_post_num.to_f).ceil %>

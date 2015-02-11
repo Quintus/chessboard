@@ -17,6 +17,8 @@
       <li><%= link_to I18n.t("general.register"), url(:users, :new) %></li>
     <% end %>
 
+    <li><%= link_to I18n.t("general.search"), url(:topics, :search) %></li>
+
     <% if env["warden"].authenticated? %>
       <li><a href="/logout"><%= I18n.t("general.log_out") %></a></li>
     <% else %>

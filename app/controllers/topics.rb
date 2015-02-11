@@ -20,6 +20,46 @@ Chessboard::App.controllers :topics do
     render "topics/feed", :layout => false
   end
 
+  get :search, :map => "/topics/search" do
+    render "topics/search"
+  end
+
+  post :search, :map => "/topics/search" do
+    # Do not allow nasty people to just retrieve the entire list
+    # of all the topics/posts.
+    if params["text_query"].blank?
+      flash[:alert] = I18n.t("search.text_missing")
+      return redirect(url(:topics, :search))
+    end
+
+    query = Topic.joins(:posts)
+
+    if !params["author_query"].blank?
+      query = query.joins("INNER JOIN users ON posts.author_id = users.id")
+    end
+
+    query = query.where("posts.content LIKE ?", "%#{params['text_query']}%")
+
+    if !params["author_query"].blank?
+      query = query.where("users.nickname LIKE ?", "%#{params['author_query']}%")
+    end
+
+    if !params["startdate_query"].blank?
+      query = query.where("posts.created_at >= ?", DateTime.parse(params["startdate_query"]))
+    end
+
+    if !params["finaldate_query"].blank?
+      query = query.where("posts.created_at <= ?", DateTime.parse(params["finaldate_query"]))
+    end
+
+    # As a single topic may match multiple times (i.e. each posts match multiple times),
+    # shrink multiple occurences of the same topic down to only one appearance of it
+    # (using GROUP BY).
+    @topics = query.group("topics.id").order("MAX(posts.created_at) DESC")
+    @search_term = params["text_query"]
+    render "topics/search_results"
+  end
+
   get :show, :map => "/topics/:id" do
     @topic = Topic.find(params[:id])
     @topic.views += 1
