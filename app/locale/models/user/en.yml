@@ -6,7 +6,7 @@ en:
         id: Id
         nickname: Nickname
         realname: Real name
-        email: Email
+        email: E-Mail address
         homepage: Homepage
         rank: Rank
         created_at: Registered

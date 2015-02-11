@@ -75,6 +75,7 @@ Chessboard::App.controllers :users do
 
     @user.realname   = params["user"]["realname"]
     @user.homepage   = params["user"]["homepage"]
+    @user.email      = params["user"]["email"]
     @user.signature  = params["user"]["signature"]
     @user.location   = params["user"]["location"]
     @user.profession = params["user"]["profession"]
