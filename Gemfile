@@ -25,7 +25,7 @@ gem 'minitest', :require => 'minitest/autorun', :group => 'test'
 gem 'rack-test', :require => 'rack/test', :group => 'test'
 
 # Padrino Stable Gem
-gem 'padrino', '0.12.4'
+gem 'padrino', '0.12.5'
 
 # Plugins
 Dir["plugins/*/Gemfile"].sort.each do |path|
