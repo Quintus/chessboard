@@ -1,0 +1,7 @@
+From: johndoe@example.com
+To: test-ml@example.com
+Subject: This is a new topic
+Message-ID: newtopic1@testmachine.local
+
+This is a new topic. It should show up without References: headers and
+on its own right.

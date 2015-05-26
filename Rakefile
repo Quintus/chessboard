@@ -1,4 +1,5 @@
 # -*- ruby -*-
+require "socket"
 require 'bundler/setup'
 require 'padrino-core/cli/rake'
 
@@ -30,4 +31,27 @@ task :initialize => ["ar:schema:load"] do
   puts "Initialisation done."
   puts "The administrative user has username 'admin' and password 'adminadmin'."
   puts "Have fun with Chessboard!"
+end
+
+desc "Mailinglist test task; pass mail file via MAILFILE=."
+task :testml do
+  fail "No email file given!" unless ENV["MAILFILE"]
+
+  UNIXSocket.open("/tmp/test-ml.sock") do |sock|
+    p sock.gets
+    sock.write p "LHLO localhost\r\n"
+    nil until p(sock.gets)[3] == " "
+
+    sock.write p "MAIL FROM:<johndoe@example.invalid>\r\n"
+    sock.write p "RCPT TO:<test-ml@example.invalid>\r\n"
+    sock.write p "DATA\r\n"
+    p sock.gets
+    p sock.gets
+    p sock.gets
+    sock.write p(File.open(ENV["MAILFILE"], "rb"){|f| f.read.gsub("\n", "\r\n")})
+    sock.write p "\r\n.\r\n"
+    p sock.gets
+    sock.write "QUIT\r\n"
+    p sock.gets
+  end
 end

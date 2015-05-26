@@ -130,4 +130,13 @@ This forum is run and administered by somone, somewhere.
     IMPRINT
   }
 
+  Thread.abort_on_exception = true
+  config.plugins.MailinglistPlugin = {
+    :socket_path => "/tmp/test-ml.sock",
+    :forum_id => 2,
+    :markup_language => "Preformatted",
+    :ml_address => "test-ml@example.invalid",
+    :from_address => "automailer@example.invalid"
+  }
+
 end
