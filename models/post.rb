@@ -14,6 +14,10 @@ class Post < ActiveRecord::Base
   has_many :reports, :dependent => :destroy
   has_many :attachments, :dependent => :destroy
 
+  # This is a hash for plugins to use. Each plugin shall use a subhash
+  # under the key of its name, i.e. {:FooPlugin => {:key1 => "val1", ...}}.
+  serialize :plugin_data, Hash
+
   before_destroy :delete_empty_topic
 
   # Returns a list of all available markup language names,
