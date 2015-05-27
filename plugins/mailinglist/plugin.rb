@@ -275,9 +275,13 @@ EOF
     # the reverse list. This will keep the iteration interval as short
     # as possible.
     ary = Post.order(:id => :desc).pluck(:id, :plugin_data)
-    id = ary.find{ |id, hsh| hsh[:MailinglistPlugin] && hsh[:MailinglistPlugin][:ml_msgid] == messageid }.first
+    subary = ary.find{ |id, hsh| hsh[:MailinglistPlugin] && hsh[:MailinglistPlugin][:ml_msgid] == messageid }
 
-    Post.find(id)
+    if subary
+      Post.find(subary.first)
+    else
+      nil
+    end
   end
 
 end
