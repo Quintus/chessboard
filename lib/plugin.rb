@@ -14,6 +14,7 @@ module Chessboard::Plugin
   include Padrino::Helpers::FormatHelpers
   #include Padrino::Helpers::RenderHelpers # Would render app/views, which is undesired
   include Padrino::Helpers::NumberHelpers
+  include Padrino::Mailer::Helpers
 
   # This struct represents a single markup language with
   # name and implementation.
@@ -108,6 +109,12 @@ module Chessboard::Plugin
   # Makes Padrino’s #url method available to your plugin.
   def url(*args)
     Chessboard::App.url(*args)
+  end
+
+  # Makes Padrino’s #settings methods available to your plugin.
+  # This is also used internally by the Padrino::Mailer helpers.
+  def settings(*args)
+    Chessboard::App.settings(*args)
   end
 
   ########################################

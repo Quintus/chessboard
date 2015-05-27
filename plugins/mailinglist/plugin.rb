@@ -175,6 +175,11 @@ CSS
 
     post.save!
     logger.debug("Post #{post.id} => Message-ID #{mail['Message-ID'].decoded}")
+
+    # In case of new posts via ML notify users watching this thread.
+    unless mail["X-Chessboard-Post"]
+      notify_subscribers(post, mail)
+    end
   end
 
   def create_new_post_from_mail(mail)
@@ -281,6 +286,12 @@ EOF
       Post.find(subary.first)
     else
       nil
+    end
+  end
+
+  def notify_subscribers(post, mail)
+    post.topic.watchers.where.not(:id => post.author.id).pluck(:email, :nickname).each do |email_addr, nickname|
+      deliver :posts, :watch_email, email_addr, nickname, post, url(:posts, :show, post.topic.id, post.id), url(:topics, :show, post.topic.id), "http://#{Chessboard.config.domain}/" # FIXME: HTTPS detection?
     end
   end
 
