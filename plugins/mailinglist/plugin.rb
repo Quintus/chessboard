@@ -130,7 +130,6 @@ CSS
     end
 
     logger.debug("Sending topic reply to mailinglist.")
-    p mail
     mail.deliver
   end
 
@@ -144,7 +143,6 @@ CSS
     mail.subject = options[:topic].title
 
     Chessboard::App.logger.info("Sending new topic '#{options[:topic].title}' on website to mailinglist.")
-    p mail
     mail.deliver
   end
 
