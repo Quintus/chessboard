@@ -163,6 +163,14 @@ CSS
     end
 
     post.plugin_data[:MailinglistPlugin] ||= {}
+
+    if post.plugin_data[:MailinglistPlugin][:ml_msgid]
+      # If a msgid is set, but X-Chessboard-Post exists, someone
+      # is trying to trick us to overwrite the ID mappings.
+      logger.warn("Detected crafted email that intended to overwrite an existing Message-ID mapping. Ignoring.")
+      return
+    end
+
     post.plugin_data[:MailinglistPlugin][:ml_msgid] = mail["Message-ID"].decoded
 
     post.save!
