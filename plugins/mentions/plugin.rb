@@ -33,11 +33,29 @@ Chessboard mail system
 You are receiving this mail as a member of the forum at <%= boardlink %>.
   EMAIL
 
+  def hook_html_header(options)
+    str = super
+    str += content_tag("style", :type => "text/css") do
+<<CSS.html_safe
+a.mention {
+  font-weight: bold;
+  color: black;
+}
+a.mention:hover {
+  color: #520ebb;
+}
+CSS
+    end
+
+    str
+  end
+
   def hook_hlpr_post_markup(options)
     result = super
 
     result.gsub(FIND_MENTION_REGEXP) do
-      "#$1<strong class='mention'>#$2</strong>"
+      nick = $2[1..-1] # Remove leading @
+      "#$1<a class='mention' href='/users/#{nick}'>#$2</a>"
     end
   end
 
