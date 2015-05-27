@@ -28,6 +28,8 @@ Setup
 Only development-mode setup currently.
 
 ~~~~~~~~~~~~~~~~~~~~~
+$ git submodule init
+$ git submodule update
 $ bundle install
 $ bundle exec rake ar:create initialize
 ~~~~~~~~~~~~~~~~~~~~~
