@@ -70,7 +70,7 @@ License
 
 Chessboard is a bulletin-board forum for the world wide web.
 
-Copyright © 2014  Marvin Gülker
+Copyright © 2014,2015  Marvin Gülker
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
