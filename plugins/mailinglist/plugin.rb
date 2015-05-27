@@ -168,7 +168,7 @@ CSS
       # If a msgid is set, but X-Chessboard-Post exists, someone
       # is trying to trick us to overwrite the ID mappings.
       logger.warn("Detected crafted email that intended to overwrite an existing Message-ID mapping. Ignoring.")
-      return
+      raise(LmtpServer::RejectMail.new(550, "5.7.0 Rejecting request to overwrite existing message ID. Do no set X-Chessboard-Post please."))
     end
 
     post.plugin_data[:MailinglistPlugin][:ml_msgid] = mail["Message-ID"].decoded
