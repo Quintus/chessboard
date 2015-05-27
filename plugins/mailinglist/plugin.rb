@@ -172,6 +172,7 @@ CSS
 
     post.plugin_data[:MailinglistPlugin] ||= {}
 
+    # TODO: We could directly set the Message-ID header when creating the post?
     if post.plugin_data[:MailinglistPlugin][:ml_msgid]
       # If a msgid is set, but X-Chessboard-Post exists, someone
       # is trying to trick us to overwrite the ID mappings.
