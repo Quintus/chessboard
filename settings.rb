@@ -130,7 +130,7 @@ This forum is run and administered by somone, somewhere.
     IMPRINT
   }
 
-  Thread.abort_on_exception = true
+  # TODO: Disable this plugin by default
   config.plugins.MailinglistPlugin = {
     :socket_path => "/tmp/test-ml.sock",
     :forum_id => 2,
