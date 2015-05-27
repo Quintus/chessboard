@@ -181,8 +181,8 @@ CSS
     post                 = Post.new
     post.content         = extract_mail_body(mail)
     post.markup_language = Chessboard.config.plugins.MailinglistPlugin[:markup_language]
-    post.created_at      = mail.date
-    post.updated_at      = mail.date
+    post.created_at      = Time.now.utc # Do not use mail.date, because a malicious user
+    post.updated_at      = Time.now.utc # could make his posts appear first in a topic otherwise.
     post.author          = extract_mail_author(mail)
     post.ip              = "::1" # Localhost
 
@@ -234,7 +234,15 @@ CSS
       # ↑ mail fails to set the encoding, and I won’t extract the charset from the Content-Type header. Bug: https://github.com/mikel/mail/issues/809
     end
 
-    "Received via mailinglist from #{mask_address(mail.from.first)}" + "\n\n" + text
+    preamble = <<EOF
+From: #{mask_address(mail.from.first)}
+To:   #{mask_address(mail.to.first)}
+Date: #{mail.date.strftime('%Y-%m-%d %H:%M %z')}
+Subject: #{mail.subject}
+
+EOF
+
+   preamble + text
   end
 
   def mask_address(str)
