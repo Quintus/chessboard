@@ -126,6 +126,37 @@ must be done manually. If you want to add it to the main menu at the
 top for example, override the +hook_layout_navigation+ hook
 accordingly.
 
+== Storing additional data in the database
+
+Chessboard makes use of ActiveRecord’s serialisers by adding an
+attribute <tt>plugin_data</tt> to some classes (currently only
++Post+). This attribute holds a hash in which plugins can place their
+own data. Please use the name of your plugin as they key, e.g.:
+
+   mypost = Post.find(5)
+   mypost.plugin_data[:MyPlugin] ||= {}
+   mypost.plugin_data[:MyPlugin][:mykey] = "test data"
+   mypost.save!
+   # ...
+   x = Post.find(5)
+   p x.plugin_data[:MyPlugin] #=> {:mykey => "test data"}
+
+The serialiser functionality uses YAML under the hood, so please do
+not store objects in the plugin_data hash that cannot be serialised
+with YAML (e.g. File instances and lambdas). This functionality is
+quite a nice catch. Other forums require plugins to provide
+migrations, with Chessboard you can just use a simple Ruby hash for
+your data you want to attach.
+
+== Padrino helpers
+
+The Chessboard::Plugin class includes several of Padrino’s helper
+modules. Look at its documentation to get an exhaustive list. This
+enables you to mostly treat your plugin as if it was part of the main
+application. For example, you can use the `deliver` helper method of
+Padrino’s mailer functionality to deliver Chessboard’s core emails
+(see the app/mailers directory for those).
+
 == Reloading
 
 Currently plugins aren’t reloaded automatically when you reload the
