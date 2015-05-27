@@ -120,13 +120,13 @@ CSS
 
     # Have the reply display nicely in the MUAs.
     topic = options[:post].topic
-    prevpost_data = topic.posts.to_a[-2].plugin_data
+    prevpost_data = topic.posts.order(:created_at => :desc).limit(2).last.plugin_data
     if prevpost_data[:MailinglistPlugin] && prevpost_data[:MailinglistPlugin][:ml_msgid]
       mail.in_reply_to = "<#{prevpost_data[:MailinglistPlugin][:ml_msgid]}>"
 
       # Try to at least rudimentaryly conform to section 3.6.4(10) of RFC 2822
       ary = []
-      topic.posts.each do |replypost|
+      topic.posts.order(:created_at => :asc).each do |replypost|
         if replypost.plugin_data[:MailinglistPlugin] && replypost.plugin_data[:MailinglistPlugin][:ml_msgid]
           ary << "<#{replypost.plugin_data[:MailinglistPlugin][:ml_msgid]}>"
         end
