@@ -84,7 +84,7 @@ module MailinglistPlugin
           when :err     then logger.error(msg)
           when :crit    then logger.fatal(msg)
           else
-            logger.notice(msg)
+            logger.warn(msg)
           end
         end
 
