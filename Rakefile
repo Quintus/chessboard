@@ -26,7 +26,12 @@ task :initialize => ["ar:schema:load"] do
   User.new(nickname: "admin", password: "adminadmin", email: "admin@admin.ad", admin: true, confirmed: true).save!
 
   # Create Guest user
-  User.new(:id => 9999, :nickname => "Guest", :email => "guest@example.invalid", :confirmed => true, :realname => "Unknown User Dummy", :encrypted_password => "Invalid password", :forced_rank => "Guest").save!
+  User.new(:nickname => "Guest", :email => "guest@example.invalid", :confirmed => true, :realname => "Unknown User Dummy", :encrypted_password => "Invalid password", :forced_rank => "Guest").save!
+
+  # Create one forum
+  fg = ForumGroup.new(:name => "General")
+  fg.save!
+  Forum.new(:name => "Discussion", :description => "Main discussion forum", :forum_group_id => fg.id).save!
 
   puts "Initialisation done."
   puts "The administrative user has username 'admin' and password 'adminadmin'."

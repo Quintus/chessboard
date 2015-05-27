@@ -6,6 +6,12 @@ GlobalConfiguration.create
 ########################################
 # Users
 
+admin = User.new(nickname: "admin", password: "adminadmin", email: "admin@admin.ad", admin: true, confirmed: true)
+admin.save
+
+guest =  User.new(:nickname => "Guest", :email => "guest@example.invalid", :confirmed => true, :realname => "Unknown User Dummy", :encrypted_password => "Invalid password", :forced_rank => "Guest")
+guest.save
+
 user = User.new(nickname: "user", password: "useruseruser", email: "user@user.us", confirmed: true)
 user.save
 
