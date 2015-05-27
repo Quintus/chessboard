@@ -119,9 +119,19 @@ CSS
     mail.subject = "Re: #{options[:post].topic.title}"
 
     # Have the reply display nicely in the MUAs.
-    prevpost_data = options[:post].topic.posts.to_a[-2].plugin_data
+    topic = options[:post].topic
+    prevpost_data = topic.posts.to_a[-2].plugin_data
     if prevpost_data[:MailinglistPlugin] && prevpost_data[:MailinglistPlugin][:ml_msgid]
-      mail["References"] = prevpost_data[:MailinglistPlugin][:ml_msgid]
+      mail.in_reply_to = "<#{prevpost_data[:MailinglistPlugin][:ml_msgid]}>"
+
+      # Try to at least rudimentaryly conform to section 3.6.4(10) of RFC 2822
+      ary = []
+      topic.posts.each do |replypost|
+        if replypost.plugin_data[:MailinglistPlugin] && replypost.plugin_data[:MailinglistPlugin][:ml_msgid]
+          ary << "<#{replypost.plugin_data[:MailinglistPlugin][:ml_msgid]}>"
+        end
+      end
+      mail.references = ary
     else
       # Ignore. This happens if the posting was there before the ML
       # plugin was activated or if the previous post was an ML post
@@ -129,7 +139,7 @@ CSS
       # References: header, X-Chessboard-Post: takes precedence.
     end
 
-    logger.debug("Sending topic reply to mailinglist.")
+    logger.info("Sending reply to topic '#{topic.title}' to the mailinglist.")
     mail.deliver
   end
 
@@ -169,10 +179,10 @@ CSS
       raise(LmtpServer::RejectMail.new(550, "5.7.0 Rejecting request to overwrite existing message ID. Do no set X-Chessboard-Post please."))
     end
 
-    post.plugin_data[:MailinglistPlugin][:ml_msgid] = mail["Message-ID"].decoded
+    post.plugin_data[:MailinglistPlugin][:ml_msgid] = mail.message_id
 
     post.save!
-    logger.debug("Post #{post.id} => Message-ID #{mail['Message-ID'].decoded}")
+    logger.debug("Post #{post.id} => Message-ID #{mail.message_id}")
 
     # In case of new posts via ML notify users watching this thread.
     unless mail["X-Chessboard-Post"]
@@ -189,7 +199,14 @@ CSS
     post.author          = extract_mail_author(mail)
     post.ip              = "::1" # Localhost
 
-    if mail["References"] && prevpost = find_post_by_messageid(mail["References"].decoded) # Single = intended
+    # Check the mail headers to find the post the the reply was for.
+    if mail.in_reply_to && mail.in_reply_to.kind_of?(String) && prevpost = find_post_by_messageid(mail.in_reply_to) # Single = intended; String test as we do not handle Array (multi-parent reply)
+      logger.info "Reply to topic '#{prevpost.topic.title}' via mailinglist."
+      topic = prevpost.topic
+    elsif mail.references.kind_of?(String) && prevpost = find_post_by_messageid(mail.references) # Single = intended
+      logger.info "Reply to topic '#{prevpost.topic.title}' via mailinglist."
+      topic = prevpost.topic
+    elsif mail.references.kind_of?(Array) && prevpost = mail.references.reverse.find{|msgid| find_post_by_messageid(msgid)}
       logger.info "Reply to topic '#{prevpost.topic.title}' via mailinglist."
       topic = prevpost.topic
     else
@@ -257,8 +274,8 @@ EOF
     mail.from = Chessboard.config.plugins.MailinglistPlugin[:from_address]
     mail.reply_to = warden.user.email
     mail.to = Chessboard.config.plugins.MailinglistPlugin[:ml_address]
-    mail.header["X-Chessboard-Topic"] = post.topic.id
-    mail.header["X-Chessboard-Post"]  = post.id
+    mail["X-Chessboard-Topic"] = post.topic.id
+    mail["X-Chessboard-Post"]  = post.id
 
     str = "Post via forum by #{warden.user.nickname} <#{mask_address(warden.user.email)}>:"
     str += "\n"
