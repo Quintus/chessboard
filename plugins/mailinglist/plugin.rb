@@ -272,7 +272,7 @@ EOF
 
   def construct_common_mail(warden, post)
     mail = Mail.new
-    mail.from = Chessboard.config.plugins.MailinglistPlugin[:from_address]
+    mail.from = "#{warden.user.nickname} <#{Chessboard.config.plugins.MailinglistPlugin[:from_address]}>"
     mail.reply_to = warden.user.email
     mail.to = Chessboard.config.plugins.MailinglistPlugin[:ml_address]
     mail["X-Chessboard-Topic"] = post.topic.id
