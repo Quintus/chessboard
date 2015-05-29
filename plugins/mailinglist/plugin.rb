@@ -247,7 +247,7 @@ CSS
         text = plain_part.decoded.strip.force_encoding("UTF-8")
       else
         logger.warn("Multipart (ahem) email without text/plain part. Trying whatever is first.")
-        text = CGI.escape_html(parts.first.decoded.strip.force_encoding("UTF-8"))
+        text = CGI.escape_html(mail.parts.first.decoded.strip.force_encoding("UTF-8"))
       end
     else
       logger.debug("Plaintext only email. Good.")
