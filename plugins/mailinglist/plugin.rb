@@ -238,6 +238,22 @@ CSS
     end
   end
 
+  def recurse_find_plainpart(part)
+    if part.multipart?
+      part.parts.each do |subpart|
+        if found = recurse_find_plainpart(subpart) # Single = intended
+          return found
+        end
+      end
+    else
+      if part.content_type =~ /^text\/plain;/i
+        part
+      else
+        nil
+      end
+    end
+  end
+
   def extract_mail_body(mail)
     if mail.multipart?
       logger.debug("Orks. This is a multipart email.")
@@ -246,8 +262,17 @@ CSS
         logger.debug("Multipart email with plain/text part. Using that one.")
         text = plain_part.decoded.strip.force_encoding("UTF-8")
       else
-        logger.warn("Multipart (ahem) email without text/plain part. Trying whatever is first.")
-        text = CGI.escape_html(mail.parts.first.decoded.strip.force_encoding("UTF-8"))
+        # I suspect a stacked message, with MIME parts inside MIME parts.
+        logger.debug("Stacked multipart message detected")
+        plain_part = recurse_find_plainpart(mail)
+
+        if plain_part
+          logger.debug("text/plain subpart found. Good.")
+          text = plain_part.decoded.strip.force_encoding("UTF-8")
+        else
+          logger.warn("Multipart (ahem) email without text/plain part. Trying whatever is first.")
+          text = CGI.escape_html(mail.parts.first.decoded.strip.force_encoding("UTF-8"))
+        end
       end
     else
       logger.debug("Plaintext only email. Good.")
