@@ -207,7 +207,7 @@ CSS
     elsif mail.references.kind_of?(String) && prevpost = find_post_by_messageid(mail.references) # Single = intended
       logger.info "Reply to topic '#{prevpost.topic.title}' via mailinglist."
       topic = prevpost.topic
-    elsif mail.references.kind_of?(Array) && prevpost = mail.references.reverse.find{|msgid| find_post_by_messageid(msgid)}
+    elsif mail.references.kind_of?(Array) && mail.references.reverse.find{|msgid| prevpost = find_post_by_messageid(msgid)} # Single = intended
       logger.info "Reply to topic '#{prevpost.topic.title}' via mailinglist."
       topic = prevpost.topic
     else
