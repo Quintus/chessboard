@@ -8,3 +8,9 @@ This is a new topic. It should show up without References: headers and
 on its own right.
 
 It contains a <test> for angle brackets.
+
+Also, it contains a nice link <http://example.com> and another link:
+
+  http://example.org
+
+Last line.

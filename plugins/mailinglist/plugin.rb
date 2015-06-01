@@ -57,10 +57,13 @@ module MailinglistPlugin
   def markup_preformatted(text)
     # 0. Remove carriage returns
     text.gsub!("\r", "")
+
     # 1. Mask all mail addresses
     text.gsub!(/@.*?(\>|\s|$)/, '@xxxxxxx\\1')
+
     # 2. Ecape all HTML
     text = CGI.escape_html(text)
+
     # 3. Colourise quotes
     text.gsub!(/^((&gt;)+)(.*?)$/) do
       if $1.length >= 3 * 4 # &gt; has 4 characters
@@ -73,6 +76,9 @@ module MailinglistPlugin
         $&
       end
     end
+
+    # 4. Make links links
+    text.gsub!(%r!(https?|ftps?)://(.*?)(\s|&gt;|\)|\]|\})!){ %Q!<a href="#{$1}://#{$2}">#{$1}://#{$2}</a>#{$3}! }
 
     '<pre class="ml-post">' + text + '</pre>'
   end
