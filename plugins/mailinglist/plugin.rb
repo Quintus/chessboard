@@ -55,7 +55,7 @@ module MailinglistPlugin
   add_markup "Preformatted", :process => :markup_preformatted
 
   def markup_preformatted(text)
-    '<pre class="ml-post">' + text + '</pre>'
+    '<pre class="ml-post">' + CGI.escape_html(text) + '</pre>'
   end
 
   def self.lmtp_thread
@@ -271,7 +271,7 @@ CSS
           text = plain_part.decoded.strip.force_encoding("UTF-8")
         else
           logger.warn("Multipart (ahem) email without text/plain part. Trying whatever is first.")
-          text = CGI.escape_html(mail.parts.first.decoded.strip.force_encoding("UTF-8"))
+          text = mail.parts.first.decoded.strip.force_encoding("UTF-8")
         end
       end
     else
