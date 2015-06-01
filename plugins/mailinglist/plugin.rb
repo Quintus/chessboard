@@ -55,10 +55,24 @@ module MailinglistPlugin
   add_markup "Preformatted", :process => :markup_preformatted
 
   def markup_preformatted(text)
+    # 0. Remove carriage returns
+    text.gsub!("\r", "")
     # 1. Mask all mail addresses
     text.gsub!(/@.*?(\>|\s|$)/, '@xxxxxxx\\1')
     # 2. Ecape all HTML
     text = CGI.escape_html(text)
+    # 3. Colourise quotes
+    text.gsub!(/^((&gt;)+)(.*?)$/) do
+      if $1.length >= 3 * 4 # &gt; has 4 characters
+        '<span class="ml-quote-n">' + $1 + $3 + '</span>'
+      elsif $1.length == 2 * 4
+        '<span class="ml-quote-2">' + $1 + $3 + '</span>'
+      elsif $1.length == 1 * 4
+        '<span class="ml-quote-1">' + $1 + $3 + '</span>'
+      else # Should not happen
+        $&
+      end
+    end
 
     '<pre class="ml-post">' + text + '</pre>'
   end
@@ -107,6 +121,18 @@ module MailinglistPlugin
 pre.ml-post {
   overflow-y: visible;
   max-height: none;
+}
+
+.ml-quote-1 {
+  color: blue;
+}
+
+.ml-quote-2 {
+  color: #00712a;
+}
+
+.ml-quote-n {
+  color: #821e57;
 }
 CSS
     end
