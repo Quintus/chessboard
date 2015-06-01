@@ -55,7 +55,12 @@ module MailinglistPlugin
   add_markup "Preformatted", :process => :markup_preformatted
 
   def markup_preformatted(text)
-    '<pre class="ml-post">' + CGI.escape_html(text) + '</pre>'
+    # 1. Mask all mail addresses
+    text.gsub!(/@.*?(\>|\s|$)/, '@xxxxxxx\\1')
+    # 2. Ecape all HTML
+    text = CGI.escape_html(text)
+
+    '<pre class="ml-post">' + text + '</pre>'
   end
 
   def self.lmtp_thread
