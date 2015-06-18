@@ -22,7 +22,8 @@ require "lmtp"
 #     :forum_id => 2,
 #     :markup_language => "Preformatted",
 #     :ml_address => "test-ml@example.invalid",
-#     :from_address => "automailer@example.invalid"
+#     :from_address => "automailer@example.invalid",
+#     :maxlinelength => 100
 #   }
 #
 # === Keywords
@@ -49,6 +50,11 @@ require "lmtp"
 #   address has a) write access to the mailinglist and b) does not receive
 #   any posts from the mailinglist if you can’t handle skipping them on
 #   your mail server.
+# [maxlinelength]
+#   Maximum length of a line before it is forcibly wrapped by breaking
+#   it at the first space after this value and appending the newline
+#   character. Defaults to 100. Set to some high value like 99999 to
+#   disable this facility.
 module MailinglistPlugin
   include Chessboard::Plugin
 
@@ -61,10 +67,14 @@ module MailinglistPlugin
     # 1. Mask all mail addresses
     text.gsub!(/@.*?(\>|\s|$)/, '@xxxxxxx\\1')
 
-    # 2. Ecape all HTML
+    # 2. Forcibly break lines longer than 100 characters. Some email
+    # clients are just stupid with regard to text mail.
+    text = break_long_lines(text)
+
+    # 3. Escape all HTML
     text = CGI.escape_html(text)
 
-    # 3. Colourise quotes
+    # 4. Colourise quotes
     text.gsub!(/^((&gt;)+)(.*?)$/) do
       if $1.length >= 3 * 4 # &gt; has 4 characters
         '<span class="ml-quote-n">' + $1 + $3 + '</span>'
@@ -77,7 +87,7 @@ module MailinglistPlugin
       end
     end
 
-    # 4. Make links links
+    # 5. Make links links
     text.gsub!(%r!(https?|ftps?)://(.*?)(\s|&gt;|\)|\]|\})!){ %Q!<a href="#{$1}://#{$2}">#{$1}://#{$2}</a>#{$3}! }
 
     '<pre class="ml-post">' + text + '</pre>'
@@ -371,6 +381,44 @@ EOF
     post.topic.watchers.where.not(:id => post.author.id).pluck(:email, :nickname).each do |email_addr, nickname|
       deliver :posts, :watch_email, email_addr, nickname, post, url(:posts, :show, post.topic.id, post.id), url(:topics, :show, post.topic.id), "http://#{Chessboard.config.domain}/" # FIXME: HTTPS detection?
     end
+  end
+
+  def break_long_lines(str)
+    breaklen = Chessboard.config.plugins.MailinglistPlugin[:maxlinelength] || 100
+
+    lines = str.lines.to_a
+    index = 0
+    until index >= lines.count
+      line = lines[index]
+
+      if line.length > breaklen
+        replacement = ""
+        charidx = 0
+        line.each_char.with_index do |char, ci|
+          if charidx >= breaklen
+            # Break the line at the next space, ensuring that quotes do
+            # not break up by adding > in front of the newliny inserted
+            # line if required.
+            if char =~ /\s/
+              replacement << "\n"
+              replacement << $& if ci < line.chars.count - 1 && line =~ /^>\s?/
+              charidx = 0
+            else
+              replacement << char
+            end
+          else
+            replacement << char
+          end
+          charidx += 1
+        end
+
+        lines[index] = replacement
+      end
+
+      index += 1
+    end
+
+    lines.join("")
   end
 
 end

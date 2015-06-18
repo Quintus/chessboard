@@ -1,0 +1,23 @@
+From: johndoe@example.com
+To: test-ml@example.com
+Subject: This is a longlines email topic
+Date: Sun, 24 May 2015 11:00:01 +0000 (UTC)
+Message-ID: <longmail@testmachine.local>
+
+There is some short text here.
+This is also ok.
+
+This is a very long line that has probably been output by some broken email client. Still the message should show up on the forum in a readable way.
+
+The above is bad, but this is good.
+
+> This is a very long line that has probably been output by some broken email client. Still the message should show up on the forum in a readable way.
+> The above line should be broken
+>
+> foo.
+
+Here is all well.
+
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+
+The above can’t be broken.

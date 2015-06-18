@@ -136,7 +136,8 @@ This forum is run and administered by somone, somewhere.
     :forum_id => 2,
     :markup_language => "Preformatted",
     :ml_address => "test-ml@example.invalid",
-    :from_address => "automailer@example.invalid"
+    :from_address => "automailer@example.invalid",
+    :maxlinelength => 100
   }
 
 end
