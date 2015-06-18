@@ -1,6 +1,6 @@
 .DS_Store
-log/**/*
-tmp/**/*
+log/
+tmp/
 bin/*
 vendor/gems/*
 !vendor/gems/cache/
@@ -11,4 +11,7 @@ db/*.db
 .gems
 public/stylesheets
 public/images/avatars/*.png
+public/images/avatars/*.jpg
+public/images/avatars/*.jpeg
+public/images/avatars/*.gif
 public/attachments/*
