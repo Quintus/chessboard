@@ -1,3 +1,4 @@
+# coding: utf-8
 Chessboard::App.controllers :administration do
 
   before do
@@ -55,6 +56,10 @@ Chessboard::App.controllers :administration do
 
     params["user"]["moderated_forums"] ||= {} # Allow deletion of all moderation rights
 
+    old_moderated_forums = @user.moderated_forums
+    old_forced_rank      = @user.forced_rank
+    old_admin            = @user.admin
+
     @user.moderated_forums.clear
     params["user"]["moderated_forums"].each_pair do |fid, mods|
       @user.moderated_forums << Forum.find(fid) if mods.to_i == 1
@@ -65,6 +70,12 @@ Chessboard::App.controllers :administration do
 
     if @user.save
       flash[:notice] = I18n.t("admin.users.updated")
+
+      hsh = {:moderator => env["warden"].user, :targetted_user => @user}
+      Moderation.create(hsh.merge(:action => "Granted special rank “#{@user.forced_rank}”."))                                                  if old_forced_rank != @user.forced_rank
+      Moderation.create(hsh.merge(:action => @user.admin? ? "GRANTED ADMINISTRATIVE ACCESS!" : "REMOVED ADMINISTRATIVE ACCESS!"))              if old_admin != @user.admin
+      Moderation.create(hsh.merge(:action => "Granted moderation rights on these forums: #{@user.moderated_forums.map(&:name).join(', ')}."))  if old_moderated_forms != @user.moderated_forums
+
       redirect url(:administration, :show_user, @user.nickname)
     else
       render "user"
@@ -74,6 +85,8 @@ Chessboard::App.controllers :administration do
   delete :destroy_user, :map => "/admin/users/:nickname" do
     @user = User.find_by!(:nickname => params["nickname"])
     @user.destroy!
+
+    Moderation.create(:moderator => env["warden"].user, :action => "Deleted user “#{@user.nickname}”.")
 
     flash[:notice] = I18n.t("admin.users.deleted")
     redirect url(:administration, :users)
@@ -100,6 +113,8 @@ Chessboard::App.controllers :administration do
       end
     end
 
+    Moderation.create(:moderator => env["warden"].user, :action => "Changed forum groups.")
+
     redirect "/admin/forum_groups"
   end
 
@@ -112,6 +127,9 @@ Chessboard::App.controllers :administration do
     @forum_group = ForumGroup.new(params["forum_group"])
     if @forum_group.save
       flash[:notice] = I18n.t("admin.forum_groups.created")
+
+      Moderation.create(:moderator => env["warden"].user, :action => "Created new forum group “#{@forum_group.name}”.")
+
       redirect url(:administration, :index_forum_groups)
     else
       render "administration/forum_groups/new"
@@ -122,6 +140,8 @@ Chessboard::App.controllers :administration do
     @forum_group = ForumGroup.find(params["id"])
 
     @forum_group.destroy
+    Moderation.create(:moderator => env["warden"].user, :action => "Deleted forum group “#{@forum_group.name}”.")
+
     flash[:notice] = I18n.t("admin.forum_groups.deleted")
     redirect url(:administration, :index_forum_groups)
   end
@@ -149,6 +169,7 @@ Chessboard::App.controllers :administration do
       end
     end
 
+    Moderation.create(:moderator => env["warden"].user, :action => "Changed forums.")
     redirect url(:administration, :index_forums)
   end
 
@@ -163,6 +184,9 @@ Chessboard::App.controllers :administration do
 
     if @forum.save
       flash[:notice] = I18n.t("admin.forums.created")
+
+      Moderation.create(:moderator => env["warden"].user, :action => "Created new forum “#{@forum.name}”.")
+
       redirect url(:administration, :index_forums)
     else
       render "administration/forums/new"
@@ -172,6 +196,7 @@ Chessboard::App.controllers :administration do
   delete :destroy_forum, :map => "/admin/forums/:id" do
     @forum = Forum.find(params["id"])
     @forum.destroy
+    Moderation.create(:moderator => env["warden"].user, :action => "Deleted forum “#{@forum.name}”.")
     flash[:notice] = I18n.t("admin.forums.deleted")
     redirect url(:administration, :index_forums)
   end
