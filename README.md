@@ -22,6 +22,9 @@ if that was what you’re looking for.
 This is currently a development version. Do not use if you don’t know
 what you do.
 
+Chessboard powers the [Secretchronicles forum](http://forum.secretchronicles.de),
+which you can visit for an impression how it looks like.
+
 Setup
 -----
 
@@ -66,6 +69,15 @@ You can easily add new emoticons by just dropping them into the
 `public/images/emoticons/default` folder, just ensure they are in GIF
 format and their filenames are all lowercase. They will automatically
 be picked up on the next restart of Chessboard.
+
+Plugins
+-------
+
+Chessboard supports plugins, and even ships with a nice set of default
+plugins (such as a minimal spam protection plugin). Installing a
+plugin is as easy as placing it inside the plugins/ folder and adding
+the name of the folder to the list of enabled plugins in
+`settings.rb`.
 
 License
 -------
