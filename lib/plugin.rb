@@ -342,6 +342,39 @@ module Chessboard::Plugin
     true
   end
 
+  # This hook is called in the view of the administration
+  # configuration page. You can use it to add additional fields
+  # to the admin configuration form, which is available as an
+  # extra option to this hook.
+  #
+  # Extra options:
+  # [:configuration]
+  #   The instance of GlobalConfiguration that is about to
+  #   be configured. This option may be a bit redundant
+  #   as you could also just retrieve it with GlobalConfiguration.instance,
+  #   but for the sake of proper style you should use this
+  #   option instead.
+  # [:form]
+  #   The registration form as per Padrino’s form helper.
+  def hook_view_configuration(options)
+    "".html_safe
+  end
+
+  # This hook is called before the updated configuration is
+  # saved into the database. Returning false from this prevents
+  # this step!
+  #
+  # Extra options:
+  # [:configuration]
+  #   The instance of GlobalConfiguration being configured.
+  # [:params]
+  #   params hash. Everything you added in the #hook_view_registration
+  #   hook to the :form helper is available inside the "global_configuation"
+  #   key.
+  def hook_ctrl_configuration(options)
+    true
+  end
+
   # This hook is called in the helper that formats postings
   # after the markup processing has taken place. You can use
   # it to make final modifications to the text before it

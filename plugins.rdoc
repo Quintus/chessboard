@@ -129,9 +129,10 @@ accordingly.
 == Storing additional data in the database
 
 Chessboard makes use of ActiveRecord’s serialisers by adding an
-attribute <tt>plugin_data</tt> to some classes (currently only
-+Post+). This attribute holds a hash in which plugins can place their
-own data. Please use the name of your plugin as they key, e.g.:
+attribute <tt>plugin_data</tt> to some classes (currently only +Post+
+and +GlobalConfiguration+). This attribute holds a hash in which
+plugins can place their own data. Please use the name of your plugin
+as they key, e.g.:
 
    mypost = Post.find(5)
    mypost.plugin_data[:MyPlugin] ||= {}

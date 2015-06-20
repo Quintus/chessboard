@@ -9,6 +9,10 @@ class GlobalConfiguration < ActiveRecord::Base
   validates :allowed_attachment_mime_types, :presence => true
   validate :check_singleton
 
+  # This is a hash for plugins to use. Each plugin shall use a subhash
+  # under the key of its name, i.e. {:FooPlugin => {:key1 => "val1", ...}}.
+  serialize :plugin_data, Hash
+
   def self.instance
     first
   end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 37) do
+ActiveRecord::Schema.define(version: 38) do
 
   create_table "attachments", force: :cascade do |t|
     t.string   "filename",    limit: 255
@@ -66,6 +66,7 @@ ActiveRecord::Schema.define(version: 37) do
     t.integer  "page_topic_num",                            default: 15
     t.integer  "maximum_attachment_size",                   default: 1048576
     t.string   "allowed_attachment_mime_types", limit: 255, default: "text/plain, image/jpeg, image/png, application/x-gzip, application/zip"
+    t.text     "plugin_data"
   end
 
   create_table "moderation", id: false, force: :cascade do |t|
