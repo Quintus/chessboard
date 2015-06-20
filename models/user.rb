@@ -19,6 +19,8 @@ class User < ActiveRecord::Base
   has_many :reports, :dependent => :destroy
   has_many :received_warnings, :class_name => "Warning", :foreign_key => "warned_user_id", :dependent => :destroy
   has_many :issued_warnings, :class_name => "Warning", :foreign_key => "warning_user_id", :dependent => :destroy
+  has_many :received_moderations, :class_name => "ModerationLogEntry", :foreign_key => "targetted_user_id", :dependent => :nullify
+  has_many :issued_moderations, :class_name => "ModerationLogEntry", :foreign_key => "moderator_id", :dependent => :destroy # If the moderator deletes his account, delete the corresponding log entries.
   has_one :settings, :dependent => :destroy
   has_one :avatar, :dependent => :destroy
   has_one :registration_token, :dependent => :destroy

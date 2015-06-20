@@ -13,6 +13,7 @@ class Post < ActiveRecord::Base
   belongs_to :author, :class_name => "User"
   has_many :reports, :dependent => :destroy
   has_many :attachments, :dependent => :destroy
+  has_many :moderations, :class_name => "Moderation", :dependent => :nullify
 
   # This is a hash for plugins to use. Each plugin shall use a subhash
   # under the key of its name, i.e. {:FooPlugin => {:key1 => "val1", ...}}.
