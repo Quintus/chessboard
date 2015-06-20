@@ -9,7 +9,7 @@ Chessboard::App.controllers :moderations do
   end
 
   get :index, :map => "/moderations" do
-    @moderations = Moderation.order(:created_at => :desc).limit(15)
+    @moderations = Moderation.order(:created_at => :desc).limit(25)
     render "moderations/index"
   end
 
