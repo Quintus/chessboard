@@ -7,14 +7,8 @@
 # to complete the registration.
 #
 # == Configuration
-# Add the following to your settings.rb:
-#
-#   config.plugins.ForumRulesPlugin = {
-#     :rules => <<-RULES
-# <h1>Forum rules</h1>
-# <p>Your rules here.</p>
-#     RULES
-#   }
+# None. This plugin is configured entirely through the admin
+# settings page, to which it adds some fields.
 #
 # === Keywords
 # [rules]
@@ -24,8 +18,57 @@ module ForumRulesPlugin
 
   Chessboard::App.controllers :rules do
     get :rules, :map => "/rules" do
-      render :erb, Chessboard.config.plugins.ForumRulesPlugin[:rules]
+      hsh = GlobalConfiguration.instance.plugin_data[:ForumRulesPlugin] || {}
+      render :erb, (hsh[:forum_rules_content] || "<p>#{I18n.t("plugins.forum_rules.no_rules_specified")}</p>")
     end
+  end
+
+  def hook_view_configuration(options)
+    content = super
+
+    hsh = options[:configuration].plugin_data[:ForumRulesPlugin] || {}
+
+    str = <<-HTML.html_safe
+<div class="header settings-header">
+  <label for="forum_rules_version">#{I18n.t("plugins.forum_rules.version")}</label>
+</div>
+<div class="settings-desc">
+  <p>#{I18n.t("plugins.forum_rules.version_desc")}</p>
+</div>
+<div class="settings-content">
+  <p>#{text_field_tag(:forum_rules_version, :id => "forum_rules_version", :value => hsh[:forum_rules_version])}</p>
+</div>
+<div class="header settings-header">
+  <label for="forum_rules_content">#{I18n.t("plugins.forum_rules.content")}</label>
+</div>
+<div class="settings-desc">
+  <p>#{I18n.t("plugins.forum_rules.content_desc")}</p>
+</div>
+<div class="settings-content">
+  <p>#{text_area_tag(:forum_rules_content, :id => "forum_rules_content", :value => hsh[:forum_rules_content])}</p>
+</div>
+      HTML
+
+    content + str
+  end
+
+  def hook_ctrl_configuration(options)
+    return false unless super
+
+    if options[:params]["forum_rules_version"].blank?
+      options[:configuration].errors[:plugin_data] << I18n.t("plugins.forum_rules.must_specify_version")
+      return false
+    elsif
+      options[:params]["forum_rules_content"].blank?
+      options[:configuration].errors[:plugin_data] << I18n.t("plugins.forum_rules.must_specify_content")
+      return false
+    end
+
+    options[:configuration].plugin_data[:ForumRulesPlugin] ||= {}
+    options[:configuration].plugin_data[:ForumRulesPlugin][:forum_rules_version] = options[:params]["forum_rules_version"]
+    options[:configuration].plugin_data[:ForumRulesPlugin][:forum_rules_content] = options[:params]["forum_rules_content"]
+
+    options[:configuration].save # Returns true or false
   end
 
   def hook_view_registration(options)

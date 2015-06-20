@@ -111,16 +111,6 @@ Chessboard.configure do |config|
   ########################################
   # Plugin configuration
 
-  config.plugins.ForumRulesPlugin = {
-    :rules => <<-RULES
-<h1>Forum rules</h1>
-<ol>
-<li>The administrator is always right.</li>
-<li>If the administrator is not right, rule 1 automatically applies.</li>
-</ol>
-    RULES
-  }
-
   config.plugins.ImprintPlugin = {
     :imprint => <<-IMPRINT
 <h1>Imprint</h1>
