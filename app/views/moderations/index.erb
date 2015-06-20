@@ -23,7 +23,7 @@
 	</td>
 	<td>
 	  <% if mod.post %>
-	    <%= link_to mod.post.topic.title, post_url(mod.post) %>
+	    <%= link_to "##{mod.post.id}", post_url(mod.post) %>
 	  <% else %>
 	    <%= I18n.t("moderation.nomod") %>
 	  <% end %>

@@ -131,6 +131,13 @@ Chessboard::App.controllers :posts do
         end
       end
 
+      if @post.author != env["warden"].user
+        Moderation.create(:moderator => env["warden"].user,
+                          :post => @post,
+                          :targetted_user => @post.author,
+                          :action => "Edited post in topic “#{@post.topic.title}”.")
+      end
+
       flash[:notice] = I18n.t("posts.updated")
       redirect post_url(@post)
     else
@@ -145,9 +152,17 @@ Chessboard::App.controllers :posts do
     halt 403 unless @post.can_user_change_this?(env["warden"].user)
 
     forum = @post.topic.forum
+    title = @post.topic.title
+    author = @post.author
 
     if @post.destroy
       flash[:notice] = I18n.t("posts.deleted")
+
+      if author != env["warden"].user
+        Moderation.create(:moderator => env["warden"].user,
+                          :targetted_user => author,
+                          :action => "Deleted post in topic “#{title}”.")
+      end
 
       # Destroying the last post of a topic will automatically destroy
       # the topic; we cannot rely on a topic existing here anymore, so
