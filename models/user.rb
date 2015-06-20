@@ -33,6 +33,10 @@ class User < ActiveRecord::Base
   before_validation :setup_settings
   before_validation :ensure_protocol_prefix
 
+  # This is a hash for plugins to use. Each plugin shall use a subhash
+  # under the key of its name, i.e. {:FooPlugin => {:key1 => "val1", ...}}.
+  serialize :plugin_data, Hash
+
   # Specify a new password.
   def password=(new_password)
     if new_password.to_s.length >= 8

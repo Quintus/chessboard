@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 38) do
+ActiveRecord::Schema.define(version: 39) do
 
   create_table "attachments", force: :cascade do |t|
     t.string   "filename",    limit: 255
@@ -179,6 +179,7 @@ ActiveRecord::Schema.define(version: 38) do
     t.boolean  "confirmed",                      default: false
     t.string   "forced_rank",        limit: 255
     t.text     "signature"
+    t.text     "plugin_data"
   end
 
   create_table "warnings", force: :cascade do |t|
