@@ -1,5 +1,5 @@
 Chessboard::App.controllers :warnings do
-  
+
   before do
     env["warden"].authenticate!
   end
@@ -31,6 +31,11 @@ Chessboard::App.controllers :warnings do
     if @warning.save
       deliver(:user, :warning_email, @warning.warned_user.email, @warning.warned_user.nickname, @warning.warning_user.nickname, @warning.reason, board_link)
       flash[:notice] = I18n.t("warnings.warned")
+
+      Moderation.create(:moderator => env["warden"].user,
+                        :targetted_user => @warning.warned_user,
+                        :action => "User warned.")
+
       redirect url(:warnings, :index)
     else
       render "moderation/warnings/new"

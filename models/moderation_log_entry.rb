@@ -1,4 +1,4 @@
-class ModerationLogEntry < ActiveRecord::Base
+class Moderation < ActiveRecord::Base
   validates :moderator_id, :presence => true
   validates :action, :presence => true
 
