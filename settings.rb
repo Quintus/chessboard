@@ -111,6 +111,21 @@ Chessboard.configure do |config|
   ########################################
   # Plugin configuration
 
+  # List all plugins you want to enable here. If a plugin
+  # is not listed here, it will not be enabled. The values
+  # listed are the names of the plugin directories.
+  config.enabled_plugins = [
+    "default_spamprotect",
+    "default_toolbar",
+    "forum_rules",
+    "imprint",
+    "markdown",
+    "mentions"
+  ]
+
+  ########################################
+  # Configuration of the plugins themselves
+
   config.plugins.ImprintPlugin = {
     :imprint => <<-IMPRINT
 <h1>Imprint</h1>
@@ -120,14 +135,13 @@ This forum is run and administered by somone, somewhere.
     IMPRINT
   }
 
-  # TODO: Disable this plugin by default
-  config.plugins.MailinglistPlugin = {
-    :socket_path => "/tmp/test-ml.sock",
-    :forum_id => 2,
-    :markup_language => "Preformatted",
-    :ml_address => "test-ml@example.invalid",
-    :from_address => "automailer@example.invalid",
-    :maxlinelength => 100
-  }
+  #config.plugins.MailinglistPlugin = {
+  #  :socket_path => "/tmp/test-ml.sock",
+  #  :forum_id => 2,
+  #  :markup_language => "Preformatted",
+  #  :ml_address => "test-ml@example.invalid",
+  #  :from_address => "automailer@example.invalid",
+  #  :maxlinelength => 100
+  #}
 
 end

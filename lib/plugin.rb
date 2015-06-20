@@ -443,10 +443,14 @@ Dir[Padrino.root("plugins", "*")].sort.each do |pluginpath|
   pluginfile = File.join(pluginpath, "plugin.rb")
   next unless File.exist?(pluginfile)
 
-  Chessboard::App.logger.info("Found plugin file: #{pluginfile}")
-  require(pluginfile)
+  if Chessboard.config.enabled_plugins.include?(File.basename(pluginpath))
+    Chessboard::App.logger.info("Enabling plugin file: #{pluginfile}")
+    require(pluginfile)
 
-  # Add plugin's translations if there are any.
-  localedir = File.join(pluginpath, "locale")
-  I18n.load_path << Dir["#{localedir}/**/*.yml"] if File.exist?(localedir)
+    # Add plugin's translations if there are any.
+    localedir = File.join(pluginpath, "locale")
+    I18n.load_path << Dir["#{localedir}/**/*.yml"] if File.exist?(localedir)
+  else
+    Chessboard::App.logger.info("Disabled plugin file: #{pluginfile}")
+  end
 end
