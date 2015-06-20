@@ -343,3 +343,14 @@ en:
     name: "Search"
     text_missing: "The search query does not include a text query."
     results: "Search results"
+  moderation:
+    title: "Moderation log"
+    timestamp: "Timestamp"
+    moderator: "Moderator"
+    targetted_user: "Targetted user"
+    post: "Affected post"
+    action: "Action"
+    # The below is an EM DASH, U+2014. It is shown for entries
+    # that are not applicable (or have been invalidated by e.g.
+    # user deletion).
+    nomod: "—"

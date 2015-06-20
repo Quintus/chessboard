@@ -19,6 +19,7 @@
 	  <% result = active_users.reject(&:is_hidden) %>
 	<% end %>
 
+	<%= link_to I18n.t("moderation.title"), url(:moderations, :index) %> ·
 	<% if result.empty? %>
 	  <%= I18n.t("users.no_active_users") %>
 	<% else %>
