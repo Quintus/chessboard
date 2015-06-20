@@ -134,6 +134,7 @@ Chessboard::App.controllers :posts do
       if @post.author != env["warden"].user
         Moderation.create(:moderator => env["warden"].user,
                           :post => @post,
+                          :topic => @post.topic,
                           :targetted_user => @post.author,
                           :action => "Edited post in topic “#{@post.topic.title}”.")
       end
@@ -151,6 +152,7 @@ Chessboard::App.controllers :posts do
     halt 403 if @post.topic.locked?
     halt 403 unless @post.can_user_change_this?(env["warden"].user)
 
+    topic = @post.topic
     forum = @post.topic.forum
     title = @post.topic.title
     author = @post.author
@@ -161,6 +163,7 @@ Chessboard::App.controllers :posts do
       if author != env["warden"].user
         Moderation.create(:moderator => env["warden"].user,
                           :targetted_user => author,
+                          :topic => topic,
                           :action => "Deleted post in topic “#{title}”.")
       end
 
@@ -170,7 +173,7 @@ Chessboard::App.controllers :posts do
       redirect url(:forums, :show, forum.id)
     else
       flash[:alert] = "Failed to delete posting."
-      redirect url(:topics, :show, @post.topic.id)
+      redirect url(:topics, :show, topic.id)
     end
   end
 
