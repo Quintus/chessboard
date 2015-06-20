@@ -1,3 +1,4 @@
+# coding: utf-8
 Chessboard::App.controllers :topics do
   
   before :except => [:show, :feed] do
@@ -138,6 +139,7 @@ Chessboard::App.controllers :topics do
     user = env["warden"].user
     halt 403 if @topic.author != user && !user.moderates?(@topic.forum)
 
+    prevtitle = @topic.title
     @topic.title = params["topic"]["title"]
 
     # Only admins/moderators can enable these
@@ -152,6 +154,13 @@ Chessboard::App.controllers :topics do
 
     if @topic.save
       flash[:notice] = I18n.t("topics.edited")
+
+      if @topic.author != env["warden"].user && prevtitle != @topic.title
+        Moderation.create(:moderator => env["warden"].user,
+                          :topic => @topic,
+                          :action => "Changed topic title from “#{prevtitle}” to “#{@topic.title}”.")
+      end
+
       redirect url(:topics, :show, @topic.id)
     else
       @forum = @topic.forum
@@ -165,6 +174,10 @@ Chessboard::App.controllers :topics do
     halt 403 if @topic.locked?
 
     @topic.lock
+    Moderation.create(:moderator => env["warden"].user,
+                      :topic => @topic,
+                      :action => "Locked topic “#{@topic.title}”.")
+
     flash[:notice] = I18n.t("topics.locked")
     redirect url(:topics, :show, @topic.id)
   end
@@ -174,6 +187,10 @@ Chessboard::App.controllers :topics do
     halt 403 unless env["warden"].user.moderates?(@topic.forum)
 
     @topic.unlock
+    Moderation.create(:moderator => env["warden"].user,
+                      :topic => @topic,
+                      :action => "Unlocked topic “#{@topic.title}”.")
+
     flash[:notice] = I18n.t("topics.unlocked")
     redirect url(:topics, :show, @topic.id)
   end
@@ -215,6 +232,10 @@ Chessboard::App.controllers :topics do
 
     if @topic.save
       flash[:notice] = I18n.t("topics.moved")
+      Moderation.create(:moderator => env["warden"].user,
+                        :topic => @topic,
+                        :action => "Moved topic “#{@topic.title}” to forum “#{@topic.forum.name}”.")
+
       redirect url(:topics, :show, @topic.id)
     else
       render "topics/move"
@@ -245,6 +266,11 @@ Chessboard::App.controllers :topics do
     if target_topic.save
       @topic.delete
       flash[:notice] = I18n.t("topics.merged")
+
+      Moderation.create(:moderator => env["warden"].user,
+                        :topic => target_topic,
+                        :action => "Merged topic “#{@topic.title}” into topic “#{target_topic.title}”.")
+
       redirect url(:topics, :show, target_topic.id)
     else
       render "topics/merge"
@@ -281,6 +307,10 @@ Chessboard::App.controllers :topics do
     new_topic.save
     @topic.save
 
+    Moderation.create(:moderator => env["warden"].user,
+                      :topic => @topic,
+                      :action => "Split topic “#{new_topic.title}” from topic “#{@topic.title}”.")
+
     flash[:notice] = I18n.t("topics.splitted")
     redirect url(:topics, :show, new_topic.id)
   end
@@ -290,9 +320,16 @@ Chessboard::App.controllers :topics do
     halt 403 if @topic.locked?
     halt 403 unless env["warden"].user.moderates?(@topic.forum)
 
+    author = @topic.author
     forum = @topic.forum
     if @topic.destroy
       flash[:notice] = I18n.t("topics.deleted")
+
+      unless author == env["warden"].user
+        Moderation.create(:moderator => env["warden"].user,
+                          :action => "Deleted topic “#{@topic.title}”.")
+      end
+
       redirect url(:forums, :show, forum.id)
     else
       flash[:alert] = "Failed to delete topic."
