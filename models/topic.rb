@@ -4,6 +4,7 @@ class Topic < ActiveRecord::Base
   validates :author, :presence => true
 
   has_many :posts, :dependent => :destroy
+  has_many :moderations, :dependent => :nullify
   belongs_to :forum
   belongs_to :author, :class_name => "User"
   has_and_belongs_to_many :users_who_read_this, :class_name => "User", :join_table => "read_topics"

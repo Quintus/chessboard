@@ -6,6 +6,7 @@
       <th><%= I18n.t("moderation.timestamp") %></th>
       <th><%= I18n.t("moderation.moderator") %></th>
       <th><%= I18n.t("moderation.targetted_user") %></th>
+      <th><%= I18n.t("moderation.topic") %></th>
       <th><%= I18n.t("moderation.post") %></th>
       <th><%= I18n.t("moderation.action") %></th>
   </thead>
@@ -17,6 +18,13 @@
 	<td>
 	  <% if mod.targetted_user %>
 	    <%= link_to mod.targetted_user.nickname, url(:users, :show, mod.targetted_user.nickname) %>
+	  <% else %>
+	    <%= I18n.t("moderation.nomod") %>
+	  <% end %>
+	</td>
+	<td>
+	  <% if mod.topic %>
+	    <%= link_to "##{mod.topic.id}", url(:topics, :show, mod.topic.id) %>
 	  <% else %>
 	    <%= I18n.t("moderation.nomod") %>
 	  <% end %>

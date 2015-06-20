@@ -5,4 +5,5 @@ class Moderation < ActiveRecord::Base
   belongs_to :moderator,      :class_name => "User", :foreign_key => "moderator_id"
   belongs_to :targetted_user, :class_name => "User", :foreign_key => "targetted_user_id"
   belongs_to :post
+  belongs_to :topic
 end

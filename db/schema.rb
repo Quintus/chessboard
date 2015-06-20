@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 40) do
+ActiveRecord::Schema.define(version: 41) do
 
   create_table "attachments", force: :cascade do |t|
     t.string   "filename",    limit: 255
@@ -81,6 +81,7 @@ ActiveRecord::Schema.define(version: 40) do
     t.string   "action"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
+    t.integer  "topic_id"
   end
 
   create_table "personal_messages", force: :cascade do |t|

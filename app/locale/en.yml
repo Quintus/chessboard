@@ -348,6 +348,7 @@ en:
     timestamp: "Timestamp"
     moderator: "Moderator"
     targetted_user: "Targetted user"
+    topic: "Affected topic"
     post: "Affected post"
     action: "Action"
     # The below is an EM DASH, U+2014. It is shown for entries
