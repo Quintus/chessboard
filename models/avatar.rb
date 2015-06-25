@@ -10,23 +10,23 @@ class Avatar < ActiveRecord::Base
     File.delete(self.full_path)
   end
 
-  def self.from_upload(user, hsh)
-    av = new
-    av.path = user.id.to_s + File.extname(hsh[:filename])
-    av.user = user
+  def upload!(user, hsh)
+    self.path = user.id.to_s + File.extname(hsh[:filename])
+    self.user = user
 
-    logger.info "Writing avatar '#{av.path}'"
-    File.open(av.full_path, "wb") do |f|
+    logger.info "Writing avatar '#{path}'"
+    File.open(full_path, "wb") do |f|
       while chunk = hsh[:tempfile].read(1024)
         f.write(chunk)
       end
     end
 
-    if av.save
-      av
+    if save
+      true
     else
-      File.delete(av.full_path) if File.exist?(av.full_path)
-      raise("Failed to save avatar '#{av.path}'!")
+      logger.warn "Saving failed, deleting avatar '#{path}' again."
+      File.delete(full_path) if File.exist?(full_path)
+      false
     end
   end
 

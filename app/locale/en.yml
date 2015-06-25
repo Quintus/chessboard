@@ -240,7 +240,6 @@ en:
       shown next to your postings. This has no effect if you
       have enabled the “use gravatar” option. The maximum size
       for an avatar image is %{width}✕%{height} pixels.
-    upload_error: "Error during file upload. Please contact the administrator."
   bans:
     bans: "Bans"
     new_ban: "New ban"

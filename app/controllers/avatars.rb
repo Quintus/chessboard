@@ -1,5 +1,5 @@
 Chessboard::App.controllers :avatars do
-  
+
   before do
     env["warden"].authenticate!
   end
@@ -15,17 +15,12 @@ Chessboard::App.controllers :avatars do
     @avatar = Avatar.new
 
     # Upload file
-    begin
-      @avatar = Avatar.from_upload(@user, params["avatar"]["avatar"])
-    rescue RuntimeError => e
-      logger.error("#{e.class.name}: #{e.message}: #{e.backtrace.join("\n\t")}")
-      @avatar.errors.add(:base, I18n.t("avatars.upload_error"))
-
-      render "avatars/show"
-    else
+    if @avatar.upload!(@user, params["avatar"]["avatar"])
       # TODO: Force browser to refetch avatar image?
       flash[:notice] = I18n.t("avatars.avatar_updated")
       redirect url(:avatars, :show, @user.nickname)
+    else
+      render "avatars/show"
     end
   end
 
