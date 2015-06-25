@@ -234,10 +234,12 @@ en:
     avatar_updated: "Avatar updated."
     avatar_deleted: "Avatar deleted."
     avatar_not_deleted: "Nice try."
+    # Note the ✕ in the dimensions value below is U+2715 MULTIPLICATION X.
     avatar_info: >
       You can use this form to upload a small picture that is
       shown next to your postings. This has no effect if you
-      have enabled the “use gravatar” option.
+      have enabled the “use gravatar” option. The maximum size
+      for an avatar image is %{width}✕%{height} pixels.
     upload_error: "Error during file upload. Please contact the administrator."
   bans:
     bans: "Bans"

@@ -23,7 +23,8 @@
     </div>
 
     <div class="settings-desc">
-      <%= I18n.t("avatars.avatar_info") %>
+      <%# Actually width and height cannot be different... %>
+      <%= I18n.t("avatars.avatar_info", :width => GlobalConfiguration.instance.maximum_avatar_dimension, :height => GlobalConfiguration.instance.maximum_avatar_dimension) %>
     </div>
 
     <div class="settings-content">
