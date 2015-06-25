@@ -17,8 +17,11 @@ Chessboard::App.controllers :avatars do
     # Upload file
     begin
       @avatar = Avatar.from_upload(@user, params["avatar"]["avatar"])
-    rescue RuntimeError
-      render "avats/new"
+    rescue RuntimeError => e
+      logger.error("#{e.class.name}: #{e.message}: #{e.backtrace.join("\n\t")}")
+      @avatar.errors.add(:base, I18n.t("avatars.upload_error"))
+
+      render "avatars/show"
     else
       # TODO: Force browser to refetch avatar image?
       flash[:notice] = I18n.t("avatars.avatar_updated")
