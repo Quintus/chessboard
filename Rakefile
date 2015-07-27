@@ -53,7 +53,7 @@ task :testml do
     p sock.gets
     p sock.gets
     p sock.gets
-    sock.write p(File.open(ENV["MAILFILE"], "rb"){|f| f.read.gsub("\n", "\r\n")})
+    sock.write p(File.open(ENV["MAILFILE"], "rb"){|f| f.read.gsub("\n", "\r\n").gsub(/^\.\r\n/, "..\r\n")}) # Honour transparency process as per section 4.5.2 of RFC 821
     sock.write p "\r\n.\r\n"
     p sock.gets
     sock.write "QUIT\r\n"
