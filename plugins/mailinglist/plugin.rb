@@ -328,8 +328,8 @@ CSS
     end
 
     preamble = <<EOF
-From: #{mask_address(mail.from.first)}
-To:   #{mask_address(mail.to.first)}
+From: #{mail.from.nil? || mail.from.empty? ? 'hidden@recipient' : mask_address(mail.from.first)}
+To:   #{mail.to.nil?   || mail.to.empty?   ? 'hidden@sender'    : mask_address(mail.to.first)}
 Date: #{mail.date.strftime('%Y-%m-%d %H:%M %z')}
 Subject: #{mail.subject}
 
