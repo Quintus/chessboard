@@ -157,6 +157,8 @@ en:
     ban: "Ban"
     # Write a PM to this user.
     pm: "New PM"
+    # Search all posts by this user.
+    search_posts: "Search posts"
     list: Member list
     list_form: >
       Use this form to search the board’s member list for

@@ -73,5 +73,6 @@
       <%= link_to I18n.t("users.ban"), url(:bans, :new) + "?nickpattern=^#{@user.nickname}$", :class => "button-normal" %>
     <% end %>
     <%= link_to I18n.t("users.pm"), url(:personal_messages, :new) + "?nicknames=#{@user.nickname}", :class => "button-normal" %>
+    <%= link_to I18n.t("users.search_posts"), url(:topics, :search) + "?author=#{@user.nickname}", :class => "button-normal" %>
   </p>
 </div>
