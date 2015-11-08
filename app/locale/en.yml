@@ -150,6 +150,13 @@ en:
     no_active_users: "No visible active users."
     and_n_more: ", and %{num} more."
     users: "Users"
+    # Warn user he did something wrong and may be banned later if he continues
+    # to do so.
+    warn: "Warn"
+    # Ban the user from the forum.
+    ban: "Ban"
+    # Write a PM to this user.
+    pm: "New PM"
     list: Member list
     list_form: >
       Use this form to search the board’s member list for

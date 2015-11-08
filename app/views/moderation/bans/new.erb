@@ -17,7 +17,7 @@
   </p>
   <p>
     <%= f.label :nick_pattern %><br/>
-    <%= f.text_field :nick_pattern %>
+    <%= f.text_field :nick_pattern, :value => @ban.nick_pattern || params["nickpattern"] %>
   </p>
 
   <p>

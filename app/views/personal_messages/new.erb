@@ -24,7 +24,7 @@
 
   <p>
     <%= f.label :allowed_users %><br/>
-    <%= f.text_field :allowed_users, :value => "", :placeholder => I18n.t("pms.recipient_placeholder") %>
+    <%= f.text_field :allowed_users, :value => params["nicknames"], :placeholder => I18n.t("pms.recipient_placeholder") %>
   </p>
 
   <% f.fields_for :posts do |f2| %>

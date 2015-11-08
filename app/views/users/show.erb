@@ -67,4 +67,11 @@
       </div>
     <% end %>
   <% end %>
+  <p class="submit-separator">
+    <% if env["warden"].user.privileged? %>
+      <%= link_to I18n.t("users.warn"), url(:warnings, :new) + "?nickname=#{@user.nickname}", :class => "button-normal" %>
+      <%= link_to I18n.t("users.ban"), url(:bans, :new) + "?nickpattern=^#{@user.nickname}$", :class => "button-normal" %>
+    <% end %>
+    <%= link_to I18n.t("users.pm"), url(:personal_messages, :new) + "?nicknames=#{@user.nickname}", :class => "button-normal" %>
+  </p>
 </div>
