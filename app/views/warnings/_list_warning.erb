@@ -1,7 +1,0 @@
-<div class="warning">
-  <p class="warning-header">
-    <%= image_tag "icons/warn.png" %>
-    <%= I18n.t("warnings.warning_by", :modname => link_to(list_warning.warning_user.nickname, url(:users, :show, list_warning.warning_user.nickname)) , :date => I18n.l(list_warning.created_at, :format => :long), :expires => list_warning.expiration_date? ? I18n.l(list_warning.expiration_date, :format => :long) : I18n.t("general.never")).html_safe %>
-  </p>
-  <p class="warning-reason"><%= list_warning.reason %></p>
-</div>

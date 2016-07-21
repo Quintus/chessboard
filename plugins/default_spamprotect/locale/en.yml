@@ -1,5 +1,0 @@
-en:
-  plugins:
-    default_spamprotect:
-      anti_spam_math: "Please add the following numbers and enter the result:"
-      anti_spam_failed: "The answer to the anti-spam math is wrong."
