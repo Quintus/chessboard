@@ -16,7 +16,7 @@ gem "paint", "~> 0.8.7"
 # Component requirements
 gem 'sass', "~> 3.3.14"
 gem 'erubis'
-gem 'activerecord', '>= 3.1', :require => 'active_record'
+gem 'activerecord', '~> 4.2.4', :require => 'active_record'
 gem 'sqlite3', :group => "sqlite"
 gem "pg", :group => "postgres"
 
