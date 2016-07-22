@@ -8,9 +8,11 @@ GEM
     mime-types (3.1)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2016.0521)
+    net-ldap (0.15.0)
     rack (1.6.4)
     rack-protection (1.5.3)
       rack
+    rake (11.2.2)
     sequel (4.36.0)
     sinatra (1.4.7)
       rack (~> 1.5)
@@ -26,6 +28,8 @@ DEPENDENCIES
   bcrypt
   coderay
   mail
+  net-ldap
+  rake
   sequel
   sinatra
   sqlite3
