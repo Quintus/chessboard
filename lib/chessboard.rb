@@ -39,7 +39,7 @@ module Chessboard
         # it was impossible to specify a facility.
         set :logger, Syslog::Logger.new("chessboard", Syslog.const_get("LOG_#{Configuration.log_facility.upcase}"))
       else
-        set :logger, Logger.new(Config.log_file)
+        set :logger, Logger.new(Configuration.log_file)
       end
 
       # The Sequel database instance. No SQL logger when run in production.
