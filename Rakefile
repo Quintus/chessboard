@@ -20,12 +20,12 @@ task :setup do
   end
 
   # Force reload so that the models are set up correctly.
-  sh "rake synchronize_with_ml"
+  sh "rake synchronize_with_mls"
 end
 
 desc "Synchronize account data from the mailinglist into Chessboard."
-task :synchronize_with_ml do
-  Chessboard::User.sync_with_mailinglist!
+task :synchronize_with_mls do
+  Chessboard::User.sync_with_mailinglists!
 end
 
 desc "Live console."

@@ -40,12 +40,43 @@ Chessboard::Configuration.create do |config|
   # ldap_user_dn "uid=%s,ou=users,dc=example,dc=com"
 
   ########################################
+  # Defining the forums
+
+  # This defines a new forum group. All add_forum directives afterwards
+  # refer to this forum group.
+  add_forum_group "The Secret Chronicles"
+
+  # This defines a forum named "Discussion" inside the above forum group.
+  # It mirrors the (mlmmj, see below) mailinglist at /tmp/mltest. For
+  # this mailinglist, it is the catchall forum, so that all mails that
+  # do not fit elsewhere will show up in this forum.
+  add_forum name: "Discussion",
+            mailinglist: "/tmp/mltest",
+            description: "Open discussion around playing and using TSC.",
+            catchall: true
+
+  # This defines a forum named "Help", which also mirrors the mlmmj
+  # mailinglist at /tmp/mltest. However, since "catchall" is not set,
+  # it will only pick up mails which are configured for this forum
+  # (by means of an X-Chessboard-Forum email header or the
+  # corresponding directive in the mail body).
+  add_forum name: "Help",
+            mailinglist: "/tmp/mltest",
+            description: "Problems with the game or the editor?"
+
+  # Another forum group with another forum in it.
+  add_forum_group "User Content"
+  add_forum name: "Levels",
+            mailinglist: "/tmp/mltest",
+            description: "This is the place to show your levels to the public."
+
+  ########################################
   # Mailinglist-specific config
 
   # Chessboard provides premade configuration for the Mlmmj
   # mailinglist management software. Just specify the path
   # to the mailinglist directory.
-  use_premade_config "mlmmj", ml_directory: "/tmp/mltest"
+  use_premade_config "mlmmj"
 
   # Things are more complicated when you do not use a
   # mailinglist manager for which Chessboard has a premade

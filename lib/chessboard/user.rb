@@ -2,11 +2,22 @@ class Chessboard::User < Sequel::Model
 
   # Synchronise the list of accounts on the forum with the subscribers
   # list of the mailinglist management program. All accounts whose
-  # address is not in the mailinglist register will be deleted, and
-  # for each account in the mailinglist register that is not in
+  # address is not in the mailinglist registers will be deleted, and
+  # for each account in the mailinglist registers that is not in
   # Chessboard's database a new account will be created.
-  def self.sync_with_mailinglist!
-    emails = Chessboard::Configuration[:load_ml_users].call(Chessboard::Application.root)
+  def self.sync_with_mailinglists!
+    mailinglists = Chessboard::Configuration.mirrored_mailinglists
+
+    # Get a list of all subscribers of all mailinglists.
+    emails = []
+    mailinglists.each do |mailinglist|
+      Chessboard::Configuration[:load_ml_users].call(mailinglist).each do |subscriber_mail|
+        emails << subscriber_mail unless emails.include?(subscriber_mail)
+      end
+    end
+
+    emails.sort!
+
     current_registered_emails = Chessboard::User.select_map(:email)
 
     # Delete all users not in this list
@@ -24,8 +35,8 @@ class Chessboard::User < Sequel::Model
       user.save
     end
 
-    # Since the new email addresses came from the mailinglist,
-    # there is no need to subscribe these new users to the mailinglist.
+    # Since the new email addresses came from the mailinglists,
+    # there is no need to subscribe these new users to the mailinglists.
     # They're already there.
   end
 
