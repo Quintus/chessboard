@@ -1,0 +1,39 @@
+<div id="footer">
+  <div id="time">
+    <p>
+      <%= Time.now.strftime("%Y-%m-%d %H:%M:%S %:z") %><br/>
+      <a href="https://github.com/Quintus/chessboard">Chessboard, by Marvin Gülker</a>
+    </p>
+  </div>
+  <div id="stats">
+    <p>
+      <%= 1 %> <%= t.forums.posts %> ·
+      <%= 1 %> <%= t.forums.topics %> ·
+      <%= Chessboard::User.count %> <%= t.users.users %> ·
+      <%= t.users.newest %>: <%= Chessboard::User.order(Sequel.desc(:created_at)).first.display_name %>
+      <br/>
+      <%# Chessboard::ActiveUserInfo.handle_active_users do |active_users| %>
+	<%# if env["warden"].authenticated? && env["warden"].user.privileged? %>
+	  <%# result = active_users %>
+	<%# else %>
+	  <%# result = active_users.reject(&:is_hidden) %>
+	<%# end %>
+
+	<%# if result.empty? %>
+	  <%= t.users.no_active_users %>
+	<%# else %>
+	  <%# I18n.t("users.active_users") %>
+	  <%# result.first(4).each_with_index do |info, i| %>
+	    <%# ", " unless i.zero? %>
+
+	    <%# link_to info.nickname, url(:users, :show, info.nickname), :class => info.is_hidden ? "hidden-user" : "normal-user" %>
+	  <%# end %>
+
+	  <%# if result.size > 4 %>
+	    <%# I18n.t("users.and_n_more", :num => result.size - 4) %>
+	  <%# end %>
+	<%# end %>
+      <%# end %>
+    </p>
+  </div>
+</div>

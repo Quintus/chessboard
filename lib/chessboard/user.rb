@@ -83,6 +83,8 @@ class Chessboard::User < Sequel::Model
       self[:display_name] = self[:email].split("@")[0]
     end
 
+    self[:created_at] = Time.now
+
     super
   end
 

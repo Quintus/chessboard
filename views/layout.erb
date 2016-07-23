@@ -8,11 +8,14 @@
     <link rel="stylesheet" href="/stylesheets/main.css" type="text/css"/>
     <%# javascript_include_tag "jquery", "jquery-ujs", "insert_at_caret", "usersearch", "preview", "hide_codelines", "attachments", "hilit", "spoiler" %>
     <%# feed_tag :atom, url(:topics, :feed, :format => :atom), :title => "Atom feed" %>
-    <%# call_hook(:html_header) %>
   </head>
   <body>
-    <%# partial "layouts/header" %>
-    <%# partial "layouts/navigation" %>
+    <div id="header" role="logo">
+      <p id="title"><%= Chessboard::Configuration[:board_title] %></p>
+      <p id="subtitle"><%= Chessboard::Configuration[:board_subtitle] %></p>
+    </div>
+
+    <%= erb :_navigation %>
 
     <div id="login-info">
       <% if logged_in? %>
@@ -38,7 +41,7 @@
 
       <%= yield %>
 
-      <%# partial "layouts/footer" %>
+      <%= erb :_footer %>
     </div>
 
   </body>

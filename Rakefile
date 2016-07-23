@@ -17,6 +17,7 @@ task :setup do
     String :jabber_id
     String :pgp_key
     String :signature
+    DateTime :created_at
   end
 
   # Force reload so that the models are set up correctly.
