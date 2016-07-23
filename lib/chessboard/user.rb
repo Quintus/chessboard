@@ -50,7 +50,7 @@ class Chessboard::User < Sequel::Model
       if ldap.bind
         true
       else
-        Chessboard::Application.logger.warning "LDAP authentication failure for user #{self[:email]}: #{ldap.get_operation_result.inspect}"
+        Chessboard::Application.logger.warn "LDAP authentication failure for user #{self[:email]}: #{ldap.get_operation_result.inspect}"
         false
       end
     else # No LDAP, validate against the database

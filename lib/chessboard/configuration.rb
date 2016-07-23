@@ -102,6 +102,8 @@ module Chessboard
       mailinglists.sort
     end
 
+    # Following is the list of supported configuration options
+
     config_setting :database_url
     config_setting :ldap, false
     config_setting :ldap_host
@@ -110,6 +112,9 @@ module Chessboard
     config_setting :ldap_user_dn
     config_setting :load_ml_users
     config_setting :subscribe_to_nomail
+    config_setting :log, :file
+    config_setting :log_file, "/var/log/chessboard.log"
+    config_setting :log_facility, :daemon
 
     # This namespace contains pre-made configuration snippets for
     # certain mailinglist software.

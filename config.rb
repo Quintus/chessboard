@@ -13,6 +13,19 @@ Chessboard::Configuration.create do |config|
   #database_url "mysql:user@host:password/dbname"
   #database_url "sqlite:///var/dbs/mydatabase.db3"
 
+  # If this is set to :file, logs are written to the file
+  # given with the log_file parameter. If this is :syslog,
+  # messages are sent to syslog on facility specified with log_facility.
+  log :file # Or :syslog
+
+  # If log is set to :file, this specifies the file to log to.
+  # Ensure Chessboard can write to this file.
+  log_file "/tmp/chessboard.log"
+
+  # If log is set to :syslog, this specifies the facility to
+  # log to. See syslog(3) for the list of facilities.
+  #log_facility :daemon
+
   ########################################
   # LDAP authentication
 
