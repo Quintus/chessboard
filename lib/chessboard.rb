@@ -11,6 +11,7 @@ require "syslog/logger"
 # Load configuration as early as possible
 require_relative "chessboard/configuration"
 require_relative "../config.rb"
+require_relative "chessboard/helpers"
 
 # Namespace of this program.
 module Chessboard
@@ -22,6 +23,7 @@ module Chessboard
   class Application < Sinatra::Base
     register Sinatra::R18n
     helpers Sinatra::ContentFor
+    helpers Chessboard::Helpers
 
     set :root, File.expand_path(File.join(File.dirname(__FILE__), ".."))
 
@@ -49,6 +51,19 @@ module Chessboard
     get "/forums" do
       @forum_groups = Configuration.forum_groups
       erb :forums
+    end
+
+    get "/login" do
+      erb :login
+    end
+
+    post "/login" do
+      user = User.first(:email => params["email"])
+      halt 400 unless user
+      halt 400 unless user.authenticate(params["password"])
+
+      session["user"] = user.email
+      redirect "/"
     end
 
   end

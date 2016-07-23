@@ -15,11 +15,11 @@
     <%# partial "layouts/navigation" %>
 
     <div id="login-info">
-      <%# if env["warden"].authenticated? %>
-	<%# I18n.t("general.logged_in", :nick => env["warden"].user.nickname) %>
-      <%# else %>
-	<%# I18n.t("general.not_logged_in") %>
-      <%# end %>
+      <% if logged_in? %>
+	<%= t.general.logged_in :nick => logged_in_user.nickname %>
+      <% else %>
+	<%= t.general.not_logged_in %>
+      <% end %>
     </div>
 
     <% if content_for?(:sidebar) %>

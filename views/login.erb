@@ -1,0 +1,18 @@
+<h1><%= t.general.log_in %></h1>
+
+<form action="/login" method="post">
+  <p>
+    <%= t.general.email %><br/>
+    <input type="text" name="email"/>
+  </p>
+
+  <p>
+    <%= t.general.password %><br/>
+    <input type="password" name="password"/>
+  </p>
+
+  <p class="submit-separator">
+    <input type="submit" value="<%= t.general.log_in %>" class="button-ok"/>
+    <a href="/forgotpw"><%= t.general.forgot_pw %></a>
+  </p>
+</form>
