@@ -1,33 +1,54 @@
+# config.rb -- Chessboard configuration file
+# This file configures the main aspects of Chessboard. It is
+# loaded as Ruby code, but it is kept intentionally simple so
+# that understanding it does not require you to know Ruby,
+# unless you want to use a very specific configuration.
 Chessboard::Configuration.create do |config|
 
-  database_url "postgres://user@host:password/dbname"
+  # This specifies the SQL database to connect to. Chessboard
+  # keeps a little information on its own, which is stored here.
+  # Examples are user signatures. Supported database types
+  # are PostgreSQL, MySQL, and SQLite version 3.
+  database_url "postgres:user@host:password/dbname"
+  #database_url "mysql:user@host:password/dbname"
+  #database_url "sqlite:///var/dbs/mydatabase.db3"
 
+  ########################################
+  # LDAP authentication
+
+  # Set this to true if you want to authenticate users not
+  # against a password stored in the database, but against
+  # an LDAP server. Enabling this will disable registration!
   ldap false
-  # ldap_host "my_host"
-  # ldap_port 389
-  # ldap_encryption :start_tls # or :simple_tls for LDAPS
+
+  # DNS name or IP of your LDAP server.
+  #ldap_host "my_host"
+
+  # Port of your LDAP service. This defaults to 389 if not given.
+  #ldap_port 389
+
+  # Specify the encryption type of the LDAP service. If not
+  # specified, an unencrypted connection will be made.
+  # Use :start_tls for StartTLS and :simple_tls for LDAPS.
+  #ldap_encryption :start_tls # or :simple_tls for LDAPS
+
+  # In order to authenticate users, Chessboard will try to BIND
+  # as the user who wants to authenticate. The DN it tries to
+  # bind with is specified by this option, which is actually
+  # a pattern of how to build the full DN. %s in this string
+  # is replaced by the email address of the user to authenticate.
   # ldap_user_dn "uid=%s,ou=users,dc=example,dc=com"
 
-  load_ml_users do |root|
-    result = []
-    require "find"
+  ########################################
+  # Mailinglist-specific config
 
-    directories = [
-      "/tmp/mltest/subscribers.d",
-      "/tmp/mltest/digesters.d",
-      "/tmp/mltest/nomailsubs.d"
-    ]
+  # Chessboard provides premade configuration for the Mlmmj
+  # mailinglist management software. Just specify the path
+  # to the mailinglist directory.
+  use_premade_config "mlmmj", ml_directory: "/tmp/mltest"
 
-    directories.each do |dir|
-      Find.find(dir) do |path|
-        result.concat(File.readlines(path).map(&:strip)) if File.file?(path)
-      end
-    end
-
-    result.sort
-  end
-
-  subscribe_to_nomail do |email|
-    `/usr/bin/mlmmj-sub -L /tmp/testml -n #{email}`
-  end
+  # Things are more complicated when you do not use a
+  # mailinglist manager for which Chessboard has a premade
+  # configuration. Consult the documentation on how to
+  # proceed here then.
 end

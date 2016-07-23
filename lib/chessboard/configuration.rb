@@ -34,6 +34,15 @@ module Chessboard
       @config_settings[name]
     end
 
+    # Use one of the pre-made configuration snippets available
+    # under the Chessboard::Configuration::Mailinglists namespace.
+    # Takes the name of the module as a symbol or string, and
+    # any arguments you want to pass to this module as a hash.
+    def self.use_premade_config(name, args = {})
+      @premade_config_args = args
+      extend Chessboard::Configuration::Mailinglists.const_get(name.capitalize)
+    end
+
     config_setting :database_url
     config_setting :ldap, false
     config_setting :ldap_host
@@ -42,5 +51,38 @@ module Chessboard
     config_setting :ldap_user_dn
     config_setting :load_ml_users
     config_setting :subscribe_to_nomail
+
+    # This namespace contains pre-made configuration snippets for
+    # certain mailinglist software.
+    module Mailinglists
+
+      # Configuration snippets for mlmmj. Requires the :ml_directory
+      # argument to be passed to Configuration::use_premade_config.
+      module Mlmmj
+        def load_ml_users
+          require "find"
+          result = []
+          ml_dir = @premade_config_args[:ml_directory]
+
+          directories = [
+            "#{ml_dir}/mltest/subscribers.d",
+            "#{ml_dir}/mltest/digesters.d",
+            "#{ml_dir}/mltest/nomailsubs.d"
+          ]
+
+          directories.each do |dir|
+            Find.find(dir) do |path|
+              result.concat(File.readlines(path).map(&:strip)) if File.file?(path)
+            end
+          end
+
+          result.sort
+        end
+
+        def subscribe_to_nomail(email)
+          system("/usr/bin/mlmmj-sub", "-L", @premade_config_args[:ml_directory], "-n", email)
+        end
+      end
+    end
   end
 end
