@@ -10,12 +10,17 @@ module Chessboard
       @config_settings.clear # Already created in ::config_setting
       @forum_groups = {}
       @current_forum_group = nil
+
+      @config_finished = false
       instance_eval(&block)
+      @config_finished = true
     end
 
     # Declares a new configuration option which can be set
     # by the user and retrieved by means of the ::[] method.
     def self.config_setting(name, default_value = nil)
+      raise "Change of configuration not permitted at runtime!" if @config_finished
+
       @config_settings ||= {}
       @config_settings[name] = default_value
 
