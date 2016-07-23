@@ -72,6 +72,7 @@ Chessboard::Configuration.create do |config|
   add_forum name: "Discussion",
             mailinglist: "/tmp/mltest",
             description: "Open discussion around playing and using TSC.",
+            id: 1,
             catchall: true
 
   # This defines a forum named "Help", which also mirrors the mlmmj
@@ -81,13 +82,15 @@ Chessboard::Configuration.create do |config|
   # corresponding directive in the mail body).
   add_forum name: "Help",
             mailinglist: "/tmp/mltest",
-            description: "Problems with the game or the editor?"
+            description: "Problems with the game or the editor?",
+            id: 2
 
   # Another forum group with another forum in it.
   add_forum_group "User Content"
   add_forum name: "Levels",
             mailinglist: "/tmp/mltest",
-            description: "This is the place to show your levels to the public."
+            description: "This is the place to show your levels to the public.",
+            id: 3
 
   ########################################
   # Mailinglist-specific config

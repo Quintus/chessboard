@@ -31,6 +31,9 @@ general:
 forums:
   forum: "Forum"
   topics: "Topics"
+  topic: "Topic"
+  replies: "Replies"
+  views: "Views"
   posts: "Posts"
   lastpost: "Last Post"
   author_by: "by"
@@ -101,3 +104,46 @@ users:
       See this as your friendly reminder to use a password
       manager program.
     reset: "A new password has been emailed to you."
+topics:
+  reply: "Post Reply"
+  delete: "Delete Topic"
+  deleted: "Topic deleted."
+  lock: "Lock Topic"
+  unlock: "Unlock Topic"
+  locked: "Locked Topic."
+  unlocked: "Unlocked Topic."
+  watch: "Watch"
+  unwatch: "Unwatch"
+  watched: "Now watching this topic."
+  unwatched: "No longer watching this topic."
+  edit_topic: "Edit Topic"
+  edited: "Topic edited."
+  edit: "Edit Topic"
+  mark_all_as_read: "Mark all read"
+  marked_all_as_read: "All topics marked as read."
+  pages: "Pages:"
+  next_page: "Next →"
+  prev_page: "← Previous"
+  move: "Move Topic"
+  move_target: "New forum"
+  moved: "Moved Topic."
+  merge: "Merge Topic"
+  merge_target: "Target topic:"
+  merged: "Merged Topics."
+  merge_info: >
+    Using this form you can merge two topics into one. The posts are
+    inserted into the topic in their chronological order, which means
+    that the later you merge, the more confusion you will generate.
+    The topic you execute the merge on will be deleted in favour of
+    the target topic. In the field below, enter the ID of the target
+    topic you want to merge with (you can find this out by looking at
+    your browser’s URL bar when in the target topic).
+  split: "Split Topic"
+  split_here: "Split here"
+  splitted: "Split Topic."
+  split_info: >
+    Submitting this form will split the selected topic from the requested
+    topic on into two ones. The new topic will be created with the title
+    you give below, and will be placed in the same forum as the old topic
+    (you can move it later if you need). The post you selected “split” on
+    will be the first post of the new topic.

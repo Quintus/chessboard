@@ -52,11 +52,6 @@ module Chessboard
       redirect "/forums"
     end
 
-    get "/forums" do
-      @forum_groups = Configuration.forum_groups
-      erb :forums
-    end
-
     get "/login" do
       erb :login
     end
@@ -68,6 +63,32 @@ module Chessboard
 
       session["user"] = user.email
       redirect "/"
+    end
+
+    get "/forums" do
+      @forum_groups = Configuration.forum_groups
+      erb :forums
+    end
+
+    get "/forums/:id" do
+      @forum = nil
+      catch :found do
+        Configuration.form_groups.values.each do |forums_ary|
+          forums_ary.each do |forum|
+            if forum[:id] == id
+              @forum = forum
+              throw :found
+            end
+          end
+        end
+      end
+
+      halt 404 unless @forum
+
+      @total_pages = 0
+      @current_pages = 1
+
+      erb :forum
     end
 
   end
