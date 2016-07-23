@@ -48,6 +48,10 @@ module Chessboard
       DB = Sequel.connect(Configuration.database_url)
     end
 
+    get "/" do
+      redirect "/forums"
+    end
+
     get "/forums" do
       @forum_groups = Configuration.forum_groups
       erb :forums
