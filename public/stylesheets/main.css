@@ -1,11 +1,16 @@
-@import "variables.scss";
-@import "buttons.scss";
-@import "coderay.scss";
+/* General info:
+ * Font: Helvetica, sans-serif
+ * Font size: 14px
+ * Small font size: 12px
+ * Light grey: #EEEEEE
+ * Dark grey: #AAAAAA
+*/
 
-body {
-    font-family: $sansfont;
-    font-size: $fontsize;
+html {
+    font-family: Helvetica, sans-serif;
+    font-size: 14px;
 }
+
 
 h1 {
     border-bottom: 1px solid black;
@@ -18,14 +23,14 @@ a {
     color: #0b8ae1;
     text-decoration: none;
     font-weight: bold;
+}
 
-    &:hover {
-	color: #520ebb;
-    }
+a:hover {
+    color: #520ebb;
+}
 
-    img {
-	vertical-align: text-top;
-    }
+a img {
+    vertical-align: text-top;
 }
 
 blockquote {
@@ -47,40 +52,35 @@ textarea {
 
 form {
     border: 1px solid black;
-    background-color: $lightgrey;
+    background-color: #EEEEEE;
     padding: 4px;
 }
 
 table {
     border-collapse: collapse;
     width: 100%;
-    border-bottom: 1px solid $darkgrey;
+    border-bottom: 1px solid #AAAAAA;
+}
 
-    thead {
+table thead tr {
+    border-bottom: 1px solid black;
+    background-color: #AAAAAA;
+}
 
-	tr {
-	    border-bottom: 1px solid black;
-	    background-color: $darkgrey;
+table thead tr th {
+    text-align: left;
+}
 
-	    th {
-		text-align: left;
-	    }
-	}
-    }
+table tbody tr {
+    border-top: 1px solid #AAAAAA;
+}
 
-    tbody {
-	tr {
-	    border-top: 1px solid $darkgrey;
+table tbody tr:first {
+    border-top: none;
+}
 
-	    &:first {
-		border-top: none;
-	    }
-
-	    td {
-		text-align: left;
-	    }
-	}
-    }
+table tbody tr td {
+    text-align: left;
 }
 
 div.CodeRay, pre {
@@ -94,7 +94,7 @@ code, pre {
   background-color: hsl(0,0%,95%);
   border: 1px solid silver;
   color: black;
-  font-size: $smallfontsize;
+  font-size: 12px;
 }
 
 div.CodeRay > div.code > pre {
@@ -116,12 +116,12 @@ pre code {
 
 #header {
     border: 1px solid black;
-    background-color: $lightgrey;
+    background-color: #EEEEEE;
     padding: 4px;
+}
 
-    p {
-	margin: 0px;
-    }
+#header p {
+    margin: 0px;
 }
 
 #title {
@@ -129,48 +129,49 @@ pre code {
 }
 
 #navigation {
-    border: {
-	left: 1px solid black;
-	right: 1px solid black;
-	bottom: 1px solid black;
-    }
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
 
     background-color: black;
     padding: 4px;
+}
 
-    ul {
-	@include vlist;
+ul.vlist {
+    margin: 0px;
+    list-style-type: none;
+    padding: 0px;
+}
 
-	li a {
-	    color: $lightgrey;
-	    text-decoration: none;
-	    font-weight: bold;
+ul.vlist li {
+    display: inline;
+    margin-left: 4px;
+}
 
-	    &:hover {
-		text-decoration: underline;
-	    }
-	}
-    }
+#navigation ul li a {
+    color: #EEEEEE;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+#navigation ul li a:hover {
+    text-decoration: underline;
 }
 
 #footer {
     margin-top: 10px;
     padding-top: 4px;
-    font-size: $smallfontsize;
-    border-top: 1px dashed $darkgrey;
-    color: $darkgrey;
+    font-size: 12px;
+    border-top: 1px dashed #AAAAAA;
+    color: #AAAAAA;
+}
 
-    ul {
-	@include vlist;
-    }
+#footer a {
+    color: #AAAAAA;
+}
 
-    a {
-	color: #AAAAAA;
-
-	&:hover {
-	    color: black;
-	}
-    }
+#footer a:hover {
+    color: black;
 }
 
 #sidebar {
@@ -185,26 +186,20 @@ pre code {
 #time {
     float: right;
     text-align: right;
-
-    p {
-	margin: {
-	    left: 0px;
-	    top: 0px;
-	    bottom: 0px;
-	    right: 2px;
-	}
-    }
 }
 
-#stats {
-    p {
-	margin: {
-	    left: 2px;
-	    top: 0px;
-	    bottom: 0px;
-	    right: 2px;
-	}
-    }
+#time p {
+    margin-left: 0px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-right: 2px;
+}
+
+#stats p {
+    margin-left: 2px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-right: 2px;
 }
 
 .hidden-user {
@@ -214,15 +209,15 @@ pre code {
 .forumgroup {
     margin-bottom: 8px;
     border: 1px solid black;
-    background-color: $lightgrey;
+    background-color: #EEEEEE;
+}
 
-    .forumgroupname {
-	margin: 0px;
-	border-bottom: 1px solid black;
-	background-color: black;
-	color: white;
-	padding-left: 4px;
-    }
+.forumgroup .forumgroupname {
+    margin: 0px;
+    border-bottom: 1px solid black;
+    background-color: black;
+    color: white;
+    padding-left: 4px;
 }
 
 .notice {
@@ -241,9 +236,9 @@ pre code {
     margin-top: 6px;
     margin-bottom: 6px;
     text-align: center;
-
-    p { margin: 0px; }
 }
+
+.flash p { margin: 0px; }
 
 .hilit {
     background-color: yellow;
@@ -251,15 +246,15 @@ pre code {
 
 .forumlist {
     table-layout: fixed;
-
-    .forumname { padding-left: 4px; }
 }
+
+.forumlist .forumname { padding-left: 4px; }
 
 .topicslist {
     table-layout: fixed;
-
-    .list-topic { padding-left: 4px; }
 }
+
+.topicslist .list-topic { padding-left: 4px; }
 
 .numbercell { width: 7%; text-align: center; }
 .imgcell { width: 24px; text-align: center; vertical-align: middle }
@@ -279,7 +274,7 @@ pre code {
 .post {
     margin-top: 8px;
     border: 1px solid black;
-    background-color: $lightgrey;
+    background-color: #EEEEEE;
 
     width: 100%;
     display: table;
@@ -292,22 +287,20 @@ pre code {
 
 .header {
     border-bottom: 1px solid black;
-    background-color: $darkgrey;
-    color: $lightgrey;
+    background-color: #AAAAAA;
+    color: #EEEEEE;
     padding: 0px 4px 0px 4px;
-
-    p { margin: 0px; }
 }
 
-.post-header {
-}
+.header p { margin: 0px; }
 
 .post-author {
     width: 15%;
     display: table-cell;
     padding-left: 4px;
-    p { margin: 0px; }
 }
+
+.post-author p { margin: 0px; }
 
 .post-content {
     border-left: 1px solid black;
@@ -328,7 +321,7 @@ pre code {
 }
 
 .author-registered {
-    font-size: $smallfontsize;
+    font-size: 12px;
 }
 
 .post-author p.author-registered {
@@ -336,15 +329,13 @@ pre code {
 }
 
 .author-posts {
-    font-size: $smallfontsize;
+    font-size: 12px;
 }
 
 .post-forum {
-    font-size: $smallfontsize;
-    margin: {
-	top: 12px;
-	bottom: -12px;
-    }
+    font-size: 12px;
+    margin-top: 12px;
+    margin-bottom: -12px;
 }
 
 .top-right-nav {
@@ -352,7 +343,7 @@ pre code {
     float: right;
     position: relative;
     top: -4px;
-    font-size: $smallfontsize;
+    font-size: 12px;
 }
 
 .setting {
@@ -372,25 +363,20 @@ pre code {
 }
 
 .submit-separator {
-    border-top: 1px dashed $darkgrey;
+    border-top: 1px dashed #AAAAAA;
     padding-top: 4px;
     padding-left: 4px;
 }
 
 .quickreply-form {
     margin-top: 10px;
-
-    h2 { margin-top: 0px; }
 }
+
+.quickreply-form h2 { margin-top: 0px; }
 
 .topic-actions {
-    @include vlist;
     margin-top: 4px;
     text-align: right;
-}
-
-.topic-pages, .forum-pages {
-    @include vlist;
 }
 
 .topic-pages-topic {
@@ -399,20 +385,17 @@ pre code {
 
 .topic-pages-forum {
     display: inline;
-
-    li:first-child { margin-left: 0px; }
 }
 
+.topic-pagse-forum li:first-child { margin-left: 0px; }
+
 .post-actions {
-    @include vlist;
     float: right;
     margin-top: 4px;
     margin-right: 4px;
-
-    li {
-	margin-left: 4px;
-    }
 }
+
+.post-actions li { margin-left: 4px; }
 
 .post-ip {
     float: right;
@@ -428,9 +411,9 @@ pre code {
 }
 
 .signature {
-    border-top: 1px dashed $darkgrey;
+    border-top: 1px dashed #AAAAAA;
     font-size: small;
-    color: $darkgrey;
+    color: #AAAAAA;
 
     padding: 0px 4px;
 }
@@ -438,18 +421,18 @@ pre code {
 .search-results {
     margin-top: 8px;
     border: 1px solid black;
-    background-color: $lightgrey;
+    background-color: #EEEEEE;
     padding: 4px;
+}
 
-    ul {
-	list-style-type: none;
-	padding: 0px;
+.search-results ul {
+    list-style-type: none;
+    padding: 0px;
+}
 
-	li {
-	    display: inline;
-	    margin-left: 4px;
-	}
-    }
+.search-results ul li {
+    display: inline;
+    margin-left: 4px;
 }
 
 /******** Spoiler **********/
@@ -465,10 +448,10 @@ pre code {
     color: yellow;
     font-weight: bold;
     font-variant: small-caps;
+}
 
-    img {
-	margin-right: 4px;
-    }
+.spoilerwarning img {
+    margin-right: 4px;
 }
 
 .spoilercontent {
@@ -487,17 +470,17 @@ div.expandspoiler {
 
 .user-profile {
     border: 1px solid black;
-    background-color: $lightgrey;
+    background-color: #EEEEEE;
     padding: 4px;
 }
 
 .profile-avatar {
     border: 1px solid black;
     background-color: white;
+}
 
-    .profile-nickname {
-	font-weight: bold;
-    }
+.profile-avatar .profile-nickname {
+    font-weight: bold;
 }
 
 .profile-system-info {
@@ -515,22 +498,21 @@ div.expandspoiler {
 .report {
     border: 1px solid black;
     margin-bottom: 6px;
-    background-color: $lightgrey;
+    background-color: #EEEEEE;
     padding: 4px;
-
-    p.report-intro { margin-top: 0px; }
 }
+
+.report p.report-intro { margin-top: 0px; }
 
 .report-post-content {
     border: 1px solid black;
     background-color: white;
     padding: 4px;
-
-    p.report-author { margin-top: 0px; }
 }
 
+.report-post-content p.report-author { margin-top: 0px; }
+
 .buttons {
-    @include vlist;
     margin-top: 6px;
 }
 
@@ -538,17 +520,17 @@ div.expandspoiler {
 
 .warning {
     border: 1px solid black;
-    background-color: $lightgrey;
+    background-color: #EEEEEE;
     margin-bottom: 6px;
+}
 
-    p.warning-header {
-	margin-top: 0px;
-	background-color: $darkgrey;
-    }
+.warning p.warning-header {
+    margin-top: 0px;
+    background-color: #AAAAAA;
+}
 
-    p.warning-reason {
-	padding: 4px;
-    }
+.warning p.warning-reason {
+    padding: 4px;
 }
 
 /****** Topic status *******/
@@ -566,7 +548,7 @@ div.expandspoiler {
 div.preview {
     margin-top: 4px;
     border: 1px solid black;
-    background-color: $lightgrey;
+    background-color: #EEEEEE;
     background-image: url("/images/misc/draft.png");
     display: none; /* shown on preview */
     padding: 4px;
@@ -579,22 +561,18 @@ div.preview {
     background-color: white;
     padding: 4px;
     margin: 4px;
-
-    p {
-	margin: 0px;
-    }
 }
+
+.post-attachment p { margin: 0px; }
 
 .old-attachment {
     border: 1px dashed gray;
     background-color: white;
     padding: 4px;
     margin: 4px;
-
-    p {
-	margin: 0px;
-    }
 }
+
+.old-attachment p { margin: 0px; }
 
 .attachment-icon {
     background-image: url("/images/icons/attachment.png");
@@ -608,12 +586,12 @@ div.preview {
     display: inline-block;
     border: 1px solid gray;
     background: url("/images/misc/image-background.png") repeat;
+}
 
-    img {
-	vertical-align: middle;
-	max-height: 300px;
-	overflow: auto;
-    }
+.attachment-preview img {
+    vertical-align: middle;
+    max-height: 300px;
+    overflow: auto;
 }
 
 .attachment-description {

@@ -22,7 +22,7 @@
     border:1px solid #3866a3;
     display:inline-block;
     color:#14396a;
-    font-family:$sansfont;
+    font-family: Helvetica, sans-serif;
     font-size:15px;
     font-weight:bold;
     font-style:normal;
@@ -69,7 +69,7 @@
     border:1px solid #d02718;
     display:inline-block;
     color:#ffffff;
-    font-family:$sansfont;
+    font-family:Helvetica, sans-serif;
     font-size:15px;
     font-weight:bold;
     font-style:normal;
@@ -116,7 +116,7 @@
     border:1px solid #268a16;
     display:inline-block;
     color:#306108;
-    font-family:$sansfont;
+    font-family:Helvetica, sans-serif;
     font-size:15px;
     font-weight:bold;
     font-style:normal;
@@ -163,7 +163,7 @@
     border:1px solid #eeb44f;
     display:inline-block;
     color:#ffffff;
-    font-family:$sansfont;
+    font-family:Helvetica, sans-serif;
     font-size:15px;
     font-weight:bold;
     font-style:normal;
