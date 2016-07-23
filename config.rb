@@ -5,6 +5,12 @@
 # unless you want to use a very specific configuration.
 Chessboard::Configuration.create do |config|
 
+  # This is displayed at large on the top of the website.
+  board_title "Chessboard forums"
+
+  # And this a little smaller below it.
+  board_subtitle "A test installation of Chessboard."
+
   # This specifies the SQL database to connect to. Chessboard
   # keeps a little information on its own, which is stored here.
   # Examples are user signatures. Supported database types

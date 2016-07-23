@@ -1,4 +1,6 @@
 require "sinatra/base"
+require "sinatra/content_for"
+require "sinatra/r18n"
 require "net/ldap"
 require "sequel"
 require "bcrypt"
@@ -18,6 +20,9 @@ module Chessboard
 
   # Main Sinatra application class.
   class Application < Sinatra::Base
+    register Sinatra::R18n
+    helpers Sinatra::ContentFor
+
     set :root, File.expand_path(File.join(File.dirname(__FILE__), ".."))
 
     enable :sessions
@@ -29,17 +34,23 @@ module Chessboard
     end
 
     configure :production do
-      if Chessboard::Config.log == :syslog
+      if Config.log == :syslog
         # Note: Syslog::Logger.new takes a facility since Ruby 2.1.0. Before
         # it was impossible to specify a facility.
-        set :logger, Syslog::Logger.new("chessboard", Syslog.const_get("LOG_#{Chessboard::Config.log_facility.upcase}"))
+        set :logger, Syslog::Logger.new("chessboard", Syslog.const_get("LOG_#{Configuration.log_facility.upcase}"))
       else
-        set :logger, Logger.new(Chessboard::Config.log_file)
+        set :logger, Logger.new(Config.log_file)
       end
 
       # The Sequel database instance. No SQL logger when run in production.
-      DB = Sequel.connect(Chessboard::Config.database_url)
+      DB = Sequel.connect(Configuration.database_url)
     end
+
+    get "/forums" do
+      @forum_groups = Configuration.forum_groups
+      erb :forums
+    end
+
   end
 end
 

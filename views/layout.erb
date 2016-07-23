@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title>Chessboard</title>
+    <link rel="stylesheet" href="/stylesheets/buttons.css" type="text/css"/>
+    <link rel="stylesheet" href="/stylesheets/coderay.css" type="text/css"/>
+    <link rel="stylesheet" href="/stylesheets/main.css" type="text/css"/>
+    <%# javascript_include_tag "jquery", "jquery-ujs", "insert_at_caret", "usersearch", "preview", "hide_codelines", "attachments", "hilit", "spoiler" %>
+    <%# feed_tag :atom, url(:topics, :feed, :format => :atom), :title => "Atom feed" %>
+    <%# call_hook(:html_header) %>
+  </head>
+  <body>
+    <%# partial "layouts/header" %>
+    <%# partial "layouts/navigation" %>
+
+    <div id="login-info">
+      <%# if env["warden"].authenticated? %>
+	<%# I18n.t("general.logged_in", :nick => env["warden"].user.nickname) %>
+      <%# else %>
+	<%# I18n.t("general.not_logged_in") %>
+      <%# end %>
+    </div>
+
+    <% if content_for?(:sidebar) %>
+      <div id="sidebar">
+	<%= yield_content(:sidebar) %>
+      </div>
+    <% end %>
+
+    <% if content_for?(:sidebar) %>
+    <div id="content" class="with-sidebar">
+    <% else %>
+    <div id="content">
+    <% end %>
+      <%# flash_tag :alert, :class => "flash alert" %>
+      <%# flash_tag :notice, :class => "flash notice" %>
+
+      <%= yield %>
+
+      <%# partial "layouts/footer" %>
+    </div>
+
+  </body>
+</html>

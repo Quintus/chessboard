@@ -104,6 +104,8 @@ module Chessboard
 
     # Following is the list of supported configuration options
 
+    config_setting :board_title
+    config_setting :board_subtitle
     config_setting :database_url
     config_setting :ldap, false
     config_setting :ldap_host

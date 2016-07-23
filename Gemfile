@@ -1,6 +1,8 @@
 source "https://rubygems.org"
 
 gem "sinatra"
+gem "sinatra-contrib"
+gem "sinatra-r18n"
 gem "coderay"
 gem "bcrypt"
 gem "sequel"
