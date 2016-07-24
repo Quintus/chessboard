@@ -15,7 +15,10 @@
   </thead>
   <tbody>
     <%# partial "topics/forum_topic", :collection => @topics[:announcements] %>
-    <%# partial "topics/forum_topic", :collection => @topics[:normal] %>
+    <% @threads.each do |thread| %>
+      <%= erb  :_forum_topic, :locals => {:thread => thread} %>
+      <%# partial "topics/forum_topic", :collection => @topics[:normal] %>
+    <% end %>
   </tbody>
 </table>
 

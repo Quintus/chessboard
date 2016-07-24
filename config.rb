@@ -19,6 +19,11 @@ Chessboard::Configuration.create do |config|
   #database_url "mysql:user@host:password/dbname"
   #database_url "sqlite:///var/dbs/mydatabase.db3"
 
+  # How many threads should be displayed on a page. The higher this
+  # value, the more strain is loaded to your CPU and hard disk when
+  # viewing the index page of a forum.
+  threads_per_page 15
+
   # If this is set to :file, logs are written to the file
   # given with the log_file parameter. If this is :syslog,
   # messages are sent to syslog on facility specified with log_facility.

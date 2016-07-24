@@ -112,12 +112,14 @@ module Chessboard
     config_setting :board_title
     config_setting :board_subtitle
     config_setting :database_url
+    config_setting :threads_per_page, 15
     config_setting :ldap, false
     config_setting :ldap_host
     config_setting :ldap_port, 389
     config_setting :ldap_encryption, nil
     config_setting :ldap_user_dn
     config_setting :load_ml_users
+    config_setting :load_ml_mails
     config_setting :subscribe_to_nomail
     config_setting :log, :file
     config_setting :log_file, "/var/log/chessboard.log"
@@ -155,6 +157,13 @@ module Chessboard
             subscribe_to_nomail do |forum_ml, email|
               system("/usr/bin/mlmmj-sub", "-L", forum_ml, "-n", email)
             end
+
+            load_ml_mails do |forum_ml|
+              list = Dir.glob("#{forum_ml}/archive/*")
+              list.sort!{|a, b| File.mtime(b) <=> File.mtime(a)}
+              list
+            end
+
           end
         end
       end

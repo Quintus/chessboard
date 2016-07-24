@@ -4,9 +4,11 @@ require "sinatra/r18n"
 require "net/ldap"
 require "sequel"
 require "bcrypt"
+require "mail"
 require "logger"
 require "syslog"
 require "syslog/logger"
+require "digest/md5"
 
 # Load configuration as early as possible
 require_relative "chessboard/configuration"
@@ -73,9 +75,9 @@ module Chessboard
     get "/forums/:id" do
       @forum = nil
       catch :found do
-        Configuration.form_groups.values.each do |forums_ary|
+        Configuration.forum_groups.values.each do |forums_ary|
           forums_ary.each do |forum|
-            if forum[:id] == id
+            if forum[:id] == params["id"].to_i
               @forum = forum
               throw :found
             end
@@ -85,7 +87,8 @@ module Chessboard
 
       halt 404 unless @forum
 
-      @total_pages = 0
+      @threads = MessageThread.get_thread_starters(@forum, Configuration[:threads_per_page])
+      @total_pages = 1
       @current_pages = 1
 
       erb :forum
@@ -97,3 +100,4 @@ end
 # Now load the rest of the library
 require_relative "chessboard/ldap"
 require_relative "chessboard/user"
+require_relative "chessboard/message_thread"
