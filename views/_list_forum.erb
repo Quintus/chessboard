@@ -7,8 +7,8 @@
     <%# end %>
   </td>
   <td class="forumname">
-    <a href="/forums/<%= forum_options[:id] %>"><%= forum_options[:name] %></a><br/>
-    <%= forum_options[:description] %>
+    <a href="/forums/<%= forum.id %>"><%= forum.name %></a><br/>
+    <%= forum.description %>
   </td>
   <td class="forumtopics numbercell">
     <%# list_forum.topics.count %>

@@ -68,6 +68,11 @@ class Chessboard::Post < Sequel::Model
       post
     end
 
+    # Returns a dataset of all posts which started a topic.
+    def thread_starters
+      Chessboard::Post.where(:parent_id => nil)
+    end
+
     private
 
     # Extract the author from the mail and return the matching

@@ -73,26 +73,14 @@ module Chessboard
     end
 
     get "/forums" do
-      @forum_groups = Configuration.forum_groups
+      @forums = Forum.order(:ordernum)
       erb :forums
     end
 
     get "/forums/:id" do
-      @forum = nil
-      catch :found do
-        Configuration.forum_groups.values.each do |forums_ary|
-          forums_ary.each do |forum|
-            if forum[:id] == params["id"].to_i
-              @forum = forum
-              throw :found
-            end
-          end
-        end
-      end
-
+      @forum = Forum[params["id"].to_i]
       halt 404 unless @forum
 
-      @threads = MessageThread.get_thread_starters(@forum, Configuration[:threads_per_page])
       @total_pages = 1
       @current_pages = 1
 

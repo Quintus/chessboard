@@ -3,25 +3,21 @@
 <%# end %>
 <h1><%= t.general.forum_overview %></h1>
 
-<% @forum_groups.each_pair do |groupname, forums| %>
-  <div class="forumgroup">
-    <p class="forumgroupname"><%= groupname %></p>
-
-    <table class="forumlist">
-      <thead>
-	<tr>
-	  <th class="forumicon imgcell"></th>
-	  <th class="forumname"><%= t.forums.forum %></th>
-	  <th class="forumtopics numbercell"><%= t.forums.topics %></th>
-	  <th class="forumposts numbercell"><%= t.forums.posts %></th>
-	  <th class="forumlastpost"><%= t.forums.lastpost %></th>
-	</tr>
-      </thead>
-      <tbody>
-	<% forums.each do |options| %>
-	  <%= erb :_list_forum, :locals => {:forum_options => options} %>
-	<% end %>
-      </tbody>
-    </table>
-  </div>
+<% @forums.each do |forum| %>
+  <table class="forumlist">
+    <thead>
+      <tr>
+	<th class="forumicon imgcell"></th>
+	<th class="forumname"><%= t.forums.forum %></th>
+	<th class="forumtopics numbercell"><%= t.forums.topics %></th>
+	<th class="forumposts numbercell"><%= t.forums.posts %></th>
+	<th class="forumlastpost"><%= t.forums.lastpost %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @forums.each do |forum| %>
+	<%= erb :_list_forum, :locals => {:forum => forum} %>
+      <% end %>
+    </tbody>
+  </table>
 <% end %>
