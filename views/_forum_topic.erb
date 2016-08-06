@@ -57,9 +57,7 @@
   </td>
   <td class="list-topic">
     <a href="<%= threadurl %>"><%= thread_starter.title %></a><br/>
-    <%= t.forums.author_by %> <%= thread_starter.author.display_name %>
-
-    <%# link_to forum_topic.author.nickname, url(:users, :show, forum_topic.author.nickname) %>
+    <%= t.forums.author_by %> <a href="/users/<%= thread_starter.author.id %>"><%= thread_starter.author.display_name %></a>
 
     <%# total_pages = (forum_topic.posts.count.to_f / GlobalConfiguration.instance.page_post_num.to_f).ceil %>
     <% total_pages = 1 %>
@@ -70,11 +68,11 @@
       </ul>
     <% end %>
   </td>
-  <td class="list-replies numbercell"><%# forum_topic.posts.count - 1 %><%# OP is not a reply %></td>
-  <td class="list-views numbercell"><%# forum_topic.views %></td>
+  <% all_replies = thread_starter.recursive_replies.sort{|a, b| b.created_at <=> a.created_at} %>
+  <td class="list-replies numbercell"><%= all_replies.count %></td>
+  <td class="list-views numbercell"><%= thread_starter.views %></td>
   <td class="forumlastpost">
-    <%# post = forum_topic.posts.order("created_at DESC").first %>
-    <%# format_time post.created_at %><br/>
-    <%# I18n.t("forums.author_by") %> <%# link_to post.author.nickname, url(:users, :show, post.author.nickname) %>
+    <%= l (all_replies.first || thread_starter).created_at %><br/>
+    <%= t.forums.author_by %> <a href="/users/<%= thread_starter.author.id %>"><%= thread_starter.author.display_name %></a>
   </td>
 </tr>
