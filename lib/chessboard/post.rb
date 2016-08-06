@@ -35,7 +35,10 @@ class Chessboard::Post < Sequel::Model
 
           # Have the config's formatter format it to plain text
           command = sprintf(Chessboard::Configuration[:html_formatter], file.path)
+          Chessboard.logger.info("Executing: #{command}")
+
           content = IO.popen(command, "r"){ |io| io.read }
+          content.prepend("    [[ Reformatted HTML-only e-mail ]]\n\n\n")
         ensure
           file.close unless file.closed?
           file.unlink
