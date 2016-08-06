@@ -170,6 +170,14 @@ class Chessboard::Post < Sequel::Model
     end
   end
 
+  # Returns an array (not dataset) of ALL replies in this thread. Makes
+  # multiple queries to the database, so use with care.
+  def recursive_replies
+    children = replies
+    children.each{ |reply| children.concat(reply.recursive_replies) }
+    children
+  end
+
   private
 
   def before_create
