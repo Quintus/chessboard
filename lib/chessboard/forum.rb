@@ -7,15 +7,9 @@ class Chessboard::Forum < Sequel::Model
     all.each{ |forum| forum.synchronize_with_mailinglist! }
   end
 
-  # Return those Post instances that are thread starters.
-  #
-  # [count (10)]
-  #   Number of thread starters to return.
-  # [pages (0)]
-  #   When paginating, this gives you the next batch
-  #   of thread starters. The first page is 0.
-  def thread_starters(count = 10, page = 0)
-    posts_dataset.where(:parent_id => nil).order(:created_at).reverse.limit(10).offset(page)
+  # Returns a dataset with those Post instances that are thread starters.
+  def thread_starters
+    posts_dataset.where(:parent_id => nil).order(:created_at).reverse
   end
 
   # Clear all posts from this forum and resynchronise it with the
