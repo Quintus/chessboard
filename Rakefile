@@ -44,6 +44,7 @@ task :create_tables do
     String    :message_id
     TrueClass :sticky,       :default => false
     TrueClass :announcement, :default => false
+    TrueClass :was_html_only,:default => false
     Integer   :views,        :default => 0
     DateTime :created_at
   end
