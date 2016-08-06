@@ -18,6 +18,11 @@ require_relative "chessboard/helpers"
 # Namespace of this program.
 module Chessboard
 
+  # Convenience method for calling Chessboard::Application.logger.
+  def self.logger
+    Chessboard::Application.logger
+  end
+
   # Version number of this program.
   VERSION = "0.1.0".freeze
 
@@ -100,4 +105,5 @@ end
 # Now load the rest of the library
 require_relative "chessboard/ldap"
 require_relative "chessboard/user"
-require_relative "chessboard/message_thread"
+require_relative "chessboard/forum"
+require_relative "chessboard/post"

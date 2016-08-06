@@ -1,4 +1,17 @@
 class Chessboard::User < Sequel::Model
+  one_to_many :posts
+
+  # E-Mail address of the Guest user.
+  GUEST_EMAIL = "guest@chessboard.invalid".freeze
+
+  # Returns the user representing "guests". This is a placeholder
+  # user not used under normal circumstances, but comes into play
+  # if users delete their accounts.
+  # The return value is an instance of User with a special, invalid
+  # email address assigned to it (GUEST_EMAIL constant).
+  def self.guest
+    Chessboard::User.where(:email => GUEST_EMAIL).first
+  end
 
   # Synchronise the list of accounts on the forum with the subscribers
   # list of the mailinglist management program. All accounts whose
@@ -25,19 +38,10 @@ class Chessboard::User < Sequel::Model
     Chessboard::User.where(:email => deleted_emails).destroy
     deleted_emails.each{|email| puts "Deleting #{email}"}
 
-    # Add all users not in this list
-    new_emails = emails - current_registered_emails
-    new_emails.each do |email|
-      puts "Adding #{email}"
-      user = Chessboard::User.new
-      user[:email] = email
-      user.reset_password
-      user.save
-    end
+    # Do not add users in the ML to the forum. This is done on-the-fly
+    # when a message from a new user is encountered (code deduplication).
 
-    # Since the new email addresses came from the mailinglists,
-    # there is no need to subscribe these new users to the mailinglists.
-    # They're already there.
+    # TODO: Sync with LDAP if enabled.
   end
 
   # Check the given plaintext password against the password
@@ -72,8 +76,22 @@ class Chessboard::User < Sequel::Model
   end
 
   # Subscribe this user to the nomail version of the mailinglist.
-  def subscribe_to_nomail
-    Chessboard::Configuration[:subscribe_to_nomail].call(email)
+  # +forum+ is the Forum instance whose mailinglist the user shall be
+  # subscribed to.
+  def subscribe_to_mailinglist(forum)
+    Chessboard::Configuration[:subscribe_to_nomail].call(email, forum.mailinglist)
+  end
+
+  # Unsubscribe this user from the mailinglist.
+  # +forum+ is the Forum instance whose mailinglist the user shall be
+  # unsubscribed from.
+  def unsubscribe_from_mailinglist(forum)
+    Chessboard::Configuration[:unsubscribe_from_ml].call(email, forum.mailinglist)
+  end
+
+  # Dataset for all thread starter posts this user made.
+  def threads
+    posts_dataset.where(:parent_id => nil)
   end
 
   private

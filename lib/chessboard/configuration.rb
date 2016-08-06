@@ -8,8 +8,7 @@ module Chessboard
     # It evaluates its block in the context of this module.
     def self.create(&block)
       @config_settings.clear # Already created in ::config_setting
-      @forum_groups = {}
-      @current_forum_group = nil
+      @forums = []
 
       @config_finished = false
       instance_eval(&block)
@@ -50,63 +49,6 @@ module Chessboard
       extend Chessboard::Configuration::Mailinglists.const_get(name.capitalize)
     end
 
-    # Define a new forum group with the given name and makes this the current
-    # forum group. Any subsequent calls to ::add_forum add forums to this
-    # forum group.
-    def self.add_forum_group(name)
-      @forum_groups[name] = []
-      @current_forum_group = name
-    end
-
-    # Add a new forum to the currently active forum group (see ::add_forum_group).
-    #
-    # Takes the following options:
-    # [name]
-    #   Main name of the forum. This is used to display the forum
-    #   to the user, and it is used to filter the mails on the mailinglist
-    #   unless +catchall+ is set to +true+.
-    # [mailinglist]
-    #   The mailinglist this forum mirrors. This is passed through
-    #   unchanched to the load_ml_* and subscribe_to_nomail callbacks
-    #   of the configuration. The Mlmmj config expects this to be
-    #   the directory of the mailinglist.
-    # [catchall]
-    #   Specifies that this forum is a catchall forum, i.e. the mails
-    #   on the mirrored mailinglist are not filtered for the forum
-    #   name, but all mail that does not match any filter name,
-    #   appears here. You should have at least one catchall forum
-    #   per mirrored mailinglist, otherwise the forum is going to
-    #   lose mails. If you only have one forum for a mailinglist,
-    #   always make that one the catchall forum.
-    def self.add_forum(options)
-      raise "No active forum group!" unless @current_forum_group
-
-      @forum_groups[@current_forum_group] << options
-    end
-
-    # Returns the list of defined forums and their forum groups,
-    # as a hash of this form:
-    #   {"Forum Group" => [{:name => "Forum 1", :description => "foo", ...}, ...], ...}
-    def self.forum_groups
-      @forum_groups
-    end
-
-    # Convenience method that iterates the forum list and returns
-    # an array of all mailinglists mirrored. The array is normalised
-    # so that no mailinglist is included multiple times even if multiple
-    # forums mirror the same mailinglist.
-    # The returned array is sorted.
-    def self.mirrored_mailinglists
-      mailinglists = []
-      @forum_groups.each_pair do |groupname, forums|
-        forums.each do |options|
-          mailinglists << options[:mailinglist] unless mailinglists.include?(options[:mailinglist])
-        end
-      end
-
-      mailinglists.sort
-    end
-
     # Following is the list of supported configuration options
 
     config_setting :board_title
@@ -121,9 +63,11 @@ module Chessboard
     config_setting :load_ml_users
     config_setting :load_ml_mails
     config_setting :subscribe_to_nomail
+    config_setting :unsubscribe_from_ml
     config_setting :log, :file
     config_setting :log_file, "/var/log/chessboard.log"
     config_setting :log_facility, :daemon
+    config_setting :html_formatter, nil
 
     # This namespace contains pre-made configuration snippets for
     # certain mailinglist software.
@@ -158,9 +102,13 @@ module Chessboard
               system("/usr/bin/mlmmj-sub", "-L", forum_ml, "-n", email)
             end
 
+            unsubscribe_from_ml do |forum_ml, email|
+              system("/usr/bin/mlmmj-unsub", "-L", forum_ml, "-n", email)
+            end
+
             load_ml_mails do |forum_ml|
               list = Dir.glob("#{forum_ml}/archive/*")
-              list.sort!{|a, b| File.mtime(b) <=> File.mtime(a)}
+              list.sort!{|a, b| File.mtime(a) <=> File.mtime(b)}
               list
             end
 

@@ -24,6 +24,20 @@ Chessboard::Configuration.create do |config|
   # viewing the index page of a forum.
   threads_per_page 15
 
+  # Some persons have the annoying habit to send HTML-only email.
+  # For these messages, Chessboard invokes the program
+  # specified with this option and reads the result from
+  # standard input and uses that for the content.
+  # A %s in this string will be replaced with the path
+  # to a temporary file containig the HTML message (the path
+  # is guaranteed to end with ".html").
+  # The output of the command is required to be in UTF-8.
+  #
+  # Set this to nil if you want HTML-only mail to give
+  # an error message instead.
+  html_formatter "lynx -dump '%s'"
+  #html_formatter nil
+
   # If this is set to :file, logs are written to the file
   # given with the log_file parameter. If this is :syslog,
   # messages are sent to syslog on facility specified with log_facility.
@@ -62,40 +76,6 @@ Chessboard::Configuration.create do |config|
   # a pattern of how to build the full DN. %s in this string
   # is replaced by the email address of the user to authenticate.
   # ldap_user_dn "uid=%s,ou=users,dc=example,dc=com"
-
-  ########################################
-  # Defining the forums
-
-  # This defines a new forum group. All add_forum directives afterwards
-  # refer to this forum group.
-  add_forum_group "The Secret Chronicles"
-
-  # This defines a forum named "Discussion" inside the above forum group.
-  # It mirrors the (mlmmj, see below) mailinglist at /tmp/mltest. For
-  # this mailinglist, it is the catchall forum, so that all mails that
-  # do not fit elsewhere will show up in this forum.
-  add_forum name: "Discussion",
-            mailinglist: "/tmp/mltest",
-            description: "Open discussion around playing and using TSC.",
-            id: 1,
-            catchall: true
-
-  # This defines a forum named "Help", which also mirrors the mlmmj
-  # mailinglist at /tmp/mltest. However, since "catchall" is not set,
-  # it will only pick up mails which are configured for this forum
-  # (by means of an X-Chessboard-Forum email header or the
-  # corresponding directive in the mail body).
-  add_forum name: "Help",
-            mailinglist: "/tmp/mltest",
-            description: "Problems with the game or the editor?",
-            id: 2
-
-  # Another forum group with another forum in it.
-  add_forum_group "User Content"
-  add_forum name: "Levels",
-            mailinglist: "/tmp/mltest",
-            description: "This is the place to show your levels to the public.",
-            id: 3
 
   ########################################
   # Mailinglist-specific config
