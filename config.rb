@@ -38,6 +38,18 @@ Chessboard::Configuration.create do |config|
   html_formatter "lynx -dump '%s'"
   #html_formatter nil
 
+  # If the forum needs to send important information, this is
+  # where that information is send to. (Example: A user reports
+  # a post as abuse).
+  admin_email "root@localhost"
+
+  # If the forum needs to send an email, it invokes the `sendmail'
+  # program. Specify here the path to that program.
+  sendmail_path "/sbin/sendmail"
+
+  # Users without a specifically assigned title gain this title.
+  default_user_title "Member"
+
   # If this is set to :file, logs are written to the file
   # given with the log_file parameter. If this is :syslog,
   # messages are sent to syslog on facility specified with log_facility.

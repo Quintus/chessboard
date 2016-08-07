@@ -68,6 +68,9 @@ module Chessboard
     config_setting :log_file, "/var/log/chessboard.log"
     config_setting :log_facility, :daemon
     config_setting :html_formatter, nil
+    config_setting :default_user_title, "Member"
+    config_setting :admin_email
+    config_setting :sendmail_path, "sendmail"
 
     # This namespace contains pre-made configuration snippets for
     # certain mailinglist software.
