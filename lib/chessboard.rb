@@ -1,6 +1,7 @@
 require "sinatra/base"
 require "sinatra/content_for"
 require "sinatra/r18n"
+require "kramdown"
 require "net/ldap"
 require "sequel"
 require "bcrypt"

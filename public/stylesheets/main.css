@@ -238,6 +238,15 @@ ul.vlist li {
     text-align: center;
 }
 
+.center {
+    text-align: center;
+}
+
+.pgp-inline {
+    text-align: center;
+    font-style: italic;
+}
+
 .flash p { margin: 0px; }
 
 .hilit {
@@ -411,6 +420,8 @@ ul.vlist li {
 }
 
 .signature {
+    border: none;
+    background-color: #EEEEEE;
     border-top: 1px dashed #AAAAAA;
     font-size: small;
     color: #AAAAAA;

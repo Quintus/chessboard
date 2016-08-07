@@ -4,6 +4,7 @@ GEM
     backports (3.6.8)
     bcrypt (3.1.11)
     coderay (1.1.1)
+    kramdown (1.11.1)
     mail (2.6.4)
       mime-types (>= 1.16, < 4)
     mime-types (3.1)
@@ -42,6 +43,7 @@ PLATFORMS
 DEPENDENCIES
   bcrypt
   coderay
+  kramdown
   mail
   net-ldap
   rake
