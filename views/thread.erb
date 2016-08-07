@@ -1,0 +1,21 @@
+<p class="post-forum"><a href="/forums/<%= @forum.id %>"><%= @forum.name %></a></p>
+<h1><%= h @root_post.title %></h1>
+
+<div class="topic">
+  <%= erb :_post, :locals => {:post => @root_post, :forum => @forum, :level => 0} %>
+</div>
+
+<ul class="topic-actions">
+  <% if logged_in? %>
+
+      <%# if @topic.watchers.include?(env["warden"].user) %>
+        <!--<li><%# link_to I18n.t("topics.unwatch"), url(:topics, :unwatch, @topic.id) + "?authenticity_token=#{session[:csrf]}", :class => "button-normal", :method => :patch %></li>-->
+      <%# else %>
+        <!--<li><%# link_to I18n.t("topics.watch"), url(:topics, :watch, @topic.id) + "?authenticity_token=#{session[:csrf]}", :class => "button-normal", :method => :patch %></li>-->
+      <%# end %>
+
+      <!--<li><%# link_to I18n.t("topics.reply"), url(:posts, :new, @topic.id), :class => "button-normal" %></li>-->
+  <% end %>
+</ul>
+
+<div class="clear"></div>

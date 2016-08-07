@@ -53,6 +53,10 @@ personal:
   rank:
     You have been granted the “%{rank}” forum title by the administrators.
 users:
+  # When the user signed up on the forum. Followed by a colon.
+  registered: "Registered"
+  # Followed by a colon and the number of posts this user made
+  posts: "Posts"
   newest: "Newest member"
   active_users: "Recently active users:"
   no_active_users: "No visible active users."

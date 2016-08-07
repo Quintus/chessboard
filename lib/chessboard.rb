@@ -9,6 +9,7 @@ require "logger"
 require "syslog"
 require "syslog/logger"
 require "digest/md5"
+require "cgi"
 
 # Load configuration as early as possible
 require_relative "chessboard/configuration"
@@ -85,6 +86,16 @@ module Chessboard
       @current_pages = 1
 
       erb :forum
+    end
+
+    get "/forums/:forum_id/threads/:id" do
+      @root_post = Post[params["id"].to_i]
+      @forum     = Forum[params["forum_id"].to_i]
+      halt 404 unless @forum
+      halt 404 unless @root_post
+      halt 400 unless @root_post.forum == @forum
+
+      erb :thread
     end
 
   end

@@ -1,0 +1,69 @@
+<div class="post post-nest-<%= level %>">
+  <div class="post-author">
+    <p class="author-name"><a href="/users/<%= post.author.id %>"><%= post.author.display_name %></a></p>
+    <p class="author-membership"><%= post.author.title %></p>
+    <%# if post.author.avatar_link %>
+      <!--<p class="author-avatar"><%# image_tag post.author.avatar_link, :alt => "User avatar" %></p>-->
+    <%# end %>
+    <p class="author-registered"><%= t.users.registered %>: <%= l post.author.created_at %></p>
+    <p class="author-posts"><%= t.users.posts %>: <%= post.author.posts.count %></p>
+  </div>
+
+  <div class="post-content">
+    <div class="header post-header">
+      <div class="post-created">
+	<p><%= l post.created_at, :full %></p>
+      </div>
+      <div class="post-num">
+	<p><a id="p<%= post.id %>" name="p<%= post.id %>" href="#p<%= post.id %>">#</a>&nbsp;<a href="/forum/<%= forum.id %>/threads/<%= post.id %>">¶</a></p>
+      </div>
+    </div>
+
+    <% if logged_in? %>
+      <ul class="post-actions">
+	<li><a href="/forum/<%= forum.id %>/posts/<%= post.id %>/report"><img src="/images/icons/report.png" alt="report this"/>&nbsp;<%= t.reports.report_this %></a></li>
+      </ul>
+    <% end %>
+
+    <div class="post-text">
+      <%# flash_tag :postalert, :class => "flash alert" if flash[:postid] == post.id %>
+      <%# process_markup(post.content, post.markup_language) %>
+      <%# if env["warden"].authenticated? && env["warden"].user.privileged? %>
+        <!--<p class="post-ip">
+          IP:
+          <%# if post.ip.blank? %>
+            <%# I18n.t("posts.no_ip") %>
+          <%# else %>
+            <#= post.ip %>
+          <%# end %>
+        </p>-->
+      <%# end %>
+      <div class="clear"><!-- Ensure all floating material ends with end of post --></div>
+    </div>
+
+    <%# unless post.attachments.empty? %>
+      <!--<div class="post-attachments">
+      <%# post.attachments.order(:filename => :asc).each do |attachment| %>
+        <div class="post-attachment">
+          <div class="attachment-icon">--><!-- for screenreaders not an <img> --><!--</div>
+          <p>
+            <strong><%# I18n.t("posts.attachment") %></strong> <%# link_to(attachment.filename, attachment.full_uri) %> (<%# readable_bytesize(File.size(attachment.full_path)) %>)
+          </p>
+
+          <%# if attachment.image? %>
+            <%# link_to image_tag(attachment.full_uri, :alt => attachment.filename), attachment.full_uri, :class => "attachment-preview" %>
+          <%# end %>
+          <div class="attachment-description">
+            <%# attachment.description.blank? ? content_tag("p", I18n.t("posts.no_attachment_description")) : simple_format(attachment.description) %>
+          </div>
+        </div>
+      <%# end %>
+      </div>
+    <%# end %>-->
+  </div>
+</div>
+
+<%# Recurse %>
+<% post.replies.each do |reply| %>
+  <%= erb :_post, :locals => {:post => reply, :forum => forum, :level => level + 1} %>
+<% end %>
