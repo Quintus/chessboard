@@ -21,4 +21,9 @@ module Chessboard::Helpers
     halt 400 unless logged_in?
   end
 
+  # Escape HTML content in +str+.
+  def h(str)
+    CGI.escapeHTML(str)
+  end
+
 end
