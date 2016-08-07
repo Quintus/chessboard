@@ -16,6 +16,7 @@ task :create_tables do
     String :jabber_id
     String :pgp_key
     String :signature
+    String :title,              :null => false
     TrueClass :hide_status,     :default => false
     TrueClass :hide_email,      :default => false
     TrueClass :auto_watch,      :default => false

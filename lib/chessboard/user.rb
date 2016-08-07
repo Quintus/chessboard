@@ -1,5 +1,5 @@
 class Chessboard::User < Sequel::Model
-  one_to_many :posts
+  one_to_many :posts, :key => :author_id
 
   # E-Mail address of the Guest user.
   GUEST_EMAIL = "guest@chessboard.invalid".freeze
@@ -97,11 +97,9 @@ class Chessboard::User < Sequel::Model
   private
 
   def before_create
-    unless self[:display_name]
-      self[:display_name] = self[:email].split("@")[0]
-    end
-
-    self[:created_at] = Time.now
+    self[:display_name] ||= self[:email].split("@")[0]
+    self[:created_at]   ||= Time.now
+    self[:title]        ||= Chessboard::Configuration[:default_user_title]
 
     super
   end
