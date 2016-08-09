@@ -29,6 +29,9 @@ module Chessboard::Helpers
   # Process +str+ as markdown and return the corresponding HTML.
   # Note that line breaks in the input are *preserved*!
   def process_markup(str)
+    # Remove emailish newlines
+    str.gsub!("\r\n", "\n")
+
     # Remove inline PGP. We cannot usefully include it because we
     # display the mail signature as a distinct element. This does not
     # hurt because people can still view the raw content if they want
