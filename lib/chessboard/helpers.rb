@@ -1,3 +1,4 @@
+# coding: utf-8
 # This module encapsulates the chessboard-specific helper methods that
 # are available in the main sinatra router and the views.
 module Chessboard::Helpers
@@ -29,7 +30,7 @@ module Chessboard::Helpers
   # Process +str+ as markdown and return the corresponding HTML.
   # Note that line breaks in the input are *preserved*!
   def process_markup(str)
-    # Remove emailish newlines
+    # Remove emailish newlines (breaks regular expressions using only \n)
     str.gsub!("\r\n", "\n")
 
     # Remove inline PGP. We cannot usefully include it because we
@@ -53,8 +54,26 @@ module Chessboard::Helpers
     # Obsure email addresses
     str.gsub!(/@[a-z0-9\.]+?\.\w+/i, "@xxxxxxxxxx")
 
+    # Email quotes often come directly after the "on xy, abc wrote:" or similar
+    # origin line without a space. That's invalid markdown (making parsers not
+    # recognise that as a quote), so fix it by inserting the missing newline.
+    newstr = ""
+    lines = str.lines
+    lines.each_with_index do |line, index|
+      if line.start_with?(">")
+        if !lines[index-1].strip.empty? && !lines[index-1].start_with?(">")
+          newstr << "\n" << line
+        else
+          newstr << line
+        end
+      else
+        newstr << line
+      end
+    end
+
     # Center lines with more than 4 spaces at the beginning, unless
     # preceeded by a line with 4 spaces.
+    str = newstr
     newstr = ""
     encountered_4_spaces = false
     str.lines.each do |line|
