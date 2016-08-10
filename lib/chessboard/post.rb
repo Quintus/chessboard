@@ -1,9 +1,14 @@
 # coding: utf-8
 class Chessboard::Post < Sequel::Model
+  plugin :rcte_tree
   many_to_one :forum
   many_to_one :author, :class => Chessboard::User
-  many_to_one :parent,  :class => self
-  one_to_many :replies, :key => :parent_id, :class => self
+
+  # The rcte_tree plugin creates methods #parent and #children.
+  # For readability, here's an alias for children that fits
+  # the semantic context better. Likewise for thread starter.
+  alias replies children
+  alias thread_starter root
 
   class << self
 
@@ -173,20 +178,7 @@ class Chessboard::Post < Sequel::Model
   # Checks if this post is a thread starter and returns true if so,
   # false otherwise. A thread starter is a post with no parent posts.
   def thread_starter?
-    !!parent
-  end
-
-  # Returns the Post instance that was the thread starter of the
-  # thread this post is a part of. Returns self if this post is
-  # a thread starter.
-  def thread_starter
-    post = self
-    loop do
-      break unless post.parent
-      post = post.parent
-    end
-
-    post
+    !parent
   end
 
   # Debugging method for printing the entire thread to the
@@ -198,14 +190,6 @@ class Chessboard::Post < Sequel::Model
     post.replies.each do |child_post|
       print_thread(level + 1, child_post)
     end
-  end
-
-  # Returns an array (not dataset) of ALL replies in this thread. Makes
-  # multiple queries to the database, so use with care.
-  def recursive_replies
-    children = replies
-    children.each{ |reply| children.concat(reply.recursive_replies) }
-    children
   end
 
   # Returns the title with the [list-tag] removed, if one was configured.
