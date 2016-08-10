@@ -104,6 +104,7 @@ end
 
 # Now load the rest of the library
 require_relative "chessboard/ldap"
+require_relative "chessboard/email_document"
 require_relative "chessboard/user"
 require_relative "chessboard/forum"
 require_relative "chessboard/post"
