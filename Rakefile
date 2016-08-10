@@ -20,6 +20,7 @@ task :create_tables do
     TrueClass :hide_status,     :default => false
     TrueClass :hide_email,      :default => false
     TrueClass :auto_watch,      :default => false
+    TrueClass :administrator,   :default => false
     Integer   :view_mode_ident, :default => Chessboard::User::VIEWMODE2IDENT[:default]
     DateTime :created_at
   end

@@ -19,7 +19,7 @@
 
     <div id="login-info">
       <% if logged_in? %>
-	<%= t.general.logged_in :nick => logged_in_user.display_name %>
+	<%= t.general.logged_in logged_in_user.display_name %>
       <% else %>
 	<%= t.general.not_logged_in %>
       <% end %>

@@ -62,16 +62,16 @@ class Chessboard::User < Sequel::Model
   # to the LDAP (depending on the configuration). Returns true
   # on success, false otherwise.
   def authenticate(password)
-    if Chessboard::Configuration.ldap
+    if Chessboard::Configuration[:ldap]
       ldap = Chessboard::LDAP.new(self[:email], password)
       if ldap.bind
         true
       else
-        Chessboard::Application.logger.warn "LDAP authentication failure for user #{self[:email]}: #{ldap.get_operation_result.inspect}"
+        Chessboard.logger.warn "LDAP authentication failure for user #{self[:email]}: #{ldap.get_operation_result.inspect}"
         false
       end
     else # No LDAP, validate against the database
-      BCrypt::Password.new(password) == encrypted_password
+      BCrypt::Password.new(encrypted_password) == password
     end
   end
 
@@ -128,6 +128,8 @@ class Chessboard::User < Sequel::Model
       raise(ArgumentError, "Invalid view mode #{val}")
     end
   end
+
+  alias admin? administrator
 
   private
 

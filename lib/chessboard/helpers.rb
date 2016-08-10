@@ -5,7 +5,7 @@ module Chessboard::Helpers
 
   # Returns true if the user is logged in, false otherwise.
   def logged_in?
-    !!session["email"]
+    !!session["user"]
   end
 
   # If a user is logged in (see #logged_in?), returns the User
@@ -13,7 +13,7 @@ module Chessboard::Helpers
   def logged_in_user
     return nil unless logged_in?
 
-    User.first(:email => session["email"])
+    Chessboard::User[session["user"].to_i]
   end
 
   # Convenience method for calling Sinatra's halt method

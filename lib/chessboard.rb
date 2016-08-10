@@ -70,7 +70,13 @@ module Chessboard
       halt 400 unless user
       halt 400 unless user.authenticate(params["password"])
 
-      session["user"] = user.email
+      session["user"] = user.id
+      redirect "/"
+    end
+
+    get "/logout" do
+      halt 400 unless logged_in?
+      session["user"] = nil
       redirect "/"
     end
 

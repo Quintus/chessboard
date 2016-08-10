@@ -7,7 +7,7 @@ general:
   nickname: "Nickname"
   email: "E-Mail address"
   not_logged_in: "You are not logged in."
-  logged_in: "You are logged in as %{nick}."
+  logged_in: "You are logged in as %1."
   index: "Index"
   register: "Register"
   create: "Create"
