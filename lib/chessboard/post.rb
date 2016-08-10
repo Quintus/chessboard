@@ -128,14 +128,44 @@ class Chessboard::Post < Sequel::Model
     # parent post. Returns nil if none was found or the header
     # was not set in the mail.
     def find_parent_post(mail)
+      # 1. Try In-Reply-To: header
       if mail.in_reply_to
-        Chessboard::Post.where(:message_id => mail.in_reply_to).first
-      else
-        # No "In-Reply-To" header, no thread starter.
-        # Do not support broken mail clients that do
-        # not set this header when replying.
-        nil
+        if post = Chessboard::Post.where(:message_id => mail.in_reply_to).first
+          return post
+        end
       end
+
+      # 2. Try References: header (which may either be a string in case
+      # of a single reference, or an array in case of a reply later down
+      # the thread).
+      if mail.references
+        if mail.references.kind_of?(Array)
+          mail.references.reverse_each do |msgid| # Newest msgid comes last
+            if post = Chessboard::Post.where(:message_id => msgid).first
+              return post
+            end
+          end
+        elsif post = Chessboard::Post.where(:message_id => mail.references.to_str).first
+          return post
+        end
+      end
+
+      # 3. Try Subject: header
+      if mail.subject.strip =~ /^(Re:|Fw:|Fwd:)\s?(.*)$/
+        # Try to find the original post without "Re:" or "Fw:".
+        # This will mark it as a direct reply to the OP rather than
+        # what it was a reply to exactly, but better than nothing.
+        if post = Chessboard::Post.where(:title => $2).first
+          return post
+        else
+          # An "Re:" without an original post? May come as a reply from another
+          # ML, but still unusual enough to log it.
+          Chessboard.logger.warn("Reply to nonexistant thread: <#{mail.message_id}> #{mail.subject}")
+        end
+      end
+
+      # 4. Give up. Treat as a thread starter.
+      nil
     end
 
   end
