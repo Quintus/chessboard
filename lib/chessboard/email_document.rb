@@ -57,69 +57,48 @@ class Chessboard::EmailDocument < Kramdown::Document
     str.sub!(/^-- ?$(.*)\z/m, "")
     signature = $1 ? "\n\n~~~~~~~~~~\n#{$1.strip}\n~~~~~~~~~~\n{:.signature}" : ""
 
+    # Ensure links on footer are referenced with proper colons, otherwise
+    # it is invalid markdown.
+    str.gsub!(/^\[(\d)\][^:]\s?((http:|https:|ftp:).*)$/) { "[#$1]: #$2" }
+    str.gsub!(/([^\[\]\s]+)\[(\d+)\]/, '[\1][\2]')
+
     # Fix links not surrounded with angle brackets.
     # Link reference definitions need to be excluded.
     str.gsub!(/(?<!\]:)([^<])(http|https|ftp):\/\/(.+)([^>])/, '\1<\2://\3>\4')
 
-    # Obsure email addresses
+    # Obscure email addresses
     str.gsub!(/@[a-z0-9\.]+?\.\w+/i, "@xxxxxxxxxx")
 
-    # Email quotes often come directly after the "on xy, abc wrote:" or similar
-    # origin line without a space. That's invalid markdown (making parsers not
-    # recognise that as a quote), so fix it by inserting the missing newline.
+    # Line-by-line processing
     newstr = ""
     lines = str.lines
-    lines.each_with_index do |line, index|
-      if line.start_with?(">")
-        if !lines[index-1].strip.empty? && !lines[index-1].start_with?(">")
-          newstr << "\n" << line
-        else
-          newstr << line
-        end
-      else
-        newstr << line
-      end
-    end
-
-    # Center lines with more than 4 spaces at the beginning, unless
-    # preceeded by a line with 4 spaces.
-    str = newstr
-    newstr = ""
     encountered_4_spaces = false
-    str.lines.each do |line|
+    lines.each_with_index do |line, index|
+      # Email quotes often come directly after the "on xy, abc wrote:" or similar
+      # origin line without a space. That's invalid markdown (making parsers not
+      # recognise that as a quote), so fix it by inserting the missing newline.
+      if line.start_with?(">") && !lines[index-1].strip.empty? && !lines[index-1].start_with?(">")
+          newstr << "\n"
+      end
+
+      # Center lines with more than 4 spaces at the beginning, unless
+      # preceeded by a line with 4 spaces.
       if line =~ /^( {4,})(.*)$/
         if $1.length == 4
           encountered_4_spaces = true
-        else
-          if encountered_4_spaces
-            newstr << line
-          else
-            newstr << "#{line.strip}\n{:.center}\n\n"
-          end
-          next
+        elsif !encountered_4_spaces
+          newstr << "#{line.strip}\n{:.center}\n\n"
+          next # Line completely processed and appended. Do not append it again
         end
       else
         encountered_4_spaces = false
       end
 
+      # Add processed line
       newstr << line
     end
 
-    str = newstr
-    newstr = ""
-
-    # Ensure links on footer are referenced with proper colons, otherwise
-    # it is invalid markdown.
-    str.lines.each do |line|
-      if line =~ /^\[(\d)\][^:]\s?((http:|https:|ftp:).*)$/
-        newstr << "[#$1]: #$2\n"
-      else
-        # Fix incomplete references
-        newstr << line.gsub(/([^\[\]\s]+)\[(\d+)\]/, '[\1][\2]')
-      end
-    end
-
-    newstr = newstr + signature
+    newstr + signature
   end
 
 end
