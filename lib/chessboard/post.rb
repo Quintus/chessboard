@@ -168,7 +168,7 @@ class Chessboard::Post < Sequel::Model
       nil
     end
 
-  end
+  end # class << self
 
   # Checks if this post is a thread starter and returns true if so,
   # false otherwise. A thread starter is a post with no parent posts.
@@ -206,6 +206,15 @@ class Chessboard::Post < Sequel::Model
     children = replies
     children.each{ |reply| children.concat(reply.recursive_replies) }
     children
+  end
+
+  # Returns the title with the [list-tag] removed, if one was configured.
+  def pretty_title
+    if forum.ml_tag
+      title.sub(/#{Regexp.escape(forum.ml_tag)}\s?/, "")
+    else
+      title
+    end
   end
 
   private

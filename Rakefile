@@ -29,6 +29,7 @@ task :create_tables do
     String   :name,        :null => false
     String   :description, :null => false
     String   :mailinglist, :null => false
+    String   :ml_tag
     Integer  :ordernum,    :default => 0
     DateTime :created_at
   end
@@ -82,12 +83,14 @@ namespace :forums do
     name        = query(:name, "Name of the new forum: ")
     description = query(:desc, "One-line description of this forum: ")
     ml          = query(:ml, "Name of the mailinglist to mirror: ")
+    ml_tag      = query(:ml_tag, "[mailinglist-tag] to remove from title (optional): ", nil)
     ordernum    = query(:ordernum, "Orderung number for this forum (optional): ", -1).to_i
 
     f = Chessboard::Forum.new
     f.name = name
     f.description = description
     f.mailinglist = ml
+    f.ml_tag = ml_tag if !ml_tag.nil? && !ml_tag.empty?
     f.ordernum = ordernum if ordernum >= 0
     f.save
 
