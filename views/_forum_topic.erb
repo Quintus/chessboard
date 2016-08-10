@@ -46,7 +46,7 @@
       image = "/images/icons/topic_normal_read.png"
   end
 
-    threadurl = "/forums/#{@forum[:id]}/threads/#{thread_starter.id}"
+    threadurl = post_url(thread_starter)
   if defined?(urlquerystr)
     threadurl += "?#{urlquerystr}"
   end
@@ -68,11 +68,11 @@
       </ul>
     <% end %>
   </td>
-  <% all_replies = thread_starter.descendants.sort{|a, b| b.created_at <=> a.created_at} %>
+  <% all_replies = thread_starter.all_replies %>
   <td class="list-replies numbercell"><%= all_replies.count %></td>
   <td class="list-views numbercell"><%= thread_starter.views %></td>
   <td class="forumlastpost">
-    <%= l (all_replies.empty? ? thread_starter : all_replies.first).created_at %><br/>
+    <%= l (all_replies.empty? ? thread_starter : all_replies.last).created_at %><br/>
     <%= t.forums.author_by %> <a href="/users/<%= thread_starter.author.id %>"><%= thread_starter.author.display_name %></a>
   </td>
 </tr>

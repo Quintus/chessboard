@@ -4,6 +4,19 @@ class Chessboard::User < Sequel::Model
   # E-Mail address of the Guest user.
   GUEST_EMAIL = "guest@chessboard.invalid".freeze
 
+  # Possible configuration options for viewing a thread. :default
+  # means to defer to the +default_view_mode+ global configuration
+  # setting. The values are the integers under which the modes
+  # are stored in the database.
+  VIEWMODE2IDENT = {
+    :default => 0,
+    :threads => 1,
+    :topics => 2
+  }.freeze
+
+  # Invert of VIEWMODE2IDENT.
+  IDENT2VIEWMODE = VIEWMODE2IDENT.invert.freeze
+
   # Returns the user representing "guests". This is a placeholder
   # user not used under normal circumstances, but comes into play
   # if users delete their accounts.
@@ -92,6 +105,28 @@ class Chessboard::User < Sequel::Model
   # Dataset for all thread starter posts this user made.
   def threads
     posts_dataset.where(:parent_id => nil)
+  end
+
+  # Convenience method for getting view_mode_ident via
+  # IDENT2VIEWMODE. Never returns :default; if that
+  # mode is set, returns the global default.
+  def view_mode
+    view_mode = IDENT2VIEWMODE[view_mode_ident]
+    if view_mode == :default
+      Chessboard::Configuration[:default_view_mode]
+    else
+      view_mode
+    end
+  end
+
+  # Convenience method for setting view_mode_ident via
+  # VIEWMODE2IDENT.
+  def view_mode=(val)
+    if VIEWMODE2IDENT.has_key?(val)
+      self.view_mode_ident = VIEWMODE2IDENT[val]
+    else
+      raise(ArgumentError, "Invalid view mode #{val}")
+    end
   end
 
   private

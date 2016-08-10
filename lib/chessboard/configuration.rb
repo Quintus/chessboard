@@ -71,6 +71,7 @@ module Chessboard
     config_setting :default_user_title, "Member"
     config_setting :admin_email
     config_setting :sendmail_path, "sendmail"
+    config_setting :default_view_mode, :threads
 
     # This namespace contains pre-made configuration snippets for
     # certain mailinglist software.

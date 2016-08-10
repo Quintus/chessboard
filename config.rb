@@ -50,6 +50,12 @@ Chessboard::Configuration.create do |config|
   # Users without a specifically assigned title gain this title.
   default_user_title "Member"
 
+  # How threads are displayed to the user by default. Users
+  # not logged in will see the post by this mode only, unless
+  # they directly follow another URL. :threads means an email-like
+  # threaded view, :topics a forum-typical list of posts.
+  default_view_mode :topics
+
   # If this is set to :file, logs are written to the file
   # given with the log_file parameter. If this is :syslog,
   # messages are sent to syslog on facility specified with log_facility.

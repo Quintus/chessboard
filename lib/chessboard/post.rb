@@ -201,6 +201,12 @@ class Chessboard::Post < Sequel::Model
     end
   end
 
+  # Similar to #descendants, but does not return the array in logical order,
+  # but sorted by created_at dates, with the oldest reply first.
+  def all_replies
+    descendants.sort{|a, b| a.created_at <=> b.created_at}
+  end
+
   private
 
   def before_create

@@ -34,4 +34,17 @@ module Chessboard::Helpers
     k.to_html
   end
 
+  # Return a URL to this post, adapting to the user's configuration
+  # view mode if available, otherwise defaulting to the global default
+  # view mode.
+  def post_url(post)
+    view_mode = Chessboard::Configuration[:default_view_mode]
+
+    if logged_in?
+      view_mode = logged_in_user.view_mode
+    end
+
+    "/forums/#{post.forum.id}/#{view_mode}/#{post.id}"
+  end
+
 end

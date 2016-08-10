@@ -89,6 +89,16 @@ module Chessboard
       erb :forum
     end
 
+    get "/forums/:forum_id/topics/:id" do
+      @root_post = Post[params["id"].to_i]
+      @forum     = Forum[params["forum_id"].to_i]
+      halt 404 unless @forum
+      halt 404 unless @root_post
+      halt 400 unless @root_post.forum == @forum
+
+      erb :topic
+    end
+
     get "/forums/:forum_id/threads/:id" do
       @root_post = Post[params["id"].to_i]
       @forum     = Forum[params["forum_id"].to_i]

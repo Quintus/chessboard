@@ -2,7 +2,11 @@
 <h1><%= h @root_post.title %></h1>
 
 <div class="topic">
-  <%= erb :_post, :locals => {:post => @root_post, :forum => @forum, :level => 0} %>
+  <%= erb :_post, :locals => {:post => @root_post, :forum => @forum, :recurse => false} %>
+
+  <% @root_post.all_replies.each do |reply| %>
+    <%= erb :_post, :locals => {:post => reply, :forum => @forum, :recurse => false} %>
+  <% end %>
 </div>
 
 <ul class="topic-actions">
