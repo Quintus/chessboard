@@ -204,7 +204,7 @@ class Chessboard::Post < Sequel::Model
   # Similar to #descendants, but does not return the array in logical order,
   # but sorted by created_at dates, with the oldest reply first.
   def all_replies
-    descendants.sort{|a, b| a.created_at <=> b.created_at}
+    descendants_dataset.order(Sequel.asc(:created_at))
   end
 
   private
