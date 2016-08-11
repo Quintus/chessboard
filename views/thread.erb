@@ -1,12 +1,9 @@
 <p class="post-forum"><a href="/forums/<%= @forum.id %>"><%= @forum.name %></a></p>
 <h1><%= h @root_post.title %></h1>
 
-<div class="topic">
+<div class="topic thread">
   <%= erb :_post, :locals => {:post => @root_post, :forum => @forum, :recurse => false} %>
 
-  <% @root_post.all_replies.each do |reply| %>
-    <%= erb :_post, :locals => {:post => reply, :forum => @forum, :recurse => false} %>
-  <% end %>
 </div>
 
 <ul class="topic-actions">
@@ -21,3 +18,7 @@
 </ul>
 
 <div class="clear"></div>
+
+<div class="thread-tree">
+  <%= erb :_thread_tree_post, :locals => {:post => @root_post, :forum => @forum} %>
+</div>

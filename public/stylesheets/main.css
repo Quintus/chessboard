@@ -9,6 +9,7 @@
 html {
     font-family: Helvetica, sans-serif;
     font-size: 14px;
+    background-color: #FFFFFF;
 }
 
 
@@ -438,13 +439,36 @@ ul.vlist li {
 
 .search-results ul {
     list-style-type: none;
-    padding: 0px;
+    padding-left: 30px;
 }
 
 .search-results ul li {
     display: inline;
     margin-left: 4px;
 }
+
+.thread-tree ul {
+    list-style-type: none;
+    background: url("/images/misc/vline.png") repeat-y;
+    margin: 0px;
+    padding: 0px;
+}
+
+.thread-tree ul ul {
+    margin-left: 10px;
+}
+
+.thread-tree ul li {
+    margin: 0px;
+    padding: 0px 12px;
+    line-height: 20px;
+    background: url("/images/misc/node.png") no-repeat;
+}
+
+.thread-tree ul li:last-child {
+    background: #FFFFFF url("/images/misc/lastnode.png") no-repeat;
+}
+
 
 /******** Spoiler **********/
 

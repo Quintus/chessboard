@@ -1,0 +1,10 @@
+<%# Template expects that "post" itself is already displayed. %>
+
+<ul>
+  <% post.replies.each do |reply| %>
+    <li>
+      <a href="<%= post_url(reply) %>"><%= reply.title %></a>
+      <%= erb :_thread_tree_post, :locals => {:post => reply, :forum => forum} %>
+    </li>
+  <% end %>
+</ul>
