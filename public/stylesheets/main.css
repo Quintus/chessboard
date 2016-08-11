@@ -428,6 +428,10 @@ ul.vlist li {
     margin: 0px 4px 0px 4px;
 }
 
+.post-title {
+    margin-left: 20px;
+}
+
 .mods {
     font-style: italic;
     font-size: small;
