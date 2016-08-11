@@ -15,7 +15,7 @@
   </thead>
   <tbody>
     <%# partial "topics/forum_topic", :collection => @topics[:announcements] %>
-    <% @forum.thread_starters.each do |post| %>
+    <% @thread_starters.each do |post| %>
       <%= erb  :_forum_topic, :locals => {:thread_starter => post} %>
     <% end %>
   </tbody>

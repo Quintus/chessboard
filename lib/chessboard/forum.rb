@@ -8,6 +8,7 @@ class Chessboard::Forum < Sequel::Model
   end
 
   # Returns a dataset with those Post instances that are thread starters.
+  # The neweest thread starter comes first.
   def thread_starters
     posts_dataset.where(:parent_id => nil).order(:created_at).reverse
   end

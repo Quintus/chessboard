@@ -89,8 +89,16 @@ module Chessboard
       @forum = Forum[params["id"].to_i]
       halt 404 unless @forum
 
-      @total_pages = 1
-      @current_pages = 1
+      tpp = Chessboard::Configuration[:threads_per_page]
+      @total_pages = (@forum.thread_starters.count.to_f / tpp.to_f).ceil
+
+      if params["page"].to_i > 0
+        @current_page = params["page"].to_i
+      else
+        @current_page = 1
+      end
+
+      @thread_starters = @forum.thread_starters.offset(tpp * (@current_page - 1)).limit(tpp)
 
       erb :forum
     end
