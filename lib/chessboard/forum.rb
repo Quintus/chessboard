@@ -13,6 +13,12 @@ class Chessboard::Forum < Sequel::Model
     posts_dataset.where(:parent_id => nil).order(:created_at).reverse
   end
 
+  # Return a dataset of all sticky posts in this forum. Newest
+  # one comes first.
+  def stickies
+    posts_dataset.where(:sticky => true).order(:created_at).reverse
+  end
+
   # Clear all posts from this forum and resynchronise it with the
   # mailinglist. This executes the load_:ml_mails configuration hook
   # passing it this forums +mailinglist+ attribute and passes each

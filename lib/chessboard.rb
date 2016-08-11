@@ -98,7 +98,14 @@ module Chessboard
         @current_page = 1
       end
 
-      @thread_starters = @forum.thread_starters.offset(tpp * (@current_page - 1)).limit(tpp)
+      @announcements   = Chessboard::Post.announcements
+      @stickies        = @forum.stickies
+      @thread_starters = @forum
+                         .thread_starters
+                         .exclude(:id => @announcements.map(:id))
+                         .exclude(:id => @stickies.map(:id))
+                         .offset(tpp * (@current_page - 1))
+                         .limit(tpp)
 
       erb :forum
     end

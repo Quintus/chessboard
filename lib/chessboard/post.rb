@@ -78,6 +78,11 @@ class Chessboard::Post < Sequel::Model
       Chessboard::Post.where(:parent_id => nil)
     end
 
+    # Return all announcements, newest one first.
+    def announcements
+      Chessboard::Post.where(:announcement => true).order(Sequel.desc(:created_at))
+    end
+
     private
 
     # Extract the author from the mail and return the matching
@@ -206,6 +211,10 @@ class Chessboard::Post < Sequel::Model
   def all_replies
     descendants_dataset.order(Sequel.asc(:created_at))
   end
+
+  # Convenience aliases
+  alias announcement? announcement
+  alias sticky? sticky
 
   private
 
