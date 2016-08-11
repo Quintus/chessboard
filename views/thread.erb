@@ -1,5 +1,5 @@
 <p class="post-forum"><a href="/forums/<%= @forum.id %>"><%= @forum.name %></a></p>
-<h1><%= h @root_post.title %></h1>
+<h1><%= h @root_post.pretty_title %></h1>
 
 <div class="topic thread">
   <%= erb :_post, :locals => {:post => @root_post, :forum => @forum, :recurse => false} %>
