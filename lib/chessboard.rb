@@ -117,6 +117,31 @@ module Chessboard
       halt 404 unless @root_post
       halt 400 unless @root_post.forum == @forum
 
+      ppp = Chessboard::Configuration[:posts_per_page]
+      @total_pages = ((1 + @root_post.all_replies.count.to_f) / ppp.to_f).ceil # +1 for the root post
+
+      if params["page"].to_i > 0
+        @current_page = params["page"].to_i
+      else
+        @current_page = 1
+      end
+
+      # On the first page, the root post is displayed; it is not part
+      # of "all_replies", hence this must be treated specifically by
+      # only fetching ppp-1 replies to get the exact number of posts
+      # requested on a page. For the the following pages this means
+      # that the offset must be calculated from where it was left off
+      # (-1).
+      if @current_page == 1
+        @posts = [@root_post]
+        @posts += @root_post.all_replies.limit(ppp - 1).to_a
+      else
+        @posts = @root_post
+                 .all_replies
+                 .offset(ppp * (@current_page - 1) - 1)
+                 .limit(ppp)
+      end
+
       erb :topic
     end
 

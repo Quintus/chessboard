@@ -24,6 +24,11 @@ Chessboard::Configuration.create do |config|
   # viewing the index page of a forum.
   threads_per_page 15
 
+  # How many posts should be displayed on a page when viewing a topic.
+  # This value has no effect for the thread view, which cannot be
+  # paginated due to the way it works.
+  posts_per_page 10
+
   # Some persons have the annoying habit to send HTML-only email.
   # For these messages, Chessboard invokes the program
   # specified with this option and reads the result from

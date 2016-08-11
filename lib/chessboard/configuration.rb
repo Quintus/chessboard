@@ -55,6 +55,7 @@ module Chessboard
     config_setting :board_subtitle
     config_setting :database_url
     config_setting :threads_per_page, 15
+    config_setting :posts_per_page, 10
     config_setting :ldap, false
     config_setting :ldap_host
     config_setting :ldap_port, 389
