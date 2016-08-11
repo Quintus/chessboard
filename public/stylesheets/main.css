@@ -385,8 +385,15 @@ ul.vlist li {
 .quickreply-form h2 { margin-top: 0px; }
 
 .topic-actions {
+    list-style-type: none;
     margin-top: 4px;
+    padding: 0px;
     text-align: right;
+}
+
+.topic-actions li {
+    display: inline;
+    margin-left: 4px;
 }
 
 .topic-pages-topic {
@@ -395,6 +402,12 @@ ul.vlist li {
 
 .topic-pages-forum {
     display: inline;
+}
+
+/* Hide by default -- these are shown using JavaScript because their
+ * functionality only works with JavaScript. */
+.topic-actions li.expand-all, .topic-actions li.collapse-all {
+    display: none;
 }
 
 .topic-pagse-forum li:first-child { margin-left: 0px; }
@@ -474,13 +487,16 @@ ul.vlist li {
     margin-bottom: 12px;
 }
 
-.open-this {
+/* .open-this {
     margin: 0px 0px 0px 10px;
     padding: 0px;
     display: inline-block;
     width: 16px;
     height: 16px;
     background: url("/images/icons/thread_closed.png");
+} */
+.topic-actions-thread {
+    text-align: left;
 }
 
 /******** Spoiler **********/

@@ -110,6 +110,8 @@ users:
     reset: "A new password has been emailed to you."
 topics:
   reply: "Post Reply"
+  expand_all: "Expand all"
+  collapse_all: "Collapse all"
   delete: "Delete Topic"
   deleted: "Topic deleted."
   lock: "Lock Topic"

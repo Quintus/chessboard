@@ -6,7 +6,12 @@
 
 </div>
 
-<ul class="topic-actions">
+<ul class="topic-actions topic-actions-thread">
+  <% unless @root_post.replies.empty? %>
+    <li class="expand-all"><a href="#" class="button-normal"><%= t.topics.expand_all %></a></li>
+    <li class="collapse-all"><a href="#" class="button-normal"><%= t.topics.collapse_all %></a></li>
+  <% end %>
+
   <% if logged_in? %>
 
       <%# if @topic.watchers.include?(env["warden"].user) %>
@@ -19,6 +24,8 @@
 
 <div class="clear"></div>
 
-<div class="thread-tree">
-  <%= erb :_thread_tree_post, :locals => {:post => @root_post, :forum => @forum} %>
-</div>
+<% unless @root_post.replies.empty? %>
+  <div class="thread-tree">
+    <%= erb :_thread_tree_post, :locals => {:post => @root_post, :forum => @forum} %>
+  </div>
+<% end %>
