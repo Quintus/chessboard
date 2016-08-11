@@ -460,7 +460,7 @@ ul.vlist li {
 
 .thread-tree ul li {
     margin: 0px;
-    padding: 0px 12px;
+    padding: 0px 0px 0px 12px;
     line-height: 20px;
     background: url("/images/misc/node.png") no-repeat;
 }
@@ -469,6 +469,10 @@ ul.vlist li {
     background: #FFFFFF url("/images/misc/lastnode.png") no-repeat;
 }
 
+.intree-post {
+    display: none;
+    margin-bottom: 12px;
+}
 
 /******** Spoiler **********/
 

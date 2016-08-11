@@ -3,7 +3,11 @@
 <ul>
   <% post.replies.each do |reply| %>
     <li>
-      <a href="<%= post_url(reply) %>"><%= reply.title %></a>
+      <%# Forced thread view is intended. %>
+      <a href="/forums/<%= @forum.id %>/threads/<%= reply.id %>"><%= reply.title %></a>
+      <div class="intree-post">
+	<%= erb :_post, :locals => {:post => reply, :forum => forum} %>
+      </div>
       <%= erb :_thread_tree_post, :locals => {:post => reply, :forum => forum} %>
     </li>
   <% end %>
