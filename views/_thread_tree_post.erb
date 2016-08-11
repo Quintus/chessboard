@@ -4,7 +4,7 @@
   <% post.replies.each do |reply| %>
     <li>
       <%# Forced thread view is intended. %>
-      <a href="/forums/<%= @forum.id %>/threads/<%= reply.id %>"><%= reply.title %></a>
+      <a class="thread-tree-link" href="/forums/<%= @forum.id %>/threads/<%= reply.id %>"><%= reply.title %></a>
       <div class="intree-post">
 	<%= erb :_post, :locals => {:post => reply, :forum => forum} %>
       </div>
