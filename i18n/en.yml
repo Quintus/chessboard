@@ -8,6 +8,7 @@ general:
   email: "E-Mail address"
   not_logged_in: "You are not logged in."
   logged_in: "You are logged in as %1."
+  logged_in_successfully: "You logged in successfully."
   index: "Index"
   register: "Register"
   create: "Create"
@@ -155,6 +156,7 @@ topics:
     will be the first post of the new topic.
 settings:
   settings: "Settings"
+  updated: Your settings have been updated.
   titles:
     hide_status: Hide status
     hide_email: Hide email

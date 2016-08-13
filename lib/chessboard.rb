@@ -73,6 +73,7 @@ module Chessboard
       halt 400 unless user
       halt 400 unless user.authenticate(params["password"])
 
+      message t.general.logged_in_successfully
       session["user"] = user.id
       redirect "/"
     end
@@ -184,7 +185,7 @@ module Chessboard
       # TODO: Rescue validation error
       @user.save
 
-      # TODO: Message for the user
+      message t.settings.updated
       redirect "/settings"
     end
 
