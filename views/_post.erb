@@ -37,16 +37,16 @@
     <div class="post-text">
       <%# flash_tag :postalert, :class => "flash alert" if flash[:postid] == post.id %>
       <%= process_markup(post.content) %>
-      <%# if env["warden"].authenticated? && env["warden"].user.privileged? %>
-        <!--<p class="post-ip">
+      <% if logged_in? && logged_in_user.admin? %>
+        <p class="post-ip">
           IP:
-          <%# if post.ip.blank? %>
-            <%# I18n.t("posts.no_ip") %>
-          <%# else %>
-            <#= post.ip %>
-          <%# end %>
-        </p>-->
-      <%# end %>
+          <% if post.ip.to_s.empty? %>
+            <%= t.posts.no_ip %>
+          <% else %>
+            <%= post.ip %>
+          <% end %>
+        </p>
+      <% end %>
       <div class="clear"><!-- Ensure all floating material ends with end of post --></div>
     </div>
 
