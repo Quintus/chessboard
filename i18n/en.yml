@@ -109,6 +109,8 @@ users:
       See this as your friendly reminder to use a password
       manager program.
     reset: "A new password has been emailed to you."
+  # ALT attribute text in user avatar <img> tag
+  avatar_alt: User avatar
 topics:
   reply: "Post Reply"
   expand_all: "Expand all"

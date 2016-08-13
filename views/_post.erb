@@ -5,9 +5,9 @@
   <div class="post-author">
     <p class="author-name"><a href="/users/<%= post.author.id %>"><%= post.author.display_name %></a></p>
     <p class="author-membership"><%= post.author.title %></p>
-    <%# if post.author.avatar_link %>
-      <!--<p class="author-avatar"><%# image_tag post.author.avatar_link, :alt => "User avatar" %></p>-->
-    <%# end %>
+    <% if post.author.avatar? %>
+      <p class="author-avatar"><img src="<%= post.author.avatar_url %>" alt="<%= t.users.avatar_alt %>"/></p>
+    <% end %>
     <p class="author-registered"><%= t.users.registered %>: <%= l post.author.created_at %></p>
     <p class="author-posts"><%= t.users.posts %>: <%= post.author.posts.count %></p>
   </div>
