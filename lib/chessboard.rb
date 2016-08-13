@@ -6,6 +6,7 @@ require "net/ldap"
 require "sequel"
 require "bcrypt"
 require "mail"
+require "mini_magick"
 require "logger"
 require "syslog"
 require "syslog/logger"
@@ -41,6 +42,7 @@ module Chessboard
     configure :development do
       set :logger, Logger.new($stdout)
 
+      MiniMagick.logger = logger
       DB = Sequel.connect("sqlite://#{root}/db/development.db3", :loggers => [logger])
     end
 
@@ -184,6 +186,21 @@ module Chessboard
 
       # TODO: Rescue validation error
       @user.save
+
+      # TODO: Delete avatar option
+      if params["avatar"] && !params["delete_avatar"]
+        begin
+          image = MiniMagick::Image.open(params["avatar"][:tempfile].path)
+          image.resize("80x80") if image.width > 80 || image.height > 80
+          image.format "gif"
+          image.write @user.avatar_path
+        rescue => e
+          alert t.settings.avatar_upload_failed
+          logger.error("#{e.class}: #{e.message}: #{e.backtrace.join("\n\t")}")
+        end
+      elsif params["delete_avatar"]
+        File.delete(@user.avatar_path) if File.file?(@user.avatar_path)
+      end
 
       message t.settings.updated
       redirect "/settings"

@@ -1,3 +1,4 @@
 .bundle
 .gems
 db/
+public/images/avatars/*.gif

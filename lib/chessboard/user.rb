@@ -1,6 +1,10 @@
 class Chessboard::User < Sequel::Model
   one_to_many :posts, :key => :author_id
 
+  # Path below the public/ directory to the directory containing the
+  # avatar images.
+  AVATAR_SUBPATH = "images/avatars".freeze
+
   # E-Mail address of the Guest user.
   GUEST_EMAIL = "guest@chessboard.invalid".freeze
 
@@ -127,6 +131,24 @@ class Chessboard::User < Sequel::Model
     else
       raise(ArgumentError, "Invalid view mode #{val}")
     end
+  end
+
+  # Returns the absolute path to the avatar image of this use. Does
+  # not mean that this has to exist, use #avatar? for that.
+  def avatar_path
+    File.join(Chessboard::Application.root, "public", AVATAR_SUBPATH, "#{id}.gif")
+  end
+
+  # Returns the absolute URL to the avatar image of this user. Does
+  # not mean that this has to exist, call #avatar? for that.
+  def avatar_url
+    "/#{AVATAR_SUBPATH}/#{id}.gif"
+  end
+
+  # Checks if this user has an avatar set and returns true if so,
+  # returns false otherwise.
+  def avatar?
+    File.exists?(avatar_path)
   end
 
   alias admin? administrator

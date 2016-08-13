@@ -10,6 +10,7 @@ gem "sequel"
 gem "mail"
 gem "rake"
 gem "net-ldap"
+gem "mini_magick"
 
 group :development do
   gem "sqlite3"

@@ -157,12 +157,15 @@ topics:
 settings:
   settings: "Settings"
   updated: Your settings have been updated.
+  avatar_upload_failed: Avatar upload failed. Maybe the image format is not supported?
+  delete_avatar: Delete avatar (upload form will be ignored)
   titles:
     hide_status: Hide status
     hide_email: Hide email
     auto_watch: Auto-Watch
     language: Language
     signature: Signature
+    avatar: Avatar
   descriptions:
     hide_status: >
       Activating this option makes your online status invisible
@@ -183,3 +186,7 @@ settings:
       This text is placed below each of your postings and shown
       at the bottom of your profile page. You can use BBCode to
       style it.
+    avatar: >
+      Your avatar is a small graphic that is displayed next to all
+      your posts. Each edge of the image may not be longer than 80
+      pixels. You can use animated GIFs if you want.
