@@ -38,8 +38,12 @@
     <% else %>
     <div id="content">
     <% end %>
-      <%# flash_tag :alert, :class => "flash alert" %>
-      <%# flash_tag :notice, :class => "flash notice" %>
+      <% if alert? %>
+        <p class="flash alert"><%= alert %></p>
+      <% end %>
+      <% if message? %>
+        <p class="flash notice"><%= message %></p>
+      <% end %>
 
       <%= yield %>
 

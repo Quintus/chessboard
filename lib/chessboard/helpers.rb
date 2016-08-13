@@ -34,6 +34,36 @@ module Chessboard::Helpers
     value ? 'checked="checked"' : ""
   end
 
+  # Store +str+ in the user session. Returns it again
+  # if +str+ is ommitted, clearing it from the session.
+  def message(str = nil)
+    if str
+      session[:message] = str
+    else
+      session.delete(:message)
+    end
+  end
+
+  # Checks if #message without an argument would return something
+  # other than nil.
+  def message?
+    !!session[:message]
+  end
+
+  # Like #message, but for other messages, namely alerts.
+  def alert(str = nil)
+    if str
+      session[:alert] = str
+    else
+      session.delete(:alert)
+    end
+  end
+
+  # Like #message?, but for alerts.
+  def alert?
+    !!session[:alert]
+  end
+
   # Process +str+ as markdown and return the corresponding HTML.
   def process_markup(str)
     Chessboard::EmailDocument.debug_preprocessor = true
