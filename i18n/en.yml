@@ -39,7 +39,7 @@ forums:
   author_by: "by"
   new_topic: "New Topic"
 personal:
-  personal_area: "Personal Area"
+  settings: "Settings"
   misc: "Miscellaneous"
   stats: >-
     Since you first signed up on %{signtime}, you have
@@ -153,3 +153,31 @@ topics:
     you give below, and will be placed in the same forum as the old topic
     (you can move it later if you need). The post you selected “split” on
     will be the first post of the new topic.
+settings:
+  settings: "Settings"
+  titles:
+    hide_status: Hide status
+    hide_email: Hide email
+    auto_watch: Auto-Watch
+    language: Language
+    signature: Signature
+  descriptions:
+    hide_status: >
+      Activating this option makes your online status invisible
+      for all other members except moderators and administrators.
+    hide_email: >-
+      If this option is active, your email address will not be shown
+      on your profile page (board staff can still see it).
+    auto_watch: >-
+      Automatically watch all topics you create or reply to.
+    language: >
+      Main board display language. All system messages will be shown
+      to you in this language; it has (of course) no influence on
+      the language other people use in their postings.
+    markup_language: >
+      This is the default markup language that will be selected for
+      new postings you are creating.
+    signature: >
+      This text is placed below each of your postings and shown
+      at the bottom of your profile page. You can use BBCode to
+      style it.

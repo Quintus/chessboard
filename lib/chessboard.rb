@@ -57,6 +57,9 @@ module Chessboard
       DB = Sequel.connect(Configuration.database_url)
     end
 
+    ########################################
+    # General
+
     get "/" do
       redirect "/forums"
     end
@@ -79,6 +82,9 @@ module Chessboard
       session["user"] = nil
       redirect "/"
     end
+
+    ########################################
+    # Forums
 
     get "/forums" do
       @forums = Forum.order(:ordernum)
@@ -153,6 +159,33 @@ module Chessboard
       halt 400 unless @root_post.forum == @forum
 
       erb :thread
+    end
+
+    ########################################
+    # Misc
+
+    get "/settings" do
+      halt 400 unless logged_in?
+
+      @user = logged_in_user
+      erb :settings
+    end
+
+    post "/settings" do
+      halt 400 unless logged_in?
+
+      @user = logged_in_user
+
+      @user.hide_status = params["hide_status"] == "1"
+      @user.hide_email  = params["hide_email"]  == "1"
+      @user.auto_watch  = params["auto_watch"]  == "1"
+      @user.locale      = params["language"] if R18n.available_locales.map(&:code).include?(params["language"])
+
+      # TODO: Rescue validation error
+      @user.save
+
+      # TODO: Message for the user
+      redirect "/settings"
     end
 
   end

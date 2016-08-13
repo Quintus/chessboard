@@ -8,7 +8,7 @@ task :create_tables do
 
     String :email,              :null => false, :unique => true
     String :encrypted_password, :null => false
-    String :locale,             :default => "en_US", :null => false
+    String :locale,             :default => "en", :null => false
     String :homepage
     String :display_name,       :null => false
     String :location

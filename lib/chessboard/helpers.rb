@@ -27,6 +27,13 @@ module Chessboard::Helpers
     CGI.escapeHTML(str)
   end
 
+  # If vaue is trueish, return the string 'checked="checked"', otherwise
+  # return an empty string. This is useful when building forms with
+  # checkboxes to tick them based on a model value.
+  def checked(value)
+    value ? 'checked="checked"' : ""
+  end
+
   # Process +str+ as markdown and return the corresponding HTML.
   def process_markup(str)
     Chessboard::EmailDocument.debug_preprocessor = true
