@@ -29,7 +29,7 @@
     </div>
 
     <% if logged_in? %>
-      <ul class="post-actions">
+      <ul class="vlist post-actions">
 	<li><a href="/forum/<%= forum.id %>/posts/<%= post.id %>/report"><img src="/images/icons/report.png" alt="report this"/>&nbsp;<%= t.reports.report_this %></a></li>
       </ul>
     <% end %>
