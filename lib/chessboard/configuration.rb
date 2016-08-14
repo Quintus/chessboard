@@ -133,7 +133,8 @@ module Chessboard
                     notifier.stop
                   else
                     # Otherwise its a regular email, submit it to the handler.
-                    forum.submit_new_email(event.absolte_name)
+                    Chessboard.logger.info("Processing new message #{event.absolute_name}")
+                    forum.process_new_ml_message(event.absolute_name)
                   end
                 end
                 notifier.run
@@ -158,7 +159,8 @@ module Chessboard
                     new_mails = now_existing_mails - existing_mails
 
                     new_mails.each do |path|
-                      forum.submit_new_email(path)
+                      Chessboard.logger.info("Processing new message #{path}")
+                      forum.process_new_ml_message(path)
                       existing_mails.append(path)
                     end
                   end

@@ -40,12 +40,6 @@ class Chessboard::Forum < Sequel::Model
     Chessboard::Post.create_from_file!(path, self)
   end
 
-  def submit_new_email(path)
-    File.open("/tmp/testlog.log", "a") do |file|
-      puts "[#{Time.now}] #{path}"
-    end
-  end
-
   private
 
   def before_create
