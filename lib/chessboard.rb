@@ -48,16 +48,16 @@ module Chessboard
     end
 
     configure :production do
-      if Config.log == :syslog
+      if Configuration[:log] == :syslog
         # Note: Syslog::Logger.new takes a facility since Ruby 2.1.0. Before
         # it was impossible to specify a facility.
-        set :logger, Syslog::Logger.new("chessboard", Syslog.const_get("LOG_#{Configuration.log_facility.upcase}"))
+        set :logger, Syslog::Logger.new("chessboard", Syslog.const_get("LOG_#{Configuration[:log_facility].upcase}"))
       else
-        set :logger, Logger.new(Configuration.log_file)
+        set :logger, Logger.new(Configuration[:log_file])
       end
 
       # The Sequel database instance. No SQL logger when run in production.
-      DB = Sequel.connect(Configuration.database_url)
+      DB = Sequel.connect(Configuration[:database_url])
     end
 
     ########################################
@@ -216,3 +216,4 @@ require_relative "chessboard/email_document"
 require_relative "chessboard/user"
 require_relative "chessboard/forum"
 require_relative "chessboard/post"
+require_relative "chessboard/mailinglist_watcher"
