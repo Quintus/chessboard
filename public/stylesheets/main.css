@@ -412,13 +412,18 @@ ul.vlist li {
 
 .topic-pagse-forum li:first-child { margin-left: 0px; }
 
-.post-actions {
+ul.post-actions {
     float: right;
     margin-top: 4px;
     margin-right: 4px;
 }
 
-.post-actions li { margin-left: 4px; }
+ul.post-actions li { margin-left: 4px; }
+
+ul.post-actions img {
+    width: 16px;
+    height: 16px;
+}
 
 .post-ip {
     float: right;

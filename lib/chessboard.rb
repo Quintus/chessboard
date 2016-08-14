@@ -165,6 +165,70 @@ module Chessboard
       erb :thread
     end
 
+    get "/forums/:forum_id/posts/:id/announce" do
+      halt 403 unless logged_in? && logged_in_user.admin?
+      @post = Post[params["id"].to_i]
+      @forum = Forum[params["forum_id"].to_i]
+
+      halt 404 unless @post
+      halt 404 unless @forum
+      halt 400 unless @post.forum == @forum
+
+      @post.announcement = true
+      @post.save
+
+      message t.posts.marked_as_announcement
+      redirect "/forums/#{@forum.id}"
+    end
+
+    get "/forums/:forum_id/posts/:id/unannounce" do
+      halt 403 unless logged_in? && logged_in_user.admin?
+      @post = Post[params["id"].to_i]
+      @forum = Forum[params["forum_id"].to_i]
+
+      halt 404 unless @post
+      halt 404 unless @forum
+      halt 400 unless @post.forum == @forum
+
+      @post.announcement = false
+      @post.save
+
+      message t.posts.unmarked_as_announcement
+      redirect "/forums/#{@forum.id}"
+    end
+
+    get "/forums/:forum_id/posts/:id/stick" do
+      halt 403 unless logged_in? && logged_in_user.admin?
+      @post = Post[params["id"].to_i]
+      @forum = Forum[params["forum_id"].to_i]
+
+      halt 404 unless @post
+      halt 404 unless @forum
+      halt 400 unless @post.forum == @forum
+
+      @post.sticky = true
+      @post.save
+
+      message t.posts.marked_as_sticky
+      redirect "/forums/#{@forum.id}"
+    end
+
+    get "/forums/:forum_id/posts/:id/unstick" do
+      halt 403 unless logged_in? && logged_in_user.admin?
+      @post = Post[params["id"].to_i]
+      @forum = Forum[params["forum_id"].to_i]
+
+      halt 404 unless @post
+      halt 404 unless @forum
+      halt 400 unless @post.forum == @forum
+
+      @post.sticky = false
+      @post.save
+
+      message t.posts.unmarked_as_sticky
+      redirect "/forums/#{@forum.id}"
+    end
+
     ########################################
     # Misc
 

@@ -205,3 +205,12 @@ posts:
   attachment: "Attachment:"
   no_attachment_description: "(No description provided.)"
   attachment_max_size: "(Maximum attachment size: %{size})"
+  mark_announce: Mark as announcement
+  unmark_announce: Unmark as announcement
+  marked_as_announcement: Marked this post as an announcement.
+  unmarked_as_announcement: Unmarked this post as an announcement.
+  mark_sticky: Mark as sticky
+  unmark_sticky: Unmark as sticky
+  marked_as_sticky: Marked this post as sticky.
+  unmarked_as_sticky: Unmarked this post as sticky.
+  report_this: Report this

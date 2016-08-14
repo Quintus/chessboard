@@ -30,7 +30,21 @@
 
     <% if logged_in? %>
       <ul class="vlist post-actions">
-	<li><a href="/forum/<%= forum.id %>/posts/<%= post.id %>/report"><img src="/images/icons/report.png" alt="report this"/>&nbsp;<%= t.reports.report_this %></a></li>
+	<li><a href="/forums/<%= forum.id %>/posts/<%= post.id %>/report"><img src="/images/icons/report.png" alt="report this"/>&nbsp;<%= t.posts.report_this %></a></li>
+
+	<% if logged_in_user.admin? %>
+	  <% if post.announcement? %>
+	    <li><a href="/forums/<%= forum.id %>/posts/<%= post.id %>/unannounce"><img src="/images/icons/topic_announcement_read.png" alt="mark as announcement"/>&nbsp;<%= t.posts.unmark_announce %></a></li>
+	  <% else %>
+	    <li><a href="/forums/<%= forum.id %>/posts/<%= post.id %>/announce"><img src="/images/icons/topic_announcement_unread.png" alt="unmark as announcement"/>&nbsp;<%= t.posts.mark_announce %></a></li>
+	  <% end %>
+
+	  <% if post.sticky? %>
+	    <li><a href="/forums/<%= forum.id %>/posts/<%= post.id %>/unstick"><img src="/images/icons/topic_sticky_read.png" alt="mark as sticky"/>&nbsp;<%= t.posts.unmark_sticky %></a></li>
+	  <% else %>
+	    <li><a href="/forums/<%= forum.id %>/posts/<%= post.id %>/stick"><img src="/images/icons/topic_sticky_unread.png" alt="unmark as sticky"/>&nbsp;<%= t.posts.mark_sticky %></a></li>
+	  <% end %>
+	<% end %>
       </ul>
     <% end %>
 
