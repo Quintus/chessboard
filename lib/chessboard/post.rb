@@ -212,9 +212,15 @@ class Chessboard::Post < Sequel::Model
     descendants_dataset.order(Sequel.asc(:created_at))
   end
 
-  # Convenience aliases
-  alias announcement? announcement
-  alias sticky? sticky
+  # Convenience alias for #announcement.
+  def announcement?
+    announcement
+  end
+
+  # Convenience alias for #sticky.
+  def sticky?
+    sticky
+  end
 
   private
 

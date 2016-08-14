@@ -151,7 +151,10 @@ class Chessboard::User < Sequel::Model
     File.exists?(avatar_path)
   end
 
-  alias admin? administrator
+  # Convenience shortcut for #administrator.
+  def admin?
+    administrator
+  end
 
   private
 
