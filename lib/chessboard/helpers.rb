@@ -71,6 +71,13 @@ module Chessboard::Helpers
     k.to_html
   end
 
+  # A much more unobtrusive version of #process_markup
+  # that returns a <pre> element.
+  def process_raw(str)
+    r = Chessboard::RawDocument.new(str)
+    r.to_html
+  end
+
   # Return a URL to this post, adapting to the user's configuration
   # view mode if available, otherwise defaulting to the global default
   # view mode.

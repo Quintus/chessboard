@@ -214,3 +214,6 @@ posts:
   marked_as_sticky: Marked this post as sticky.
   unmarked_as_sticky: Unmarked this post as sticky.
   report_this: Report this
+  # Post content toggle
+  show_raw: Show raw
+  show_normal: Show normal

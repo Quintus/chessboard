@@ -28,8 +28,11 @@
       </div>
     </div>
 
-    <% if logged_in? %>
-      <ul class="vlist post-actions">
+    <ul class="vlist post-actions">
+      <li class="show-raw-item"><a href="#"><img src="/images/icons/edit.png">&nbsp;<%= t.posts.show_raw %></a></li>
+      <li class="show-normal-item"><a href="#"><img src="/images/icons/edit.png">&nbsp;<%= t.posts.show_normal %></a></li>
+
+      <% if logged_in? %>
 	<li><a href="/forums/<%= forum.id %>/posts/<%= post.id %>/report"><img src="/images/icons/report.png" alt="report this"/>&nbsp;<%= t.posts.report_this %></a></li>
 
 	<% if logged_in_user.admin? %>
@@ -45,12 +48,18 @@
 	    <li><a href="/forums/<%= forum.id %>/posts/<%= post.id %>/stick"><img src="/images/icons/topic_sticky_unread.png" alt="unmark as sticky"/>&nbsp;<%= t.posts.mark_sticky %></a></li>
 	  <% end %>
 	<% end %>
-      </ul>
-    <% end %>
+      <% end %>
+    </ul>
 
     <div class="post-text">
       <%# flash_tag :postalert, :class => "flash alert" if flash[:postid] == post.id %>
-      <%= process_markup(post.content) %>
+      <div class="post-normal-markup">
+	<%= process_markup(post.content) %>
+      </div>
+      <div class="post-raw-markup">
+	<%= process_raw(post.content) %>
+      </div>
+
       <% if logged_in? && logged_in_user.admin? %>
         <p class="post-ip">
           IP:

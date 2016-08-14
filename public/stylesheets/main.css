@@ -138,13 +138,13 @@ pre code {
     padding: 4px;
 }
 
-ul.vlist {
+.vlist {
     margin: 0px;
     list-style-type: none;
     padding: 0px;
 }
 
-ul.vlist li {
+.vlist li {
     display: inline;
     margin-left: 4px;
 }
@@ -252,6 +252,18 @@ ul.vlist li {
 
 .hilit {
     background-color: yellow;
+}
+
+.ml-quote-1 {
+    color: blue;
+}
+
+.ml-quote-2 {
+    color: green;
+}
+
+.ml-quote-n {
+    color: red;
 }
 
 .forumlist {
@@ -423,6 +435,17 @@ ul.post-actions li { margin-left: 4px; }
 ul.post-actions img {
     width: 16px;
     height: 16px;
+}
+
+/* These are shown through JavaScript */
+.post-actions .show-raw-item, .post-actions .show-normal-item, .post-raw-markup { display: none; }
+
+.post-raw-markup pre {
+    overflow-y: visible;
+    max-height: none;
+    background-color: #EEEEEE;
+    border: none;
+    font-size: 14px;
 }
 
 .post-ip {
