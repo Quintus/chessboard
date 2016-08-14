@@ -247,12 +247,12 @@ module Chessboard
       @user.hide_status = params["hide_status"] == "1"
       @user.hide_email  = params["hide_email"]  == "1"
       @user.auto_watch  = params["auto_watch"]  == "1"
+      @user.always_raw  = params["always_raw"]  == "1"
       @user.locale      = params["language"] if R18n.available_locales.map(&:code).include?(params["language"])
 
       # TODO: Rescue validation error
       @user.save
 
-      # TODO: Delete avatar option
       if params["avatar"] && !params["delete_avatar"]
         begin
           image = MiniMagick::Image.open(params["avatar"][:tempfile].path)

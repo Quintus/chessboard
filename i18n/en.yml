@@ -168,6 +168,7 @@ settings:
     language: Language
     signature: Signature
     avatar: Avatar
+    always_raw: Always show raw
   descriptions:
     hide_status: >
       Activating this option makes your online status invisible
@@ -192,6 +193,8 @@ settings:
       Your avatar is a small graphic that is displayed next to all
       your posts. Each edge of the image may not be longer than 80
       pixels. You can use animated GIFs if you want.
+    always_raw: >
+      Display the raw view of posts by default and not the processed one.
 posts:
   edit: "Edit"
   edit_post: "Edit posting"

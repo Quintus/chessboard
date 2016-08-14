@@ -68,6 +68,24 @@
 
   <div class="setting">
     <div class="header settings-header">
+      <p><%= t.settings.titles.always_raw %></p>
+    </div>
+
+    <div class="settings-desc">
+      <p><%= t.settings.descriptions.always_raw %></p>
+    </div>
+
+    <div class="settings-content">
+      <p>
+	<input type="hidden"   value="0" name="always_raw"/>
+	<input type="checkbox" value="1" name="always_raw" id="always_raw" <%= checked(@user.always_raw) %>></input>
+	<label for="always_raw"><%= t.settings.titles.always_raw %></label>
+      </p>
+    </div>
+  </div>
+
+  <div class="setting">
+    <div class="header settings-header">
       <p><%= t.settings.titles.language %></p>
     </div>
 

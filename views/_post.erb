@@ -28,7 +28,7 @@
       </div>
     </div>
 
-    <ul class="vlist post-actions">
+    <ul class="vlist post-actions" <%= 'data-always-raw="true"' if logged_in? && logged_in_user.always_raw %>>
       <li class="show-raw-item"><a href="#"><img src="/images/icons/edit.png">&nbsp;<%= t.posts.show_raw %></a></li>
       <li class="show-normal-item"><a href="#"><img src="/images/icons/edit.png">&nbsp;<%= t.posts.show_normal %></a></li>
 

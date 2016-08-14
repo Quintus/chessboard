@@ -20,6 +20,14 @@ $(document).ready(function(){
 	return false;
     });
 
-    // Show JS-only link (so it is hidden for non-JS-capable browsers)
-    $(".show-raw-item").css("display", "inline");
+    // Show JS-only link (so it is hidden for non-JS-capable browsers),
+    // and take care of the "always raw" settings option.
+    if ($(".post-actions").attr("data-always-raw") == "true") {
+	$(".show-normal-item").css("display", "inline");
+	$(".post-raw-markup").show();
+	$(".post-normal-markup").hide();
+    }
+    else {
+	$(".show-raw-item").css("display", "inline");
+    }
 });
