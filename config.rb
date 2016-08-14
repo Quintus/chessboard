@@ -61,6 +61,15 @@ Chessboard::Configuration.create do |config|
   # threaded view, :topics a forum-typical list of posts.
   default_view_mode :topics
 
+  # How to check the mailinglists for new mails. The exact values allowed
+  # are dependant on the mail configuration in use, but the premade mlmmj
+  # configuration supports :inotify and :poll. The former uses the Linux
+  # kernel's inotify subsystem to be notified of changes, the latter
+  # searches the mailinglist directory every 30 seconds for new mails.
+  # Since :inotify is much more performant, you should use it if
+  # it is available.
+  monitor_method :inotify
+
   # If this is set to :file, logs are written to the file
   # given with the log_file parameter. If this is :syslog,
   # messages are sent to syslog on facility specified with log_facility.

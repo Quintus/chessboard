@@ -11,6 +11,7 @@ gem "mail"
 gem "rake"
 gem "net-ldap"
 gem "mini_magick"
+gem "rb-inotify"
 
 group :development do
   gem "sqlite3"

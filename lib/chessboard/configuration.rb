@@ -65,6 +65,8 @@ module Chessboard
     config_setting :load_ml_mails
     config_setting :subscribe_to_nomail
     config_setting :unsubscribe_from_ml
+    config_setting :monitor_ml
+    config_setting :stop_ml_monitor
     config_setting :log, :file
     config_setting :log_file, "/var/log/chessboard.log"
     config_setting :log_facility, :daemon
@@ -73,6 +75,7 @@ module Chessboard
     config_setting :admin_email
     config_setting :sendmail_path, "sendmail"
     config_setting :default_view_mode, :threads
+    config_setting :monitor_method, :inotify
 
     # This namespace contains pre-made configuration snippets for
     # certain mailinglist software.
@@ -115,6 +118,68 @@ module Chessboard
               list = Dir.glob("#{forum_ml}/archive/*")
               list.sort!{|a, b| File.mtime(a) <=> File.mtime(b)}
               list
+            end
+
+            monitor_ml do |forum_ml, forum, monitor_method|
+              if monitor_method == :inotify
+                notifier = INotify::Notifier.new
+                notifier.watch("#{forum_ml}/archive", :moved_to, :create) do |event|
+                  # The stop_ml_monitor callback creates this file temporarily to signal
+                  # that processing should stop. Note that Notifier#stop does not end
+                  # inotify immediately, but only after all pending events have been
+                  # processed.
+                  if File.basename(event.name) == "TERM_CB_MON"
+                    Chessboard.logger.info("Detected TERM_CB_MON, stopping inotify monitor on #{forum_ml}")
+                    notifier.stop
+                  else
+                    # Otherwise its a regular email, submit it to the handler.
+                    forum.submit_new_email(event.absolte_name)
+                  end
+                end
+                notifier.run
+              elsif monitor_method == :poll
+                Thread.current[:terminate_monitor] = false
+                existing_mails = Dir.glob("#{forum_ml}/archive/*")
+
+                catch :terminate do
+                  loop do
+                    # Sleep 30 seconds in total, only checking if we shall
+                    # terminate while doing this.
+                    6.times do
+                      if Thread.current[:terminate_monitor]
+                        Chessboard.logger.info("Terminating polling monitor on #{forum_ml}")
+                        throw :terminate
+                      end
+
+                      sleep(5)
+                    end
+
+                    now_existing_mails = Dir.glob("#{forum_ml}/archive/*")
+                    new_mails = now_existing_mails - existing_mails
+
+                    new_mails.each do |path|
+                      forum.submit_new_email(path)
+                      existing_mails.append(path)
+                    end
+                  end
+                end
+              else
+                raise NotImplementedError, "The monitor method #{monitor_method} is not supported by the premade mlmmj configuration."
+              end
+            end
+
+            stop_ml_monitor do |forum_ml, thread, monitor_method|
+              if monitor_method == :inotify
+                # Create a file in the monitored directory to make the monitor pick
+                # it up. Since the file is not needed, delete it afterwards directly.
+                path = "#{forum_ml}/archive/TERM_CB_MON"
+                File.open(path, "w"){|f| f.write("Terminate it!")}
+                File.delete(path)
+              elsif monitor_method == :poll
+                thread[:terminate_monitor] = true
+              else
+                raise NotImplementedError, "The monitor method #{monitor_method} is not supported by the premade mlmmj configuration."
+              end
             end
 
           end
