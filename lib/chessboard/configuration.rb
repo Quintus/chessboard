@@ -122,13 +122,15 @@ module Chessboard
               list
             end
 
-            send_to_ml do |forum_ml, post|
+            send_to_ml do |forum_ml, post, refs|
               mail = Mail.new do
                 from post.author.email
                 to File.read(File.join(forum_ml, "control", "listaddress")).strip
                 subject post.title
                 body post.content
-                # TODO: Attachments
+                in_reply_to refs.last
+                references refs
+               # TODO: Attachments
               end
 
               mail.deliver!

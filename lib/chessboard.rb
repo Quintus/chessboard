@@ -259,18 +259,18 @@ module Chessboard
       halt 403 unless logged_in?
 
       @forum = Forum[params["forum_id"].to_i]
-      @post  = Post[params["id"].to_i]
+      @parent_post = Post[params["id"].to_i]
 
-      p params
-
-      halt 404 unless @post
+      halt 404 unless @parent_post
       halt 404 unless @forum
 
+      @post = Post.new
       @post.content = params["content"]
       @post.title   = params["title"]
       @post.ip      = request.ip
       @post.forum   = @forum
       @post.author  = logged_in_user
+      @post.parent  = @parent_post
 
       message_id = @post.send_to_mailinglist
 
@@ -282,11 +282,8 @@ module Chessboard
       # be ignored.
       sleep 3
 
-      p message_id
-
-      #message t.posts.created
-      #redirect post_url(p(Post.where(:message_id => message_id).first))
-      redirect "/"
+      message t.posts.created
+      redirect post_url(Post.where(:message_id => message_id).first)
     end
 
     ########################################

@@ -231,7 +231,16 @@ class Chessboard::Post < Sequel::Model
   # picked up by the mailinglist monitor and then saved there.
   def send_to_mailinglist
     raise Sequel::ValidationFailed unless valid?
-    Chessboard::Configuration[:send_to_ml].call(forum.mailinglist, self)
+
+    # Since `self' is not serialised yet, the query must target
+    # the parent post, which *is* serialised. The parent post's
+    # message ID has to be added separately as it is not part of
+    # the result of the query.
+    refs = parent.ancestors_dataset.order(Sequel.asc(:created_at)).map(:message_id)
+    refs << parent.message_id
+
+    # Hand over to the callback
+    Chessboard::Configuration[:send_to_ml].call(forum.mailinglist, self, refs)
   end
 
   private
