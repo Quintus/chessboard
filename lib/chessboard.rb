@@ -229,6 +229,41 @@ module Chessboard
       redirect "/forums/#{@forum.id}"
     end
 
+    get "/forums/:forum_id/posts/:id/reply" do
+      halt 403 unless logged_in?
+
+      @forum = Forum[params["forum_id"].to_i]
+      @post  = Post[params["id"].to_i]
+
+      halt 404 unless @post
+      halt 404 unless @forum
+      halt 400 unless @post.forum == @forum
+
+      @suggested_title = @post.title
+      @suggested_title = "Re: #{@suggested_title}" unless @suggested_title =~ /^Re:/i
+
+      erb :reply
+    end
+
+    post "/forums/:forum_id/posts/:id/reply" do
+      halt 403 unless logged_in?
+
+      @forum = Forum[params["forum_id"].to_i]
+      @post  = Post[params["id"].to_i]
+
+      p params
+
+      halt 404 unless @post
+      halt 404 unless @forum
+      halt 400 unless @post.forum == @forum
+
+      @post.content = params["content"]
+      @post.save
+
+      message t.posts.created
+      redirect post_url(@post)
+    end
+
     ########################################
     # Misc
 

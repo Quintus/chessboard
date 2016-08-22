@@ -1,5 +1,6 @@
 <% level ||= 0 %>
 <% recurse ||= false %>
+<% disable_actions ||= false %>
 
 <div class="post post-nest-<%= level %>">
   <div class="post-author">
@@ -32,7 +33,7 @@
       <li class="show-raw-item"><a href="#"><img src="/images/icons/edit.png">&nbsp;<%= t.posts.show_raw %></a></li>
       <li class="show-normal-item"><a href="#"><img src="/images/icons/edit.png">&nbsp;<%= t.posts.show_normal %></a></li>
 
-      <% if logged_in? %>
+      <% if logged_in? && !disable_actions %>
 	<li><a href="/forums/<%= forum.id %>/posts/<%= post.id %>/report"><img src="/images/icons/report.png" alt="report this"/>&nbsp;<%= t.posts.report_this %></a></li>
 
 	<% if logged_in_user.admin? %>
@@ -60,15 +61,21 @@
 	<%= process_raw(post.content) %>
       </div>
 
-      <% if logged_in? && logged_in_user.admin? %>
-        <p class="post-ip">
-          IP:
-          <% if post.ip.to_s.empty? %>
-            <%= t.posts.no_ip %>
-          <% else %>
-            <%= post.ip %>
-          <% end %>
-        </p>
+      <% if logged_in? && !disable_actions %>
+	<p class="reply-button">
+	  <a class="button-normal" href="/forums/<%= forum.id %>/posts/<%= post.id %>/reply"><%= t.posts.reply %></a>
+	</p>
+
+	<% if logged_in_user.admin? %>
+          <p class="post-ip">
+            IP:
+            <% if post.ip.to_s.empty? %>
+              <%= t.posts.no_ip %>
+            <% else %>
+              <%= post.ip %>
+            <% end %>
+          </p>
+	<% end %>
       <% end %>
       <div class="clear"><!-- Ensure all floating material ends with end of post --></div>
     </div>

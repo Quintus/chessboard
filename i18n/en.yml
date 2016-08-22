@@ -112,7 +112,6 @@ users:
   # ALT attribute text in user avatar <img> tag
   avatar_alt: User avatar
 topics:
-  reply: "Post Reply"
   expand_all: "Expand all"
   collapse_all: "Collapse all"
   delete: "Delete Topic"
@@ -202,7 +201,13 @@ posts:
   deleted: "Posting deleted."
   created: "Posting created."
   updated: "Posting updated."
+  reply: "Reply"
+  replied_to_post: "Post you reply to"
+  your_reply: "Your reply"
   no_ip: "(not available)"
+  title: "Title"
+  content: "Content"
+  automatic_line_breaks: "Automatic line breaks"
   add_attachment: "Add Attachment"
   failed_attachment: "Failed to upload attachment '%{name}': %{error}"
   attachment: "Attachment:"

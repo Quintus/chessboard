@@ -1,0 +1,20 @@
+<form action="/forums/<%= forum.id %>/posts/<%= post.id %>/reply" accept-charset="UTF-8" method="post">
+  <p>
+    <label for="title"><%= t.posts.title %></label><br/>
+    <input type="text" name="title" value="<%= suggested_title %>"/>
+  </p>
+  <p>
+    <label for="content"><%= t.posts.content %></label><br/>
+    <textarea name="content" id="content"></textarea>
+  </p>
+  <p id="automatic_line_breaks_container">
+    <input type="checkbox" name="automatic_line_breaks" id="automatic_line_breaks"/>
+    <label for="automatic_line_breaks"><%= t.posts.automatic_line_breaks %></label>
+  </p>
+  <p class="submit-separator">
+    <input type="submit" value="<%= t.general.create %>" class="button-ok"/>
+    <input type="button" value="<%= t.general.preview %>" class="button-normal" id="preview-button"/>
+  </p>
+</form>
+
+<div class="preview"></div>
