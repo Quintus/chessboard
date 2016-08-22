@@ -65,6 +65,7 @@ module Chessboard
     config_setting :load_ml_mails
     config_setting :subscribe_to_nomail
     config_setting :unsubscribe_from_ml
+    config_setting :send_to_ml
     config_setting :monitor_ml
     config_setting :stop_ml_monitor
     config_setting :log, :file
@@ -73,6 +74,7 @@ module Chessboard
     config_setting :html_formatter, nil
     config_setting :default_user_title, "Member"
     config_setting :admin_email
+    config_setting :board_email
     config_setting :sendmail_path, "sendmail"
     config_setting :default_view_mode, :threads
     config_setting :monitor_method, :inotify
@@ -118,6 +120,20 @@ module Chessboard
               list = Dir.glob("#{forum_ml}/archive/*")
               list.sort!{|a, b| File.mtime(a) <=> File.mtime(b)}
               list
+            end
+
+            send_to_ml do |forum_ml, post|
+              mail = Mail.new do
+                from post.author.email
+                to File.read(File.join(forum_ml, "control", "listaddress")).strip
+                subject post.title
+                body post.content
+                # TODO: Attachments
+              end
+
+              mail.deliver!
+
+              mail.message_id
             end
 
             monitor_ml do |forum_ml, forum, monitor_method|

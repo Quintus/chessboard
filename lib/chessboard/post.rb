@@ -222,6 +222,18 @@ class Chessboard::Post < Sequel::Model
     sticky
   end
 
+  # Checks if the object validates, and if so, hands it to the
+  # configuration's :send_to_ml callback. Otherwise
+  # it raises Sequel::ValidationFailed.
+  #
+  # This method does not call #save, i.e. the instance is not saved
+  # to the database. This is intentional, because the post will be
+  # picked up by the mailinglist monitor and then saved there.
+  def send_to_mailinglist
+    raise Sequel::ValidationFailed unless valid?
+    Chessboard::Configuration[:send_to_ml].call(forum.mailinglist, self)
+  end
+
   private
 
   def before_create

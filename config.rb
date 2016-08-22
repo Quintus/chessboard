@@ -48,9 +48,14 @@ Chessboard::Configuration.create do |config|
   # a post as abuse).
   admin_email "root@localhost"
 
+  # This address is used for the "From:" header in outgoing
+  # emails of adminsitrative nature (posts are made under
+  # the email of the respective user).
+  board_email "chessboard@localhost"
+
   # If the forum needs to send an email, it invokes the `sendmail'
   # program. Specify here the path to that program.
-  sendmail_path "/sbin/sendmail"
+  sendmail_path "/usr/sbin/sendmail"
 
   # Users without a specifically assigned title gain this title.
   default_user_title "Member"

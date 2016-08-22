@@ -45,6 +45,11 @@ module Chessboard
 
       MiniMagick.logger = logger
       DB = Sequel.connect("sqlite://#{root}/db/development.db3", :loggers => [logger])
+
+      # In development deliver mails to mailcatcher.
+      Mail.defaults do
+        delivery_method :smtp, :address => "localhost", :port => 1025
+      end
     end
 
     configure :production do
@@ -58,6 +63,11 @@ module Chessboard
 
       # The Sequel database instance. No SQL logger when run in production.
       DB = Sequel.connect(Configuration[:database_url])
+
+      # In production deliver mails via sendmail.
+      Mail.defaults do
+        delivery_method :sendmail, :location => Chessboard::Configuration[:sendmail_path]
+      end
     end
 
     ########################################
@@ -255,13 +265,28 @@ module Chessboard
 
       halt 404 unless @post
       halt 404 unless @forum
-      halt 400 unless @post.forum == @forum
 
       @post.content = params["content"]
-      @post.save
+      @post.title   = params["title"]
+      @post.ip      = request.ip
+      @post.forum   = @forum
+      @post.author  = logged_in_user
 
-      message t.posts.created
-      redirect post_url(@post)
+      message_id = @post.send_to_mailinglist
+
+      # Give the email infrastructure opportunity to deliver the email.
+      # The mailinglist monitor creates a post with the message ID set
+      # to the ID generated in Post#send_to_mailinglist, hence this
+      # can be used to dig out the created Post instance below.
+      # Message IDs are usually unique, the rare duplicates can
+      # be ignored.
+      sleep 3
+
+      p message_id
+
+      #message t.posts.created
+      #redirect post_url(p(Post.where(:message_id => message_id).first))
+      redirect "/"
     end
 
     ########################################
