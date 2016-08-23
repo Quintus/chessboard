@@ -231,5 +231,13 @@ admin:
     Find the different administrative topics in the
     navigation on the left side.
   tags: Tags
+  tag_name: Tag Name
+  tag_color: Tag Color
+  tag_description: Tag Description
+  tag_new: Create new tag…
+  tag_edit: Edit Tag
+  tag_create: Create Tag
+  tag_created: Tag successfully created.
+  tag_updated: Tag successfully updated.
   bans: Bans
   mailinglists: Mailinglists

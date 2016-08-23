@@ -57,6 +57,8 @@ task :create_tables do
   Chessboard::Application::DB.create_table :tags do
     primary_key :id
     String :name, :null => :false
+    String :description
+    String :color, :null => false, :default => "FFFFFF"
   end
 
   Chessboard::Application::DB.create_join_table :tag_id => :tags, :post_id => :posts

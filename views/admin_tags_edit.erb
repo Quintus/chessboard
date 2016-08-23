@@ -1,0 +1,57 @@
+<% content_for :sidebar do %>
+  <%= erb :_admin_sidebar %>
+<% end %>
+<% content_for :header do %>
+  <script type="text/javascript" src="/javascripts/tags.js"></script>
+<% end %>
+
+<%
+if @tag.new?
+  title = t.admin.tag_create
+  url = "/admin/tags"
+else
+  title = t.admin.tag_edit
+  url = "/admin/tags/#{@tag.id}/edit"
+end
+%>
+
+<h1><%= title %></h1>
+
+<form action="<%= url %>" method="post" accept-charset="UTF-8" class="settings-form">
+  <div class="setting">
+    <div class="header settings-header">
+      <label><%= t.admin.tag_name %></label>
+    </div>
+    <div class="settings-content">
+      <p>
+	<input type="text" name="name" value="<%= @tag.name %>"/>
+      </p>
+    </div>
+  </div>
+
+  <div class="setting">
+    <div class="header settings-header">
+      <label><%= t.admin.tag_description %></label>
+    </div>
+    <div class="settings-content">
+      <p>
+	<input type="text" name="description" value="<%= @tag.description %>"/>
+      </p>
+    </div>
+  </div>
+
+  <div class="setting">
+    <div class="header settings-header">
+      <label><%= t.admin.tag_color %></label>
+    </div>
+    <div class="settings-content">
+      <p>
+	<input type="text" name="color" id="tag-color-input" value="<%= @tag.color || "FFFFFF" %>"/>
+      </p>
+    </div>
+  </div>
+
+  <p class="submit-separator">
+    <input type="submit" value="<%= title %>" class="button-ok"/>
+  </p>
+</form>

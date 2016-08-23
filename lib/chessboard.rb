@@ -43,6 +43,10 @@ module Chessboard
     configure :development do
       set :logger, Logger.new($stdout)
 
+      # Always use the same session secret in development so one
+      # doesn't have to log in all the time when restarting the server.
+      set :session_secret, "xu6yiechiG8cuuy6Heiv"
+
       MiniMagick.logger = logger
       DB = Sequel.connect("sqlite://#{root}/db/development.db3", :loggers => [logger])
 
@@ -296,6 +300,80 @@ module Chessboard
       erb :admin
     end
 
+    get "/admin/tags" do
+      halt 400 unless logged_in?
+      halt 400 unless logged_in_user.admin?
+
+      @tags = Tag.order(Sequel.asc(:name))
+      erb :admin_tags
+    end
+
+    post "/admin/tags" do
+      halt 400 unless logged_in?
+      halt 400 unless logged_in_user.admin?
+
+      @tag = Tag.new
+      @tag.name = params["name"]
+      @tag.description = params["description"]
+      @tag.color = params["color"]
+
+      @tag.save
+
+      message t.admin.tag_created
+      redirect "/admin/tags"
+    end
+
+    get "/admin/tags/new" do
+      halt 400 unless logged_in?
+      halt 400 unless logged_in_user.admin?
+
+      @tag = Tag.new
+      erb :admin_tags_edit
+    end
+
+    get "/admin/tags/:id/edit" do
+      halt 400 unless logged_in?
+      halt 400 unless logged_in_user.admin?
+
+      @tag = Tag[params["id"].to_i]
+      halt 404 unless @tag
+
+      erb :admin_tags_edit
+    end
+
+    # Actually this should be patch /admin/tags/:id,
+    # but browsers cannot do other methods than GET
+    # and POST in HTML forms.
+    post "/admin/tags/:id/edit" do
+      halt 400 unless logged_in?
+      halt 400 unless logged_in_user.admin?
+
+      @tag = Tag[params["id"].to_i]
+      halt 404 unless @tag
+
+      @tag.name = params["name"]
+      @tag.description = params["description"]
+      @tag.color = params["color"]
+
+      @tag.save
+
+      message t.admin.tag_updated
+      redirect "/admin/tags"
+    end
+
+    delete "/admin/tags/:id" do
+      halt 400 unless request.xhr?
+      halt 400 unless logged_in?
+      halt 400 unless logged_in_user.admin?
+
+      @tag = Tag[params["id"].to_i]
+      halt 404 unless @tag
+
+      @tag.destroy
+
+      200
+    end
+
     ########################################
     # Misc
 
@@ -348,4 +426,5 @@ require_relative "chessboard/raw_document"
 require_relative "chessboard/user"
 require_relative "chessboard/forum"
 require_relative "chessboard/post"
+require_relative "chessboard/tag"
 require_relative "chessboard/mailinglist_watcher"

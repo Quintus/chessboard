@@ -537,6 +537,13 @@ ul.post-actions img {
     text-align: left;
 }
 
+/******* tags **********/
+
+.tag-color {
+    font-weight: bold;
+    text-align: center;
+}
+
 /******** Spoiler **********/
 
 .spoiler {
