@@ -1,5 +1,6 @@
 class Chessboard::User < Sequel::Model
   one_to_many :posts, :key => :author_id
+  many_to_many :tags
 
   # Path below the public/ directory to the directory containing the
   # avatar images.

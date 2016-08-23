@@ -287,6 +287,16 @@ module Chessboard
     end
 
     ########################################
+    # Administration
+
+    get "/admin" do
+      halt 400 unless logged_in?
+      halt 400 unless logged_in_user.admin?
+
+      erb :admin
+    end
+
+    ########################################
     # Misc
 
     get "/settings" do

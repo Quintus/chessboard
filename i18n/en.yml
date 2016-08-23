@@ -23,7 +23,6 @@ general:
   are_you_sure: "Are you sure?"
   never: "Never"
   moderation: "Moderation"
-  administration: "Administration"
   withdraw: "Withdraw"
   actions: "Actions"
   preview: "Preview"
@@ -225,3 +224,12 @@ posts:
   # Post content toggle
   show_raw: Show raw
   show_normal: Show normal
+admin:
+  administration: Administration
+  startpage_text: >
+    Welcome to the Chessboard Administration area.
+    Find the different administrative topics in the
+    navigation on the left side.
+  tags: Tags
+  bans: Bans
+  mailinglists: Mailinglists

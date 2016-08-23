@@ -54,7 +54,12 @@ task :create_tables do
     DateTime :created_at
   end
 
-  Chessboard::Application::DB.create_join_table :topic_id => :topics, :user_id => :users
+  Chessboard::Application::DB.create_table :tags do
+    primary_key :id
+    String :name, :null => :false
+  end
+
+  Chessboard::Application::DB.create_join_table :tag_id => :tags, :post_id => :posts
 
   puts "Tables created. Now run $ rake forums:add to add a new forum."
 end

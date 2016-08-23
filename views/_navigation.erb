@@ -6,6 +6,9 @@
 
     <% if logged_in? %>
       <li><a href="/settings"><%= t.personal.settings %></a></li>
+      <% if logged_in_user.admin? %>
+	<li><a href="/admin"><%= t.admin.administration %></a></li>
+      <% end %>
     <% else %>
       <li><a href="/register"><%= t.general.register %></a></li>
     <% end %>
