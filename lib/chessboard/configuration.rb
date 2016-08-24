@@ -122,7 +122,7 @@ module Chessboard
               list
             end
 
-            send_to_ml do |forum_ml, post, refs|
+            send_to_ml do |forum_ml, post, refs, tags|
               mail = Mail.new do
                 from post.author.email
                 to File.read(File.join(forum_ml, "control", "listaddress")).strip
@@ -133,6 +133,7 @@ module Chessboard
                # TODO: Attachments
               end
 
+              mail["X-Chessboard-Tags"] = tags.select_map(:name).join(",")
               mail.deliver!
 
               mail.message_id

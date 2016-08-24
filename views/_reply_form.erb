@@ -1,16 +1,30 @@
 <form action="/forums/<%= forum.id %>/posts/<%= post.id %>/reply" accept-charset="UTF-8" method="post">
   <p>
-    <label for="title"><%= t.posts.title %></label><br/>
+    <label for="title"><%= t.posts.title %>:</label><br/>
     <input type="text" name="title" value="<%= suggested_title %>"/>
   </p>
   <p>
-    <label for="content"><%= t.posts.content %></label><br/>
+    <label for="content"><%= t.posts.content %>:</label><br/>
     <textarea name="content" id="content"></textarea>
   </p>
   <p id="automatic_line_breaks_container">
     <input type="checkbox" name="automatic_line_breaks" id="automatic_line_breaks"/>
     <label for="automatic_line_breaks"><%= t.posts.automatic_line_breaks %></label>
   </p>
+
+  <p>
+    <%= t.admin.tags %>:
+  </p>
+
+  <p>
+    <% tags.each do |tag| %>
+      <span class="tag-selector">
+	<input type="checkbox" name="tags[<%= tag.id %>]" id="tag-<%= tag.id %>" value="1"/>
+	<label for="tag-<%= tag.id %>" class="tag" style="background-color: #<%= tag.color %>"><%= tag.name %></label>
+      </span>
+    <% end %>
+  </p>
+
   <p class="submit-separator">
     <input type="submit" value="<%= t.general.create %>" class="button-ok"/>
     <input type="button" value="<%= t.general.preview %>" class="button-normal" id="preview-button"/>

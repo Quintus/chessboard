@@ -3,6 +3,7 @@ class Chessboard::Post < Sequel::Model
   plugin :rcte_tree
   many_to_one :forum
   many_to_one :author, :class => Chessboard::User
+  many_to_many :tags
 
   # The rcte_tree plugin creates methods #parent and #children.
   # For readability, here's an alias for children that fits
@@ -14,9 +15,9 @@ class Chessboard::Post < Sequel::Model
 
     # Parse the email file at the given path at as a message targetted
     # at the given Forum instance. This method may create new user
-    # accounts, hence the bang at the end. It does not save the Post
-    # instance by default, but only returns it.
-    def new_from_file!(path, forum)
+    # accounts, hence the bang at the end. Automatically saves the
+    # created instance to the database.
+    def create_from_file!(path, forum)
       post = new
       mail = Mail.read(path)
 
@@ -63,14 +64,19 @@ class Chessboard::Post < Sequel::Model
       post.forum        = forum
       post.author       = extract_mail_author!(mail)
       post.parent       = find_parent_post(mail)
-      post
-    end
 
-    # Like ::new_from_file, but also calls #save.
-    def create_from_file!(path, forum)
-      post = new_from_file!(path, forum)
       post.save
-      post
+
+      # Parse the X-Chessboard-Tags header regardless of its case
+      # and add the tags to the post. Note Sequel.lit is used with
+      # an argument to prevent SQL injection.
+      if mail["X-Chessboard-Tags"]
+        set = mail["X-Chessboard-Tags"].decoded.split(",")
+              .map{|tagname| Sequel.function("upper", Sequel.lit("?", tagname))}
+        Chessboard::Tag.where(Sequel.function("upper", :name) => set).each do |tag|
+          post.add_tag(tag)
+        end
+      end
     end
 
     # Returns a dataset of all posts which started a topic.
@@ -229,7 +235,7 @@ class Chessboard::Post < Sequel::Model
   # This method does not call #save, i.e. the instance is not saved
   # to the database. This is intentional, because the post will be
   # picked up by the mailinglist monitor and then saved there.
-  def send_to_mailinglist
+  def send_to_mailinglist(tags)
     raise Sequel::ValidationFailed unless valid?
 
     # Since `self' is not serialised yet, the query must target
@@ -240,7 +246,7 @@ class Chessboard::Post < Sequel::Model
     refs << parent.message_id
 
     # Hand over to the callback
-    Chessboard::Configuration[:send_to_ml].call(forum.mailinglist, self, refs)
+    Chessboard::Configuration[:send_to_ml].call(forum.mailinglist, self, refs, tags)
   end
 
   private

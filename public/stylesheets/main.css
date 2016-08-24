@@ -544,6 +544,19 @@ ul.post-actions img {
     text-align: center;
 }
 
+.tag {
+    border: 1px solid black;
+    border-radius: 8px;
+    margin: 0px 4px;
+    padding: 2px 4px 0px 4px;
+    font-size: 12px;
+    line-height: 12px;
+}
+
+.tag-selector {
+    margin-right: 20px;
+}
+
 /******** Spoiler **********/
 
 .spoiler {

@@ -2,7 +2,7 @@
 
 <h2><%= t.posts.your_reply %></h2>
 
-<%= erb :_reply_form, :locals => {:forum => @forum, :post => @post, :suggested_title => @suggested_title} %>
+<%= erb :_reply_form, :locals => {:forum => @forum, :post => @post, :suggested_title => @suggested_title, :tags => @tags} %>
 
 <h2><%= t.posts.replied_to_post %></h2>
 

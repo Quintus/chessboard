@@ -255,6 +255,7 @@ module Chessboard
 
       @suggested_title = @post.title
       @suggested_title = "Re: #{@suggested_title}" unless @suggested_title =~ /^Re:/i
+      @tags = Tag.order(Sequel.asc(:name))
 
       erb :reply
     end
@@ -276,7 +277,9 @@ module Chessboard
       @post.author  = logged_in_user
       @post.parent  = @parent_post
 
-      message_id = @post.send_to_mailinglist
+      @tags = Tag.where(:id => params["tags"].keys.map(&:to_i))
+
+      message_id = @post.send_to_mailinglist(@tags)
 
       # Give the email infrastructure opportunity to deliver the email.
       # The mailinglist monitor creates a post with the message ID set
