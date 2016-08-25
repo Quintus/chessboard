@@ -50,7 +50,7 @@
     <span class="offscreen"><%= t.admin.tags %>:</span>
     <% thread_starter.tags.each do |tag| %>
       <ul class="vlist tag-list">
-	<li><a class="tag" style="background-color: #<%= tag.color %>" href="/forums/<%= thread_starter.forum.id %>?tag=xxx"><%= tag.name %></a></li>
+	<li><a class="tag" style="background-color: #<%= tag.color %>" href="<%= add_to_querystr("tag[]", tag.id) %>"><%= tag.name %></a></li>
       </ul>
     <% end %>
     <br/>

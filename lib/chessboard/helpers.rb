@@ -91,4 +91,18 @@ module Chessboard::Helpers
     "/forums/#{post.forum.id}/#{view_mode}/#{post.id}"
   end
 
+  # Append the given key-value pair to this URL's query string
+  # and return the resulting full path such that it can be
+  # used in an anchor tag's HREF attribute.
+  def add_to_querystr(key, value)
+    str = "?#{request.query_string.dup}"
+
+    unless str == "?"
+      str << "&"
+    end
+
+    str << CGI.escape(key.to_s) << "=" << CGI.escape(value.to_s)
+    request.path + str
+  end
+
 end
