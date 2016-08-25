@@ -149,6 +149,14 @@ pre code {
     margin-left: 4px;
 }
 
+
+/* Elements with this class are intended to be read by screenreaders,
+ * but should be invisible to ordinary users. */
+.offscreen {
+    position: absolute;
+    left: -10000px;
+}
+
 #navigation ul li a {
     color: #EEEEEE;
     text-decoration: none;
@@ -551,6 +559,19 @@ ul.post-actions img {
     padding: 2px 4px 0px 4px;
     font-size: 12px;
     line-height: 12px;
+}
+
+a.tag {
+    color: black;
+    text-decoration: none;
+}
+
+.tag-list {
+    display: inline-block;
+    margin-top: 2px;
+}
+
+.tag-list li {
 }
 
 .tag-selector {

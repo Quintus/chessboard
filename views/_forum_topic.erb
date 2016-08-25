@@ -46,7 +46,14 @@
     <img src="<%= image %>" alt="Icon"/>
   </td>
   <td class="list-topic">
-    <a href="<%= threadurl %>"><%= thread_starter.pretty_title %></a><br/>
+    <a href="<%= threadurl %>"><%= thread_starter.pretty_title %></a>
+    <span class="offscreen"><%= t.admin.tags %>:</span>
+    <% thread_starter.tags.each do |tag| %>
+      <ul class="vlist tag-list">
+	<li><a class="tag" style="background-color: #<%= tag.color %>" href="/forums/<%= thread_starter.forum.id %>?tag=xxx"><%= tag.name %></a></li>
+      </ul>
+    <% end %>
+    <br/>
     <%= t.forums.author_by %> <a href="/users/<%= thread_starter.author.id %>"><%= thread_starter.author.display_name %></a>
 
     <%# total_pages = (forum_topic.posts.count.to_f / GlobalConfiguration.instance.page_post_num.to_f).ceil %>
