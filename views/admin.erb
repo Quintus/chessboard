@@ -1,0 +1,22 @@
+<% content_for :sidebar do %>
+  <%= erb :_admin_sidebar %>
+<% end %>
+
+<h1><%= t.admin.administration %></h1>
+
+<!--
+<%# unless @configuration.errors.empty? %>
+<div class="flash alert">
+  <p><%# I18n.t("general.errors_occured") %></p>
+  <ul>
+    <%# @configuration.errors.messages.each do |key, msg| %>
+      <li><%# key %>: <%# msg %></li>
+    <%# end %>
+  </ul>
+</div>
+<%# end %>
+-->
+
+<p>
+  <%= t.admin.startpage_text %>
+</p>

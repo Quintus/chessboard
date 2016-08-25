@@ -1,0 +1,110 @@
+<% level ||= 0 %>
+<% recurse ||= false %>
+<% disable_actions ||= false %>
+
+<div class="post post-nest-<%= level %>">
+  <div class="post-author">
+    <p class="author-name"><a href="/users/<%= post.author.id %>"><%= post.author.display_name %></a></p>
+    <p class="author-membership"><%= post.author.title %></p>
+    <% if post.author.avatar? %>
+      <p class="author-avatar"><img src="<%= post.author.avatar_url %>" alt="<%= t.users.avatar_alt %>"/></p>
+    <% end %>
+    <p class="author-registered"><%= t.users.registered %>: <%= l post.author.created_at %></p>
+    <p class="author-posts"><%= t.users.posts %>: <%= post.author.posts.count %></p>
+  </div>
+
+  <div class="post-content">
+    <div class="header post-header">
+      <div class="post-created">
+	<p><%= l post.created_at, :full %></p>
+      </div>
+      <div class="post-num">
+	<%# The link to the tread view is intentional. A topic cut off might miss
+          # information at unexpected places when a user replied not to the most current
+          # reply. And that even though the current view shows the information! %>
+	<p>
+	  <a id="p<%= post.id %>" name="p<%= post.id %>" href="#p<%= post.id %>">#</a>&nbsp;<a href="/forums/<%= forum.id %>/threads/<%= post.id %>">¶</a>
+	  <span class="post-title"><%= h post.title %></span>
+	</p>
+      </div>
+    </div>
+
+    <ul class="vlist post-actions" <%= 'data-always-raw="true"' if logged_in? && logged_in_user.always_raw %>>
+      <li class="show-raw-item"><a href="#"><img src="/images/icons/edit.png">&nbsp;<%= t.posts.show_raw %></a></li>
+      <li class="show-normal-item"><a href="#"><img src="/images/icons/edit.png">&nbsp;<%= t.posts.show_normal %></a></li>
+
+      <% if logged_in? && !disable_actions %>
+	<li><a href="/forums/<%= forum.id %>/posts/<%= post.id %>/report"><img src="/images/icons/report.png" alt="report this"/>&nbsp;<%= t.posts.report_this %></a></li>
+
+	<% if logged_in_user.admin? %>
+	  <% if post.announcement? %>
+	    <li><a href="/forums/<%= forum.id %>/posts/<%= post.id %>/unannounce"><img src="/images/icons/topic_announcement_read.png" alt="mark as announcement"/>&nbsp;<%= t.posts.unmark_announce %></a></li>
+	  <% else %>
+	    <li><a href="/forums/<%= forum.id %>/posts/<%= post.id %>/announce"><img src="/images/icons/topic_announcement_unread.png" alt="unmark as announcement"/>&nbsp;<%= t.posts.mark_announce %></a></li>
+	  <% end %>
+
+	  <% if post.sticky? %>
+	    <li><a href="/forums/<%= forum.id %>/posts/<%= post.id %>/unstick"><img src="/images/icons/topic_sticky_read.png" alt="mark as sticky"/>&nbsp;<%= t.posts.unmark_sticky %></a></li>
+	  <% else %>
+	    <li><a href="/forums/<%= forum.id %>/posts/<%= post.id %>/stick"><img src="/images/icons/topic_sticky_unread.png" alt="unmark as sticky"/>&nbsp;<%= t.posts.mark_sticky %></a></li>
+	  <% end %>
+	<% end %>
+      <% end %>
+    </ul>
+
+    <div class="post-text">
+      <%# flash_tag :postalert, :class => "flash alert" if flash[:postid] == post.id %>
+      <div class="post-normal-markup">
+	<%= process_markup(post.content) %>
+      </div>
+      <div class="post-raw-markup">
+	<%= process_raw(post.content) %>
+      </div>
+
+      <% if logged_in? && !disable_actions %>
+	<p class="reply-button">
+	  <a class="button-normal" href="/forums/<%= forum.id %>/posts/<%= post.id %>/reply"><%= t.posts.reply %></a>
+	</p>
+
+	<% if logged_in_user.admin? %>
+          <p class="post-ip">
+            IP:
+            <% if post.ip.to_s.empty? %>
+              <%= t.posts.no_ip %>
+            <% else %>
+              <%= post.ip %>
+            <% end %>
+          </p>
+	<% end %>
+      <% end %>
+      <div class="clear"><!-- Ensure all floating material ends with end of post --></div>
+    </div>
+
+    <%# unless post.attachments.empty? %>
+      <!--<div class="post-attachments">
+      <%# post.attachments.order(:filename => :asc).each do |attachment| %>
+        <div class="post-attachment">
+          <div class="attachment-icon">--><!-- for screenreaders not an <img> --><!--</div>
+          <p>
+            <strong><%# I18n.t("posts.attachment") %></strong> <%# link_to(attachment.filename, attachment.full_uri) %> (<%# readable_bytesize(File.size(attachment.full_path)) %>)
+          </p>
+
+          <%# if attachment.image? %>
+            <%# link_to image_tag(attachment.full_uri, :alt => attachment.filename), attachment.full_uri, :class => "attachment-preview" %>
+          <%# end %>
+          <div class="attachment-description">
+            <%# attachment.description.blank? ? content_tag("p", I18n.t("posts.no_attachment_description")) : simple_format(attachment.description) %>
+          </div>
+        </div>
+      <%# end %>
+      </div>
+    <%# end %>-->
+  </div>
+</div>
+
+<%# Recurse %>
+<% if recurse %>
+  <% post.replies.each do |reply| %>
+    <%= erb :_post, :locals => {:post => reply, :forum => forum, :level => level + 1, :recurse => recurse} %>
+  <% end %>
+<% end %>

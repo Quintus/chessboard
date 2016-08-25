@@ -1,0 +1,36 @@
+<% content_for :sidebar do %>
+  <%= erb :_admin_sidebar %>
+<% end %>
+<% content_for :header do %>
+  <script type="text/javascript" src="/javascripts/tags.js"></script>
+<% end %>
+
+<h1><%= t.admin.tags %></h1>
+
+<table>
+  <thead>
+    <tr>
+      <th><%= t.admin.tag_name %></th>
+      <th><%= t.admin.tag_color %></th>
+      <th><%= t.admin.tag_description %></th>
+      <th><%= t.general.actions %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @tags.each do |tag| %>
+      <tr id="tag-<%= tag.id %>">
+	<td><%= tag.name %></td>
+	<td class="tag-color" style="background-color: #<%= tag.color %>">#<%= tag.color %></td>
+	<td><%= tag.description %></td>
+	<td>
+	  <a href="/admin/tags/<%= tag.id %>/edit" class="button-normal"><%= t.general.edit %></a>
+	  <a href="#" class="button-error delete-tag" data-id="<%= tag.id %>"><%= t.general.delete %></a>
+	</td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<p>
+  <a href="/admin/tags/new"><%= t.admin.tag_new %></a>
+</p>

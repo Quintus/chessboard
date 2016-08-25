@@ -1,9 +1,6 @@
-#!/usr/bin/env rackup
-# encoding: utf-8
+# config.ru
+# Rack handler configuration.
 
-# This file can be used to start Padrino,
-# just execute it from the command line.
+require_relative "lib/chessboard"
 
-require File.expand_path("../config/boot.rb", __FILE__)
-
-run Padrino.application
+run Chessboard::Application

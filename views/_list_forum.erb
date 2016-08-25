@@ -1,0 +1,28 @@
+<tr class="forum">
+  <td class="forumicon">
+    <%# if env["warden"].authenticated? && !env["warden"].user.read_forum?(list_forum) %>
+      <!--<img src="/images/icons/forum_unread.png" alt="Un-read Icon"/>-->
+    <%# else %>
+      <img src="/images/icons/forum_read.png" alt="Read Icon"/>
+    <%# end %>
+  </td>
+  <td class="forumname">
+    <a href="/forums/<%= forum.id %>"><%= forum.name %></a><br/>
+    <%= forum.description %>
+  </td>
+  <td class="forumtopics numbercell">
+    <%= forum.thread_starters.count %>
+  </td>
+  <td class="forumposts numbercell">
+    <%= forum.posts.count %>
+  </td>
+  <td class="forumlastpost">
+    <%# post = Post.joins(:topic).joins("INNER JOIN forums ON topics.forum_id = forums.id").where("forums.id = ?", list_forum.id).order(:created_at => :desc).first %>
+    <%# if post %>
+      <%# format_time post.created_at %><br/>
+      <%# t.forums.author_by %> <%# link_to(post.author.nickname, url(:users, :show, post.author.nickname)) %>
+    <%# else %>
+      <%= t.general.never %>
+    <%# end %>
+  </td>
+</tr>

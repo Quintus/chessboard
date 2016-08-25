@@ -1,0 +1,142 @@
+<h1><%= t.settings.settings %></h1>
+
+<% unless @user.errors.empty? %>
+<div class="flash alert">
+  <p><%= t.general.errors_occured %></p>
+  <ul>
+    <% @user.errors.messages.each do |key, msg| %>
+      <li><%= key %>: <%= msg %></li>
+    <% end %>
+  </ul>
+</div>
+<% end %>
+
+<form class="settings-form"  action="/settings" method="post" accept-charset="UTF-8" enctype="multipart/form-data">
+  <div class="setting">
+    <div class="header settings-header">
+      <p><%= t.settings.titles.hide_status %></p>
+    </div>
+
+    <div class="settings-desc">
+      <p><%= t.settings.descriptions.hide_status %></p>
+    </div>
+
+    <div class="settings-content">
+      <p>
+	<input type="hidden"   value="0" name="hide_status"/>
+	<input type="checkbox" value="1" name="hide_status" id="hide_status" <%= checked(@user.hide_status) %>></input>
+	<label for="hide_status"> <%= t.settings.titles.hide_status %></label>
+      </p>
+    </div>
+  </div>
+
+  <div class="setting">
+    <div class="header settings-header">
+      <p><%= t.settings.titles.hide_email %></p>
+    </div>
+
+    <div class="settings-desc">
+      <p><%= t.settings.descriptions.hide_email %></p>
+    </div>
+
+    <div class="settings-content">
+      <p>
+	<input type="hidden"   value="0" name="hide_email"/>
+	<input type="checkbox" value="1" name="hide_email" id="hide_email" <%= checked(@user.hide_email) %>></input>
+	<label for="hide_email"><%= t.settings.titles.hide_email %></label>
+      </p>
+    </div>
+  </div>
+
+  <div class="setting">
+    <div class="header settings-header">
+      <p><%= t.settings.titles.auto_watch %></p>
+    </div>
+
+    <div class="settings-desc">
+      <p><%= t.settings.descriptions.auto_watch %></p>
+    </div>
+
+    <div class="settings-content">
+      <p>
+	<input type="hidden"   value="0" name="auto_watch"/>
+	<input type="checkbox" value="1" name="auto_watch" id="auto_watch" <%= checked(@user.auto_watch) %>></input>
+	<label for="auto_watch"><%= t.settings.titles.auto_watch %></label>
+      </p>
+    </div>
+  </div>
+
+  <div class="setting">
+    <div class="header settings-header">
+      <p><%= t.settings.titles.always_raw %></p>
+    </div>
+
+    <div class="settings-desc">
+      <p><%= t.settings.descriptions.always_raw %></p>
+    </div>
+
+    <div class="settings-content">
+      <p>
+	<input type="hidden"   value="0" name="always_raw"/>
+	<input type="checkbox" value="1" name="always_raw" id="always_raw" <%= checked(@user.always_raw) %>></input>
+	<label for="always_raw"><%= t.settings.titles.always_raw %></label>
+      </p>
+    </div>
+  </div>
+
+  <div class="setting">
+    <div class="header settings-header">
+      <p><%= t.settings.titles.language %></p>
+    </div>
+
+    <div class="settings-desc">
+      <p><%= t.settings.descriptions.language %></p>
+    </div>
+
+    <div class="settings-content">
+      <p>
+	<select id="language" name="language">
+	  <% R18n.available_locales.each do |locale| %>
+	    <option
+	       value="<%= locale.code %>"
+	       <% if locale.code == @user.locale %>
+		 selected="selected"
+	       <% end %>
+	       ><%= locale.title %></option>
+	  <% end %>
+	</select>
+      </p>
+    </div>
+  </div>
+
+  <div class="setting">
+    <div class="header settings-header">
+      <p><%= t.settings.titles.avatar %></p>
+    </div>
+
+    <div class="settings-desc">
+      <p><%= t.settings.descriptions.avatar %></p>
+    </div>
+
+    <div class="settings-content">
+      <p>
+	<input type="file" id="avatar" name="avatar"></input>
+      </p>
+
+      <p>
+	<input type="checkbox" id="delete_avatar" name="delete_avatar"></input>
+	<label for="delete_avatar"><%= t.settings.delete_avatar %></label>
+      </p>
+
+      <p>
+	<% if @user.avatar? %>
+	  <img src="<%= @user.avatar_url %>" alt="Current user avatar"/>
+	<% end %>
+      </p>
+    </div>
+  </div>
+
+  <p class="submit-separator">
+    <input type="submit" value="<%= t.general.update %>" class="button-ok"></input>
+  </p>
+</form>

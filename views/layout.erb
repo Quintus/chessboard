@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title>Chessboard</title>
+    <link rel="stylesheet" href="/stylesheets/buttons.css" type="text/css"/>
+    <link rel="stylesheet" href="/stylesheets/coderay.css" type="text/css"/>
+    <link rel="stylesheet" href="/stylesheets/main.css" type="text/css"/>
+    <script type="text/javascript" src="/javascripts/jquery.js"></script>
+    <script type="text/javascript" src="/javascripts/thread.js"></script>
+    <script type="text/javascript" src="/javascripts/raw.js"></script>
+    <script type="text/javascript" src="/javascripts/line_breaks.js"></script>
+    <%# javascript_include_tag "jquery", "jquery-ujs", "insert_at_caret", "usersearch", "preview", "hide_codelines", "attachments", "hilit", "spoiler" %>
+    <%# feed_tag :atom, url(:topics, :feed, :format => :atom), :title => "Atom feed" %>
+    <% if content_for?(:header) %>
+      <%= yield_content(:header) %>
+    <% end %>
+  </head>
+  <body>
+    <div id="header" role="logo">
+      <p id="title"><%= Chessboard::Configuration[:board_title] %></p>
+      <p id="subtitle"><%= Chessboard::Configuration[:board_subtitle] %></p>
+    </div>
+
+    <%= erb :_navigation %>
+
+    <div id="login-info">
+      <% if logged_in? %>
+	<%= t.general.logged_in logged_in_user.display_name %>
+      <% else %>
+	<%= t.general.not_logged_in %>
+      <% end %>
+    </div>
+
+    <% if content_for?(:sidebar) %>
+      <div id="sidebar">
+	<%= yield_content(:sidebar) %>
+      </div>
+    <% end %>
+
+    <% if content_for?(:sidebar) %>
+    <div id="content" class="with-sidebar">
+    <% else %>
+    <div id="content">
+    <% end %>
+      <% if alert? %>
+        <p class="flash alert"><%= alert %></p>
+      <% end %>
+      <% if message? %>
+        <p class="flash notice"><%= message %></p>
+      <% end %>
+
+      <%= yield %>
+
+      <%= erb :_footer %>
+    </div>
+
+  </body>
+</html>

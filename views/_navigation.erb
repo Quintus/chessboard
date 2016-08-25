@@ -1,0 +1,22 @@
+<div id="navigation">
+  <ul class="vlist">
+    <li><a href="/forums"><%= t.general.index %></a></li>
+
+    <li><a href="/search"><%= t.general.search %></a></li>
+
+    <% if logged_in? %>
+      <li><a href="/settings"><%= t.personal.settings %></a></li>
+      <% if logged_in_user.admin? %>
+	<li><a href="/admin"><%= t.admin.administration %></a></li>
+      <% end %>
+    <% else %>
+      <li><a href="/register"><%= t.general.register %></a></li>
+    <% end %>
+
+    <% if logged_in? %>
+      <li><a href="/logout"><%= t.general.log_out %></a></li>
+    <% else %>
+      <li><a href="/login"><%= t.general.log_in %></a></li>
+    <% end %>
+  </ul>
+</div>

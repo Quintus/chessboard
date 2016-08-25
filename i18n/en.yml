@@ -1,0 +1,243 @@
+general:
+  forum_overview: "Forum Overview"
+  log_in: "Log in"
+  log_out: "Log out"
+  password: "Password"
+  forgot_pw: "Forgot password?"
+  nickname: "Nickname"
+  email: "E-Mail address"
+  not_logged_in: "You are not logged in."
+  logged_in: "You are logged in as %1."
+  logged_in_successfully: "You logged in successfully."
+  index: "Index"
+  register: "Register"
+  create: "Create"
+  update: "Update"
+  delete: "Delete"
+  edit: "Edit"
+  search: "Search"
+  ok: "OK"
+  reset: "Reset"
+  search_results: "Search results"
+  errors_occured: "Errors occured:"
+  are_you_sure: "Are you sure?"
+  never: "Never"
+  moderation: "Moderation"
+  withdraw: "Withdraw"
+  actions: "Actions"
+  preview: "Preview"
+  errors_occured: "Errors occured."
+  search: "Search"
+forums:
+  forum: "Forum"
+  topics: "Topics"
+  topic: "Topic"
+  replies: "Replies"
+  views: "Views"
+  posts: "Posts"
+  lastpost: "Last Post"
+  author_by: "by"
+  new_topic: "New Topic"
+personal:
+  settings: "Settings"
+  misc: "Miscellaneous"
+  stats: >-
+    Since you first signed up on %{signtime}, you have
+    opened %{topiccount} topics and authored %{postcount}
+    postings in total. %{pmcount} personal topics were
+    created by you, while a total of %{ppcount}
+    personal posts in those and other personal topics were written.
+  stats2: >-
+    You are watching %{watchcount} topics, and your last login
+    was on %{lastlogintime}.
+  rank:
+    You have been granted the “%{rank}” forum title by the administrators.
+users:
+  # When the user signed up on the forum. Followed by a colon.
+  registered: "Registered"
+  # Followed by a colon and the number of posts this user made
+  posts: "Posts"
+  newest: "Newest member"
+  active_users: "Recently active users:"
+  no_active_users: "No visible active users."
+  and_n_more: ", and %{num} more."
+  users: "Users"
+  # Warn user he did something wrong and may be banned later if he continues
+  # to do so.
+  warn: "Warn"
+  # Ban the user from the forum.
+  ban: "Ban"
+  # Write a PM to this user.
+  pm: "New PM"
+  # Search all posts by this user.
+  search_posts: "Search posts"
+  list: Member list
+  list_form: >
+    Use this form to search the board’s member list for
+    a user whose nickname contains the given characters.
+  list_query: "Query:"
+  profile: "%{nick}’s user profile"
+  total_posts: "Total posts"
+  hidden_email: "Hidden"
+  hidden_email_for_unprivileged: "Hidden for unprivileged users"
+  registration: >
+    You have successfully registered. A confirmation email was sent
+    to your mail address, please follow the link it contains in order
+    to activate your account.
+  change_password: "Change password"
+  change_password_desc: >
+    Use this form to change your password. You are encouraged to use
+    a strong password containing several special characters, numbers,
+    etc. To keep track of your passwords, use a “password manager”
+    program instead of trying to remember all your passwords. The
+    password must at least be 8 characters long.
+  password_changed: "Password changed successfully."
+  delete: "Delete account"
+  deleted: "Your account has been deleted."
+  delete_desc: >
+    This form allows you to delete your account. Along with your
+    account, all your posts, topics, PMs, etc. are completely
+    erased, without any possibility to recover.
+  forgotpw:
+    forgot: "Forgot password?"
+    forgotpw: "Reset password"
+    forgotpw_desc: >
+      Use this form to reset your password if you forgot it.
+      You will receive an email with a temporary password you
+      are advised to change after logging in again.
+      See this as your friendly reminder to use a password
+      manager program.
+    reset: "A new password has been emailed to you."
+  # ALT attribute text in user avatar <img> tag
+  avatar_alt: User avatar
+topics:
+  expand_all: "Expand all"
+  collapse_all: "Collapse all"
+  delete: "Delete Topic"
+  deleted: "Topic deleted."
+  lock: "Lock Topic"
+  unlock: "Unlock Topic"
+  locked: "Locked Topic."
+  unlocked: "Unlocked Topic."
+  watch: "Watch"
+  unwatch: "Unwatch"
+  watched: "Now watching this topic."
+  unwatched: "No longer watching this topic."
+  edit_topic: "Edit Topic"
+  edited: "Topic edited."
+  edit: "Edit Topic"
+  mark_all_as_read: "Mark all read"
+  marked_all_as_read: "All topics marked as read."
+  pages: "Pages:"
+  next_page: "Next →"
+  prev_page: "← Previous"
+  move: "Move Topic"
+  move_target: "New forum"
+  moved: "Moved Topic."
+  merge: "Merge Topic"
+  merge_target: "Target topic:"
+  merged: "Merged Topics."
+  merge_info: >
+    Using this form you can merge two topics into one. The posts are
+    inserted into the topic in their chronological order, which means
+    that the later you merge, the more confusion you will generate.
+    The topic you execute the merge on will be deleted in favour of
+    the target topic. In the field below, enter the ID of the target
+    topic you want to merge with (you can find this out by looking at
+    your browser’s URL bar when in the target topic).
+  split: "Split Topic"
+  split_here: "Split here"
+  splitted: "Split Topic."
+  split_info: >
+    Submitting this form will split the selected topic from the requested
+    topic on into two ones. The new topic will be created with the title
+    you give below, and will be placed in the same forum as the old topic
+    (you can move it later if you need). The post you selected “split” on
+    will be the first post of the new topic.
+settings:
+  settings: "Settings"
+  updated: Your settings have been updated.
+  avatar_upload_failed: Avatar upload failed. Maybe the image format is not supported?
+  delete_avatar: Delete avatar (upload form will be ignored)
+  titles:
+    hide_status: Hide status
+    hide_email: Hide email
+    auto_watch: Auto-Watch
+    language: Language
+    signature: Signature
+    avatar: Avatar
+    always_raw: Always show raw
+  descriptions:
+    hide_status: >
+      Activating this option makes your online status invisible
+      for all other members except moderators and administrators.
+    hide_email: >-
+      If this option is active, your email address will not be shown
+      on your profile page (board staff can still see it).
+    auto_watch: >-
+      Automatically watch all topics you create or reply to.
+    language: >
+      Main board display language. All system messages will be shown
+      to you in this language; it has (of course) no influence on
+      the language other people use in their postings.
+    markup_language: >
+      This is the default markup language that will be selected for
+      new postings you are creating.
+    signature: >
+      This text is placed below each of your postings and shown
+      at the bottom of your profile page. You can use BBCode to
+      style it.
+    avatar: >
+      Your avatar is a small graphic that is displayed next to all
+      your posts. Each edge of the image may not be longer than 80
+      pixels. You can use animated GIFs if you want.
+    always_raw: >
+      Display the raw view of posts by default and not the processed one.
+posts:
+  edit: "Edit"
+  edit_post: "Edit posting"
+  delete: "Delete"
+  deleted: "Posting deleted."
+  created: "Posting created."
+  updated: "Posting updated."
+  reply: "Reply"
+  replied_to_post: "Post you reply to"
+  your_reply: "Your reply"
+  no_ip: "(not available)"
+  title: "Title"
+  content: "Content"
+  automatic_line_breaks: "Automatic line breaks"
+  add_attachment: "Add Attachment"
+  failed_attachment: "Failed to upload attachment '%{name}': %{error}"
+  attachment: "Attachment:"
+  no_attachment_description: "(No description provided.)"
+  attachment_max_size: "(Maximum attachment size: %{size})"
+  mark_announce: Mark as announcement
+  unmark_announce: Unmark as announcement
+  marked_as_announcement: Marked this post as an announcement.
+  unmarked_as_announcement: Unmarked this post as an announcement.
+  mark_sticky: Mark as sticky
+  unmark_sticky: Unmark as sticky
+  marked_as_sticky: Marked this post as sticky.
+  unmarked_as_sticky: Unmarked this post as sticky.
+  report_this: Report this
+  # Post content toggle
+  show_raw: Show raw
+  show_normal: Show normal
+admin:
+  administration: Administration
+  startpage_text: >
+    Welcome to the Chessboard Administration area.
+    Find the different administrative topics in the
+    navigation on the left side.
+  tags: Tags
+  tag_name: Tag Name
+  tag_color: Tag Color
+  tag_description: Tag Description
+  tag_new: Create new tag…
+  tag_edit: Edit Tag
+  tag_create: Create Tag
+  tag_created: Tag successfully created.
+  tag_updated: Tag successfully updated.
+  bans: Bans
+  mailinglists: Mailinglists

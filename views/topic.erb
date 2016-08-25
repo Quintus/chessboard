@@ -1,0 +1,47 @@
+<p class="post-forum"><a href="/forums/<%= @forum.id %>"><%= @forum.name %></a></p>
+<h1><%= h @root_post.pretty_title %></h1>
+
+<div class="topic">
+  <% @posts.each do |post| %>
+    <%= erb :_post, :locals => {:post => post, :forum => @forum, :recurse => false} %>
+  <% end %>
+</div>
+
+<ul class="topic-actions">
+  <% if logged_in? %>
+
+      <%# if @topic.watchers.include?(env["warden"].user) %>
+        <!--<li><%# link_to I18n.t("topics.unwatch"), url(:topics, :unwatch, @topic.id) + "?authenticity_token=#{session[:csrf]}", :class => "button-normal", :method => :patch %></li>-->
+      <%# else %>
+        <!--<li><%# link_to I18n.t("topics.watch"), url(:topics, :watch, @topic.id) + "?authenticity_token=#{session[:csrf]}", :class => "button-normal", :method => :patch %></li>-->
+      <%# end %>
+  <% end %>
+</ul>
+
+<div class="clear"></div>
+
+<%# Page navigation %>
+<%# Forced topic view is intended, otherwise it would be confusing (think direct links) %>
+<% if @total_pages > 1 %>
+  <ul class="vlist topic-pages">
+    <% if @current_page > 1 %>
+      <li><a href="/forums/<%= @forum[:id] %>/topics/<%= @root_post.id %>?page=<%= @current_page - 1 %>"><%= t.topics.prev_page %></a></li>
+    <% end %>
+
+    <% if @total_pages <= 5 %>
+      <% 1.upto(@total_pages) do |i| %>
+        <li><a href="/forums/<%= @forum[:id] %>/topics/<%= @root_post.id %>?page=<%= i %>"><%= i %></a></li>
+      <% end %>
+    <% elsif @total_pages > 5 %>
+      <% 1.upto(4) do |i| %>
+	<li><a href="/forums/<%= @forum[:id] %>/topics/<%= @root_post.id %>?page=<%= i %>"><%= i %></a></li>
+      <% end %>
+      <li>…</li>
+      <li><a href="/forums/<%= @forum[:id] %>/topics/<%= @root_post.id %>?page=<%= @total_pages %>"><%= @total_pages %></a></li>
+    <% end %>
+
+    <% if @current_page < @total_pages %>
+      <li><a href="/forums/<%= @forum[:id] %>/topics/<%= @root_post.id %>?page=<%= @current_page + 1 %>"><%= t.topics.next_page %></a></li>
+    <% end %>
+  </ul>
+<% end %>

@@ -1,0 +1,141 @@
+#!/usr/bin/env ruby
+require "bundler/setup"
+require "optparse"
+require_relative "../lib/chessboard"
+
+# Shortcut for Chessboard.logger.
+def logger
+  Chessboard.logger
+end
+
+# Waits at maximum +seconds+ seconds for the process +pid+ to exit.
+# If the processes exited within the given timespan, returns true,
+# otherwise returns false. This method will return as soon as the
+# process exits and not wait for +seconds+ to pass. If the process
+# on the other hand does not exit, then +seconds+ are going to pass
+# (and false is returned).
+def wait_for_process(seconds, pid)
+  seconds.times do
+    sleep(1)
+    begin
+      Process.kill(0, pid)
+    rescue Errno::ESRCH
+      return true
+    end
+  end
+
+  false
+end
+
+def start_monitor
+  if File.exist?($options[:pidfile])
+    raise "PID file already exists: #{$options[:pidfile]}"
+  end
+
+  # Fork unless demanded otherwise
+  unless $options[:foreground]
+    if pid = fork
+      # Parent has no interest in child
+      Process.detach(pid)
+
+      puts "Forked, child has PID #{pid}"
+      exit 0
+    end
+
+    # Child
+    STDIN.close
+    STDOUT.close
+    STDERR.close
+
+    File.open($options[:pidfile], "w"){|f| f.write($$)}
+  end
+
+  logger.info "Starting up, child pid is #{$$}"
+
+  File.umask 0137 # rw-r--r--
+
+  begin
+    Process.setsid
+  rescue Errno::EPERM
+    # We are already a process group leader (?)
+  end
+
+  Dir.chdir("/")
+
+  Chessboard::MailinglistWatcher.start_monitoring_threads
+
+  Signal.trap("TERM") do
+    Chessboard::MailinglistWatcher.stop_monitoring_threads
+  end
+
+  Signal.trap("INT") do
+    Chessboard::MailinglistWatcher.stop_monitoring_threads
+  end
+
+  Chessboard::MailinglistWatcher.wait_for_monitoring_threads
+end
+
+def stop_monitor
+  unless File.exist?($options[:pidfile])
+    raise "No PID file found at #{$options[:pidfile]}"
+  end
+
+  pid = File.read($options[:pidfile]).to_i
+
+  puts "Sending SIGTERM to #{pid}"
+  Process.kill("TERM", pid)
+
+  unless wait_for_process(10, pid)
+    # It is still there, forcibly terminate it
+    puts "Process still there, sending SIGKILL to #{pid}"
+    Process.kill("KILL", pid)
+  end
+
+end
+
+$options = {
+  :pidfile    => File.expand_path(File.join(File.dirname(__FILE__), ".."), "chessboard-ml_monitor.pid"),
+  :foreground => ENV["RACK_ENV"] != "production"
+}
+
+OptionParser.new do |op|
+  op.banner =<<BANNER
+ml_monitor -- mailinglist monitor daemon of Chessboard
+
+USAGE:
+
+ml_monitor [OPTIONS] COMMAND
+
+This is a little daemon whose sole purpose is to monitor all
+mailinglists configured in chessboard for changes and insert
+them into the database.
+
+COMMANDS:
+
+   start    Start the monitor daemon.
+   stop     Stop the monitor daemon.
+
+OPTIONS:
+BANNER
+
+  op.on("-f", "--[no-]foreground",
+        "Do not fork, run in the foreground",
+        "(set by default unless RACK_ENV=production).") do |bool|
+    $options[:foreground] = bool
+  end
+
+  op.on("-p", "--pid-file PATH",
+        "Write the PID to the file PATH.") do |path|
+    $options[:pidfile] = path
+  end
+
+  op.on("-h", "--help") { puts(op); exit(0) }
+end.parse!(ARGV)
+
+case ARGV.first
+when "start" then start_monitor
+when "stop"  then stop_monitor
+else
+  $stderr.puts "Unknown command '#{ARGV.first}', try -h for help."
+  exit 1
+end

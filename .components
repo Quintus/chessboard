@@ -1,9 +1,0 @@
----
-:orm: activerecord
-:test: minitest
-:mock: none
-:script: none
-:renderer: erb
-:stylesheet: scss
-:namespace: Chessboard
-:migration_format: number

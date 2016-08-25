@@ -1,3 +1,0 @@
-[submodule "ruby-lmtp"]
-	path = ruby-lmtp
-	url = git://github.com/Quintus/ruby-lmtp.git

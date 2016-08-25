@@ -1,0 +1,723 @@
+/* General info:
+ * Font: Helvetica, sans-serif
+ * Font size: 14px
+ * Small font size: 12px
+ * Light grey: #EEEEEE
+ * Dark grey: #AAAAAA
+*/
+
+html {
+    font-family: Helvetica, sans-serif;
+    font-size: 14px;
+    background-color: #FFFFFF;
+}
+
+
+h1 {
+    border-bottom: 1px solid black;
+    font-size: 150%;
+    margin-top: 0.67em;
+    margin-bottom: 0.67em;
+}
+
+a {
+    color: #0b8ae1;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a:hover {
+    color: #520ebb;
+}
+
+a img {
+    vertical-align: text-top;
+}
+
+blockquote {
+    border: 1px solid gray;
+    border-left: 3px solid gray;
+    background-color: white;
+    padding: 0px 4px;
+    font-style: italic;
+}
+
+input[type='text'], input[type='password'] {
+    width: 50%;
+}
+
+textarea {
+    width: 50%;
+    height: 200px;
+}
+
+form {
+    border: 1px solid black;
+    background-color: #EEEEEE;
+    padding: 4px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    border-bottom: 1px solid #AAAAAA;
+}
+
+table thead tr {
+    border-bottom: 1px solid black;
+    background-color: #AAAAAA;
+}
+
+table thead tr th {
+    text-align: left;
+}
+
+table tbody tr {
+    border-top: 1px solid #AAAAAA;
+}
+
+table tbody tr:first {
+    border-top: none;
+}
+
+table tbody tr td {
+    text-align: left;
+}
+
+div.CodeRay, pre {
+    max-height: 250px;
+    overflow-x: auto;
+    overflow-y: auto;
+    position: relative;
+}
+
+code, pre {
+  background-color: hsl(0,0%,95%);
+  border: 1px solid silver;
+  color: black;
+  font-size: 12px;
+}
+
+div.CodeRay > div.code > pre {
+    border: none;
+}
+
+pre code {
+    border: none;
+}
+
+.hide-codelines {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 20;
+    display: none;
+    cursor: pointer;
+}
+
+#header {
+    border: 1px solid black;
+    background-color: #EEEEEE;
+    padding: 4px;
+}
+
+#header p {
+    margin: 0px;
+}
+
+#title {
+    font-size: 150%;
+}
+
+#navigation {
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+
+    background-color: black;
+    padding: 4px;
+}
+
+.vlist {
+    margin: 0px;
+    list-style-type: none;
+    padding: 0px;
+}
+
+.vlist li {
+    display: inline;
+    margin-left: 4px;
+}
+
+#navigation ul li a {
+    color: #EEEEEE;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+#navigation ul li a:hover {
+    text-decoration: underline;
+}
+
+#footer {
+    margin-top: 10px;
+    padding-top: 4px;
+    font-size: 12px;
+    border-top: 1px dashed #AAAAAA;
+    color: #AAAAAA;
+}
+
+#footer a {
+    color: #AAAAAA;
+}
+
+#footer a:hover {
+    color: black;
+}
+
+#sidebar {
+    float: left;
+    width: 20%;
+}
+
+.with-sidebar {
+    margin-left: 21%;
+}
+
+#time {
+    float: right;
+    text-align: right;
+}
+
+#time p {
+    margin-left: 0px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-right: 2px;
+}
+
+#stats p {
+    margin-left: 2px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-right: 2px;
+}
+
+.hidden-user {
+    font-style: italic;
+}
+
+.forumgroup {
+    margin-bottom: 8px;
+    border: 1px solid black;
+    background-color: #EEEEEE;
+}
+
+.forumgroup .forumgroupname {
+    margin: 0px;
+    border-bottom: 1px solid black;
+    background-color: black;
+    color: white;
+    padding-left: 4px;
+}
+
+.notice {
+    border: 1px solid #00681c;
+    background-color: #77e494;
+}
+
+.alert {
+    border: 1px solid #b5340e;
+    background-color: #e48177;
+}
+
+.flash {
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 6px;
+    margin-bottom: 6px;
+    text-align: center;
+}
+
+.center {
+    text-align: center;
+}
+
+.pgp-inline {
+    text-align: center;
+    font-style: italic;
+}
+
+.flash p { margin: 0px; }
+
+.hilit {
+    background-color: yellow;
+}
+
+.ml-quote-1 {
+    color: blue;
+}
+
+.ml-quote-2 {
+    color: green;
+}
+
+.ml-quote-n {
+    color: red;
+}
+
+.forumlist {
+    table-layout: fixed;
+}
+
+.forumlist .forumname { padding-left: 4px; }
+
+.topicslist {
+    table-layout: fixed;
+}
+
+.topicslist .list-topic { padding-left: 4px; }
+
+.numbercell { width: 7%; text-align: center; }
+.imgcell { width: 24px; text-align: center; vertical-align: middle }
+.forumlastpost { width: 11%; }
+
+#login-info {
+    margin-left: 2px;
+}
+
+.topic {
+}
+
+.clear {
+    clear: both;
+}
+
+.post {
+    margin-top: 8px;
+    border: 1px solid black;
+    background-color: #EEEEEE;
+
+    width: 100%;
+    display: table;
+    table-layout: fixed;
+}
+
+.post-created {
+    float: right;
+}
+
+.header {
+    border-bottom: 1px solid black;
+    background-color: #AAAAAA;
+    color: #EEEEEE;
+    padding: 0px 4px 0px 4px;
+}
+
+.header p { margin: 0px; }
+
+.post-author {
+    width: 15%;
+    display: table-cell;
+    padding-left: 4px;
+}
+
+.post-author p { margin: 0px; }
+
+.post-content {
+    border-left: 1px solid black;
+    display: table-cell;
+}
+
+.post-text {
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+.author-name {
+    font-weight: bold;
+}
+
+.author-membership {
+    font-size: 11pt;
+}
+
+.author-registered {
+    font-size: 12px;
+}
+
+.post-author p.author-registered {
+    margin-top: 4px;
+}
+
+.author-posts {
+    font-size: 12px;
+}
+
+.post-forum {
+    font-size: 12px;
+    margin-top: 12px;
+    margin-bottom: -12px;
+}
+
+.top-right-nav {
+    margin: 0px;
+    float: right;
+    position: relative;
+    top: -4px;
+    font-size: 12px;
+}
+
+.setting {
+    margin-bottom: 10px;
+}
+
+.settings-form {
+    padding: 0px;
+}
+
+.settings-desc {
+    padding: 4px;
+}
+
+.settings-content {
+    padding: 4px;
+}
+
+.submit-separator {
+    border-top: 1px dashed #AAAAAA;
+    padding-top: 4px;
+    padding-left: 4px;
+}
+
+.quickreply-form {
+    margin-top: 10px;
+}
+
+.quickreply-form h2 { margin-top: 0px; }
+
+.topic-actions {
+    list-style-type: none;
+    margin-top: 4px;
+    padding: 0px;
+    text-align: right;
+}
+
+.topic-actions li {
+    display: inline;
+    margin-left: 4px;
+}
+
+.topic-pages-topic {
+    float: left;
+}
+
+.topic-pages-forum {
+    display: inline;
+}
+
+/* Hide by default -- these are shown using JavaScript because their
+ * functionality only works with JavaScript. */
+.topic-actions li.expand-all, .topic-actions li.collapse-all {
+    display: none;
+}
+
+.topic-pagse-forum li:first-child { margin-left: 0px; }
+
+ul.post-actions {
+    float: right;
+    margin-top: 4px;
+    margin-right: 4px;
+}
+
+ul.post-actions li { margin-left: 4px; }
+
+ul.post-actions img {
+    width: 16px;
+    height: 16px;
+}
+
+/* These are shown through JavaScript */
+.post-actions .show-raw-item, .post-actions .show-normal-item, .post-raw-markup { display: none; }
+#automatic_line_breaks_container { display: none; }
+
+.post-raw-markup pre {
+    overflow-y: visible;
+    max-height: none;
+    background-color: #EEEEEE;
+    border: none;
+    font-size: 14px;
+}
+
+.post-ip {
+    float: left;
+    color: #b6a23c;
+    font-style: italic;
+    font-size: small;
+    margin: 0px 4px 0px 4px;
+}
+
+.reply-button {
+    float: right;
+    margin: 4px 0px 4px 4px;
+}
+
+.post-title {
+    margin-left: 20px;
+}
+
+.mods {
+    font-style: italic;
+    font-size: small;
+}
+
+.signature {
+    border: none;
+    background-color: #EEEEEE;
+    border-top: 1px dashed #AAAAAA;
+    font-size: small;
+    color: #AAAAAA;
+
+    padding: 0px 4px;
+}
+
+.search-results {
+    margin-top: 8px;
+    border: 1px solid black;
+    background-color: #EEEEEE;
+    padding: 4px;
+}
+
+.search-results ul {
+    list-style-type: none;
+    padding-left: 30px;
+}
+
+.search-results ul li {
+    display: inline;
+    margin-left: 4px;
+}
+
+.thread-tree ul {
+    list-style-type: none;
+    background: url("/images/misc/vline.png") repeat-y;
+    margin: 0px;
+    padding: 0px;
+}
+
+.thread-tree ul ul {
+    margin-left: 10px;
+}
+
+.thread-tree ul li {
+    margin: 0px;
+    padding: 0px 0px 0px 12px;
+    line-height: 20px;
+    background: url("/images/misc/node.png") no-repeat;
+}
+
+.thread-tree ul li:last-child {
+    background: #FFFFFF url("/images/misc/lastnode.png") no-repeat;
+}
+
+.intree-post {
+    display: none;
+    margin-bottom: 12px;
+}
+
+/* .open-this {
+    margin: 0px 0px 0px 10px;
+    padding: 0px;
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background: url("/images/icons/thread_closed.png");
+} */
+.topic-actions-thread {
+    text-align: left;
+}
+
+/******* tags **********/
+
+.tag-color {
+    font-weight: bold;
+    text-align: center;
+}
+
+.tag {
+    border: 1px solid black;
+    border-radius: 8px;
+    margin: 0px 4px;
+    padding: 2px 4px 0px 4px;
+    font-size: 12px;
+    line-height: 12px;
+}
+
+.tag-selector {
+    margin-right: 20px;
+}
+
+/******** Spoiler **********/
+
+.spoiler {
+    max-height: 150px;
+    border: 1px solid black;
+    overflow: auto;
+}
+
+.spoilerwarning {
+    background-color: #AAAAAA;
+    color: yellow;
+    font-weight: bold;
+    font-variant: small-caps;
+}
+
+.spoilerwarning img {
+    margin-right: 4px;
+}
+
+.spoilercontent {
+    padding: 4px;
+}
+
+div.expandspoiler {
+    max-height: none;
+}
+
+/****** Profile page *******/
+
+.profile-user-signature {
+    margin-top: 10px;
+}
+
+.user-profile {
+    border: 1px solid black;
+    background-color: #EEEEEE;
+    padding: 4px;
+}
+
+.profile-avatar {
+    border: 1px solid black;
+    background-color: white;
+}
+
+.profile-avatar .profile-nickname {
+    font-weight: bold;
+}
+
+.profile-system-info {
+    min-width: 100px; /* avatar max size 80x80px */
+    width: 5%;
+    float: right;
+    text-align: center;
+}
+
+.profile-user-stats {
+    clear: right;
+}
+
+/********* reports *********/
+.report {
+    border: 1px solid black;
+    margin-bottom: 6px;
+    background-color: #EEEEEE;
+    padding: 4px;
+}
+
+.report p.report-intro { margin-top: 0px; }
+
+.report-post-content {
+    border: 1px solid black;
+    background-color: white;
+    padding: 4px;
+}
+
+.report-post-content p.report-author { margin-top: 0px; }
+
+.buttons {
+    margin-top: 6px;
+}
+
+/********** warnings **********/
+
+.warning {
+    border: 1px solid black;
+    background-color: #EEEEEE;
+    margin-bottom: 6px;
+}
+
+.warning p.warning-header {
+    margin-top: 0px;
+    background-color: #AAAAAA;
+}
+
+.warning p.warning-reason {
+    padding: 4px;
+}
+
+/****** Topic status *******/
+
+.topic-announcement {
+    background-color: #efc06b;
+}
+
+.topic-sticky {
+    background-color: #DDDDDD;
+}
+
+/********** Preview **********/
+
+div.preview {
+    margin-top: 4px;
+    border: 1px solid black;
+    background-color: #EEEEEE;
+    background-image: url("/images/misc/draft.png");
+    display: none; /* shown on preview */
+    padding: 4px;
+}
+
+/********* attachments *********/
+
+.post-attachment {
+    border: 1px dashed gray;
+    background-color: white;
+    padding: 4px;
+    margin: 4px;
+}
+
+.post-attachment p { margin: 0px; }
+
+.old-attachment {
+    border: 1px dashed gray;
+    background-color: white;
+    padding: 4px;
+    margin: 4px;
+}
+
+.old-attachment p { margin: 0px; }
+
+.attachment-icon {
+    background-image: url("/images/icons/attachment.png");
+    width: 16px;
+    height: 16px;
+    float: left;
+    margin-right: 2px;
+}
+
+.attachment-preview {
+    display: inline-block;
+    border: 1px solid gray;
+    background: url("/images/misc/image-background.png") repeat;
+}
+
+.attachment-preview img {
+    vertical-align: middle;
+    max-height: 300px;
+    overflow: auto;
+}
+
+.attachment-description {
+    margin-top: 2px;
+    font-style: italic;
+    color: gray;
+}
