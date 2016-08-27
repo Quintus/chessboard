@@ -113,23 +113,73 @@ module Chessboard
       @forum = Forum[params["id"].to_i]
       halt 404 unless @forum
 
-      tpp = Chessboard::Configuration[:threads_per_page]
-      @total_pages = (@forum.thread_starters.count.to_f / tpp.to_f).ceil
+      # First acceptable page is 1.
+      @current_page = params["page"].to_i
+      @current_page = 1 if @current_page < 1
 
-      if params["page"].to_i > 0
-        @current_page = params["page"].to_i
-      else
-        @current_page = 1
-      end
+      # Shortcut
+      tpp = Chessboard::Configuration[:threads_per_page]
+
+      ########################################
+      # Announcements and sticky posts
 
       @announcements   = Chessboard::Post.announcements
       @stickies        = @forum.stickies
-      @thread_starters = @forum
-                         .thread_starters
+
+      ########################################
+      # Query the requested thread starters
+
+      # Start with all posts.
+      @thread_starters = Post.dataset
+
+      # Modify the query if tagged posts were requested.
+      if params["tag"]
+        # Narrow down to the those thread starters that have all of the requested
+        # tags set by means of SQL Common Table Expressions (CTEs) that each build
+        # on top of the preceeding one, filtering it down until all tags have
+        # been processed.
+        tags = params["tag"].map(&:to_i).sort
+        tags.each_with_index do |tag_id, index|
+          dataset = index.zero? ? Post : DB[Sequel.identifier("tag#{index - 1}")]
+
+          @thread_starters = @thread_starters.with(
+            "tag#{index}",
+            dataset
+              .join(:posts_tags, :post_id => :id)
+              .where(Sequel.qualify("posts_tags", "tag_id") => tag_id))
+        end
+
+        # Main select of the CTE. The last CTE will contain only those
+        # posts that have all requested tags set.
+        @thread_starters = @thread_starters.from("tag#{tags.length - 1}")
+      end
+
+      # Exclude announcements and stickies.
+      @thread_starters = @thread_starters
                          .exclude(:id => @announcements.map(:id))
                          .exclude(:id => @stickies.map(:id))
+
+      # Limit to posts from this forum.
+      @thread_starters = @thread_starters.where(:forum_id => @forum.id)
+
+      # Limit to the actual thread starters, i.e. those posts that
+      # do not have a parent ID set.
+      @thread_starters = @thread_starters.where(:parent_id => nil)
+
+      # Order the result so that the most recent post comes first.
+      @thread_starters = @thread_starters.order(Sequel.desc(:created_at))
+
+      # Before honouring pagination, count the total amount of posts matching
+      # all criteria. This is required for the pagination menu.
+      @total_pages = (@thread_starters.count.to_f / tpp.to_f).ceil
+
+      # Now honour the current pagination.
+      @thread_starters = @thread_starters
                          .offset(tpp * (@current_page - 1))
                          .limit(tpp)
+
+      # Go!
+      @thread_starters = @thread_starters.all
 
       erb :forum
     end
