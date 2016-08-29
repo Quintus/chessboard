@@ -14,15 +14,16 @@
     <%= forum.thread_starters.count %>
   </td>
   <td class="forumposts numbercell">
-    <%= forum.posts.count %>
+    <%= forum.posts_dataset.count %>
   </td>
   <td class="forumlastpost">
+    <% post = forum.posts_dataset.order(Sequel.desc(:created_at)).first %>
     <%# post = Post.joins(:topic).joins("INNER JOIN forums ON topics.forum_id = forums.id").where("forums.id = ?", list_forum.id).order(:created_at => :desc).first %>
-    <%# if post %>
-      <%# format_time post.created_at %><br/>
+    <% if post %>
+      <%= l post.created_at %><br/>
       <%# t.forums.author_by %> <%# link_to(post.author.nickname, url(:users, :show, post.author.nickname)) %>
-    <%# else %>
+    <% else %>
       <%= t.general.never %>
-    <%# end %>
+    <% end %>
   </td>
 </tr>
