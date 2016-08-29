@@ -106,56 +106,6 @@ task :create_minimal_data do
   admin.save
 end
 
-namespace :forums do
-
-  desc "Add a new forum."
-  task :add => :check_guest_user do
-    name        = query(:name, "Name of the new forum: ")
-    description = query(:desc, "One-line description of this forum: ")
-    ml          = query(:ml, "Name of the mailinglist to mirror: ")
-    ml_tag      = query(:ml_tag, "[mailinglist-tag] to remove from title (optional): ", nil)
-    ordernum    = query(:ordernum, "Orderung number for this forum (optional): ", -1).to_i
-
-    f = Chessboard::Forum.new
-    f.name = name
-    f.description = description
-    f.mailinglist = ml
-    f.ml_tag = ml_tag if !ml_tag.nil? && !ml_tag.empty?
-    f.ordernum = ordernum if ordernum >= 0
-    f.save
-
-    puts "Created new forum with ID #{f.id}"
-    sh "rake forums:synchronize id=#{f.id}"
-  end
-
-  desc "Delete a forum."
-  task :del do
-    id = query(:id, "ID of the forum to delete: ")
-    f = Chessboard::Forum.find(id)
-
-    if query(:force, "Forum {id} is '#{f.name}'. Sure you want to delete it (y/n)?").downcase != "y"
-      fail "Aborted by user."
-    end
-
-    f.destroy
-  end
-
-  desc "Synchronize a forum or all forums with its/their mailinglist(s) (wipes all posts currently in the forum(s)!)."
-  task :synchronize do
-    id = query(:id, "ID of the forum to synchronize: ")
-
-    if id == "all"
-      puts "Synchronizing ALL forums..."
-      Chessboard::Forum.sync_with_mailinglists!
-    else
-      f = Chessboard::Forum.find(id)
-
-      puts "Synchronizing forum #{f.id} (#{f.name})..."
-      f.sync_with_mailinglist!
-    end
-  end
-end
-
 ########################################
 # Helper methods
 
