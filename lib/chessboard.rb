@@ -439,6 +439,28 @@ module Chessboard
       200
     end
 
+    get "/admin/forums" do
+      halt 400 unless logged_in?
+      halt 400 unless logged_in_user.admin?
+
+      @forums = Forum.order(Sequel.asc(:ordernum)).all
+      erb :admin_forums
+    end
+
+    delete "/admin/forums/:id" do
+      halt 400 unless request.xhr?
+      halt 400 unless logged_in?
+      halt 400 unless logged_in_user.admin?
+
+      @forum = Tag[params["id"].to_i]
+      halt 404 unless @forum
+
+      @forum.destroy
+
+      200
+    end
+
+
     ########################################
     # Misc
 

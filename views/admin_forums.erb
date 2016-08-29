@@ -1,0 +1,40 @@
+<% content_for :sidebar do %>
+  <%= erb :_admin_sidebar %>
+<% end %>
+<% content_for :header do %>
+  <script type="text/javascript" src="/javascripts/forums.js"></script>
+<% end %>
+
+<h1><%= t.admin.forums.title %></h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th><%= t.admin.forums.name %></th>
+      <th><%= t.admin.forums.mailinglist %></th>
+      <th><%= t.admin.forums.ml_tag %></th>
+      <th><%= t.admin.forums.description %></th>
+      <th><%= t.general.actions %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @forums.each do |forum| %>
+      <tr id="forum-<%= forum.id %>">
+	<td><%= forum.ordernum %></td>
+	<td><%= forum.name %></td>
+	<td><%= forum.mailinglist %></td>
+	<td><%= forum.ml_tag %></td>
+	<td><%= forum.description %></td>
+	<td>
+	  <a href="/admin/forums/<%= forum.id %>/edit" class="button-normal"><%= t.general.edit %></a>
+	  <a href="#" class="button-error delete-forum" data-id="<%= forum.id %>"><%= t.general.delete %></a>
+	</td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<p>
+  <a href="/admin/tags/new"><%= t.admin.forums.new %></a>
+</p>

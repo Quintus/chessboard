@@ -242,4 +242,10 @@ admin:
   tag_created: Tag successfully created.
   tag_updated: Tag successfully updated.
   bans: Bans
-  mailinglists: Mailinglists
+  forums:
+    title: Forums
+    name: Name
+    mailinglist: Mailinglist
+    ml_tag: Tag
+    description: Description
+    new: Create new forum…
