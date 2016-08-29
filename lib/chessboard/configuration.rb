@@ -138,7 +138,7 @@ module Chessboard
                 end
               end
 
-              mail["X-Chessboard-Tags"] = tags.select_map(:name).join(",")
+              mail["X-Chessboard-Tags"] = tags.select_map(:name).join(",") unless tags.empty?
               mail.deliver!
 
               mail.message_id

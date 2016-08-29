@@ -340,7 +340,11 @@ module Chessboard
         end
       end
 
-      @tags = Tag.where(:id => params["tags"].keys.map(&:to_i))
+      if params["tags"]
+        @tags = Tag.where(:id => params["tags"].keys.map(&:to_i))
+      else
+        @tags = []
+      end
 
       message_id = @post.send_to_mailinglist(@tags, params["attachments"] || [])
 
