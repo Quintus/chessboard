@@ -1,0 +1,83 @@
+<% content_for :sidebar do %>
+  <%= erb :_admin_sidebar %>
+<% end %>
+<% content_for :header do %>
+  <script type="text/javascript" src="/javascripts/forums.js"></script>
+<% end %>
+
+<%
+if @forum.new?
+  title = t.admin.forums.create
+  url = "/admin/forums"
+else
+  title = t.admin.forums.edit
+  url = "/admin/forums/#{@forum.id}/edit"
+end
+%>
+
+<h1><%= title %></h1>
+
+<form action="<%= url %>" method="post" accept-charset="UTF-8" class="settings-form">
+  <div class="setting">
+    <div class="header settings-header">
+      <label><%= t.admin.forums.name %></label>
+    </div>
+    <div class="settings-content">
+      <p>
+	<input type="text" name="name" value="<%= @forum.name %>"/>
+      </p>
+    </div>
+  </div>
+
+  <div class="setting">
+    <div class="header settings-header">
+      <label><%= t.admin.forums.ordernum %></label>
+    </div>
+    <div class="settings-content">
+      <p>
+	<input type="text" name="ordernum" value="<%= @forum.ordernum %>"/>
+      </p>
+    </div>
+  </div>
+
+  <%# Only allow changing the mailinglist for new records, because
+    # only for those an import of existing messages is done. %>
+  <% if @forum.new? %>
+    <div class="setting">
+      <div class="header settings-header">
+	<label><%= t.admin.forums.mailinglist %></label>
+      </div>
+      <div class="settings-content">
+	<p>
+	  <input type="text" name="mailinglist" value="<%= @forum.mailinglist %>"/>
+	</p>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="setting">
+    <div class="header settings-header">
+      <label><%= t.admin.forums.ml_tag %></label>
+    </div>
+    <div class="settings-content">
+      <p>
+	<input type="text" name="ml_tag" value="<%= @forum.ml_tag %>"/>
+      </p>
+    </div>
+  </div>
+
+  <div class="setting">
+    <div class="header settings-header">
+      <label><%= t.admin.forums.description %></label>
+    </div>
+    <div class="settings-content">
+      <p>
+	<input type="text" name="description" value="<%= @forum.description %>"/>
+      </p>
+    </div>
+  </div>
+
+  <p class="submit-separator">
+    <input type="submit" value="<%= title %>" class="button-ok"/>
+  </p>
+</form>

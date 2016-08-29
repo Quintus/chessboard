@@ -460,6 +460,35 @@ module Chessboard
       200
     end
 
+    get "/admin/forums/:id/edit" do
+      halt 400 unless logged_in?
+      halt 400 unless logged_in_user.admin?
+
+      @forum = Forum[params["id"].to_i]
+      halt 404 unless @forum
+
+      erb :admin_forum_edit
+    end
+
+    # Again, should be PATCH but browsers don't support it
+    post "/admin/forums/:id/edit" do
+      halt 400 unless logged_in?
+      halt 400 unless logged_in_user.admin?
+
+      @forum = Forum[params["id"].to_i]
+      halt 404 unless @forum
+
+      @forum.name = params["name"]
+      @forum.description = params["description"]
+      @forum.ml_tag = params["ml_tag"]
+      @forum.ordernum = params["ordernum"].to_i
+
+      @forum.save
+
+      message t.admin.forums.updated
+      redirect "/admin/forums"
+    end
+
 
     ########################################
     # Misc

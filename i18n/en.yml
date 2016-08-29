@@ -244,8 +244,12 @@ admin:
   bans: Bans
   forums:
     title: Forums
+    create: Create Forum
+    edit: Edit Forum
+    updated: Forum successfully updated.
     name: Name
     mailinglist: Mailinglist
     ml_tag: Tag
     description: Description
+    ordernum: Ordering number
     new: Create new forum…
