@@ -56,6 +56,7 @@ module Chessboard
     config_setting :database_url
     config_setting :threads_per_page, 15
     config_setting :posts_per_page, 10
+    config_setting :max_total_attachment_size, 1024 * 1024
     config_setting :ldap, false
     config_setting :ldap_host
     config_setting :ldap_port, 389
@@ -122,7 +123,7 @@ module Chessboard
               list
             end
 
-            send_to_ml do |forum_ml, post, refs, tags|
+            send_to_ml do |forum_ml, post, refs, tags, attachments|
               mail = Mail.new do
                 from post.author.email
                 to File.read(File.join(forum_ml, "control", "listaddress")).strip
@@ -130,7 +131,11 @@ module Chessboard
                 body post.content
                 in_reply_to refs.last
                 references refs
-               # TODO: Attachments
+
+                # `attachments' is an empty array if no attachments are there.
+                attachments.each do |attachment|
+                  add_file :filename => attachment[:filename], :content => attachment[:tempfile].read
+                end
               end
 
               mail["X-Chessboard-Tags"] = tags.select_map(:name).join(",")

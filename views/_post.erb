@@ -80,25 +80,22 @@
       <div class="clear"><!-- Ensure all floating material ends with end of post --></div>
     </div>
 
-    <%# unless post.attachments.empty? %>
-      <!--<div class="post-attachments">
-      <%# post.attachments.order(:filename => :asc).each do |attachment| %>
+    <% unless post.attachments.empty? %>
+      <div class="post-attachments">
+      <% post.attachments_dataset.order(Sequel.asc(:filename)).each do |attachment| %>
         <div class="post-attachment">
-          <div class="attachment-icon">--><!-- for screenreaders not an <img> --><!--</div>
+          <div class="attachment-icon"><!-- for screenreaders not an <img> --></div>
           <p>
-            <strong><%# I18n.t("posts.attachment") %></strong> <%# link_to(attachment.filename, attachment.full_uri) %> (<%# readable_bytesize(File.size(attachment.full_path)) %>)
+            <strong><%= t.posts.attachment %></strong> <a href="<%= attachment.absolute_url %>"><%= attachment.filename %></a> (<%= readable_bytesize(File.size(attachment.absolute_path)) %>)
           </p>
 
-          <%# if attachment.image? %>
-            <%# link_to image_tag(attachment.full_uri, :alt => attachment.filename), attachment.full_uri, :class => "attachment-preview" %>
-          <%# end %>
-          <div class="attachment-description">
-            <%# attachment.description.blank? ? content_tag("p", I18n.t("posts.no_attachment_description")) : simple_format(attachment.description) %>
-          </div>
+          <% if attachment.image? %>
+	    <a href="<%= attachment.absolute_url %>" class="attachment-preview"><img src="<%= attachment.absolute_url %>" alt="<%= attachment.filename %>"/></a>
+          <% end %>
         </div>
-      <%# end %>
+      <% end %>
       </div>
-    <%# end %>-->
+    <% end %>
   </div>
 </div>
 

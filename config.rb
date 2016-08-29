@@ -29,6 +29,17 @@ Chessboard::Configuration.create do |config|
   # paginated due to the way it works.
   posts_per_page 10
 
+  # The total size of all attachments in a post may not be greater
+  # than this value, in bytes. This value should be set to a value
+  # less than the maximum mail size value your mail server allows
+  # to prevent the mailserver from rejecting the email generated
+  # by Chessboard. It should be less than the mail server's maximum
+  # value to account for the main text of the message. This value
+  # only applies to posts created via the web interface, emails
+  # that are send directly by a user to the mailinglist will be
+  # processed in any case.
+  max_total_attachment_size 1048576
+
   # Some persons have the annoying habit to send HTML-only email.
   # For these messages, Chessboard invokes the program
   # specified with this option and reads the result from

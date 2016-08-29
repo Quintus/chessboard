@@ -4,6 +4,7 @@ class Chessboard::Post < Sequel::Model
   many_to_one :forum
   many_to_one :author, :class => Chessboard::User
   many_to_many :tags
+  one_to_many :attachments
 
   # The rcte_tree plugin creates methods #parent and #children.
   # For readability, here's an alias for children that fits
@@ -58,7 +59,7 @@ class Chessboard::Post < Sequel::Model
       content.encode!("UTF-8")
 
       post[:content]    = content
-      post[:title]      = mail.subject.encode("UTF-8")
+      post[:title]      = mail.subject ? mail.subject.encode("UTF-8") : "(No subject)"
       post[:message_id] = mail.message_id
       post[:created_at] = mail.date
       post.forum        = forum
@@ -75,6 +76,13 @@ class Chessboard::Post < Sequel::Model
               .map{|tagname| Sequel.function("upper", Sequel.lit("?", tagname))}
         Chessboard::Tag.where(Sequel.function("upper", :name) => set).each do |tag|
           post.add_tag(tag)
+        end
+      end
+
+      # Store all the attachments
+      if mail.multipart?
+        mail.attachments.each do |a|
+          Chessboard::Attachment.create_from_mail_attachment(a, post)
         end
       end
     end
@@ -235,7 +243,7 @@ class Chessboard::Post < Sequel::Model
   # This method does not call #save, i.e. the instance is not saved
   # to the database. This is intentional, because the post will be
   # picked up by the mailinglist monitor and then saved there.
-  def send_to_mailinglist(tags)
+  def send_to_mailinglist(tags, attachments)
     raise Sequel::ValidationFailed unless valid?
 
     # Since `self' is not serialised yet, the query must target
@@ -246,13 +254,20 @@ class Chessboard::Post < Sequel::Model
     refs << parent.message_id
 
     # Hand over to the callback
-    Chessboard::Configuration[:send_to_ml].call(forum.mailinglist, self, refs, tags)
+    Chessboard::Configuration[:send_to_ml].call(forum.mailinglist, self, refs, tags, attachments)
   end
 
   private
 
   def before_create
     self[:created_at] ||= Time.now
+    super
+  end
+
+  # Delete all attachments if the post is deleted.
+  def before_destroy
+    attachments_dataset.destroy
+    super
   end
 
 end

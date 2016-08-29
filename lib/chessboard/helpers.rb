@@ -105,4 +105,17 @@ module Chessboard::Helpers
     request.path + str
   end
 
+  # Takes a number and formats it as a byte size with appropriate
+  # size suffix (B, KiB, MiB, GiB).
+  def readable_bytesize(number)
+    case number
+    when 0..1024                                   then "#{number}&nbsp;B"
+    when (1024..(1024*1024))                       then "#{number/1024}&nbsp;KiB"
+    when ((1024*1024)..(1024*1024*1024))           then "#{number/1024/1024}&nbsp;MiB"
+    when ((1024*1024*1024)..(1024*1024*1024*1024)) then "#{number/1024/1024/1024}&nbsp;GiB"
+    else
+      "#{number/1024/1024/1024}&nbsp;GiB"
+    end
+  end
+
 end

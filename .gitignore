@@ -2,4 +2,6 @@
 .gems
 db/
 public/images/avatars/*.gif
+public/attachments/*
+!public/attachments/delete.me
 *.pid

@@ -63,6 +63,14 @@ task :create_tables do
 
   Chessboard::Application::DB.create_join_table :tag_id => :tags, :post_id => :posts
 
+  Chessboard::Application::DB.create_table :attachments do
+    primary_key :id
+    foreign_key :post_id, :null => false
+
+    String:filename,   :null => false
+    String :mime_type, :null => false
+  end
+
   puts "Tables created. Now run $ rake forums:add to add a new forum."
 end
 
@@ -71,6 +79,8 @@ task :console do
   ARGV.clear
   include Chessboard
   require "irb"
+
+  DB = Chessboard::Application::DB
   IRB.start
 end
 

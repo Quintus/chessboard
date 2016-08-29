@@ -327,9 +327,21 @@ module Chessboard
       @post.author  = logged_in_user
       @post.parent  = @parent_post
 
+      # Ensure the attachments' total size does not exceed what is allowed
+      if params["attachments"]
+        max   = Chessboard::Configuration[:max_total_attachment_size]
+        total = params["attachments"].reduce(0){|sum, hsh| sum + hsh[:tempfile].size}
+        if total > max
+          @attachment_error = t.posts.attachments_too_large(
+            readable_bytesize(total),
+            readable_bytesize(max))
+          halt 413, erb(:reply)
+        end
+      end
+
       @tags = Tag.where(:id => params["tags"].keys.map(&:to_i))
 
-      message_id = @post.send_to_mailinglist(@tags)
+      message_id = @post.send_to_mailinglist(@tags, params["attachments"] || [])
 
       # Give the email infrastructure opportunity to deliver the email.
       # The mailinglist monitor creates a post with the message ID set
@@ -480,4 +492,5 @@ require_relative "chessboard/user"
 require_relative "chessboard/forum"
 require_relative "chessboard/post"
 require_relative "chessboard/tag"
+require_relative "chessboard/attachment"
 require_relative "chessboard/mailinglist_watcher"

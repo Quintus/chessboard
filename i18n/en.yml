@@ -207,11 +207,13 @@ posts:
   title: "Title"
   content: "Content"
   automatic_line_breaks: "Automatic line breaks"
+  attachments: Attachments
   add_attachment: "Add Attachment"
-  failed_attachment: "Failed to upload attachment '%{name}': %{error}"
   attachment: "Attachment:"
-  no_attachment_description: "(No description provided.)"
-  attachment_max_size: "(Maximum attachment size: %{size})"
+  # %1 is replaced with a string like "2 MiB"
+  attachment_max_size: "(Total allowed size of all attachments is %1)"
+  # %1 and %2 are replaced with strings like "10 MiB" and "2 MiB"
+  attachments_too_large: "Your attachments sum up to a total size of %1, but allowed are only %2."
   mark_announce: Mark as announcement
   unmark_announce: Unmark as announcement
   marked_as_announcement: Marked this post as an announcement.
