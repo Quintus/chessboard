@@ -40,20 +40,16 @@ end
     </div>
   </div>
 
-  <%# Only allow changing the mailinglist for new records, because
-    # only for those an import of existing messages is done. %>
-  <% if @forum.new? %>
-    <div class="setting">
-      <div class="header settings-header">
-	<label><%= t.admin.forums.mailinglist %></label>
-      </div>
-      <div class="settings-content">
-	<p>
-	  <input type="text" name="mailinglist" value="<%= @forum.mailinglist %>"/>
-	</p>
-      </div>
+  <div class="setting">
+    <div class="header settings-header">
+      <label><%= t.admin.forums.mailinglist %></label>
     </div>
-  <% end %>
+    <div class="settings-content">
+      <p>
+	<input type="text" name="mailinglist" value="<%= @forum.mailinglist %>"/>
+      </p>
+    </div>
+  </div>
 
   <div class="setting">
     <div class="header settings-header">

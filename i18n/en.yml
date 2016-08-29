@@ -246,6 +246,14 @@ admin:
     title: Forums
     create: Create Forum
     edit: Edit Forum
+    synchronize: Synchronise
+    # %1 is replaced with the current message processed, %2 with the
+    # total number of messages.
+    synchronize_progress: "Progress: %1/%2 messages processed"
+    synchronize_pending: "…waiting for server to reply…"
+    synchronize_complete: "Synchronisation complete."
+    # The "Synchronise" button is labelled with admin.forums.synchronize. Be sure to keep the strings in sync.
+    created: "Forum successfully created. Be sure to synchronise it now by clicking on the 'Synchronise' button."
     updated: Forum successfully updated.
     name: Name
     mailinglist: Mailinglist

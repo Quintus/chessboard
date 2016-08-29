@@ -2,7 +2,7 @@ require "rake"
 require_relative"lib/chessboard"
 
 desc "Create the tables in the database (call before first use)."
-task :create_tables do
+task :setup do
   Chessboard::Application::DB.create_table :users do
     primary_key :id
 
@@ -71,7 +71,11 @@ task :create_tables do
     String :mime_type, :null => false
   end
 
-  puts "Tables created. Now run $ rake forums:add to add a new forum."
+  # The initial data needs to be filled in a separate program instance,
+  # because Sequel needs the tables at program startup to properly
+  # define the models.
+  sh "rake create_minimal_data"
+  puts "Done. Start Chessboard with $ rackup -p 3000 and browse to port 3000 on this host to test it."
 end
 
 desc "Live console."
@@ -84,16 +88,22 @@ task :console do
   IRB.start
 end
 
-# Private task that creates a Guest user if it does not yet exist.
-task :check_guest_user do
-  return if Chessboard::User.guest
-
+# Private task that creates a Guest and an Admin user.
+task :create_minimal_data do
   puts "Creating Guest user"
   guest = Chessboard::User.new
   guest.display_name = "Guest"
   guest.email = Chessboard::User::GUEST_EMAIL
   guest.reset_password
   guest.save
+
+  puts "Creating Admin user"
+  admin = Chessboard::User.new
+  admin.display_name = query(:name, "Your nickname: ")
+  admin.email        = query(:email, "Your email: ")
+  admin.change_password(query(:password, "Your password: "))
+  admin.administrator = true
+  admin.save
 end
 
 namespace :forums do

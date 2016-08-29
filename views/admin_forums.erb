@@ -28,6 +28,7 @@
 	<td><%= forum.description %></td>
 	<td>
 	  <a href="/admin/forums/<%= forum.id %>/edit" class="button-normal"><%= t.general.edit %></a>
+	  <a href="/admin/forums/<%= forum.id %>/synchronize" class="button-warning"><%= t.admin.forums.synchronize %></a>
 	  <a href="#" class="button-error delete-forum" data-id="<%= forum.id %>"><%= t.general.delete %></a>
 	</td>
       </tr>
@@ -36,5 +37,5 @@
 </table>
 
 <p>
-  <a href="/admin/tags/new"><%= t.admin.forums.new %></a>
+  <a href="/admin/forums/new"><%= t.admin.forums.new %></a>
 </p>

@@ -24,12 +24,24 @@ class Chessboard::Forum < Sequel::Model
   # passing it this forums +mailinglist+ attribute and passes each
   # path returned by that hook to #process_new_ml_message (faking
   # it as a newly received message).
+  #
+  # If a block is given, it is invoked each time a message has been
+  # processed. The block gets passed the path to the processed
+  # message, the number of the current message and the total number
+  # of messages to be processed. It is guaranteed that in the last
+  # iteration the current message number and the number of total
+  # messages are equal; the first message has number 1.
   def sync_with_mailinglist!(max_age = Time.at(0))
     posts_dataset.destroy
 
     # Callback is required to sort by date descending
-    Chessboard::Configuration[:load_ml_mails].call(self[:mailinglist]).each do |path|
+    pathes = Chessboard::Configuration[:load_ml_mails].call(self[:mailinglist])
+    pathes.reject!{ |path| File.mtime(path) < max_age }
+    total_messages = pathes.count
+
+    pathes.each_with_index do |path, index|
       process_new_ml_message(path)
+      yield(path, index + 1, total_messages) if block_given?
     end
   end
 

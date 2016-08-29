@@ -1,0 +1,12 @@
+<% content_for :sidebar do %>
+  <%= erb :_admin_sidebar %>
+<% end %>
+<% content_for :header do %>
+  <script type="text/javascript" src="/javascripts/synchronize.js"></script>
+<% end %>
+
+<h1><%= t.admin.forums.synchronize %></h1>
+
+<p id="sync_progress" data-id="<%= @forum.id %>">
+  <%= t.admin.forums.synchronize_pending %>
+</p>
