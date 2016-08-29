@@ -52,7 +52,7 @@ def start_monitor
 
   logger.info "Starting up, child pid is #{$$}"
 
-  File.umask 0137 # rw-r--r--
+  #File.umask 0133 # rw-r--r--
 
   begin
     Process.setsid
