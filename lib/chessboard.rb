@@ -167,8 +167,9 @@ module Chessboard
       # do not have a parent ID set.
       @thread_starters = @thread_starters.where(:parent_id => nil)
 
-      # Order the result so that the most recent post comes first.
-      @thread_starters = @thread_starters.order(Sequel.desc(:created_at))
+      # Order the result so that the thread that has the most recent reply
+      # comes first.
+      @thread_starters = @thread_starters.order(Sequel.desc(:last_post_date))
 
       # Before honouring pagination, count the total amount of posts matching
       # all criteria. This is required for the pagination menu.

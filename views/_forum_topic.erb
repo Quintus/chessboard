@@ -66,10 +66,11 @@
     <% end %>
   </td>
   <% all_replies = thread_starter.all_replies %>
+  <% last_post   = all_replies.empty? ? thread_starter : all_replies.last %>
   <td class="list-replies numbercell"><%= all_replies.count %></td>
   <td class="list-views numbercell"><%= thread_starter.views %></td>
   <td class="forumlastpost">
-    <%= l (all_replies.empty? ? thread_starter : all_replies.last).created_at %><br/>
-    <%= t.forums.author_by %> <a href="/users/<%= thread_starter.author.id %>"><%= thread_starter.author.display_name %></a>
+    <%= l last_post.created_at %><br/>
+    <%= t.forums.author_by %> <a href="/users/<%= last_post.author.id %>"><%= last_post.author.display_name %></a>
   </td>
 </tr>

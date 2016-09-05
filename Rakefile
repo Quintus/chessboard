@@ -52,6 +52,7 @@ task :setup do
     TrueClass :was_html_only,:default => false
     Integer   :views,        :default => 0
     DateTime :created_at
+    DateTime :last_post_date, :null => false
   end
 
   Chessboard::Application::DB.create_table :tags do

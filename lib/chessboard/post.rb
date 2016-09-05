@@ -260,13 +260,50 @@ class Chessboard::Post < Sequel::Model
   private
 
   def before_create
-    self[:created_at] ||= Time.now
+    self[:created_at]     ||= Time.now
+    self[:last_post_date] ||= self[:created_at]
+
     super
   end
 
+  # Update the root post's last-post information.
+  # Note that for a new topic `thread_starter' is identical
+  # to `self', which does no harm here, but actually
+  # sets the correct information.
+  def after_create
+    starter = thread_starter
+    if starter.last_post_date < created_at
+      starter.last_post_date = created_at
+      starter.save
+    end
+  end
+
   # Delete all attachments if the post is deleted.
+  # Also refresh the last-update information on the root post.
   def before_destroy
     attachments_dataset.destroy
+
+    # If a thread starter is deleted, there is no parent that
+    # needs an update.
+    unless thread_starter?
+      second_to_last_post = thread_starter
+                            .descendants_dataset
+                            .order(Sequel.desc(:created_at))
+                            .offset(1)
+                            .first
+
+      # If there's a second-to-last post, take its date. Otherwise
+      # the thread starter is the only thing that remains and is
+      # thus what should be used for the last reply date.
+      if second_to_last_post
+        thread_starter.last_post_date = second_to_last_post.created_at
+      else
+        thread_starter.last_post_date = thread_starter.created_at
+      end
+
+      thread_starter.save
+    end
+
     super
   end
 
