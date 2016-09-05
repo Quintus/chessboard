@@ -85,11 +85,24 @@ class Chessboard::User < Sequel::Model
     self[:encrypted_password] = BCrypt::Password.create(cleartext)
   end
 
+  # Like #change_password, but also calls #save.
+  def change_password!(cleartext)
+    change_password(cleartext)
+    save
+  end
+
   # Reset the stored password to a random value.
   # Returns the new password in cleartext.
   def reset_password
-    new_pw = Array.new(12){ ("a".."z").to_a.sample }
+    new_pw = Array.new(12){ ("a".."z").to_a.sample }.join("")
     change_password(new_pw)
+    new_pw
+  end
+
+  # Like #reset_password, but also calls #save.
+  def reset_password!
+    new_pw = reset_password
+    save
     new_pw
   end
 
