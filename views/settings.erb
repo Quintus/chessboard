@@ -86,6 +86,27 @@
 
   <div class="setting">
     <div class="header settings-header">
+      <p><%= t.settings.titles.password %></p>
+    </div>
+
+    <div class="settings-desc">
+      <p><%= t.settings.descriptions.password %></p>
+    </div>
+
+    <div class="settings-content">
+      <p>
+	<%= t.settings.new_password %>:<br/>
+	<input type="password" name="password"/>
+      </p>
+      <p>
+	<%= t.settings.repeat_new_password %>:<br/>
+	<input type="password" name="repeat_password"/>
+      </p>
+    </div>
+  </div>
+
+  <div class="setting">
+    <div class="header settings-header">
       <p><%= t.settings.titles.language %></p>
     </div>
 

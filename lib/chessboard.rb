@@ -153,6 +153,15 @@ EOF
       @user.always_raw  = params["always_raw"]  == "1"
       @user.locale      = params["language"] if R18n.available_locales.map(&:code).include?(params["language"])
 
+      unless params["password"].to_s.empty?
+        if params["password"] != params["repeat_password"]
+          alert t.settings.password_mismatch
+          redirect "/settings"
+        else
+          @user.change_password(params["password"].to_s)
+        end
+      end
+
       # TODO: Rescue validation error
       @user.save
 

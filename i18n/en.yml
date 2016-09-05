@@ -83,14 +83,6 @@ users:
     You have successfully registered. A confirmation email was sent
     to your mail address, please follow the link it contains in order
     to activate your account.
-  change_password: "Change password"
-  change_password_desc: >
-    Use this form to change your password. You are encouraged to use
-    a strong password containing several special characters, numbers,
-    etc. To keep track of your passwords, use a “password manager”
-    program instead of trying to remember all your passwords. The
-    password must at least be 8 characters long.
-  password_changed: "Password changed successfully."
   delete: "Delete account"
   deleted: "Your account has been deleted."
   delete_desc: >
@@ -166,6 +158,7 @@ settings:
     signature: Signature
     avatar: Avatar
     always_raw: Always show raw
+    password: Password
   descriptions:
     hide_status: >
       Activating this option makes your online status invisible
@@ -192,6 +185,12 @@ settings:
       pixels. You can use animated GIFs if you want.
     always_raw: >
       Display the raw view of posts by default and not the processed one.
+    password: >
+      If you fill in these fields, your password will be changed accordingly.
+      If you don’t want to change your password, simply leave them empty.
+  new_password: New password
+  repeat_new_password: Repeat new password
+  password_mismatch: Password does not match repetition.
 posts:
   edit: "Edit"
   edit_post: "Edit posting"
