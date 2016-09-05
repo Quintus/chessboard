@@ -99,6 +99,42 @@ module Chessboard
       redirect "/"
     end
 
+    get "/forgotpw" do
+      erb :forgotpw
+    end
+
+    post "/forgotpw" do
+      user = User.first(:email => params["email"])
+      halt 400 unless user
+
+      new_pw = user.reset_password!
+      Mail.deliver do
+        from Chessboard::Configuration[:board_email]
+        to user.email
+        subject "Password reset"
+        body <<EOF
+Hi #{user.display_name},
+
+you have used the password reset function to reset
+your password. Your old password has been removed,
+and your new password is:
+
+    #{new_pw}
+
+The next time you log into the website, use this
+password and change it for security reasons.
+
+-- 
+Sent by Chessboard.
+EOF
+        # TODO: Use that user's locale setting for translating
+        # the above email text.
+      end
+
+      message t.users.forgotpw.reset
+      redirect "/"
+    end
+
     get "/settings" do
       halt 400 unless logged_in?
 

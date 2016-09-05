@@ -1,0 +1,17 @@
+<h1><%= t.users.forgotpw.forgot %></h1>
+
+<form action="/forgotpw" method="post">
+
+  <p>
+    <%= t.users.forgotpw.forgotpw_desc %>
+  </p>
+
+  <p>
+    <%= t.general.email %>:<br/>
+    <input type="text" name="email">
+  </p>
+
+  <p>
+    <input class="button-normal" type="submit" value="<%= t.users.forgotpw.forgotpw %>"/>
+  </p>
+</form>

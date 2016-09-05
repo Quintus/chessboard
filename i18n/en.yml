@@ -3,7 +3,6 @@ general:
   log_in: "Log in"
   log_out: "Log out"
   password: "Password"
-  forgot_pw: "Forgot password?"
   nickname: "Nickname"
   email: "E-Mail address"
   not_logged_in: "You are not logged in."
@@ -100,7 +99,7 @@ users:
     erased, without any possibility to recover.
   forgotpw:
     forgot: "Forgot password?"
-    forgotpw: "Reset password"
+    forgotpw: "Reset it"
     forgotpw_desc: >
       Use this form to reset your password if you forgot it.
       You will receive an email with a temporary password you
