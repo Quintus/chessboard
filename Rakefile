@@ -107,6 +107,17 @@ task :create_minimal_data do
   admin.save
 end
 
+desc "Print the routing table."
+task :routes do
+  Chessboard::Application.routes.each_pair do |method, routes|
+    next if method == "HEAD"
+
+    routes.each do |route|
+      puts "#{method}\t#{route[0].source}"
+    end
+  end
+end
+
 ########################################
 # Helper methods
 
