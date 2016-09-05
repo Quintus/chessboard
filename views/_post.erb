@@ -54,6 +54,9 @@
 
     <div class="post-text">
       <%# flash_tag :postalert, :class => "flash alert" if flash[:postid] == post.id %>
+      <% if post.was_html_only %>
+	<p class="html-only-post"><%= t.posts.was_html_only %></p>
+      <% end %>
       <div class="post-normal-markup">
 	<%= process_markup(post.content) %>
       </div>

@@ -202,6 +202,7 @@ posts:
   replied_to_post: "Post you reply to"
   your_reply: "Your reply"
   no_ip: "(not available)"
+  was_html_only: This post was submitted only in HTML format and has been reformatted to plain text for security reasons. Please ask the author to provide a plain-text version the next time.
   title: "Title"
   content: "Content"
   automatic_line_breaks: "Automatic line breaks"
