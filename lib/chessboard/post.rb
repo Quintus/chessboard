@@ -6,6 +6,30 @@ class Chessboard::Post < Sequel::Model
   many_to_many :tags
   one_to_many :attachments
 
+  # Regular expression for extracting @ mentions.
+  # ">" is for closing HTML tag
+  FIND_MENTION_REGEXP = /(^|\s|>)(@[_[[:alnum:]]]+)/
+
+  # Template for the email sent do mentioned users.
+  MENTION_EMAIL = ERB.new(<<-EMAIL)
+Hi <%= nickname %>,
+
+you have been mentioned in this thread:
+
+<%= post_url %>
+
+The post was:
+
+<%= text.lines.map{|l| "> \#{l}"}.join("") %>
+
+Best regards,
+Chessboard mail system
+
+-- 
+You are receiving this mail as a member of the forum at <%= Chessboard::Configuration[:board_url] %>.
+  EMAIL
+
+
   # The rcte_tree plugin creates methods #parent and #children.
   # For readability, here's an alias for children that fits
   # the semantic context better. Likewise for thread starter.
@@ -266,15 +290,42 @@ class Chessboard::Post < Sequel::Model
     super
   end
 
-  # Update the root post's last-post information.
-  # Note that for a new topic `thread_starter' is identical
-  # to `self', which does no harm here, but actually
-  # sets the correct information.
   def after_create
+    # Update the root post's last-post information.
+    # Note that for a new topic `thread_starter' is identical
+    # to `self', which does no harm here, but actually
+    # sets the correct information.
     starter = thread_starter
     if starter.last_post_date < created_at
       starter.last_post_date = created_at
       starter.save
+    end
+
+    # Deliver @-mentions
+    post_url = Chessboard::Configuration[:board_url] + "/forums/#{forum_id}/threads/#{id}"
+    content.scan(FIND_MENTION_REGEXP) do |ary|
+      bare_name = ary[1][1..-1] # Remove leading @
+      # Try both the direct name and "_" replaced with " ",
+      # as the user's display names may contain spaces.
+      # This breaks if the user name has both "_" and " ",
+      # but this is rare enough to ignore.
+      user = Chessboard::User.first(:display_name => [bare_name, bare_name.gsub("_", " ")])
+      unless user
+        Chessboard::Application.logger.warn("@-mentioned user not found: #{bare_name}")
+        next
+      end
+
+      mail = Mail.new
+      # Variables for the ERuby context
+      nickname = user.display_name
+      text     = content
+
+      mail.subject = "You have been mentioned"
+      mail.from = Chessboard::Configuration[:board_email]
+      mail.to   = user.email
+      mail.body = MENTION_EMAIL.result(binding)
+
+      mail.deliver
     end
   end
 

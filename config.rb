@@ -11,6 +11,11 @@ Chessboard::Configuration.create do |config|
   # And this a little smaller below it.
   board_subtitle "A test installation of Chessboard."
 
+  # This should be set to the full URL of the board. It is used
+  # when the board needs to generate absolute links, most notably
+  # in emails it sends out.
+  board_url "http://localhost:3000"
+
   # This specifies the SQL database to connect to. Chessboard
   # keeps a little information on its own, which is stored here.
   # Examples are user signatures. Supported database types

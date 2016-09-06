@@ -53,6 +53,7 @@ module Chessboard
 
     config_setting :board_title
     config_setting :board_subtitle
+    config_setting :board_url
     config_setting :database_url
     config_setting :threads_per_page, 15
     config_setting :posts_per_page, 10
