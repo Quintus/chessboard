@@ -1,7 +1,7 @@
 <% if logged_in? %>
   <p class="top-right-nav"><%# link_to I18n.t("forums.new_topic"), url(:topics, :new) + "?" + "forum=#{@forum.id}", :class => "button-normal" %></p>
 <% end %>
-<h1><%= @forum[:name] %></h1>
+<h1><%= @forum.name %></h1>
 
 <table class="topicslist">
   <thead>
@@ -15,13 +15,13 @@
   </thead>
   <tbody>
     <% @announcements.each do |post| %>
-      <%= erb :_forum_topic, :locals => {:thread_starter => post} %>
+      <%= erb :_forum_topic, :locals => {:thread_starter => post, :forum => @forum} %>
     <% end %>
     <% @stickies.each do |post| %>
-      <%= erb :_forum_topic, :locals => {:thread_starter => post} %>
+      <%= erb :_forum_topic, :locals => {:thread_starter => post, :forum => @forum} %>
     <% end %>
     <% @thread_starters.each do |post| %>
-      <%= erb  :_forum_topic, :locals => {:thread_starter => post} %>
+      <%= erb  :_forum_topic, :locals => {:thread_starter => post, :forum => @forum} %>
     <% end %>
   </tbody>
 </table>
@@ -30,23 +30,23 @@
 <% if @total_pages > 1 %>
   <ul class="vlist forum-pages">
     <% if @current_page > 1 %>
-      <li><a href="/forums/<%= @forum[:id] %>?page=<%= @current_page - 1 %>"><%= t.topics.prev_page %></a></li>
+      <li><a href="/forums/<%= @forum.id %>?page=<%= @current_page - 1 %>"><%= t.topics.prev_page %></a></li>
     <% end %>
 
     <% if @total_pages <= 5 %>
       <% 1.upto(@total_pages) do |i| %>
-        <li><a href="/forums/<%= @forum[:id] %>?page=<%= i %>"><%= i %></a></li>
+        <li><a href="/forums/<%= @forum.id %>?page=<%= i %>"><%= i %></a></li>
       <% end %>
     <% elsif @total_pages > 5 %>
       <% 1.upto(4) do |i| %>
-	<li><a href="/forums/<%= @forum[:id] %>?page=<%= i %>"><%= i %></a></li>
+	<li><a href="/forums/<%= @forum.id %>?page=<%= i %>"><%= i %></a></li>
       <% end %>
       <li>…</li>
-      <li><a href="/forums/<%= @forum[:id] %>?page=<%= @total_pages %>"><%= @total_pages %></a></li>
+      <li><a href="/forums/<%= @forum.id %>?page=<%= @total_pages %>"><%= @total_pages %></a></li>
     <% end %>
 
     <% if @current_page < @total_pages %>
-      <li><a href="/forums/<%= @forum[:id] %>?page=<%= @current_page + 1 %>"><%= t.topics.next_page %></a></li>
+      <li><a href="/forums/<%= @forum.id %>?page=<%= @current_page + 1 %>"><%= t.topics.next_page %></a></li>
     <% end %>
   </ul>
 <% end %>

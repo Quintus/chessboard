@@ -27,7 +27,7 @@ Chessboard::Configuration.create do |config|
   # How many threads should be displayed on a page. The higher this
   # value, the more strain is loaded to your CPU and hard disk when
   # viewing the index page of a forum.
-  threads_per_page 15
+  threads_per_page 2
 
   # How many posts should be displayed on a page when viewing a topic.
   # This value has no effect for the thread view, which cannot be

@@ -88,7 +88,7 @@ module Chessboard::Helpers
       view_mode = logged_in_user.view_mode
     end
 
-    "/forums/#{post.forum.id}/#{view_mode}/#{post.id}"
+    "/forums/#{post.forum_id}/#{view_mode}/#{post.id}"
   end
 
   # Append the given key-value pair to this URL's query string

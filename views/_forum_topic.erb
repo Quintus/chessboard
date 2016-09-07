@@ -41,12 +41,13 @@
     threadurl += "?#{urlquerystr}"
   end
 %>
+
 <tr class="forum-topic <%= extra_class %>">
   <td class="list-icon imgcell">
     <img src="<%= image %>" alt="Icon"/>
   </td>
   <td class="list-topic">
-    <a href="<%= threadurl %>"><%= thread_starter.pretty_title %></a>
+    <a href="<%= threadurl %>"><%= forum.prettify_post_title(thread_starter.title) %></a>
     <span class="offscreen"><%= t.admin.tags %>:</span>
     <% thread_starter.tags.each do |tag| %>
       <ul class="vlist tag-list">
@@ -66,8 +67,9 @@
     <% end %>
   </td>
   <% all_replies = thread_starter.all_replies %>
-  <% last_post   = all_replies.empty? ? thread_starter : all_replies.last %>
-  <td class="list-replies numbercell"><%= all_replies.count %></td>
+  <% reply_count = all_replies.count %>
+  <% last_post   = reply_count.zero? ? thread_starter : all_replies.last %>
+  <td class="list-replies numbercell"><%= reply_count %></td>
   <td class="list-views numbercell"><%= thread_starter.views %></td>
   <td class="forumlastpost">
     <%= l last_post.created_at %><br/>

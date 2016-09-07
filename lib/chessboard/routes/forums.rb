@@ -19,8 +19,8 @@ class Chessboard::Application < Sinatra::Base
     ########################################
     # Announcements and sticky posts
 
-    @announcements   = Chessboard::Post.announcements
-    @stickies        = @forum.stickies
+    @announcements   = Chessboard::Post.announcements.all
+    @stickies        = @forum.stickies.all
 
     ########################################
     # Query the requested thread starters
@@ -52,8 +52,8 @@ class Chessboard::Application < Sinatra::Base
 
     # Exclude announcements and stickies.
     @thread_starters = @thread_starters
-                       .exclude(:id => @announcements.map(:id))
-                       .exclude(:id => @stickies.map(:id))
+                       .exclude(:id => @announcements.map(&:id))
+                       .exclude(:id => @stickies.map(&:id))
 
     # Limit to posts from this forum.
     @thread_starters = @thread_starters.where(:forum_id => @forum.id)
@@ -74,6 +74,11 @@ class Chessboard::Application < Sinatra::Base
     @thread_starters = @thread_starters
                        .offset(tpp * (@current_page - 1))
                        .limit(tpp)
+
+    # Since we are going to display the thread creator's name on each
+    # of the thread starters, directly eager load the authors here so
+    # we don't need separate queries for them.
+    @thread_starters = @thread_starters.eager(:author)
 
     # Go!
     @thread_starters = @thread_starters.all

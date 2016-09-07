@@ -235,15 +235,6 @@ You are receiving this mail as a member of the forum at <%= Chessboard::Configur
     end
   end
 
-  # Returns the title with the [list-tag] removed, if one was configured.
-  def pretty_title
-    if forum.ml_tag
-      title.sub(/#{Regexp.escape(forum.ml_tag)}\s?/, "")
-    else
-      title
-    end
-  end
-
   # Similar to #descendants, but does not return the array in logical order,
   # but sorted by created_at dates, with the oldest reply first.
   def all_replies
