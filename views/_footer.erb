@@ -10,7 +10,7 @@
       <%= Chessboard::Post.count %> <%= t.forums.posts %> ·
       <%= Chessboard::Post.thread_starters.count %> <%= t.forums.topics %> ·
       <%= Chessboard::User.count %> <%= t.users.users %> ·
-      <%= t.users.newest %>: <%= Chessboard::User.order(Sequel.desc(:created_at)).first.display_name %>
+      <%= t.users.newest %>: <%= Chessboard::User.order(Sequel.desc(:created_at)).get(:display_name) %>
       <br/>
       <%# Chessboard::ActiveUserInfo.handle_active_users do |active_users| %>
 	<%# if env["warden"].authenticated? && env["warden"].user.privileged? %>
