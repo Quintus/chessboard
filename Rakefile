@@ -72,6 +72,9 @@ task :setup do
     String :mime_type, :null => false
   end
 
+  Chessboard::Application::DB.create_join_table({:post_id => :posts, :user_id => :users},
+                                                {:name => :read_posts})
+
   # The initial data needs to be filled in a separate program instance,
   # because Sequel needs the tables at program startup to properly
   # define the models.

@@ -109,14 +109,18 @@ class Chessboard::Application < Sinatra::Base
     # that the offset must be calculated from where it was left off
     # (-1).
     if @current_page == 1
-      @posts = [@root_post]
-      @posts += @root_post.all_replies.limit(ppp - 1).to_a
+      @posts = Chessboard::Post.where(:id => @root_post.id).union(@root_post.all_replies.limit(ppp - 1), :all => true)
+      # UNION ALL is possible because there cannot be duplicates
+      # in the result logically; the root post is never one of
+      # its own replies.
     else
       @posts = @root_post
                .all_replies
                .offset(ppp * (@current_page - 1) - 1)
                .limit(ppp)
     end
+
+    mark_posts_in_dataset_as_read(@posts)
 
     erb :topic
   end
@@ -128,7 +132,21 @@ class Chessboard::Application < Sinatra::Base
     halt 404 unless @root_post
     halt 400 unless @root_post.forum == @forum
 
+    if logged_in?
+      # Thread view displays the entire thread, so mark
+      # all posts in this thread as read by this user.
+      mark_posts_in_dataset_as_read(@root_post.descendants_dataset)
+    end
+
     erb :thread
+  end
+
+  private
+
+  def mark_posts_in_dataset_as_read(dataset)
+    all_post_ids = dataset.select_map(:id)
+    unread_post_ids = all_post_ids - Chessboard::Application::DB[:read_posts].where(:post_id => all_post_ids, :user_id => logged_in_user.id).select_map(:post_id)
+    Chessboard::Application::DB[:read_posts].import([:user_id, :post_id], Array.new(unread_post_ids.length){[logged_in_user.id, unread_post_ids.pop]})
   end
 
 end

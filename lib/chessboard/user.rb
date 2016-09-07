@@ -1,6 +1,7 @@
 class Chessboard::User < Sequel::Model
   one_to_many :posts, :key => :author_id
   many_to_many :tags
+  many_to_many :read_posts, :left_key => :user_id, :right_key => :post_id, :class => :Post
 
   # Path below the public/ directory to the directory containing the
   # avatar images.
@@ -168,6 +169,20 @@ class Chessboard::User < Sequel::Model
   # Convenience shortcut for #administrator.
   def admin?
     administrator
+  end
+
+  # Returns true if the given post was _not_ read by this user,
+  # false otherwise.
+  # Inverse of #read?.
+  def unread?(post)
+    Chessboard::Application::DB[:read_posts].where(:post_id => post.id, :user_id => id).empty?
+  end
+
+  # Returns true if the given post was read by this user,
+  # false otherwise.
+  # Inverse of #unread?.
+  def read?(post)
+    !unread?(post)
   end
 
   private

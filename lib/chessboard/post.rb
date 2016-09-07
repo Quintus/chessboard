@@ -4,6 +4,7 @@ class Chessboard::Post < Sequel::Model
   many_to_one :forum
   many_to_one :author, :class => Chessboard::User
   many_to_many :tags
+  many_to_many :users_who_read_this, :left_key => :post_id, :right_key => :user_id, :class => :User
   one_to_many :attachments
 
   # Regular expression for extracting @ mentions.

@@ -1,8 +1,12 @@
 <%
+  all_replies = thread_starter.all_replies
+  reply_count = all_replies.count
+  last_post   = reply_count.zero? ? thread_starter : all_replies.last
+
   if logged_in?
-    user = logged_in_user
-  #is_read = user.read?(thread_starter)
-  is_read = false
+    # Simply assume that who read the last post will also have read all
+    # posts before.
+    is_read = logged_in_user.read?(last_post)
 
     if thread_starter.announcement? && !is_read
       extra_class = "topic-announcement topic-unread"
@@ -66,9 +70,6 @@
       </ul>
     <% end %>
   </td>
-  <% all_replies = thread_starter.all_replies %>
-  <% reply_count = all_replies.count %>
-  <% last_post   = reply_count.zero? ? thread_starter : all_replies.last %>
   <td class="list-replies numbercell"><%= reply_count %></td>
   <td class="list-views numbercell"><%= thread_starter.views %></td>
   <td class="forumlastpost">
