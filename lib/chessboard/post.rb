@@ -322,13 +322,14 @@ You are receiving this mail as a member of the forum at <%= Chessboard::Configur
   end
 
   # Delete all attachments if the post is deleted.
-  # Also refresh the last-update information on the root post.
+  # Also refresh the last-update information on the root post
+  # and reparent children.
   def before_destroy
-    attachments_dataset.destroy
-
-    # If a thread starter is deleted, there is no parent that
-    # needs an update.
-    unless thread_starter?
+    if thread_starter?
+      # All posts that are direct children of this post now need
+      # to be made thread starters
+      children_dataset.update(:parent_id => nil)
+    else
       second_to_last_post = thread_starter
                             .descendants_dataset
                             .order(Sequel.desc(:created_at))
@@ -345,7 +346,18 @@ You are receiving this mail as a member of the forum at <%= Chessboard::Configur
       end
 
       thread_starter.save
+
+      # All posts that are direct children of this post now
+      # need to be reparented to this post's parent.
+      children_dataset.update(:parent_id => parent_id)
     end
+
+    # Remove dependant records
+    attachments.each(&:destroy)
+
+    # Clear records in the many2many tables
+    Chessboard::Application::DB[:posts_tags].where(:post_id => id).delete
+    Chessboard::Application::DB[:read_posts].where(:post_id => id).delete
 
     super
   end

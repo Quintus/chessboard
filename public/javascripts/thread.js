@@ -19,4 +19,21 @@ $(document).ready(function(){
     });
 
     $(".expand-all").show();
+
+    $("a.delete-post").click(function(){
+	var post = $(this).parents(".post");
+
+	jQuery.ajax({
+	    url: $(this).attr("href"),
+	    method: "DELETE",
+	    success: function(){
+		post.remove();
+	    },
+	    error: function() {
+		alert("Deletion failed.");
+	    }
+	});
+
+	return false;
+    });
 });

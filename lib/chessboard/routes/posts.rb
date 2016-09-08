@@ -133,4 +133,23 @@ class Chessboard::Application < Sinatra::Base
     redirect post_url(Chessboard::Post.where(:message_id => message_id).first)
   end
 
+  # One shouldn't delete from a mail archive in general, but in case
+  # of spam and illegal content there are exceptions to this rule,
+  # hence such a possibility has to be provided.
+  delete "/forums/:forum_id/posts/:id" do
+    halt 401 unless logged_in?
+    halt 403 unless logged_in_user.admin?
+    halt 400 unless request.xhr?
+
+    @forum = Chessboard::Forum[params["forum_id"].to_i]
+    @post  = Chessboard::Post[params["id"].to_i]
+
+    halt 404 unless @forum
+    halt 404 unless @post
+    halt 400 unless @post.forum == @forum
+
+    @post.destroy
+    200
+  end
+
 end
