@@ -207,6 +207,11 @@ EOF
       redirect "/settings"
     end
 
+    get "/feed" do
+      @posts = Post.order(Sequel.desc(:created_at)).limit(20).eager(:author)
+      [200, {"Content-Type" => "application/atom+xml;charset=utf8"}, erb(:feed, :layout => false)]
+    end
+
   end
 end
 

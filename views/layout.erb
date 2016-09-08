@@ -11,7 +11,7 @@
     <script type="text/javascript" src="/javascripts/raw.js"></script>
     <script type="text/javascript" src="/javascripts/line_breaks.js"></script>
     <%# javascript_include_tag "jquery", "jquery-ujs", "insert_at_caret", "usersearch", "preview", "hide_codelines", "attachments", "hilit", "spoiler" %>
-    <%# feed_tag :atom, url(:topics, :feed, :format => :atom), :title => "Atom feed" %>
+    <link rel="alternate" type="application/atom+xml" title="Feed" href="/feed"/>
     <% if content_for?(:header) %>
       <%= yield_content(:header) %>
     <% end %>

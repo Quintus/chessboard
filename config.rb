@@ -13,7 +13,7 @@ Chessboard::Configuration.create do |config|
 
   # This should be set to the full URL of the board. It is used
   # when the board needs to generate absolute links, most notably
-  # in emails it sends out.
+  # in emails it sends out and in the Atom news feed.
   board_url "http://localhost:3000"
 
   # This specifies the SQL database to connect to. Chessboard
