@@ -139,6 +139,7 @@ module Chessboard
                 end
               end
 
+              mail["User-Agent"] = "Chessboard/#{Chessboard::VERSION}"
               mail["X-Chessboard-Tags"] = tags.select_map(:name).join(",") unless tags.empty?
               mail.deliver!
 
