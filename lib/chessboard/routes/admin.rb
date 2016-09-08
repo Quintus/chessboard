@@ -1,23 +1,23 @@
 class Chessboard::Application < Sinatra::Base
 
   get "/admin" do
-    halt 400 unless logged_in?
-    halt 400 unless logged_in_user.admin?
+    halt 401 unless logged_in?
+    halt 403 unless logged_in_user.admin?
 
     erb :admin
   end
 
   get "/admin/tags" do
-    halt 400 unless logged_in?
-    halt 400 unless logged_in_user.admin?
+    halt 401 unless logged_in?
+    halt 403 unless logged_in_user.admin?
 
     @tags = Chessboard::Tag.order(Sequel.asc(:name))
     erb :admin_tags
   end
 
   post "/admin/tags" do
-    halt 400 unless logged_in?
-    halt 400 unless logged_in_user.admin?
+    halt 401 unless logged_in?
+    halt 403 unless logged_in_user.admin?
 
     @tag = Chessboard::Tag.new
     @tag.name = params["name"]
@@ -31,16 +31,16 @@ class Chessboard::Application < Sinatra::Base
   end
 
   get "/admin/tags/new" do
-    halt 400 unless logged_in?
-    halt 400 unless logged_in_user.admin?
+    halt 401 unless logged_in?
+    halt 403 unless logged_in_user.admin?
 
     @tag = Chessboard::Tag.new
     erb :admin_tags_edit
   end
 
   get "/admin/tags/:id/edit" do
-    halt 400 unless logged_in?
-    halt 400 unless logged_in_user.admin?
+    halt 401 unless logged_in?
+    halt 403 unless logged_in_user.admin?
 
     @tag = Chessboard::Tag[params["id"].to_i]
     halt 404 unless @tag
@@ -52,8 +52,8 @@ class Chessboard::Application < Sinatra::Base
   # but browsers cannot do other methods than GET
   # and POST in HTML forms.
   post "/admin/tags/:id/edit" do
-    halt 400 unless logged_in?
-    halt 400 unless logged_in_user.admin?
+    halt 401 unless logged_in?
+    halt 403 unless logged_in_user.admin?
 
     @tag = Chessboard::Tag[params["id"].to_i]
     halt 404 unless @tag
@@ -70,8 +70,8 @@ class Chessboard::Application < Sinatra::Base
 
   delete "/admin/tags/:id" do
     halt 400 unless request.xhr?
-    halt 400 unless logged_in?
-    halt 400 unless logged_in_user.admin?
+    halt 401 unless logged_in?
+    halt 403 unless logged_in_user.admin?
 
     @tag = Chessboard::Tag[params["id"].to_i]
     halt 404 unless @tag
@@ -82,8 +82,8 @@ class Chessboard::Application < Sinatra::Base
   end
 
   get "/admin/forums" do
-    halt 400 unless logged_in?
-    halt 400 unless logged_in_user.admin?
+    halt 401 unless logged_in?
+    halt 403 unless logged_in_user.admin?
 
     @forums = Chessboard::Forum.order(Sequel.asc(:ordernum)).all
     erb :admin_forums
@@ -91,8 +91,8 @@ class Chessboard::Application < Sinatra::Base
 
   delete "/admin/forums/:id" do
     halt 400 unless request.xhr?
-    halt 400 unless logged_in?
-    halt 400 unless logged_in_user.admin?
+    halt 401 unless logged_in?
+    halt 403 unless logged_in_user.admin?
 
     @forum = Chessboard::Tag[params["id"].to_i]
     halt 404 unless @forum
@@ -103,8 +103,8 @@ class Chessboard::Application < Sinatra::Base
   end
 
   get "/admin/forums/:id/edit" do
-    halt 400 unless logged_in?
-    halt 400 unless logged_in_user.admin?
+    halt 401 unless logged_in?
+    halt 403 unless logged_in_user.admin?
 
     @forum = Chessboard::Forum[params["id"].to_i]
     halt 404 unless @forum
@@ -114,8 +114,8 @@ class Chessboard::Application < Sinatra::Base
 
   # Again, should be PATCH but browsers don't support it
   post "/admin/forums/:id/edit" do
-    halt 400 unless logged_in?
-    halt 400 unless logged_in_user.admin?
+    halt 401 unless logged_in?
+    halt 403 unless logged_in_user.admin?
 
     @forum = Chessboard::Forum[params["id"].to_i]
     halt 404 unless @forum
@@ -132,8 +132,8 @@ class Chessboard::Application < Sinatra::Base
   end
 
   get "/admin/forums/:id/synchronize" do
-    halt 400 unless logged_in?
-    halt 400 unless logged_in_user.admin?
+    halt 401 unless logged_in?
+    halt 403 unless logged_in_user.admin?
 
     if request.xhr? # AJAX request for checking the import status
       halt 400 unless $sync_ml_status # No sync in progress
@@ -178,16 +178,16 @@ class Chessboard::Application < Sinatra::Base
   end
 
   get "/admin/forums/new" do
-    halt 400 unless logged_in?
-    halt 400 unless logged_in_user.admin?
+    halt 401 unless logged_in?
+    halt 403 unless logged_in_user.admin?
 
     @forum = Chessboard::Forum.new
     erb :admin_forum_edit
   end
 
   post "/admin/forums" do
-    halt 400 unless logged_in?
-    halt 400 unless logged_in_user.admin?
+    halt 401 unless logged_in?
+    halt 403 unless logged_in_user.admin?
 
     @forum = Chessboard::Forum.new
     @forum.name = params["name"]

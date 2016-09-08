@@ -8,6 +8,8 @@ general:
   not_logged_in: "You are not logged in."
   logged_in: "You are logged in as %1."
   logged_in_successfully: "You logged in successfully."
+  must_log_in: You have to log in to use this functionality.
+  login_failure: Failed to log you in.
   index: "Index"
   register: "Register"
   create: "Create"

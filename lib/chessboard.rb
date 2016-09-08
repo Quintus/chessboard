@@ -75,26 +75,50 @@ module Chessboard
       end
     end
 
+    error do
+      # Sinatra's own #logged method does not work in an error handler (contains a Rack::NullLogger)
+      Chessboard::Application.logger.error("#{env["sinatra.error"].class}: #{env["sinatra.error"].message}: #{env["sinatra.error"].backtrace.join("\n")}")
+      erb :err_500
+    end
+
+    not_found do
+      erb :err_404
+    end
+
+    error 401 do
+      @login_required = true
+      erb :login
+    end
+
+    error 403 do
+      # Sinatra's own #logged method does not work in an error handler (contains a Rack::NullLogger)
+      Chessboard::Application.logger.warn("#{request.ip} (#{logged_in? ? logged_in_user.email : "not logged in"}) tried to access specifically secured resource #{request.path} without necessary privileges")
+      erb :err_403
+    end
+
     get "/" do
       redirect "/forums"
     end
 
     get "/login" do
+      @login_required = false
       erb :login
     end
 
     post "/login" do
       user = User.first(:email => params["email"])
-      halt 400 unless user
-      halt 400 unless user.authenticate(params["password"])
 
-      message t.general.logged_in_successfully
-      session["user"] = user.id
-      redirect "/"
+      if user && user.authenticate(params["password"])
+        message t.general.logged_in_successfully
+        session["user"] = user.id
+        redirect "/"
+      else
+        [400, t.general.login_failure]
+      end
     end
 
     get "/logout" do
-      halt 400 unless logged_in?
+      halt 403 unless logged_in?
       session["user"] = nil
       redirect "/"
     end
@@ -136,14 +160,14 @@ EOF
     end
 
     get "/settings" do
-      halt 400 unless logged_in?
+      halt 401 unless logged_in?
 
       @user = logged_in_user
       erb :settings
     end
 
     post "/settings" do
-      halt 400 unless logged_in?
+      halt 401 unless logged_in?
 
       @user = logged_in_user
 

@@ -1,3 +1,9 @@
+<% if @login_required %>
+  <p class="flash alert">
+    <%= t.general.must_log_in %>
+  </p>
+<% end %>
+
 <h1><%= t.general.log_in %></h1>
 
 <form action="/login" method="post">

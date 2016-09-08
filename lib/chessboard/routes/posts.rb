@@ -1,6 +1,7 @@
 class Chessboard::Application < Sinatra::Base
   get "/forums/:forum_id/posts/:id/announce" do
-    halt 403 unless logged_in? && logged_in_user.admin?
+    halt 401 unless logged_in?
+    halt 403 unless logged_in_user.admin?
     @post = Chessboard::Post[params["id"].to_i]
     @forum = Chessboard::Forum[params["forum_id"].to_i]
 
@@ -16,7 +17,8 @@ class Chessboard::Application < Sinatra::Base
   end
 
   get "/forums/:forum_id/posts/:id/unannounce" do
-    halt 403 unless logged_in? && logged_in_user.admin?
+    halt 401 unless logged_in?
+    halt 403 unless logged_in_user.admin?
     @post = Chessboard::Post[params["id"].to_i]
     @forum = Chessboard::Forum[params["forum_id"].to_i]
 
@@ -32,7 +34,8 @@ class Chessboard::Application < Sinatra::Base
   end
 
   get "/forums/:forum_id/posts/:id/stick" do
-    halt 403 unless logged_in? && logged_in_user.admin?
+    halt 401 unless logged_in?
+    halt 403 unless logged_in_user.admin?
     @post = Chessboard::Post[params["id"].to_i]
     @forum = Chessboard::Forum[params["forum_id"].to_i]
 
@@ -48,7 +51,8 @@ class Chessboard::Application < Sinatra::Base
   end
 
   get "/forums/:forum_id/posts/:id/unstick" do
-    halt 403 unless logged_in? && logged_in_user.admin?
+    halt 401 unless logged_in?
+    halt 403 unless logged_in_user.admin?
     @post = Chessboard::Post[params["id"].to_i]
     @forum = Chessboard::Forum[params["forum_id"].to_i]
 
@@ -64,7 +68,7 @@ class Chessboard::Application < Sinatra::Base
   end
 
   get "/forums/:forum_id/posts/:id/reply" do
-    halt 403 unless logged_in?
+    halt 401 unless logged_in?
 
     @forum = Chessboard::Forum[params["forum_id"].to_i]
     @post  = Chessboard::Post[params["id"].to_i]
@@ -81,7 +85,7 @@ class Chessboard::Application < Sinatra::Base
   end
 
   post "/forums/:forum_id/posts/:id/reply" do
-    halt 403 unless logged_in?
+    halt 401 unless logged_in?
 
     @forum = Chessboard::Forum[params["forum_id"].to_i]
     @parent_post = Chessboard::Post[params["id"].to_i]
