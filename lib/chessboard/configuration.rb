@@ -115,7 +115,7 @@ module Chessboard
             end
 
             unsubscribe_from_ml do |forum_ml, email|
-              system("/usr/bin/mlmmj-unsub", "-L", forum_ml, "-n", email)
+              system("/usr/bin/mlmmj-unsub", "-L", forum_ml, email)
             end
 
             load_ml_mails do |forum_ml|

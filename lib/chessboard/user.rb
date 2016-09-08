@@ -54,8 +54,8 @@ class Chessboard::User < Sequel::Model
 
     # Delete all users not in this list
     deleted_emails = current_registered_emails - emails
-    Chessboard::User.where(:email => deleted_emails).destroy
-    deleted_emails.each{|email| puts "Deleting #{email}"}
+    deleted_emails.each{|email| Chessboard::Application.logger.info("Deleting #{email}")}
+    Chessboard::User.where(:email => deleted_emails).all.each(&:destroy)
 
     # Do not add users in the ML to the forum. This is done on-the-fly
     # when a message from a new user is encountered (code deduplication).
@@ -191,6 +191,15 @@ class Chessboard::User < Sequel::Model
     self[:display_name] ||= self[:email].split("@")[0]
     self[:created_at]   ||= Time.now
     self[:title]        ||= Chessboard::Configuration[:default_user_title]
+
+    super
+  end
+
+  def before_destroy
+    Chessboard::Application::DB[:posts_tags].where(:user_id => id).delete
+    Chessboard::Application::DB[:read_posts].where(:user_id => id).delete
+
+    posts.each(&:destroy)
 
     super
   end
