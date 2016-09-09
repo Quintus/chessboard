@@ -23,6 +23,7 @@ task :setup do
     TrueClass :always_raw,      :default => false
     TrueClass :administrator,   :default => false
     Integer   :view_mode_ident, :default => Chessboard::User::VIEWMODE2IDENT[:default]
+    DateTime :last_login
     DateTime :created_at
   end
 

@@ -1,0 +1,53 @@
+<h1><%= t.users.profile @user.display_name %></h1>
+
+<div class="user-profile">
+  <div class="profile-system-info">
+    <div class="profile-avatar">
+      <% if @user.avatar? %>
+	<img src="<%= @user.avatar_url %>" alt="User avatar"/>
+      <% end %>
+
+      <p class="profile-nickname"><%= h @user.display_name %></p>
+      <p class="profile-membership"><%= @user.title %></p>
+    </div>
+    <% unless @user.homepage.to_s.empty? %>
+      <div class="profile-website">
+	<p><a href="<%= @user.homepage %>"><%= t.users.homepage %></p>
+      </div>
+    <% end %>
+  </div>
+  <div class="profile-user-info">
+    <ul>
+      <li>
+	<%= t.general.email %>:
+	<% if @user.hide_email %>
+	  <% if logged_in_user.admin? %>
+	    <%= @user.email %> <em>[<%= t.users.hidden_email_for_unprivileged %>]</em>
+	  <% else %>
+	    <%= t.users.hidden_email %>
+	  <% end %>
+	<% else %>
+	  <%= @user.email %>
+	<% end %>
+      </li>
+      <li><%= t.users.location %>: <%= @user.location %></li>
+      <li><%= t.users.profession %>: <%= @user.profession %></li>
+      <li><%= t.users.jabber_id %>: <%= @user.jabber_id %></li>
+      <li><%= t.users.pgp_key %>: <%= @user.pgp_key %></li>
+    </ul>
+  </div>
+  <table class="profile-user-stats">
+    <thead>
+      <tr>
+	<th><%= t.users.registered %></th>
+	<th><%= t.users.last_login %></th>
+	<th><%= t.users.total_posts %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <td><%= l @user.created_at %></td>
+      <td><%= @user.last_login ? l(@user.last_login) : t.general.never %></td>
+      <td><%= @user.posts_dataset.count %></td>
+    </tbody>
+  </table>
+</div>

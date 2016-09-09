@@ -77,8 +77,15 @@ users:
     Use this form to search the board’s member list for
     a user whose nickname contains the given characters.
   list_query: "Query:"
-  profile: "%{nick}’s user profile"
+  profile: "%1’s user profile"
   total_posts: "Total posts"
+  homepage: Homepage
+  location: Location
+  profession: Profession
+  jabber_id: Jabber ID
+  pgp_key: PGP key
+  registered: "Registered:"
+  last_login: "Last login:"
   hidden_email: "Hidden"
   hidden_email_for_unprivileged: "Hidden for unprivileged users"
   registration: >

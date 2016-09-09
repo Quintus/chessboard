@@ -217,6 +217,7 @@ end
 
 # Now load the rest of the library
 require_relative "chessboard/routes/forums"
+require_relative "chessboard/routes/users"
 require_relative "chessboard/routes/posts"
 require_relative "chessboard/routes/admin"
 require_relative "chessboard/ldap"
