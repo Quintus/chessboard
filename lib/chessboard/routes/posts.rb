@@ -93,6 +93,12 @@ class Chessboard::Application < Sinatra::Base
     halt 404 unless @parent_post
     halt 404 unless @forum
 
+    # If the user is not subscribed to the mailinglist behind
+    # this forum, do that now.
+    unless logged_in_user.subscribed_to_mailinglist?(@forum)
+      logged_in_user.subscribe_to_mailinglist(@forum)
+    end
+
     @post = Chessboard::Post.new
     @post.content = params["content"]
     @post.title   = params["title"]

@@ -120,6 +120,11 @@ class Chessboard::User < Sequel::Model
   def unsubscribe_from_mailinglist(forum)
     Chessboard::Configuration[:unsubscribe_from_ml].call(forum.mailinglist, email)
   end
+
+  # Checks if this user is subscribed to the mailinglist behind
+  # +forum+, and if so, returns true, otherwise returns false.
+  def subscribed_to_mailinglist?(forum)
+    Chessboard::Configuration[:load_ml_users].call(forum.mailinglist).include?(email)
   end
 
   # Dataset for all thread starter posts this user made.
@@ -267,6 +272,12 @@ class Chessboard::User < Sequel::Model
   end
 
   def before_destroy
+    Chessboard::Forum.all.each do |forum|
+      if subscribed_to_mailinglist?(forum)
+        unsubscribe_from_mailinglist(forum)
+      end
+    end
+
     Chessboard::Application::DB[:posts_tags].where(:user_id => id).delete
     Chessboard::Application::DB[:read_posts].where(:user_id => id).delete
 
