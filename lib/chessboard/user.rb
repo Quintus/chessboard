@@ -278,7 +278,7 @@ class Chessboard::User < Sequel::Model
       end
     end
 
-    Chessboard::Application::DB[:posts_tags].where(:user_id => id).delete
+    Chessboard::Application::DB[:user_aliases].where(:user_id => id).delete
     Chessboard::Application::DB[:read_posts].where(:user_id => id).delete
 
     posts.each(&:destroy)
