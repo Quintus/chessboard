@@ -10,7 +10,6 @@ task :setup do
     String :encrypted_password, :null => false
     String :locale,             :default => "en", :null => false
     String :homepage
-    String :display_name,       :null => false
     String :location
     String :profession
     String :jabber_id
@@ -54,6 +53,7 @@ task :setup do
     Integer   :views,        :default => 0
     DateTime :created_at
     DateTime :last_post_date, :null => false
+    String   :used_alias,     :null => false
   end
 
   Chessboard::Application::DB.create_table :tags do
@@ -61,6 +61,12 @@ task :setup do
     String :name, :null => :false
     String :description
     String :color, :null => false, :default => "FFFFFF"
+  end
+
+  Chessboard::Application::DB.create_table :user_aliases do
+    foreign_key :user_id, :users, :null => false
+    String      :name,            :null => false
+    DateTime    :created_at,      :null => false
   end
 
   Chessboard::Application::DB.create_join_table :tag_id => :tags, :post_id => :posts
@@ -97,18 +103,18 @@ end
 task :create_minimal_data do
   puts "Creating Guest user"
   guest = Chessboard::User.new
-  guest.display_name = "Guest"
   guest.email = Chessboard::User::GUEST_EMAIL
   guest.reset_password
   guest.save
+  guest.add_alias("Guest", guest.created_at)
 
   puts "Creating Admin user"
   admin = Chessboard::User.new
-  admin.display_name = query(:name, "Your nickname: ")
   admin.email        = query(:email, "Your email: ")
   admin.change_password(query(:password, "Your password: "))
   admin.administrator = true
   admin.save
+  admin.add_alias(query(:name, "Your nickname: "), admin.created_at)
 end
 
 desc "Print the routing table."

@@ -50,6 +50,7 @@ module Chessboard
 
       MiniMagick.logger = logger
       DB = Sequel.connect("sqlite://#{root}/db/development.db3", :loggers => [logger])
+      Thread.abort_on_exception = true
 
       # In development deliver mails to mailcatcher.
       Mail.defaults do
@@ -137,7 +138,7 @@ module Chessboard
         to user.email
         subject "Password reset"
         body <<EOF
-Hi #{user.display_name},
+Hi #{user.current_alias},
 
 you have used the password reset function to reset
 your password. Your old password has been removed,

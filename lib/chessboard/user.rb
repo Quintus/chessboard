@@ -185,11 +185,81 @@ class Chessboard::User < Sequel::Model
     !unread?(post)
   end
 
+  # Returns the most recent alias name of this user.
+  # Returns nil if there is no alias associated with this
+  # user (which indicates a bug as any user creation should
+  # always add at least one alias).
+  #
+  # See also #alias_at_time.
+  def current_alias
+    alias_at_time(Time.now.utc)
+  end
+
+  # Return the alias that was in use at the given point in time.
+  # Returns nil if there was no alias for this user at the given
+  # time.
+  #
+  # Raises RangeError if the user was not registered at the time
+  # requested.
+  #
+  # See also #current_alias.
+  def alias_at_time(time)
+    # Force DateTime over to Time, make it UTC
+    time = time.to_time if time.respond_to?(:to_time)
+    time = time.utc
+
+    if time < created_at
+      raise RangeError, "Requested to retrieve an alias from before the user #{id} was registered (#{created_at}, requested was #{time})!"
+    end
+
+    Chessboard::Application::DB[:user_aliases]
+      .where(:user_id => id)
+      .where{created_at <= time}
+      .order(Sequel.desc(:created_at))
+      .limit(1)
+      .get(:name)
+  end
+
+  # Add a new alias for this user. You may override the
+  # creation time to insert an older alias if you have an
+  # old message from this user with a not-yet-used alias
+  # that is as of now not used anymore.
+  def add_alias(display_name, creation_time = Time.now)
+    # Force DateTime over to Time and make it UTC
+    creation_time = creation_time.to_time if creation_time.respond_to?(:to_time)
+    creation_time = creation_time.dup.utc
+
+    Chessboard::Application::DB[:user_aliases]
+      .insert(:user_id => id,
+              :name => display_name,
+              :created_at => creation_time)
+  end
+
+  # Returns all aliases this user ever used as a two-dimensional
+  # array of this form:
+  #
+  #   [[start_time, alias_name], ...]
+  #
+  #
+  # +start_time+ indicates when the user started using this alias,
+  # +alias_name+ is the alias as a string.
+  #
+  # If the user switched back to an earlier used alias, you might get
+  # duplicate alias names for different times.
+  #
+  # The array is sorted in ascending order, i.e. the first alias ever
+  # used comes first.
+  def all_aliases
+    Chessboard::Application::DB[:user_aliases]
+      .where(:user_id => id)
+      .order(Sequel.asc(:created_at))
+      .select_map([:name, :created_at])
+  end
+
   private
 
   def before_create
-    self[:display_name] ||= self[:email].split("@")[0]
-    self[:created_at]   ||= Time.now
+    self[:created_at]   ||= Time.now.utc
     self[:title]        ||= Chessboard::Configuration[:default_user_title]
 
     super

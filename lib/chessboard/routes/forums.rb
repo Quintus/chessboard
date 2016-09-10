@@ -75,11 +75,6 @@ class Chessboard::Application < Sinatra::Base
                        .offset(tpp * (@current_page - 1))
                        .limit(tpp)
 
-    # Since we are going to display the thread creator's name on each
-    # of the thread starters, directly eager load the authors here so
-    # we don't need separate queries for them.
-    @thread_starters = @thread_starters.eager(:author)
-
     # Go!
     @thread_starters = @thread_starters.all
 

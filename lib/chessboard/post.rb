@@ -83,13 +83,22 @@ You are receiving this mail as a member of the forum at <%= Chessboard::Configur
       # Ensure only UTF-8 gets into the database
       content.encode!("UTF-8")
 
+      # If the mail lacks a proper display name in the From: header, use the
+      # part before the email address' @ sign.
+      if mail["From"].address_list.addresses.first.display_name
+        display_name = mail["From"].address_list.addresses.first.display_name.encode("UTF-8")
+      else
+        display_name = mail.from.first.split("@")[0]
+      end
+
+      post.forum        = forum
+      post.author       = extract_mail_author!(mail, display_name)
+      post.parent       = find_parent_post(mail)
       post[:content]    = content
       post[:title]      = mail.subject ? mail.subject.encode("UTF-8") : "(No subject)"
       post[:message_id] = mail.message_id
-      post[:created_at] = mail.date
-      post.forum        = forum
-      post.author       = extract_mail_author!(mail)
-      post.parent       = find_parent_post(mail)
+      post[:used_alias] = display_name
+      post[:created_at] = mail.date.to_time.utc
 
       post.save
 
@@ -126,24 +135,32 @@ You are receiving this mail as a member of the forum at <%= Chessboard::Configur
 
     # Extract the author from the mail and return the matching
     # User instance. If the user is not yet in the database,
-    # create it.
-    def extract_mail_author!(mail)
+    # create it. If +display_name+ is a new alias, add it to
+    # the user's list of known aliases.
+    #
+    # +display_name+ has to be constructed from the mail's
+    # From: header, this method does not do that itself to
+    # prevent code duplication.
+    def extract_mail_author!(mail, display_name)
       user = Chessboard::User.where(:email => mail.from.first).first
-      return user if user
 
       # Create new user if this user is not known yet.
-      Chessboard.logger.info("Creating account for newly encountered user #{mail.from.first}")
-      user = Chessboard::User.new
-      user.email = mail.from.first
-      user.reset_password
-
-      # Set display name if the From header has one, otherwise let User to
-      # its default procedure to determine a good one.
-      if mail["From"].address_list.addresses.first.display_name
-        user.display_name = mail["From"].address_list.addresses.first.display_name.encode("UTF-8")
+      unless user
+        Chessboard.logger.info("Creating account for newly encountered user #{mail.from.first}")
+        user = Chessboard::User.new
+        user.email = mail.from.first
+        user.reset_password
+        user.created_at = mail.date.to_time.utc
+        user.save
       end
 
-      user.save
+      # If the used alias is not the user's current alias, update
+      # his list of known aliases.
+      unless display_name == user.current_alias
+        user.add_alias(display_name, mail.date.to_time.utc)
+      end
+
+      user
     end
 
     # Extract the part with the given MIME type target_type
@@ -229,7 +246,7 @@ You are receiving this mail as a member of the forum at <%= Chessboard::Configur
   # standard output in a nested mannor.
   def print_thread(level = 0, post = thread_starter)
     print "  " * level
-    puts "<#{post.author.display_name}> #{post.title}"
+    puts "<#{post.used_alias}> #{post.title}"
 
     post.replies.each do |child_post|
       print_thread(level + 1, child_post)
@@ -276,7 +293,7 @@ You are receiving this mail as a member of the forum at <%= Chessboard::Configur
   private
 
   def before_create
-    self[:created_at]     ||= Time.now
+    self[:created_at]     ||= Time.now.utc
     self[:last_post_date] ||= self[:created_at]
 
     super
@@ -298,10 +315,18 @@ You are receiving this mail as a member of the forum at <%= Chessboard::Configur
     content.scan(FIND_MENTION_REGEXP) do |ary|
       bare_name = ary[1][1..-1] # Remove leading @
       # Try both the direct name and "_" replaced with " ",
-      # as the user's display names may contain spaces.
+      # as the user's alias names may contain spaces.
       # This breaks if the user name has both "_" and " ",
       # but this is rare enough to ignore.
-      user = Chessboard::User.first(:display_name => [bare_name, bare_name.gsub("_", " ")])
+      #
+      # Technically, multiple users may have the same alias in use,
+      # but it should be sufficient to simply pick out the user
+      # that had this alias in use most recently.
+      user = Chessboard::User
+             .join(:user_aliases, :user_id => :id)
+             .where(Sequel.qualify(:user_aliases, :name) => [bare_name, bare_name.gsub("_", " ")])
+             .order(Sequel.desc(Sequel.qualify(:user_aliases, :created_at)))
+             .first
       unless user
         Chessboard::Application.logger.warn("@-mentioned user not found: #{bare_name}")
         next
@@ -309,7 +334,7 @@ You are receiving this mail as a member of the forum at <%= Chessboard::Configur
 
       mail = Mail.new
       # Variables for the ERuby context
-      nickname = user.display_name
+      nickname = user.current_alias
       text     = content
 
       mail.subject = "You have been mentioned"

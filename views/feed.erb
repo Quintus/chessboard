@@ -12,7 +12,7 @@
       <link href="<%= Chessboard::Configuration[:board_url] + post_url(post) %>"/>
       <id><%= Chessboard::Configuration[:board_url] + post_url(post) %></id>
       <published><%= post.created_at.iso8601 %></published>
-      <author><name><%= post.author.display_name %></name></author>
+      <author><name><%= post.used_alias %></name></author>
       <content type="html">
 	<%= process_raw(post.content) %>
       </content>

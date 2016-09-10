@@ -59,7 +59,7 @@
       </ul>
     <% end %>
     <br/>
-    <%= t.forums.author_by %> <a href="/users/<%= thread_starter.author.id %>"><%= thread_starter.author.display_name %></a>
+    <%= t.forums.author_by %> <a href="/users/<%= thread_starter.author_id %>"><%= thread_starter.used_alias %></a>
 
     <%# total_pages = (forum_topic.posts.count.to_f / GlobalConfiguration.instance.page_post_num.to_f).ceil %>
     <% total_pages = 1 %>
@@ -74,6 +74,6 @@
   <td class="list-views numbercell"><%= thread_starter.views %></td>
   <td class="forumlastpost">
     <%= l last_post.created_at %><br/>
-    <%= t.forums.author_by %> <a href="/users/<%= last_post.author.id %>"><%= last_post.author.display_name %></a>
+    <%= t.forums.author_by %> <a href="/users/<%= last_post.author_id %>"><%= last_post.used_alias %></a>
   </td>
 </tr>

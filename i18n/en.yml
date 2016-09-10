@@ -78,6 +78,9 @@ users:
     a user whose nickname contains the given characters.
   list_query: "Query:"
   profile: "%1’s user profile"
+  known_aliases: Known aliases of this user
+  column_alias: Alias
+  column_first_used: First used
   total_posts: "Total posts"
   homepage: Homepage
   location: Location

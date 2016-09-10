@@ -68,7 +68,7 @@ class Chessboard::Forum < Sequel::Model
   private
 
   def before_create
-    self[:created_at] = Time.now
+    self[:created_at] = Time.now.utc
     super
   end
 
