@@ -267,6 +267,16 @@ class Chessboard::User < Sequel::Model
       .select_map([:name, :created_at])
   end
 
+  # Move all posts of this user to another user.
+  # Note the post's 'used_alias' attribute is left untouched,
+  # so the UI will still display the old name next to the post
+  # (as it should be with a ML archive).
+  def move_all_posts_to_other_user_id!(user_id)
+    Chessboard::Application::DB[:posts]
+      .where(:author_id => id)
+      .update(:author_id => user_id)
+  end
+
   private
 
   def before_create

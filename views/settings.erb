@@ -177,3 +177,15 @@
     <input type="submit" value="<%= t.general.update %>" class="button-ok"></input>
   </p>
 </form>
+
+<h2><%= t.settings.delete_account %></h2>
+
+<form method="post" action="/users/<%= @user.id %>/delete" accept-charset="UTF-8">
+  <p>
+    <%= t.settings.delete_account_desc(Chessboard::Configuration[:admin_email]) %>
+  </p>
+
+  <p class="submit-separator">
+    <input type="submit" value="<%= t.general.delete %>" class="button-error">
+  </p>
+</form>

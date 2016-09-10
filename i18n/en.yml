@@ -211,6 +211,18 @@ settings:
   new_password: New password
   repeat_new_password: Repeat new password
   password_mismatch: Password does not match repetition.
+  delete_account: Delete Your Account
+  deleted_account: Your account has been deleted, and you have been logged out.
+  # %1 is replaced with the board's admin email address.
+  delete_account_desc: >-
+    Deleting your account removes you from this board
+    and unsubscribes you from any mailinglists associated
+    with it (even if you subscribed to them separately with
+    the email address you gave here). It does not delete
+    the your posts as this forum serves as a mailinglist archive.
+    If you want your posts to be deleted together with your account,
+    please contact the administration at %1 instead of using this
+    deletion form.
 posts:
   edit: "Edit"
   edit_post: "Edit posting"

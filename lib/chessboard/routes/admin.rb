@@ -246,13 +246,7 @@ class Chessboard::Application < Sinatra::Base
     mail = @user.email
 
     unless params["delete_posts"] == "1"
-      # Move all posts of this user to the Guest user.
-      # Note the post's 'used_alias' attribute is left untouched,
-      # so the UI will still display the old name next to the post
-      # (as it should be with a ML archive).
-      Chessboard::Application::DB[:posts]
-        .where(:author_id => @user.id)
-        .update(:author_id => Chessboard::User::guest_id)
+      @user.move_all_posts_to_other_user_id!(Chessboard::User::guest_id)
     end
 
     # User#destroy cascades by callback to deleting the associated
