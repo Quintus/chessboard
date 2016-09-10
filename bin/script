@@ -1,0 +1,34 @@
+#!/usr/bin/env ruby
+require "bundler/setup"
+require "optparse"
+require_relative "../lib/chessboard"
+
+if ARGV.include?("-h")
+  puts "Usage:"
+  puts "script [-p] SCRIPT"
+  puts
+  puts "Executes SCRIPT as Ruby code in the context of the Chessboard application."
+  puts "As a bonus, Chessboard::Application::DB is available as a DB toplevel constant"
+  puts "and the Chessboard module has been included into the main context."
+  puts "If the -p parameter is passed, automatically prints the result of the"
+  puts "SCRIPT code to standard output, i.e. you do not need to call #puts"
+  puts "manually."
+  puts "Be sure to shell-quote SCRIPT so that it is passed as a single argument."
+  exit 0
+end
+
+@print_result = ARGV.include?("-p")
+
+include Chessboard
+DB = Chessboard::Application::DB
+
+if ENV["RACK_ENV"]
+  puts "Executing in Rack environment #{ENV['RACK_ENV']}."
+else
+  puts "No RACK_ENV environment variable present."
+  puts "Executing in 'development' Rack environment."
+end
+
+result = eval(ARGV.last, binding, "commandline")
+
+puts result if @print_result
