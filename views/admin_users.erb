@@ -1,0 +1,39 @@
+<% content_for :sidebar do %>
+  <%= erb :_admin_sidebar %>
+<% end %>
+<% content_for :header do %>
+  <script type="text/javascript" src="/javascripts/forums.js"></script>
+<% end %>
+
+<h1><%= t.admin.users.title %></h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th><%= t.admin.users.current_alias %></th>
+      <th><%= t.admin.users.forum_title %></th>
+      <th><%= t.admin.users.email %></th>
+      <th><%= t.admin.users.is_admin %></th>
+      <th><%= t.admin.users.registered %></th>
+      <th><%= t.admin.users.last_login %></th>
+      <th><%= t.general.actions %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+	<td><%= user.id %></td>
+	<td><%= user.current_alias %></td>
+	<td><%= user.title %></td>
+	<td><%= user.email %></td>
+	<td><%= user.admin? ? t.yes : t.no %></td>
+	<td><%= l user.created_at %></td>
+	<td><%= l user.last_login %></td>
+	<td>
+	  <a href="/admin/users/<%= user.id %>/edit" class="button-normal"><%= t.general.edit %></a>
+	</td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

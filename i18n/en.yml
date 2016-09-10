@@ -260,7 +260,35 @@ admin:
   tag_create: Create Tag
   tag_created: Tag successfully created.
   tag_updated: Tag successfully updated.
-  bans: Bans
+  users:
+    title: Users
+    email: E-Mail
+    is_admin: Admin?
+    forum_title: Title
+    registered: Registered
+    last_login: Last Login
+    current_alias: Current Alias
+    # %1 is replaced by the user email
+    administer: Administer %1
+    delete: Delete User
+    edit: Edit User
+    # %1 is replaced by the user email
+    user_updated: "User %1 has been updated."
+    # %1 is replaced by the user email
+    user_deleted: "User %1 has been deleted."
+    delete_posts: >-
+      Delete this user's posts. This will IRREVOCABLY delete ALL posts
+      this user made from the database. If you leave this unchecked,
+      the posts are not deleted, but rather moved to the Guest user
+      so that they remain accessible.
+    is_admin_desc: >-
+      Enable this if you want to grant the user full administrative
+      access to Chessboard. He may do anything you can do as long
+      as it does not require shell access to the server.
+    forum_title_desc: >-
+      This is a short string that is shown below users' avatars.
+      It can be used to make the position of a team member more
+      visible to the users, e.g. you may put "Artist" here.
   forums:
     title: Forums
     create: Create Forum

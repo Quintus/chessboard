@@ -32,6 +32,11 @@ class Chessboard::User < Sequel::Model
     Chessboard::User.where(:email => GUEST_EMAIL).first
   end
 
+  # Like ::guest, but only returns the numeric ID of the Guest user.
+  def self.guest_id
+    Chessboard::User.where(:email => GUEST_EMAIL).limit(1).get(:id)
+  end
+
   # Synchronise the list of accounts on the forum with the subscribers
   # list of the mailinglist management program. All accounts whose
   # address is not in the mailinglist registers will be deleted, and

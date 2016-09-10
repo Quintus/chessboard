@@ -202,4 +202,66 @@ class Chessboard::Application < Sinatra::Base
     redirect "/admin/forums"
   end
 
+  get "/admin/users" do
+    halt 401 unless logged_in?
+    halt 403 unless logged_in_user.admin?
+
+    @users = Chessboard::User.order(Sequel.asc(:id)).all
+    erb :admin_users
+  end
+
+  get "/admin/users/:id/edit" do
+    halt 401 unless logged_in?
+    halt 403 unless logged_in_user.admin?
+
+    @user = Chessboard::User[params["id"].to_i]
+    halt 404 unless @user
+
+    erb :admin_user_edit
+  end
+
+  post "/admin/users/:id/update" do
+    halt 401 unless logged_in?
+    halt 403 unless logged_in_user.admin?
+
+    @user = Chessboard::User[params["id"].to_i]
+    halt 404 unless @user
+
+    @user.administrator = params["admin"]
+    @user.title         = params["title"]
+    @user.save
+
+    message t.admin.users.user_updated(@user.email)
+    redirect "/admin/users"
+  end
+
+  # Should be a DELETE method, but browsers don't support that
+  post "/admin/users/:id/delete" do
+    halt 401 unless logged_in?
+    halt 403 unless logged_in_user.admin?
+
+    @user = Chessboard::User[params["id"].to_i]
+    halt 404 unless @user
+
+    mail = @user.email
+
+    unless params["delete_posts"] == "1"
+      # Move all posts of this user to the Guest user.
+      # Note the post's 'used_alias' attribute is left untouched,
+      # so the UI will still display the old name next to the post
+      # (as it should be with a ML archive).
+      Chessboard::Application::DB[:posts]
+        .where(:author_id => @user.id)
+        .update(:author_id => Chessboard::User::guest_id)
+    end
+
+    # User#destroy cascades by callback to deleting the associated
+    # posts (unless they were moved away above).
+    @user.destroy
+
+    message t.admin.users.user_deleted(mail)
+
+    redirect "/admin/users"
+  end
+
 end

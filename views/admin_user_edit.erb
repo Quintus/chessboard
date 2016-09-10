@@ -1,0 +1,66 @@
+<% content_for :sidebar do %>
+  <%= erb :_admin_sidebar %>
+<% end %>
+<% content_for :header do %>
+  <script type="text/javascript" src="/javascripts/forums.js"></script>
+<% end %>
+
+<h1><%= t.admin.users.administer(@user.email) %></h1>
+<h2><%= t.admin.users.edit %></h2>
+
+<form action="/admin/users/<%= @user.id %>/update" class="settings-form" method="post" accept-charset="UTF-8">
+
+  <div class="setting">
+    <div class="header settings-header">
+      <p><%= t.admin.users.is_admin %></p>
+    </div>
+
+    <div class="settings-desc">
+      <p><%= t.admin.users.is_admin_desc %></p>
+    </div>
+
+    <div class="settings-content">
+      <p>
+	<input type="hidden"   value="0" name="admin"/>
+	<input type="checkbox" value="1" name="admin" id="admin" <%= checked(@user.admin?) %>></input>
+	<label for="admin"><%= t.admin.users.is_admin %></label>
+      </p>
+    </div>
+  </div>
+
+  <div class="setting">
+    <div class="header settings-header">
+      <p><%= t.admin.users.forum_title %></p>
+    </div>
+
+    <div class="settings-desc">
+      <p><%= t.admin.users.forum_title_desc %></p>
+    </div>
+
+    <div class="settings-content">
+      <p>
+	<input type="text" name="title" value="<%= @user.title %>"/>
+      </p>
+    </div>
+  </div>
+
+  <p class="submit-separator">
+    <input type="submit" value="<%= t.general.update %>" class="button-ok">
+  </p>
+
+</form>
+
+<h2><%= t.admin.users.delete %></h2>
+
+<form action="/admin/users/<%= @user.id %>/delete" class="settings-form" method="post" accept-charset="UTF-8">
+
+  <p>
+    <input type="hidden"   value="0" name="delete_posts"/>
+    <input type="checkbox" value="1" name="delete_posts" id="delete_posts"/>
+    <label for="delete_posts"><%= t.admin.users.delete_posts %></label>
+  </p>
+
+  <p class="submit-separator">
+    <input type="submit" value="<%= t.general.delete %>" class="button-error">
+  </p>
+</form>
