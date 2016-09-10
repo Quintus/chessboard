@@ -111,14 +111,15 @@ class Chessboard::User < Sequel::Model
   # +forum+ is the Forum instance whose mailinglist the user shall be
   # subscribed to.
   def subscribe_to_mailinglist(forum)
-    Chessboard::Configuration[:subscribe_to_nomail].call(email, forum.mailinglist)
+    Chessboard::Configuration[:subscribe_to_nomail].call(forum.mailinglist, email)
   end
 
   # Unsubscribe this user from the mailinglist.
   # +forum+ is the Forum instance whose mailinglist the user shall be
   # unsubscribed from.
   def unsubscribe_from_mailinglist(forum)
-    Chessboard::Configuration[:unsubscribe_from_ml].call(email, forum.mailinglist)
+    Chessboard::Configuration[:unsubscribe_from_ml].call(forum.mailinglist, email)
+  end
   end
 
   # Dataset for all thread starter posts this user made.
