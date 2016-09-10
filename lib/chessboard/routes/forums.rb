@@ -115,7 +115,9 @@ class Chessboard::Application < Sinatra::Base
                .limit(ppp)
     end
 
-    mark_posts_in_dataset_as_read(@posts)
+    if logged_in?
+      mark_posts_in_dataset_as_read(@posts)
+    end
 
     erb :topic
   end
