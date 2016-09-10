@@ -81,10 +81,13 @@ module Chessboard::Helpers
   # Return a URL to this post, adapting to the user's configuration
   # view mode if available, otherwise defaulting to the global default
   # view mode.
-  def post_url(post)
+  # If +honor_view_mode+ is true (default), then the link is made to
+  # the logged in user's configured view mode (thread or topic view).
+  # Otherwise it is made to the default view mode.
+  def post_url(post, honor_view_mode = true)
     view_mode = Chessboard::Configuration[:default_view_mode]
 
-    if logged_in?
+    if honor_view_mode && logged_in?
       view_mode = logged_in_user.view_mode
     end
 

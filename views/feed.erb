@@ -9,8 +9,8 @@
   <% @posts.each do |post| %>
     <entry>
       <title><%= post.title %></title>
-      <link href="<%= Chessboard::Configuration[:board_url] + post_url(post) %>"/>
-      <id><%= Chessboard::Configuration[:board_url] + post_url(post) %></id>
+      <link href="<%= Chessboard::Configuration[:board_url] + post_url(post, false) %>"/>
+      <id><%= Chessboard::Configuration[:board_url] + post_url(post, false) %></id>
       <published><%= post.created_at.iso8601 %></published>
       <author><name><%= post.used_alias %></name></author>
       <content type="html">

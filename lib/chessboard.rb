@@ -209,7 +209,7 @@ EOF
     end
 
     get "/feed" do
-      @posts = Post.order(Sequel.desc(:created_at)).limit(20).eager(:author)
+      @posts = Post.order(Sequel.desc(:created_at)).limit(20).all
       [200, {"Content-Type" => "application/atom+xml;charset=utf8"}, erb(:feed, :layout => false)]
     end
 
