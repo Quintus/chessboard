@@ -111,11 +111,15 @@ module Chessboard
             end
 
             subscribe_to_nomail do |forum_ml, email|
-              system("/usr/bin/mlmmj-sub", "-L", forum_ml, "-n", email)
+              unless system("/usr/bin/mlmmj-sub", "-L", forum_ml, "-a", email, "-n")
+                raise("Failed to subscribe '#{email}'!")
+              end
             end
 
             unsubscribe_from_ml do |forum_ml, email|
-              system("/usr/bin/mlmmj-unsub", "-L", forum_ml, email)
+              unless system("/usr/bin/mlmmj-unsub", "-L", forum_ml, "-a", email)
+                raise("Failed to unsubscribe '#{email}'!")
+              end
             end
 
             load_ml_mails do |forum_ml|
