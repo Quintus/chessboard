@@ -86,6 +86,22 @@
 
   <div class="setting">
     <div class="header settings-header">
+      <p><%= t.settings.titles.email %></p>
+    </div>
+
+    <div class="settings-desc">
+      <p><%= t.settings.descriptions.email %></p>
+    </div>
+
+    <div class="settings-content">
+      <p>
+	<input type="text" name="email" value="<%= @user.email %>"/>
+      </p>
+    </div>
+  </div>
+
+  <div class="setting">
+    <div class="header settings-header">
       <p><%= t.settings.titles.password %></p>
     </div>
 

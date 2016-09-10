@@ -171,6 +171,7 @@ settings:
     avatar: Avatar
     always_raw: Always show raw
     password: Password
+    email: E-Mail address
   descriptions:
     hide_status: >
       Activating this option makes your online status invisible
@@ -200,6 +201,13 @@ settings:
     password: >
       If you fill in these fields, your password will be changed accordingly.
       If you don’t want to change your password, simply leave them empty.
+    email: >-
+      Change your e-mail address to another one. Simply leave this as-is if
+      you do not want to change it. Note that if you do change it and
+      afterwards post to the acutal mailinglist using an email program,
+      you have to use that new email address as the sender, otherwise
+      your post will not be associated with your account as Chessboard
+      is tightly coupled with the mailinglist management software.
   new_password: New password
   repeat_new_password: Repeat new password
   password_mismatch: Password does not match repetition.
