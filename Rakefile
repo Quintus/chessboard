@@ -19,7 +19,6 @@ task :setup do
     TrueClass :hide_status,     :default => false
     TrueClass :hide_email,      :default => false
     TrueClass :auto_watch,      :default => false
-    TrueClass :always_raw,      :default => false
     TrueClass :administrator,   :default => false
     TrueClass :confirmed,       :default => false
     String    :confirmation_string

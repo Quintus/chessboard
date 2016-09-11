@@ -29,10 +29,7 @@
       </div>
     </div>
 
-    <ul class="vlist post-actions" <%= 'data-always-raw="true"' if logged_in? && logged_in_user.always_raw %>>
-      <li class="show-raw-item"><a href="#"><img src="/images/icons/edit.png">&nbsp;<%= t.posts.show_raw %></a></li>
-      <li class="show-normal-item"><a href="#"><img src="/images/icons/edit.png">&nbsp;<%= t.posts.show_normal %></a></li>
-
+    <ul class="vlist post-actions">
       <% if logged_in? && !disable_actions %>
 	<li><a href="/forums/<%= forum.id %>/posts/<%= post.id %>/report"><img src="/images/icons/report.png" alt="report this"/>&nbsp;<%= t.posts.report_this %></a></li>
 
@@ -54,13 +51,9 @@
     </ul>
 
     <div class="post-text">
-      <%# flash_tag :postalert, :class => "flash alert" if flash[:postid] == post.id %>
       <% if post.was_html_only %>
 	<p class="html-only-post"><%= t.posts.was_html_only %></p>
       <% end %>
-      <div class="post-normal-markup">
-	<%= process_markup(post.content) %>
-      </div>
       <div class="post-raw-markup">
 	<%= process_raw(post.content) %>
       </div>

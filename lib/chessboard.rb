@@ -175,7 +175,6 @@ EOF
       @user.hide_status = params["hide_status"] == "1"
       @user.hide_email  = params["hide_email"]  == "1"
       @user.auto_watch  = params["auto_watch"]  == "1"
-      @user.always_raw  = params["always_raw"]  == "1"
       @user.locale      = params["language"] if R18n.available_locales.map(&:code).include?(params["language"])
       @user.email       = params["email"] unless params["email"].to_s.empty?
 
@@ -223,7 +222,7 @@ require_relative "chessboard/routes/users"
 require_relative "chessboard/routes/posts"
 require_relative "chessboard/routes/admin"
 require_relative "chessboard/ldap"
-require_relative "chessboard/email_document"
+#require_relative "chessboard/email_document"
 require_relative "chessboard/raw_document"
 require_relative "chessboard/user"
 require_relative "chessboard/forum"
