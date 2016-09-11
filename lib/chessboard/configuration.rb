@@ -80,6 +80,8 @@ module Chessboard
     config_setting :sendmail_path, "sendmail"
     config_setting :default_view_mode, :threads
     config_setting :monitor_method, :inotify
+    config_setting :enable_registration, true
+    config_setting :confirmation_expiry, 60 * 60 * 24 * 2 # 2 days
 
     # This namespace contains pre-made configuration snippets for
     # certain mailinglist software.

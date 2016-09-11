@@ -277,6 +277,18 @@ class Chessboard::User < Sequel::Model
       .update(:author_id => user_id)
   end
 
+  # Returns a Time instance representing the point in time where the
+  # registration confirmation token expires.
+  def confirmation_expiry_time
+    created_at + Chessboard::Configuration[:confirmation_expiry]
+  end
+
+  # Returns true if the registration confirmation token has expired,
+  # false otherwise.
+  def confirmation_token_expired?
+    Time.now.utc > confirmation_expiry_time
+  end
+
   private
 
   def before_create

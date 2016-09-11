@@ -21,6 +21,8 @@ task :setup do
     TrueClass :auto_watch,      :default => false
     TrueClass :always_raw,      :default => false
     TrueClass :administrator,   :default => false
+    TrueClass :confirmed,       :default => false
+    String    :confirmation_string
     Integer   :view_mode_ident, :default => Chessboard::User::VIEWMODE2IDENT[:default]
     DateTime :last_login
     DateTime :created_at
@@ -105,6 +107,7 @@ task :create_minimal_data do
   guest = Chessboard::User.new
   guest.email = Chessboard::User::GUEST_EMAIL
   guest.reset_password
+  guest.confirmed = true
   guest.save
   guest.add_alias("Guest", guest.created_at)
 
@@ -113,6 +116,7 @@ task :create_minimal_data do
   admin.email        = query(:email, "Your email: ")
   admin.change_password(query(:password, "Your password: "))
   admin.administrator = true
+  admin.confirmed     = true
   admin.save
   admin.add_alias(query(:name, "Your nickname: "), admin.created_at)
 end

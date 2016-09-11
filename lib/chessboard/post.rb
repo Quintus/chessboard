@@ -151,6 +151,9 @@ You are receiving this mail as a member of the forum at <%= Chessboard::Configur
         user.email = mail.from.first
         user.reset_password
         user.created_at = mail.date.to_time.utc
+        # ML users do not need to go through the confirmation process,
+        # they are confirmed by the ML.
+        user.confirmed = true
         user.save
       end
 

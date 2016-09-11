@@ -61,7 +61,9 @@ Chessboard::Configuration.create do |config|
 
   # If the forum needs to send important information, this is
   # where that information is send to. (Example: A user reports
-  # a post as abuse).
+  # a post as abuse). This address is also shown to the users
+  # at various places where they are asked to contact the board
+  # administration.
   admin_email "root@localhost"
 
   # This address is used for the "From:" header in outgoing
@@ -75,6 +77,17 @@ Chessboard::Configuration.create do |config|
 
   # Users without a specifically assigned title gain this title.
   default_user_title "Member"
+
+  # If you set this to false, then new users cannot sign up on the
+  # web UI. It is still possible to subscribe to the mailinglists
+  # using the respective mailinglist manager's methods, though.
+  enable_registration true
+
+  # Timespan in seconds after which registration tokens expire and
+  # thus confirmation attempts will be rejected. Once the token
+  # has expired, the associated user account may be deleted at any
+  # time by the maintenance cronjob.
+  confirmation_expiry 60 * 60 * 24 * 2 # 2 days
 
   # How threads are displayed to the user by default. Users
   # not logged in will see the post by this mode only, unless

@@ -1,0 +1,31 @@
+<h1><%= t.general.register %></h1>
+
+<p>
+  <%= t.general.register_desc %>
+</p>
+
+<form method="post" action="/users">
+  <p>
+    <label for="email"><%= t.general.email %>:</label><br/>
+    <input type="text" id="email" name="email"/>
+  </p>
+
+  <p>
+    <label for="alias"><%= t.general.nickname %>:</label><br/>
+    <input type="text" id="alias" name="alias"/>
+  </p>
+
+  <p>
+    <label for="password"><%= t.general.password %>:</label><br/>
+    <input type="password" id="password" name="password"/>
+  </p>
+
+  <p>
+    <label for="password_repeat"><%= t.general.repeat_password %>:</label><br/>
+    <input type="password" id="password" name="password"/>
+  </p>
+
+  <p class="submit-separator">
+    <input type="submit" class="button-ok" value="<%= t.general.register %>"/>
+  </p>
+</form>

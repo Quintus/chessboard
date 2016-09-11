@@ -121,4 +121,30 @@ module Chessboard::Helpers
     end
   end
 
+  def send_registration_email(user)
+    link = sprintf("%s/users/%d/confirm/%s",
+                   Chessboard::Configuration[:board_url],
+                   user.id,
+                   user.confirmation_string)
+
+    mail = Mail.new
+    mail.subject = t.users.registration_email_subject.to_s
+    mail.from = Chessboard::Configuration[:board_email]
+    mail.to   = user.email
+    mail.body = t.users.registration_email_body(user.current_alias,
+                                                Chessboard::Configuration[:board_url],
+                                                link,
+                                                user.confirmation_expiry_time.strftime("%Y-%m-%d %H:%M")).to_s
+    mail.deliver
+  end
+
+  def generate_registration_token(user)
+    token = Array.new(5){ ("A".."Z").to_a.sample }
+    token.concat(Array.new(5) { user.email.chars.to_a.sample })
+    token << (Time.now.utc.sec * 2).to_s
+    token.concat(Array.new(user.email.chars.inject(0){|sum, c| sum + c.ord} % 6))
+    token.concat(Array.new(5){ ("1".."9").to_a.sample })
+    token.join("")
+  end
+
 end

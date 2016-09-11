@@ -109,7 +109,7 @@ module Chessboard
     post "/login" do
       user = User.first(:email => params["email"])
 
-      if user && user.authenticate(params["password"])
+      if user && user.confirmed && user.authenticate(params["password"])
         message t.general.logged_in_successfully
         session["user"] = user.id
         redirect "/"

@@ -3,6 +3,7 @@ general:
   log_in: "Log in"
   log_out: "Log out"
   password: "Password"
+  repeat_password: "Repeat password"
   nickname: "Nickname"
   email: "E-Mail address"
   not_logged_in: "You are not logged in."
@@ -29,6 +30,9 @@ general:
   preview: "Preview"
   errors_occured: "Errors occured."
   search: "Search"
+  register_desc: >
+    To register on this board, fill in the form below. You will receive a
+    confirmation email with further instructions to validate your account.
 forums:
   forum: "Forum"
   topics: "Topics"
@@ -92,9 +96,25 @@ users:
   hidden_email: "Hidden"
   hidden_email_for_unprivileged: "Hidden for unprivileged users"
   registration: >
-    You have successfully registered. A confirmation email was sent
-    to your mail address, please follow the link it contains in order
-    to activate your account.
+    Your registration has been received. You will soon receive an email
+    containing further instructions to validate your account. Be sure
+    to check your spam folder if you don't receive it within minutes.
+  confirmed: >
+    Your account has been successfully confirmed. You can now log in
+    with the password you chose on registration.
+  confirm_failed: >
+    Your account could not be confirmed. Either your registration
+    token has expired or you mangled the confirmation link.
+  registration_email_subject: "Confirm your registration"
+  registration_email_body: |
+    Hi %1,
+    you have signed up for the board at %2. To be able to log in,
+    you need to confirm your account now. To do so, visit this
+    link:
+    %3
+    This confirmation link expires on %4. If you do not want to
+    sign up anymore, simply do nothing and the record will be
+    deleted after the expiration time has passed.
   delete: "Delete account"
   deleted: "Your account has been deleted."
   delete_desc: >
