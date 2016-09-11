@@ -1,5 +1,5 @@
 <% if logged_in? %>
-  <p class="top-right-nav"><%# link_to I18n.t("forums.new_topic"), url(:topics, :new) + "?" + "forum=#{@forum.id}", :class => "button-normal" %></p>
+  <p class="top-right-nav"><a class="button-normal" href="/forums/<%= @forum.id %>/posts/new"><%= t.forums.new_topic %></a></p>
 <% end %>
 <h1><%= @forum.name %></h1>
 

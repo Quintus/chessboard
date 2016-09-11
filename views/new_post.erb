@@ -1,0 +1,7 @@
+<% content_for :header do %>
+  <script type="text/javascript" src="/javascripts/attachments.js"></script>
+<% end %>
+
+<h1><%= t.posts.new %></h1>
+
+<%= erb :_reply_form, :locals => {:suggested_title => "", :tags => @tags, :target => "/forums/#{@forum.id}/posts"} %>

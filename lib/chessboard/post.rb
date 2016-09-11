@@ -283,8 +283,14 @@ You are receiving this mail as a member of the forum at <%= Chessboard::Configur
     # the parent post, which *is* serialised. The parent post's
     # message ID has to be added separately as it is not part of
     # the result of the query.
-    refs = parent.ancestors_dataset.order(Sequel.asc(:created_at)).select_map(:message_id)
-    refs << parent.message_id if parent.message_id # Importers may not set a message ID if the imported posts were never send to a mailinglist
+    # If this is a new root post (new topic), then no parent setting
+    # is needed of course.
+    if parent
+      refs = parent.ancestors_dataset.order(Sequel.asc(:created_at)).select_map(:message_id)
+      refs << parent.message_id if parent.message_id # Importers may not set a message ID if the imported posts were never send to a mailinglist
+    else
+      refs = []
+    end
 
     # Hand over to the callback
     Chessboard::Configuration[:send_to_ml].call(forum.mailinglist, self, refs, tags, attachments)

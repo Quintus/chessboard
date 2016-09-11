@@ -230,9 +230,16 @@ posts:
   deleted: "Posting deleted."
   created: "Posting created."
   updated: "Posting updated."
+  # %1 is replaced with the board admin email address.
+  creation_failed: >
+    Your post could not be created. This might be due to the email infrastructure
+    having problems (in which case your post is likely to show up later when
+    things are back to normal), or you may have been banned from the mailinglist.
+    If you are unsure, you can contact the board administration at %1.
   reply: "Reply"
   replied_to_post: "Post you reply to"
   your_reply: "Your reply"
+  new: New Topic
   no_ip: "(not available)"
   was_html_only: This post was submitted only in HTML format and has been reformatted to plain text for security reasons. Please ask the author to provide a plain-text version the next time.
   title: "Title"

@@ -67,6 +67,54 @@ class Chessboard::Application < Sinatra::Base
     redirect "/forums/#{@forum.id}"
   end
 
+  get "/forums/:forum_id/posts/new" do
+    halt 401 unless logged_in?
+    @forum = Chessboard::Forum[params["forum_id"].to_i]
+    halt 404 unless @forum
+
+    @tags = Chessboard::Tag.order(Sequel.asc(:name)).all
+
+    erb :new_post
+  end
+
+  post "/forums/:forum_id/posts" do
+    halt 401 unless logged_in?
+    @forum = Chessboard::Forum[params["forum_id"].to_i]
+    halt 404 unless @forum
+
+    # If the user is not subscribed to the mailinglist behind
+    # this forum, do that now.
+    unless logged_in_user.subscribed_to_mailinglist?(@forum)
+      logged_in_user.subscribe_to_mailinglist(@forum)
+    end
+
+        @post = nil
+    begin
+      @post = construct_post(request, params, @forum)
+    rescue RangeError # Attachment size too large
+      halt 413, erb(:reply)
+    end
+
+    @post.parent  = @parent_post
+
+    params["tags"] ||= {}
+    @tags = Chessboard::Tag.where(:id => params["tags"].keys.map(&:to_i)).all
+
+    message_id = @post.send_to_mailinglist(@tags, params["attachments"] || [])
+
+    # See reply route as to why we sleep here.
+    sleep 3
+
+    if @post = Chessboard::Post.where(:message_id => message_id).first # Single = intended
+      message t.posts.created
+      redirect post_url(@post)
+    else
+      alert t.posts.creation_failed(Chessboard::Configuration[:admin_email])
+      redirect "/forums/#{@forum.id}"
+    end
+
+  end
+
   get "/forums/:forum_id/posts/:id/reply" do
     halt 401 unless logged_in?
 
@@ -99,31 +147,17 @@ class Chessboard::Application < Sinatra::Base
       logged_in_user.subscribe_to_mailinglist(@forum)
     end
 
-    @post = Chessboard::Post.new
-    @post.content = params["content"]
-    @post.title   = params["title"]
-    @post.ip      = request.ip
-    @post.forum   = @forum
-    @post.author  = logged_in_user
+    @post = nil
+    begin
+      @post = construct_post(request, params, @forum)
+    rescue RangeError # Attachment size too large
+      halt 413, erb(:reply)
+    end
+
     @post.parent  = @parent_post
 
-    # Ensure the attachments' total size does not exceed what is allowed
-    if params["attachments"]
-      max   = Chessboard::Configuration[:max_total_attachment_size]
-      total = params["attachments"].reduce(0){|sum, hsh| sum + hsh[:tempfile].size}
-      if total > max
-        @attachment_error = t.posts.attachments_too_large(
-          readable_bytesize(total),
-          readable_bytesize(max))
-        halt 413, erb(:reply)
-      end
-    end
-
-    if params["tags"]
-      @tags = Chessboard::Tag.where(:id => params["tags"].keys.map(&:to_i))
-    else
-      @tags = []
-    end
+    params["tags"] ||= {}
+    @tags = Chessboard::Tag.where(:id => params["tags"].keys.map(&:to_i)).all
 
     message_id = @post.send_to_mailinglist(@tags, params["attachments"] || [])
 
@@ -135,8 +169,13 @@ class Chessboard::Application < Sinatra::Base
     # be ignored.
     sleep 3
 
-    message t.posts.created
-    redirect post_url(Chessboard::Post.where(:message_id => message_id).first)
+    if @post = Chessboard::Post.where(:message_id => message_id).first # Single = intended
+      message t.posts.created
+      redirect post_url(@post)
+    else
+      alert t.posts.creation_failed(Chessboard::Configuration[:admin_email])
+      redirect "/forums/#{@forum.id}"
+    end
   end
 
   # One shouldn't delete from a mail archive in general, but in case
@@ -156,6 +195,31 @@ class Chessboard::Application < Sinatra::Base
 
     @post.destroy
     200
+  end
+
+  private
+
+  def construct_post(request, params, forum)
+    post = Chessboard::Post.new
+    post.content = params["content"]
+    post.title   = params["title"]
+    post.ip      = request.ip
+    post.forum   = forum
+    post.author  = logged_in_user
+
+    # Ensure the attachments' total size does not exceed what is allowed
+    if params["attachments"]
+      max   = Chessboard::Configuration[:max_total_attachment_size]
+      total = params["attachments"].reduce(0){|sum, hsh| sum + hsh[:tempfile].size}
+      if total > max
+        @attachment_error = t.posts.attachments_too_large(
+          readable_bytesize(total),
+          readable_bytesize(max))
+        raise RangeError, "Attachment total size #{total} is too large (max allowed is #{max})!"
+      end
+    end
+
+    post
   end
 
 end

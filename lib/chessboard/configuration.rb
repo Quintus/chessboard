@@ -134,8 +134,11 @@ module Chessboard
                 to File.read(File.join(forum_ml, "control", "listaddress")).strip
                 subject post.title
                 body post.content
-                in_reply_to refs.last
-                references refs
+
+                unless refs.empty? # New topic (root post) if empty
+                  in_reply_to refs.last
+                  references refs
+                end
 
                 # `attachments' is an empty array if no attachments are there.
                 attachments.each do |attachment|
