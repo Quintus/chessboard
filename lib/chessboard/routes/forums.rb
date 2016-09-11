@@ -119,6 +119,8 @@ class Chessboard::Application < Sinatra::Base
       mark_posts_in_dataset_as_read(@posts)
     end
 
+    @root_post.update(:views => @root_post.views + 1)
+
     erb :topic
   end
 
@@ -134,6 +136,8 @@ class Chessboard::Application < Sinatra::Base
       # all posts in this thread as read by this user.
       mark_posts_in_dataset_as_read(@root_post.descendants_dataset)
     end
+
+    @root_post.update(:views => @root_post.views + 1)
 
     erb :thread
   end
