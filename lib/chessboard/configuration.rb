@@ -130,7 +130,7 @@ module Chessboard
 
             send_to_ml do |forum_ml, post, refs, tags, attachments|
               mail = Mail.new do
-                from post.author.email
+                from "#{post.author.current_alias.delete('<>')} <#{post.author.email}>"
                 to File.read(File.join(forum_ml, "control", "listaddress")).strip
                 subject post.title
                 body post.content
