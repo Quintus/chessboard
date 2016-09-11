@@ -46,7 +46,7 @@ module Chessboard
     # any arguments you want to pass to this module as a hash.
     def self.use_premade_config(name, args = {})
       @premade_config_args = args
-      extend Chessboard::Configuration::Mailinglists.const_get(name.capitalize)
+      extend Chessboard::Configuration::Mailinglists.const_get(name)
     end
 
     # Following is the list of supported configuration options
@@ -82,6 +82,7 @@ module Chessboard
     config_setting :monitor_method, :inotify
     config_setting :enable_registration, true
     config_setting :confirmation_expiry, 60 * 60 * 24 * 2 # 2 days
+    config_setting :hilit_heuristic
 
     # This namespace contains pre-made configuration snippets for
     # certain mailinglist software.
@@ -222,6 +223,42 @@ module Chessboard
           end
         end
       end
+
+      # This premade configuration snippet simply disables code highlighting.
+      module NoHilit
+        def self.extended(other)
+          other.module_eval do
+            hilit_heuristic do |*|
+              nil
+            end
+          end
+        end
+      end
+
+      # This premade configuration snippet contains a very simple
+      # heuristic to check whether the given string is code at all and
+      # whether it's Ruby or C++ code, or XML markup. You can use it
+      # as an example as to how to implement your own heuristic.
+      module RubyAndCppAndXMLHilit
+        def self.extended(other)
+          other.module_eval do
+
+            hilit_heuristic do |code|
+              if code =~ /(^|\s+)(def|module)\s|end\n|self|elsif|@\w+\s*=/
+                :ruby
+              elsif code =~ /^#include|;\n|(^|\s+)(namespace|new)\s|\(\)|NULL|nullptr/
+                :cpp
+              elsif code =~ %r!^\<\?xml|/>\n|<(.*?)>.*</\1>!m
+                :xml
+              else
+                nil
+              end
+            end
+
+          end
+        end
+      end
+
     end
   end
 end

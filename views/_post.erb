@@ -54,9 +54,7 @@
       <% if post.was_html_only %>
 	<p class="html-only-post"><%= t.posts.was_html_only %></p>
       <% end %>
-      <div class="post-raw-markup">
-	<%= process_raw(post.content) %>
-      </div>
+      <div class="post-raw-markup"><%= process_raw(post.content) %></div>
 
       <% if logged_in? && !disable_actions %>
 	<p class="reply-button">

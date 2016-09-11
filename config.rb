@@ -149,10 +149,16 @@ Chessboard::Configuration.create do |config|
   # Chessboard provides premade configuration for the Mlmmj
   # mailinglist management software. Just specify the path
   # to the mailinglist directory.
-  use_premade_config "mlmmj"
+  use_premade_config "Mlmmj"
 
   # Things are more complicated when you do not use a
   # mailinglist manager for which Chessboard has a premade
   # configuration. Consult the documentation on how to
   # proceed here then.
+
+  ########################################
+  # Syntax highlighting heuristic
+
+  use_premade_config "RubyAndCppAndXMLHilit"
+
 end
