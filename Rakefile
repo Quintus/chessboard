@@ -132,6 +132,15 @@ task :routes do
   end
 end
 
+desc "Main maintenance task; run this periodically from Cron."
+task :maintenance do
+  # Delete expired confirmation tokens
+  Chessboard::User
+    .where(:confirmed => false)
+    .where{created_at < Time.now.utc - Chessboard::Configuration[:confirmation_expiry]}
+    .each(&:destroy)
+end
+
 ########################################
 # Helper methods
 
