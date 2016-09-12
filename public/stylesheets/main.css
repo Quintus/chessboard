@@ -162,6 +162,16 @@ div.CodeRay {
     text-decoration: underline;
 }
 
+#navigation ul li {
+    padding-left: 6px;
+    border-left: 1px solid white;
+}
+
+#navigation ul li:first-child {
+    padding-left: 0px;
+    border-left: none;
+}
+
 #footer {
     margin-top: 10px;
     padding-top: 4px;
