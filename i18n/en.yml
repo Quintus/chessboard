@@ -200,6 +200,7 @@ settings:
     always_raw: Always show raw
     password: Password
     email: E-Mail address
+    view_mode: View mode
   descriptions:
     hide_status: >
       Activating this option makes your online status invisible
@@ -236,6 +237,18 @@ settings:
       you have to use that new email address as the sender, otherwise
       your post will not be associated with your account as Chessboard
       is tightly coupled with the mailinglist management software.
+    view_mode: >
+      Chessboard is capable to display the discussions in either thread or
+      topic view. The thread view resembles the classic hierarchical
+      ordering, where the posts are indented to indicate who replied to whom.
+      The topic view is a simplified version that ignores the reply chain and
+      instead just sorts all posts in a discussion by date, without indentation.
+      The thread view offers more functionality, while the topic view might be
+      simpler to use.
+  view_mode_titles:
+    default: Forum default
+    threads: Threads
+    topics: Topics
   new_password: New password
   repeat_new_password: Repeat new password
   password_mismatch: Password does not match repetition.

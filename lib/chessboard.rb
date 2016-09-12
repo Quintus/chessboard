@@ -173,11 +173,12 @@ EOF
 
       @user = logged_in_user
 
-      @user.hide_status = params["hide_status"] == "1"
-      @user.hide_email  = params["hide_email"]  == "1"
-      @user.auto_watch  = params["auto_watch"]  == "1"
-      @user.locale      = params["language"] if R18n.available_locales.map(&:code).include?(params["language"])
-      @user.email       = params["email"] unless params["email"].to_s.empty?
+      @user.hide_status     = params["hide_status"] == "1"
+      @user.hide_email      = params["hide_email"]  == "1"
+      @user.auto_watch      = params["auto_watch"]  == "1"
+      @user.locale          = params["language"] if R18n.available_locales.map(&:code).include?(params["language"])
+      @user.email           = params["email"] unless params["email"].to_s.empty?
+      @user.view_mode_ident = params["view_mode"].to_i if Chessboard::User::IDENT2VIEWMODE.has_key?(params["view_mode"].to_i)
 
       unless params["password"].to_s.empty?
         if params["password"] != params["repeat_password"]

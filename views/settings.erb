@@ -105,6 +105,31 @@
 
   <div class="setting">
     <div class="header settings-header">
+      <p><%= t.settings.titles.view_mode %></p>
+    </div>
+
+    <div class="settings-desc">
+      <p><%= t.settings.descriptions.view_mode %></p>
+    </div>
+
+    <div class="settings-content">
+      <p>
+	<select id="view_mode" name="view_mode">
+	  <% Chessboard::User::VIEWMODE2IDENT.each_pair do |name, ident| %>
+	    <option
+	       value="<%= ident %>"
+	       <% if ident == @user.view_mode_ident %>
+		 selected="selected"
+	       <% end %>
+	       ><%= t.settings.view_mode_titles.send(name) %></option>
+	  <% end %>
+	</select>
+      </p>
+    </div>
+  </div>
+
+  <div class="setting">
+    <div class="header settings-header">
       <p><%= t.settings.titles.language %></p>
     </div>
 
