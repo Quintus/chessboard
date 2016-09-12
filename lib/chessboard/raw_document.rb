@@ -35,6 +35,7 @@ class Chessboard::RawDocument
     case @mode
     when :normal    then process_normal
     when :codeblock then process_codeblock
+    when :signature then process_signature
     when :link      then process_link
     else
       raise("Unknown scanning mode #{@mode} encountered; this is a bug.")
@@ -65,6 +66,8 @@ class Chessboard::RawDocument
         # so reset the scanner to the beginning of the first line
         # of code.
         @scanner.unscan
+      elsif str = @scanner.scan(/^-- ?\n/)
+        @mode = :signature
       else
       # Normal character
         @output << escape_html(@scanner.getch)
@@ -111,6 +114,16 @@ class Chessboard::RawDocument
     end
 
     @codeblock_delim = nil
+    @mode = :normal
+  end
+
+  def process_signature
+    delim = @scanner.matched
+    subdocument = self.class.new(@scanner.rest)
+    @scanner.terminate # StringScanner#rest above does not advance the scan pointer
+
+    @output << '<div class="signature">' << subdocument.to_html << '</div>'
+
     @mode = :normal
   end
 
