@@ -214,6 +214,20 @@ EOF
       [200, {"Content-Type" => "application/atom+xml;charset=utf8"}, erb(:feed, :layout => false)]
     end
 
+    get "/forum_rules" do
+      rules = Chessboard::Configuration[:forum_rules]
+      halt 404 unless rules
+
+      erb rules, :layout => true
+    end
+
+    get "/imprint" do
+      imprint = Chessboard::Configuration[:imprint]
+      halt 404 unless imprint
+
+      erb imprint, :layout => true
+    end
+
   end
 end
 

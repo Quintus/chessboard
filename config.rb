@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # config.rb -- Chessboard configuration file
 # This file configures the main aspects of Chessboard. It is
 # loaded as Ruby code, but it is kept intentionally simple so
@@ -121,6 +122,36 @@ Chessboard::Configuration.create do |config|
   # If log is set to :syslog, this specifies the facility to
   # log to. See syslog(3) for the list of facilities.
   #log_facility :daemon
+
+  # These forum rules are linked to prominently in the navigation,
+  # and the user must accept them on registration. If you don't
+  # want forum rules, set this to nil. Note that it is recommended
+  # to ask users who sign up directly on the mailinglist to accept
+  # the same rules as well.
+  forum_rules <<EOF
+<h1>Forum Rules</h1>
+<p>§1. Do not post illegal content.</p>
+<p>§2. Do not post obscene content.</p>
+<p>§3. Do not post spam.</p>
+<p>§4. You agree all your posts are licensed as <a href="https://creativecommons.org/licenses/by/4.0/">CC-BY 4.0.</a></p>
+<p>§5. In case you breach one of the above rules, you may be banned from the forum at any time, permanently.</p>
+EOF
+
+  # The "imprint" information gives the contact information of
+  # the board administrator. German law requires a full paper
+  # address and the name of the individual or organisation in
+  # charge of the website. Your local laws may differ. If you
+  # do not need this information, set this value to nil.
+  imprint <<EOF
+<h1>Imprint</h1>
+<p>This forum is run and administered by:</p>
+
+<p>
+Your Name<br/>
+Your Address<br/>
+Your E-Mail-Address
+</p>
+EOF
 
   ########################################
   # LDAP authentication

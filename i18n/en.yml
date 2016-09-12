@@ -33,6 +33,8 @@ general:
   register_desc: >
     To register on this board, fill in the form below. You will receive a
     confirmation email with further instructions to validate your account.
+  imprint: Imprint
+  forum_rules: Forum Rules
 forums:
   forum: "Forum"
   topics: "Topics"

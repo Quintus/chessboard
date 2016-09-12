@@ -4,6 +4,14 @@
 
     <li><a href="/search"><%= t.general.search %></a></li>
 
+    <% if Chessboard::Configuration[:forum_rules] %>
+      <li><a href="/forum_rules"><%= t.general.forum_rules %></a></li>
+    <% end %>
+
+    <% if Chessboard::Configuration[:imprint] %>
+      <li><a href="/imprint"><%= t.general.imprint %></a></li>
+    <% end %>
+
     <% if logged_in? %>
       <li><a href="/settings"><%= t.personal.settings %></a></li>
       <% if logged_in_user.admin? %>
