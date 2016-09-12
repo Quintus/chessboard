@@ -1,8 +1,8 @@
 <%# Template expects that "post" itself is already displayed. %>
 
-<ul>
+<ul class="thread-tree-ul">
   <% post.replies.each do |reply| %>
-    <li>
+    <li class="thread-tree-li">
       <%# Forced thread view is intended. %>
       <a class="thread-tree-link" href="/forums/<%= @forum.id %>/threads/<%= reply.id %>"><%= reply.title %></a>
       <div class="intree-post">

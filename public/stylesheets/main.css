@@ -499,25 +499,25 @@ ul.post-actions img {
     margin-left: 4px;
 }
 
-.thread-tree ul {
+.thread-tree ul.thread-tree-ul {
     list-style-type: none;
     background: url("/images/misc/vline.png") repeat-y;
     margin: 0px;
     padding: 0px;
 }
 
-.thread-tree ul ul {
+.thread-tree ul.thread-tree-ul ul.thread-tree-ul {
     margin-left: 10px;
 }
 
-.thread-tree ul li {
+.thread-tree ul.thread-tree-ul li.thread-tree-li {
     margin: 0px;
     padding: 0px 0px 0px 12px;
     line-height: 20px;
     background: url("/images/misc/node.png") no-repeat;
 }
 
-.thread-tree ul li:last-child {
+.thread-tree ul.thread-tree-ul li.thread-tree-li:last-child {
     background: #FFFFFF url("/images/misc/lastnode.png") no-repeat;
 }
 
