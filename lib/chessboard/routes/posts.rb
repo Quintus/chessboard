@@ -90,7 +90,7 @@ class Chessboard::Application < Sinatra::Base
 
         @post = nil
     begin
-      @post = construct_post(request, params, @forum)
+      @post = construct_post(params, @forum)
     rescue RangeError # Attachment size too large
       halt 413, erb(:reply)
     end
@@ -106,6 +106,8 @@ class Chessboard::Application < Sinatra::Base
     sleep 3
 
     if @post = Chessboard::Post.where(:message_id => message_id).first # Single = intended
+      @post.update(:ip => request.ip) unless Chessboard::Configuration[:max_ip_store_timespan].nil?
+
       message t.posts.created
       redirect post_url(@post)
     else
@@ -149,7 +151,7 @@ class Chessboard::Application < Sinatra::Base
 
     @post = nil
     begin
-      @post = construct_post(request, params, @forum)
+      @post = construct_post(params, @forum)
     rescue RangeError # Attachment size too large
       halt 413, erb(:reply)
     end
@@ -170,6 +172,8 @@ class Chessboard::Application < Sinatra::Base
     sleep 3
 
     if @post = Chessboard::Post.where(:message_id => message_id).first # Single = intended
+      @post.update(:ip => request.ip) unless Chessboard::Configuration[:max_ip_store_timespan].nil?
+
       message t.posts.created
       redirect post_url(@post)
     else
@@ -199,11 +203,10 @@ class Chessboard::Application < Sinatra::Base
 
   private
 
-  def construct_post(request, params, forum)
+  def construct_post(params, forum)
     post = Chessboard::Post.new
     post.content = params["content"]
     post.title   = params["title"]
-    post.ip      = request.ip
     post.forum   = forum
     post.author  = logged_in_user
 

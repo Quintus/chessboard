@@ -138,6 +138,15 @@ task :maintenance do
     .where(:confirmed => false)
     .where{created_at < Time.now.utc - Chessboard::Configuration[:confirmation_expiry]}
     .each(&:destroy)
+
+  # Delete IP address info if its store time is over. Note the #to_i call,
+  # as that setting might have been changed to nil after some posts were already
+  # in the database. To not have their IP address persist in the database, simply
+  # convert the nil value the max_ip_store_timespan setting has in that case to
+  # 0, which will cause all stored IP addresses to be wiped (nil.to_i == 0).
+  Chessboard::Post
+    .where{created_at < Time.now.utc - Chessboard::Configuration[:max_ip_store_timespan].to_i}
+    .update(:ip => nil)
 end
 
 ########################################

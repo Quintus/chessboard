@@ -89,6 +89,10 @@ Chessboard::Configuration.create do |config|
   # time by the maintenance cronjob.
   confirmation_expiry 60 * 60 * 24 * 2 # 2 days
 
+  # Timespan in seconds after which the IP address info is wiped from
+  # posts. Set to nil to disable storing the IP address.
+  max_ip_store_timespan 60 * 60 * 24 * 14 # 2 weeks
+
   # How threads are displayed to the user by default. Users
   # not logged in will see the post by this mode only, unless
   # they directly follow another URL. :threads means an email-like

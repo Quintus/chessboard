@@ -83,6 +83,7 @@ module Chessboard
     config_setting :enable_registration, true
     config_setting :confirmation_expiry, 60 * 60 * 24 * 2 # 2 days
     config_setting :hilit_heuristic
+    config_setting :max_ip_store_timespan, 60 * 60 * 24 * 14 # 2 weeks
 
     # This namespace contains pre-made configuration snippets for
     # certain mailinglist software.
