@@ -233,7 +233,7 @@ settings:
     email: >-
       Change your e-mail address to another one. Simply leave this as-is if
       you do not want to change it. Note that if you do change it and
-      afterwards post to the acutal mailinglist using an email program,
+      afterwards post to the actual mailinglist using an email program,
       you have to use that new email address as the sender, otherwise
       your post will not be associated with your account as Chessboard
       is tightly coupled with the mailinglist management software.
