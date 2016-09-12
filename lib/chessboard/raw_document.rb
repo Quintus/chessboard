@@ -34,6 +34,7 @@ class Chessboard::RawDocument
   def process
     case @mode
     when :normal    then process_normal
+    when :quote     then process_quote
     when :codeblock then process_codeblock
     when :signature then process_signature
     when :link      then process_link
@@ -48,12 +49,8 @@ class Chessboard::RawDocument
     # Therefore, it has the separate method #beginning_of_line?
 
     if @scanner.beginning_of_line?
-      if str = @scanner.scan(/^>+/)
-        n = case str.length
-            when 1 then "1"
-            when 2 then "2"
-            else "n" end
-        @output << "<span class=\"ml-quote-#{n}\">" << "&gt;" * (str.length) << @scanner.scan_until(/\n|\z/) << "</span>"
+      if str = @scanner.scan(/>+/)
+        @mode = :quote
       elsif str = @scanner.scan(/~{3,}|`{3,}/)
         @output << str << @scanner.scan_until(/\n/) # A language indicator would be in this scan_until
         @mode = :codeblock
@@ -78,6 +75,40 @@ class Chessboard::RawDocument
       # Normal character
       @output << escape_html(@scanner.getch)
     end
+  end
+
+  def process_quote
+    @scanner.unscan # Put the first ">" back on the stack
+
+    level = 0
+    last_level = 0
+    loop do
+      if @scanner.scan(/>/)
+        level += 1
+        if level > last_level
+          @output << "<blockquote>"
+        end
+      else
+        if level < last_level
+          (last_level - level).times  do
+            @output << "</blockquote>"
+          end
+        end
+
+        if level == 0 # No ">" were scanned, i.e. the quote ended.
+          break
+        else
+          last_level = level
+          level = 0
+          # Add the line to the actual quote content. Note that leading
+          # space is stripped out so that both quotes like "> str" and ">str"
+          # (note the space difference) look equal in the output.
+          @output << @scanner.scan_until(/\n/).lstrip
+        end
+      end
+    end
+
+    @mode = :normal
   end
 
   def process_codeblock

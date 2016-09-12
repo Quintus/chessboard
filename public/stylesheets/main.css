@@ -35,11 +35,22 @@ a img {
 }
 
 blockquote {
-    border: 1px solid gray;
-    border-left: 3px solid gray;
-    background-color: white;
-    padding: 0px 4px;
+    margin: 4px;
+    border-left: 2px solid blue;
+    padding-left: 4px;
+    color: blue;
     font-style: italic;
+}
+
+blockquote > blockquote {
+    border-color: green;
+    color: green;
+}
+
+/* 3rd level of quotes and greater all get the same colour. */
+blockquote > blockquote blockquote {
+    border-color: red;
+    color: red;
 }
 
 input[type='text'], input[type='password'] {
@@ -260,18 +271,6 @@ pre code {
 
 .hilit {
     background-color: yellow;
-}
-
-.ml-quote-1 {
-    color: blue;
-}
-
-.ml-quote-2 {
-    color: green;
-}
-
-.ml-quote-n {
-    color: red;
 }
 
 .forumlist {
