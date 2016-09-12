@@ -238,7 +238,7 @@ class Chessboard::RawDocument
   def guess_lang_and_hilit(code)
     lang = Chessboard::Configuration[:hilit_heuristic].call(code)
     if lang
-      @output << CodeRay.scan(code, lang).div
+      @output << '<div class="CodeRay"><div class="code"><pre>' << CodeRay.scan(code, lang).html << '</pre></div></div>'
     else # Not perceived as code
       @output << code
     end

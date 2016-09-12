@@ -95,26 +95,10 @@ table tbody tr td {
     text-align: left;
 }
 
-div.CodeRay, pre {
-    max-height: 250px;
-    overflow-x: auto;
-    overflow-y: auto;
-    position: relative;
-}
-
-code, pre {
-  background-color: hsl(0,0%,95%);
-  border: 1px solid silver;
-  color: black;
-  font-size: 12px;
-}
-
-div.CodeRay > div.code > pre {
+div.CodeRay {
+    white-space: normal;
     border: none;
-}
-
-pre code {
-    border: none;
+    background-color: #EEEEEE;
 }
 
 .hide-codelines {
