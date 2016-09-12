@@ -244,12 +244,24 @@ div.CodeRay {
     background-color: #e48177;
 }
 
+.info {
+    border: 1px solid blue;
+    background-color: #ddddff;
+}
+
 .flash {
     border-radius: 10px;
     padding: 10px;
     margin-top: 6px;
     margin-bottom: 6px;
     text-align: center;
+}
+
+.flash ul {
+    list-style-type: none;
+    margin-left: 0px;
+    margin-right: 0px;
+    padding: 0px;
 }
 
 .center {

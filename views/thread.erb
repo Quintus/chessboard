@@ -1,6 +1,16 @@
 <p class="post-forum"><a href="/forums/<%= @forum.id %>"><%= @forum.name %></a></p>
 <h1><%= h @forum.prettify_post_title(@root_post.title) %></h1>
 
+<% unless @root_post.thread_starter? %>
+  <div class="flash info">
+    <p><%= t.topics.partial %></p>
+    <ul>
+      <li><a href="/forums/<%= @forum.id %>/threads/<%= @root_post.parent_id %>"><%= t.topics.partial_parent %></a></li>
+      <li><a href="/forums/<%= @forum.id %>/threads/<%= @root_post.thread_starter.id %>"><%= t.topics.partial_root %></a></li>
+    </ul>
+  </div>
+<% end %>
+
 <div class="topic thread">
   <%= erb :_post, :locals => {:post => @root_post, :forum => @forum, :recurse => false} %>
 

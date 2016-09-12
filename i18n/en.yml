@@ -179,6 +179,12 @@ topics:
     you give below, and will be placed in the same forum as the old topic
     (you can move it later if you need). The post you selected “split” on
     will be the first post of the new topic.
+  partial: >
+    This page only shows a subtree of an entire discussion.
+  partial_parent: >
+    Go to the parent post.
+  partial_root: >
+    Go to the root post.
 settings:
   settings: "Settings"
   updated: Your settings have been updated.
