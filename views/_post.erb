@@ -23,7 +23,7 @@
           # information at unexpected places when a user replied not to the most current
           # reply. And that even though the current view shows the information! %>
 	<p>
-	  <a id="p<%= post.id %>" name="p<%= post.id %>" href="#p<%= post.id %>">#</a>&nbsp;<a href="/forums/<%= forum.id %>/threads/<%= post.id %>">¶</a>
+	  <a href="/forums/<%= forum.id %>/threads/<%= post.id %>">¶</a>
 	  <span class="post-title"><%= h post.title %></span>
 	</p>
       </div>
