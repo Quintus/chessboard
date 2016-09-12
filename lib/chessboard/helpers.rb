@@ -138,6 +138,36 @@ module Chessboard::Helpers
     mail.deliver
   end
 
+  def send_report_mail(post, user)
+    mail = Mail.new
+    mail.subject = "Post Abuse Report"
+    mail.from = Chessboard::Configuration[:board_email]
+    mail.to   = Chessboard::Configuration[:admin_email]
+    mail.body =<<REPORT
+Hi,
+
+this post has been reported as abuse:
+
+  #{Chessboard::Configuration[:board_url]}#{post_url(post)}
+
+The reporting user was #{user.current_alias} (#{user.email}).
+The report was filed on #{Time.now.utc.strftime('%Y-%m-%d %H:%M %z')}.
+
+A copy of the post is below.
+
+******************** Copy ********************
+From:    #{post.used_alias} <#{post.author.email}>
+To:      #{post.forum.mailinglist}
+Date:    #{post.created_at.strftime('%Y-%m-%d %H:%M:%S %z')}
+Subject: #{post.title}
+
+#{post.content}
+************** End of Post Copy **************
+REPORT
+
+    mail.deliver
+  end
+
   def generate_registration_token(user)
     token = Array.new(5){ ("A".."Z").to_a.sample }
     token.concat(Array.new(5) { user.email.chars.to_a.sample })

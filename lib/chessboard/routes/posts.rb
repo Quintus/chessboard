@@ -201,6 +201,22 @@ class Chessboard::Application < Sinatra::Base
     200
   end
 
+  get "/forums/:forum_id/posts/:id/report" do
+    halt 401 unless logged_in?
+
+    @forum = Chessboard::Forum[params["forum_id"].to_i]
+    @post  = Chessboard::Post[params["id"].to_i]
+
+    halt 404 unless @forum
+    halt 404 unless @post
+    halt 400 unless @post.forum == @forum
+
+    send_report_mail(@post, logged_in_user)
+
+    message t.posts.reported
+    redirect "/forums/#{@forum.id}"
+  end
+
   private
 
   def construct_post(params, forum)

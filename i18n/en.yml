@@ -281,6 +281,9 @@ posts:
   marked_as_sticky: Marked this post as sticky.
   unmarked_as_sticky: Unmarked this post as sticky.
   report_this: Report this
+  reported: >
+    The post has been reported as abuse to the administration. Your
+    report will be considered and acted upon accordingly.
   # Post content toggle
   show_raw: Show raw
   show_normal: Show normal
