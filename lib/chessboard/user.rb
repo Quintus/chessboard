@@ -1,7 +1,8 @@
 class Chessboard::User < Sequel::Model
   one_to_many :posts, :key => :author_id
   many_to_many :tags
-  many_to_many :read_posts, :left_key => :user_id, :right_key => :post_id, :class => :Post
+  many_to_many :read_posts,    :left_key => :user_id, :right_key => :post_id, :class => :Post, :join_table => :read_posts
+  many_to_many :watched_posts, :left_key => :user_id, :right_key => :post_id, :class => :Post, :join_table => :watched_posts
 
   # Path below the public/ directory to the directory containing the
   # avatar images.
@@ -287,6 +288,36 @@ class Chessboard::User < Sequel::Model
   # false otherwise.
   def confirmation_token_expired?
     Time.now.utc > confirmation_expiry_time
+  end
+
+  # Make this user a watcher of the given post. +post+ may either be an
+  # ID or an instance of Chessboard::Post.
+  # No subsequent #save needed.
+  def watch!(post)
+    post = post.id if post.kind_of?(Chessboard::Post)
+
+    Chessboard::Application::DB[:watched_posts].insert(:post_id => post, :user_id => id)
+  end
+
+  # Remove this user from the list of watchers of the given post. +post+ may
+  # either be an ID or an instance of Chessboard::Post.
+  # No subsequent #save needed.
+  def unwatch!(post)
+    post = post.id if post.kind_of?(Chessboard::Post)
+
+    Chessboard::Application::DB[:watched_posts].where(:post_id => post, :user_id => id).delete
+  end
+
+  # Checks if this user watches the given post *or any of its
+  # parents*, and if so, returns true, otherwise returns false. +post+
+  # may either be an ID or an instance of Chessboard::Post.
+  def watches?(post)
+    post = post.id if post.kind_of?(Chessboard::Post)
+
+    !Post.where(:id => post)
+      .union(post.ancestors_dataset, :all => true)
+      .where(:post_id => post, :user_id => id)
+      .empty?
   end
 
   private

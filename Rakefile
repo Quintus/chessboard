@@ -82,6 +82,8 @@ task :setup do
 
   Chessboard::Application::DB.create_join_table({:post_id => :posts, :user_id => :users},
                                                 {:name => :read_posts})
+  Chessboard::Application::DB.create_join_table({:post_id => :posts, :user_id => :users},
+                                                {:name => :watched_posts})
 
   # The initial data needs to be filled in a separate program instance,
   # because Sequel needs the tables at program startup to properly

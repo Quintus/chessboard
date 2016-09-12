@@ -4,7 +4,8 @@ class Chessboard::Post < Sequel::Model
   many_to_one :forum
   many_to_one :author, :class => Chessboard::User
   many_to_many :tags
-  many_to_many :users_who_read_this, :left_key => :post_id, :right_key => :user_id, :class => :User
+  many_to_many :users_who_read_this, :left_key => :post_id, :right_key => :user_id, :class => :User, :join_table => :read_posts
+  many_to_many :direct_watchers,     :left_key => :post_id, :right_key => :user_id, :class => :User, :join_table => :watched_posts
   one_to_many :attachments
 
   # Regular expression for extracting @ mentions.
@@ -118,6 +119,11 @@ You are receiving this mail as a member of the forum at <%= Chessboard::Configur
         mail.attachments.each do |a|
           Chessboard::Attachment.create_from_mail_attachment(a, post)
         end
+      end
+
+      # Auto-watch if requested
+      if post.author.auto_watch
+        post.author.watch!(post)
       end
     end
 
@@ -299,6 +305,33 @@ You are receiving this mail as a member of the forum at <%= Chessboard::Configur
     Chessboard::Configuration[:send_to_ml].call(forum.mailinglist, self, refs, tags, attachments)
   end
 
+  # Returns a dataset for all User instances that are watching this post.
+  def watchers_dataset
+    db = Chessboard::Application::DB
+
+    Chessboard::User
+      .with(:ancestors, ancestors_dataset) # Get all ancestors into the query
+      .with(:target_post, Chessboard::Post # Get the direct target post into the query (can surely be simplified, since we have the ID here, a real SELECT is not really needed..)
+                          .where(Sequel.qualify(:posts, :id) => id)
+                          .select(Sequel.qualify(:posts, :id)))
+      .with(:all_ids, db[:target_post] # Concatenate the ancestors and the target post IDs into one virtual table
+                      .select(Sequel.qualify(:target_post, :id))
+                      .union(db[:ancestors].select(Sequel.qualify(:ancestors, :id)),
+                             :all => true))
+      .join(:watched_posts, Sequel.qualify(:users, :id) => Sequel.qualify(:watched_posts, :user_id))
+      .where(Sequel.qualify(:watched_posts, :post_id) => db[:all_ids].select(Sequel.qualify(:all_ids, :id)))
+      .distinct # User may be watching multiple posts in the ancestor hierarchy
+
+      # Actual work starts at the #join call above. Standard join,
+      # then the result set is reduced to those users who watch the
+      # target post or one of its ancestors.
+  end
+
+  # Executes the #watchers_dataset and returns an array of User instances.
+  def watchers
+    watchers_dataset.all
+  end
+
   private
 
   def before_create
@@ -351,6 +384,29 @@ You are receiving this mail as a member of the forum at <%= Chessboard::Configur
       mail.to   = user.email
       mail.body = MENTION_EMAIL.result(binding)
 
+      mail.deliver
+    end
+
+    # Deliver watch emails
+    watchers.each do |watcher|
+      mail = Mail.new
+      mail.subject = "New post in thread: #{title}"
+      mail.from = Chessboard::Configuration[:board_email]
+      mail.to watcher.email
+      mail.body =<<MAIL
+Hi #{watcher.current_alias},
+
+a new post has been added to a thread you are watching. The post
+is here:
+
+  #{Chessboard::Configuration[:board_url]}/forums/#{forum_id}/threads/#{id}
+
+The post was written by #{used_alias} <#{author.email}> on
+#{created_at.strftime('%Y-%m-%d %H:%M')}.
+
+******************** Start of post ********************
+#{content}
+MAIL
       mail.deliver
     end
   end
