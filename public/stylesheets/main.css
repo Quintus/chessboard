@@ -522,6 +522,7 @@ ul.post-actions img {
 }
 
 .intree-post {
+    display: none;
     margin-bottom: 12px;
 }
 

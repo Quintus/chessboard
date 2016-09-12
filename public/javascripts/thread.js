@@ -18,7 +18,7 @@ $(document).ready(function(){
 	return false;
     });
 
-    $(".collapse-all").show();
+    $(".expand-all").show();
 
     $("a.delete-post").click(function(){
 	var post = $(this).parents(".post");

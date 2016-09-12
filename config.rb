@@ -99,7 +99,7 @@ Chessboard::Configuration.create do |config|
   # not logged in will see the post by this mode only, unless
   # they directly follow another URL. :threads means an email-like
   # threaded view, :topics a forum-typical list of posts.
-  default_view_mode :threads
+  default_view_mode :topics
 
   # How to check the mailinglists for new mails. The exact values allowed
   # are dependant on the mail configuration in use, but the premade mlmmj
