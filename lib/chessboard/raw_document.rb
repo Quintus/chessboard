@@ -51,10 +51,12 @@ class Chessboard::RawDocument
     if @scanner.beginning_of_line?
       if str = @scanner.scan(/>+/)
         @mode = :quote
+        return
       elsif str = @scanner.scan(/~{3,}|`{3,}/)
         @output << str << @scanner.scan_until(/\n/) # A language indicator would be in this scan_until
         @mode = :codeblock
         @codeblock_delim = str
+        return
       elsif str = @scanner.scan(/^ {4,}|\t/)
         @mode = :codeblock
         @codeblock_delim = str
@@ -63,17 +65,18 @@ class Chessboard::RawDocument
         # so reset the scanner to the beginning of the first line
         # of code.
         @scanner.unscan
+        return
       elsif str = @scanner.scan(/^-- ?\n/)
         @mode = :signature
-      else
-      # Normal character
-        @output << escape_html(@scanner.getch)
+        return
       end
-    elsif str = @scanner.scan(%r!(https?|ftps?)://!)
+    end
+
+    if str = @scanner.scan(%r!(https?|ftps?)://!)
       @mode = :link
     else
       # Normal character
-      @output << escape_html(@scanner.getch)
+        @output << escape_html(@scanner.getch)
     end
   end
 
