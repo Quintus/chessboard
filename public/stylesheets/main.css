@@ -53,6 +53,23 @@ blockquote > blockquote blockquote {
     color: red;
 }
 
+em {
+    font-style: italic;
+}
+
+em.underline {
+    font-style: normal;
+    text-decoration: underline;
+}
+
+blockquote em {
+    font-style: normal;
+}
+
+blockquote em.underline {
+    font-style: italic;
+}
+
 input[type='text'], input[type='password'] {
     width: 50%;
 }

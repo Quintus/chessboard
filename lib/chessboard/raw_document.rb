@@ -72,8 +72,14 @@ class Chessboard::RawDocument
       end
     end
 
-    if str = @scanner.scan(%r!(https?|ftps?)://!)
+    if @scanner.scan(%r!(https?|ftps?)://!)
       @mode = :link
+    elsif @scanner.scan(/\*[[:graph:]]+\*/)
+      @output << "<strong>" << escape_html(@scanner.matched) << "</strong>"
+    elsif @scanner.scan(%r!/[[:graph:]]+/!)
+      @output << "<em>" << escape_html(@scanner.matched) << "</em>"
+    elsif @scanner.scan(/_[[:graph:]]+_/)
+      @output << "<em class=\"underline\">" << escape_html(@scanner.matched) << "</em>"
     else
       # Normal character
         @output << escape_html(@scanner.getch)
@@ -106,7 +112,7 @@ class Chessboard::RawDocument
           # Add the line to the actual quote content. Note that leading
           # space is stripped out so that both quotes like "> str" and ">str"
           # (note the space difference) look equal in the output.
-          @output << @scanner.scan_until(/\n/).lstrip
+          @output << self.class.new(@scanner.scan_until(/\n/).lstrip).to_html
         end
       end
     end
