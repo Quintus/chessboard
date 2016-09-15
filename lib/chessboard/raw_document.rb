@@ -80,6 +80,8 @@ class Chessboard::RawDocument
       @output << "<em>" << escape_html(@scanner.matched) << "</em>"
     elsif @scanner.scan(/_[[:graph:]]+_/)
       @output << "<em class=\"underline\">" << escape_html(@scanner.matched) << "</em>"
+    elsif str = parse_emoticon
+      @output << str
     else
       # Normal character
         @output << escape_html(@scanner.getch)
@@ -176,37 +178,35 @@ class Chessboard::RawDocument
     @mode = :normal
   end
 
-  #  # 1. Mask all mail addresses
-  #  @text.gsub!(/@.*?(\>|\s|$)/, '@xxxxxxx\\1')
-  #
-  #  # 2. Forcibly break lines longer than 100 characters. Some email
-  #  # clients are just stupid with regard to text mail.
-  #  @text = break_long_lines(@text) if @options[:break_long_lines]
-  #
-  #  # 3. Escape all HTML
-  #  @text = CGI.escape_html(@text)
-  #
-  #  # 4. Colourise quotes
-  #  @text.gsub!(/^((&gt;)+)(.*?)$/) do
-  #    if $1.length >= 3 * 4 # &gt; has 4 characters
-  #      '<span class="ml-quote-n">' + $1 + $3 + '</span>'
-  #    elsif $1.length == 2 * 4
-  #      '<span class="ml-quote-2">' + $1 + $3 + '</span>'
-  #    elsif $1.length == 1 * 4
-  #      '<span class="ml-quote-1">' + $1 + $3 + '</span>'
-  #    else # Should not happen
-  #      $&
-  #    end
-  #  end
-  #
-  #  # 5. Highlight source code
-  #  @text = highlight_sourcecode(@text)
-  #
-  #  # 6. Make links links
-  #  @text.gsub!(%r!(https?|ftps?)://(.*?)(\s|&gt;|\)|\]|\})!){ %Q!<a href="#{$1}://#{$2}">#{$1}://#{$2}</a>#{$3}! }
-  #
-  #  '<pre>' + @text + '</pre>'
-  #end
+  def parse_emoticon
+    if @scanner.scan(/:-?D/)
+      '<img src="/images/emoticons/biggrin.gif" alt="biggrin emoticon"/>'
+    elsif @scanner.scan(/:-\?/)
+      '<img src="/images/emoticons/confused.gif" alt="confused emoticon"/>'
+    elsif @scanner.scan(/8-?\)/)
+      '<img src="/images/emoticons/cool.gif" alt="feelcool emoticon"/>'
+    elsif @scanner.scan(/:'-?\(/)
+      '<img src="/images/emoticons/cry.gif" alt="cry emoticon"/>'
+    elsif @scanner.scan(/O_o/)
+      '<img src="/images/emoticons/eek.gif" alt="eek emoticon"/>'
+    elsif @scanner.scan(/(^|\s)XD(\s|$)/) # Requires spaces/line edge so it is not processed inside a word
+      $1 + ' <img src="/images/emoticons/lol.gif" alt="lol emoticon"/>' + $2
+    elsif @scanner.scan(/:-?\|/)
+      '<img src="/images/emoticons/neutral.gif" alt="neutral emoticon"/>'
+    elsif @scanner.scan(/:-?\(\(/)
+      '<img src="/images/emoticons/mad.gif" alt="mad emoticon"/>'
+    elsif @scanner.scan(/:-?\(/)
+      '<img src="/images/emoticons/sad.gif" alt="sad emoticon"/>'
+    elsif @scanner.scan(/:-?\)|^_^/)
+      '<img src="/images/emoticons/smile.gif" alt="smile emoticon"/>'
+    elsif @scanner.scan(/:-?O/)
+      '<img src="/images/emoticons/surprised.gif" alt="surprised emoticon"/>'
+    elsif @scanner.scan(/;-?\)/)
+      '<img src="/images/emoticons/wink.gif" alt="wink emoticon"/>'
+    else
+      nil
+    end
+  end
 
   def break_long_lines(str)
     lines = str.lines.to_a
