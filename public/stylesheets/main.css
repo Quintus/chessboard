@@ -379,6 +379,11 @@ div.CodeRay {
     font-size: 12px;
 }
 
+.author-ip {
+    color: #b6a23c;
+    font-size: 12px;
+}
+
 .post-author p.author-registered {
     margin-top: 4px;
 }
@@ -481,14 +486,6 @@ ul.post-actions img {
     background-color: #EEEEEE;
     border: none;
     font-size: 14px;
-}
-
-.post-ip {
-    float: left;
-    color: #b6a23c;
-    font-style: italic;
-    font-size: small;
-    margin: 0px 4px 0px 4px;
 }
 
 .reply-button {

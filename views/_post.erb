@@ -10,7 +10,17 @@
       <p class="author-avatar"><img src="<%= post.author.avatar_url %>" alt="<%= t.users.avatar_alt %>"/></p>
     <% end %>
     <p class="author-registered"><%= t.users.registered %>: <%= l post.author.created_at %></p>
-    <p class="author-posts"><%= t.users.posts %>: <%= post.author.posts.count %></p>
+    <p class="author-posts"><%= t.users.posts %>:
+      <%= post.author.posts.count %></p>
+    <% if logged_in_user.admin? %>
+      <p class="author-ip">IP:
+        <% if post.ip.to_s.empty? %>
+          <%= t.posts.no_ip %>
+        <% else %>
+          <%= post.ip %>
+        <% end %>
+      </p>
+    <% end %>
   </div>
 
   <div class="post-content">
@@ -60,19 +70,8 @@
 	<p class="reply-button">
 	  <a class="button-normal" href="/forums/<%= forum.id %>/posts/<%= post.id %>/reply"><%= t.posts.reply %></a>
 	</p>
-
-	<% if logged_in_user.admin? %>
-          <p class="post-ip">
-            IP:
-            <% if post.ip.to_s.empty? %>
-              <%= t.posts.no_ip %>
-            <% else %>
-              <%= post.ip %>
-            <% end %>
-          </p>
-	<% end %>
-      <% end %>
       <div class="clear"><!-- Ensure all floating material ends with end of post --></div>
+      <% end %>
     </div>
 
     <% unless post.attachments.empty? %>
