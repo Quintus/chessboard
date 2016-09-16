@@ -557,6 +557,7 @@ ul.post-actions img {
 .intree-post {
     display: none;
     margin-bottom: 12px;
+    line-height: normal; /* Overwrite this from li.thread-tree-li, it should not affect the post text itself, only the tree items */
 }
 
 /* .open-this {
