@@ -243,10 +243,6 @@ topics:
   unlock: "Unlock Topic"
   locked: "Locked Topic."
   unlocked: "Unlocked Topic."
-  watch: "Watch"
-  unwatch: "Unwatch"
-  watched: "Now watching this topic."
-  unwatched: "No longer watching this topic."
   edit_topic: "Edit Topic"
   edited: "Topic edited."
   edit: "Edit Topic"
@@ -380,6 +376,10 @@ posts:
   replied_to_post: "Post you reply to"
   your_reply: "Your reply"
   new: New Topic
+  watch: "Watch"
+  unwatch: "Unwatch"
+  watched: "Now watching this thread."
+  unwatched: "No longer watching this thread."
   no_ip: "(not available)"
   was_html_only: This post was submitted only in HTML format and has been reformatted to plain text for security reasons. Please ask the author to provide a plain-text version the next time.
   title: "Title"

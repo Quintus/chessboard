@@ -1,8 +1,8 @@
 class Chessboard::User < Sequel::Model
   one_to_many :posts, :key => :author_id
   many_to_many :tags
-  many_to_many :read_posts,    :left_key => :user_id, :right_key => :post_id, :class => :Post, :join_table => :read_posts
-  many_to_many :watched_posts, :left_key => :user_id, :right_key => :post_id, :class => :Post, :join_table => :watched_posts
+  many_to_many :read_posts,    :left_key => :user_id, :right_key => :post_id, :class => "Chessboard::Post", :join_table => :read_posts
+  many_to_many :watched_posts, :left_key => :user_id, :right_key => :post_id, :class => "Chessboard::Post", :join_table => :watched_posts
 
   # Path below the public/ directory to the directory containing the
   # avatar images.
@@ -312,12 +312,7 @@ class Chessboard::User < Sequel::Model
   # parents*, and if so, returns true, otherwise returns false. +post+
   # may either be an ID or an instance of Chessboard::Post.
   def watches?(post)
-    post = post.id if post.kind_of?(Chessboard::Post)
-
-    !Post.where(:id => post)
-      .union(post.ancestors_dataset, :all => true)
-      .where(:post_id => post, :user_id => id)
-      .empty?
+    raise NotImplementedError, "TODO"
   end
 
   private

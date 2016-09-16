@@ -6,9 +6,9 @@
       <%# Forced thread view is intended. %>
       <a class="thread-tree-link" href="/forums/<%= @forum.id %>/threads/<%= reply.id %>"><%= reply.title %></a>
       <div class="intree-post">
-	<%= erb :_post, :locals => {:post => reply, :forum => forum} %>
+	<%= erb :_post, :locals => {:post => reply, :forum => forum, :watched_posts => watched_posts} %>
       </div>
-      <%= erb :_thread_tree_post, :locals => {:post => reply, :forum => forum} %>
+      <%= erb :_thread_tree_post, :locals => {:post => reply, :forum => forum, :watched_posts => watched_posts} %>
     </li>
   <% end %>
 </ul>

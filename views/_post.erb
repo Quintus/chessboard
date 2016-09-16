@@ -1,6 +1,6 @@
 <% level ||= 0 %>
-<% recurse ||= false %>
 <% disable_actions ||= false %>
+<% watched_posts ||= [] %>
 
 <div class="post post-nest-<%= level %>">
   <div class="post-author">
@@ -67,9 +67,16 @@
       <div class="post-raw-markup"><%= process_raw(post.content) %></div>
 
       <% if logged_in? && !disable_actions %>
-	<p class="reply-button">
-	  <a class="button-normal" href="/forums/<%= forum.id %>/posts/<%= post.id %>/reply"><%= t.posts.reply %></a>
-	</p>
+	<ul class="vlist post-bottom-actions">
+	  <li><a class="button-normal" href="/forums/<%= forum.id %>/posts/<%= post.id %>/reply"><%= t.posts.reply %></a></li>
+	  <li>
+	    <% if watched_posts.include?(post.id) %>
+	      <a class="button-normal" href="/forums/<%= forum.id %>/posts/<%= post.id %>/unwatch"><%= t.posts.unwatch %></a>
+	    <% else %>
+	      <a class="button-normal" href="/forums/<%= forum.id %>/posts/<%= post.id %>/watch"><%= t.posts.watch %></a>
+	    <% end %>
+	  </li>
+	</ul>
       <div class="clear"><!-- Ensure all floating material ends with end of post --></div>
       <% end %>
     </div>
@@ -92,10 +99,3 @@
     <% end %>
   </div>
 </div>
-
-<%# Recurse %>
-<% if recurse %>
-  <% post.replies.each do |reply| %>
-    <%= erb :_post, :locals => {:post => reply, :forum => forum, :level => level + 1, :recurse => recurse} %>
-  <% end %>
-<% end %>

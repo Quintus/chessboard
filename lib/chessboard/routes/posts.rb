@@ -217,6 +217,40 @@ class Chessboard::Application < Sinatra::Base
     redirect "/forums/#{@forum.id}"
   end
 
+  get "/forums/:forum_id/posts/:id/watch" do
+    halt 401 unless logged_in?
+
+    @forum = Chessboard::Forum[params["forum_id"].to_i]
+    @post  = Chessboard::Post[params["id"].to_i]
+
+    halt 404 unless @forum
+    halt 404 unless @post
+    halt 400 unless @post.forum == @forum
+    #halt 400 if logged_in_user.watches?(@post)
+
+    logged_in_user.watch!(@post)
+
+    message t.posts.watched
+    redirect post_url(@post.thread_starter, @forum)
+  end
+
+  get "/forums/:forum_id/posts/:id/unwatch" do
+    halt 401 unless logged_in?
+
+    @forum = Chessboard::Forum[params["forum_id"].to_i]
+    @post  = Chessboard::Post[params["id"].to_i]
+
+    halt 404 unless @forum
+    halt 404 unless @post
+    halt 400 unless @post.forum == @forum
+    #halt 400 unless logged_in_user.watches?(@forum)
+
+    logged_in_user.unwatch!(@post)
+
+    message t.posts.unwatched
+    redirect post_url(@post.thread_starter, @forum)
+  end
+
   private
 
   def construct_post(params, forum)

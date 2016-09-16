@@ -117,6 +117,9 @@ class Chessboard::Application < Sinatra::Base
 
     if logged_in?
       mark_posts_in_dataset_as_read(@posts)
+      @watched_posts = logged_in_user.watched_posts_dataset.select_map(:id)
+    else
+      @watched_posts = []
     end
 
     @root_post.update(:views => @root_post.views + 1)
@@ -135,8 +138,13 @@ class Chessboard::Application < Sinatra::Base
       # Thread view displays the entire thread, so mark
       # all posts in this thread as read by this user.
       mark_posts_in_dataset_as_read(@root_post.descendants_dataset)
+
+      @watched_posts = logged_in_user.watched_posts_dataset.select_map(:id)
+    else
+      @watched_posts = []
     end
 
+    # Increase view count
     @root_post.update(:views => @root_post.views + 1)
 
     erb :thread

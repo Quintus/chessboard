@@ -3,20 +3,9 @@
 
 <div class="topic">
   <% @posts.each do |post| %>
-    <%= erb :_post, :locals => {:post => post, :forum => @forum, :recurse => false} %>
+    <%= erb :_post, :locals => {:post => post, :forum => @forum, :watched_posts => @watched_posts } %>
   <% end %>
 </div>
-
-<ul class="topic-actions">
-  <% if logged_in? %>
-
-      <%# if @topic.watchers.include?(env["warden"].user) %>
-        <!--<li><%# link_to I18n.t("topics.unwatch"), url(:topics, :unwatch, @topic.id) + "?authenticity_token=#{session[:csrf]}", :class => "button-normal", :method => :patch %></li>-->
-      <%# else %>
-        <!--<li><%# link_to I18n.t("topics.watch"), url(:topics, :watch, @topic.id) + "?authenticity_token=#{session[:csrf]}", :class => "button-normal", :method => :patch %></li>-->
-      <%# end %>
-  <% end %>
-</ul>
 
 <div class="clear"></div>
 

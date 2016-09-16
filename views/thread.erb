@@ -12,7 +12,7 @@
 <% end %>
 
 <div class="topic thread">
-  <%= erb :_post, :locals => {:post => @root_post, :forum => @forum, :recurse => false} %>
+  <%= erb :_post, :locals => {:post => @root_post, :forum => @forum, :watched_posts => @watched_posts } %>
 
 </div>
 
@@ -21,21 +21,12 @@
     <li class="expand-all"><a href="#" class="button-normal"><%= t.topics.expand_all %></a></li>
     <li class="collapse-all"><a href="#" class="button-normal"><%= t.topics.collapse_all %></a></li>
   <% end %>
-
-  <% if logged_in? %>
-
-      <%# if @topic.watchers.include?(env["warden"].user) %>
-        <!--<li><%# link_to I18n.t("topics.unwatch"), url(:topics, :unwatch, @topic.id) + "?authenticity_token=#{session[:csrf]}", :class => "button-normal", :method => :patch %></li>-->
-      <%# else %>
-        <!--<li><%# link_to I18n.t("topics.watch"), url(:topics, :watch, @topic.id) + "?authenticity_token=#{session[:csrf]}", :class => "button-normal", :method => :patch %></li>-->
-      <%# end %>
-  <% end %>
 </ul>
 
 <div class="clear"></div>
 
 <% unless @root_post.replies.empty? %>
   <div class="thread-tree">
-    <%= erb :_thread_tree_post, :locals => {:post => @root_post, :forum => @forum} %>
+    <%= erb :_thread_tree_post, :locals => {:post => @root_post, :forum => @forum, :watched_posts => @watched_posts} %>
   </div>
 <% end %>
