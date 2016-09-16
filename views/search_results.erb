@@ -1,0 +1,18 @@
+<h1><%= t.search.results %></h1>
+
+<table class="topicslist">
+  <thead>
+    <tr>
+      <th class="list-icon imgcell"></th>
+      <th class="list-topic"><%= t.forums.topic %></th>
+      <th class="list-replies numbercell"><%= t.forums.replies %></th>
+      <th class="list-views numbercell"><%= t.forums.views %></th>
+      <th class="forumlastpost"><%= t.forums.lastpost %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @result_posts.each do |post| %>
+      <%= erb  :_forum_topic, :locals => {:thread_starter => post} %>
+    <% end %>
+  </tbody>
+</table>

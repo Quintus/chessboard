@@ -70,6 +70,10 @@ blockquote em.underline {
     font-style: italic;
 }
 
+dt {
+    font-weight: bold;
+}
+
 input[type='text'], input[type='password'] {
     width: 50%;
 }

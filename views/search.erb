@@ -1,0 +1,25 @@
+<h1><%= t.search.title %></h1>
+
+<form action="/search" method="post" accept-charset="UTF-8">
+
+  <p><%= t.search.desc1 %></p>
+
+  <p>
+    <%= t.search.query %>:<br/>
+    <input type="text" name="query"/>&nbsp;<input type="submit" value="<%= t.search.title %>" class="button-ok"/>
+  </p>
+
+  <p><%= t.search.desc2 %></p>
+
+  <dl>
+    <% [:alias, :after, :announcement, :author,
+    :before, :forum, :htmlonly, :limit, :maxviews,
+    :minviews, :msgid, :onlycontent, :onlytitle,
+    :order, :root, :sticky].each do |sym| %>
+      <dt><%= t.search.keys.send(sym).syntax %></dt>
+      <dd><%= t.search.keys.send(sym).desc %></dd>
+    <% end %>
+  </dl>
+
+  <p><%= t.search.desc3 %></p>
+</form>

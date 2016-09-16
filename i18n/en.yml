@@ -17,10 +17,8 @@ general:
   update: "Update"
   delete: "Delete"
   edit: "Edit"
-  search: "Search"
   ok: "OK"
   reset: "Reset"
-  search_results: "Search results"
   errors_occured: "Errors occured:"
   are_you_sure: "Are you sure?"
   never: "Never"
@@ -29,12 +27,114 @@ general:
   actions: "Actions"
   preview: "Preview"
   errors_occured: "Errors occured."
-  search: "Search"
   register_desc: >
     To register on this board, fill in the form below. You will receive a
     confirmation email with further instructions to validate your account.
   imprint: Imprint
   forum_rules: Forum Rules
+search:
+  title: Search
+  results: "Search results"
+  summary: "Your search returned %1 matching posts."
+  failed: "Your search produced no results."
+  too_big: "Your search produced too many results. Please narrow down your search terms."
+  query: Query
+  desc1: >
+    Use this form to perform a search against the posts database.
+  desc2: >
+    The search field accepts special key-value pairs that have the following
+    meanings:
+  desc3: >
+    Everything that does not match one of these key-value pairs is considered
+    a keyword to search for. Multiple keywords are connected with a logical AND,
+    i.e. all of them have to be found in a post for it to be included into the result
+    set.
+  keys:
+    alias:
+      syntax: "alias:PATTERN"
+      desc: >
+        Restrict the result set to those posts that were made under an
+        alias that contains PATTERN. The difference to “author” is that
+        this is matched against the alias the post was made under, whereas
+        “author” specifies the unchangable ID of a user, which may
+        be different if he changed his current alias since he made the post.
+    after:
+      syntax: "after:TIME"
+      desc: >
+        Only consider posts that were created after the given TIME. The
+        TIME argument should be of form “YYYY-MM-DDTHH:MM", where the “T”
+        is literal, e.g. “2015-02-03T15:06”. The time has to be given as UTC.
+    announcement:
+      syntax: "announcement:yes|no"
+      desc: >
+        Only search announcements.
+    author:
+      syntax: "author:ID"
+      desc: >
+        Restrict the result set to those posts that were made by the
+        user with the specified ID (can be seen in the URL bar when you're
+        visiting a user's profile page).
+    before:
+      syntax: "before:TIME"
+      desc: >
+        Only consider posts that were created before the given TIME.
+        See the description of “after” for an explanation of the format
+        to use for TIME.
+    forum:
+      syntax: "forum:ID"
+      desc: >
+        Only search posts that were made in the forum with the given numerical
+        ID. You can see this ID in the URL bar of your browser when you are
+        in a forum.
+    htmlonly:
+      syntax: "htmlonly:yes|no"
+      desc: >
+        This useless option restricts the result set to posts that were
+        received as HTML-only messages. Maybe useful for naming and shaming.
+    limit:
+      syntax: "limit:COUNT"
+      desc: >
+       Do not return a result of more than COUNT posts. Count may not be greater
+       than 100.
+    maxviews:
+      syntax: "maxviews:COUNT"
+      desc: >
+        Restrict the result set to posts that have been viewed less or equal to
+        COUNT times. Cannot be combined with “minviews”.
+    minviews:
+      syntax: "minviews:COUNT"
+      desc: >
+        Restrict the result set to posts that have been viewed COUNT or more
+        times. Cannot be combined with “maxviews”.
+    msgid:
+      syntax: "msgid:MSGID"
+      desc: >
+        Search for a message with exactly this MSGID, where MSGID is the
+        email's message ID, which in turn is the value of the “Message-ID”
+        email header. This option is not useful to combine with any other one.
+    onlycontent:
+      syntax: "onlycontent:yes|no"
+      desc: >
+        Search only the posts' contents. Cannot be combined with “onlytitle“.
+    onlytitle:
+      syntax: "onlytitle:yes|no"
+      desc: >
+        Search only the posts' titles. Cannot be combined with “onlycontent“.
+    order:
+      syntax: "order:asc|desc"
+      desc: >
+        Order the result by date ascending (“asc”) or descending (“desc”). If
+        this option is not passed, orders by date descending by default.
+        “Ascending” means the oldest result comes first, “descending” means
+        the newest result comes first.
+    root:
+      syntax: "root:yes|no"
+      desc: >
+        Restrict the result set to thread starters.
+    sticky:
+      syntax: "sticky:yes|no"
+      desc: >
+        Restrict the result set to sticky posts.
 forums:
   forum: "Forum"
   topics: "Topics"
