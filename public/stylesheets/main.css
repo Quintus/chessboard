@@ -475,6 +475,11 @@ ul.post-actions img {
     height: 16px;
 }
 
+ul.post-bottom-actions {
+    text-align: right;
+    margin: 4px;
+}
+
 /* These are shown through JavaScript */
 #automatic_line_breaks_container { display: none; }
 
