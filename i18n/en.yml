@@ -193,7 +193,6 @@ users:
   profession: Profession
   jabber_id: Jabber ID
   pgp_key: PGP key
-  registered: "Registered:"
   last_login: "Last login:"
   hidden_email: "Hidden"
   hidden_email_for_unprivileged: "Hidden for unprivileged users"
