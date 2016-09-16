@@ -15,13 +15,13 @@
   </thead>
   <tbody>
     <% @announcements.each do |post| %>
-      <%= erb :_forum_topic, :locals => {:thread_starter => post, :forum => @forum} %>
+      <%= erb :_forum_topic, :locals => {:thread_starter => post} %>
     <% end %>
     <% @stickies.each do |post| %>
-      <%= erb :_forum_topic, :locals => {:thread_starter => post, :forum => @forum} %>
+      <%= erb :_forum_topic, :locals => {:thread_starter => post} %>
     <% end %>
     <% @thread_starters.each do |post| %>
-      <%= erb  :_forum_topic, :locals => {:thread_starter => post, :forum => @forum} %>
+      <%= erb  :_forum_topic, :locals => {:thread_starter => post} %>
     <% end %>
   </tbody>
 </table>

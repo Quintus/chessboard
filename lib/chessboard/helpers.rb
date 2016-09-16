@@ -177,16 +177,4 @@ REPORT
     token.join("")
   end
 
-  # Takes a post's title and strips the forum's ML tag from it.
-  # If you have the forum instance available, passing the ml_tag
-  # as the second argument is more performant as it does not
-  # require an extra DB query to get it.
-  def prettify_post_title(post, ml_tag = post.forum.ml_tag)
-    if ml_tag
-      post.title.sub(/#{Regexp.escape(ml_tag)}\s?/, "")
-    else
-      post.title
-    end
-  end
-
 end

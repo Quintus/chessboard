@@ -51,7 +51,7 @@
     <img src="<%= image %>" alt="Icon"/>
   </td>
   <td class="list-topic">
-    <a href="<%= threadurl %>"><%= forum.prettify_post_title(thread_starter.title) %></a>
+    <a href="<%= threadurl %>"><%= thread_starter.pretty_title %></a>
     <span class="offscreen"><%= t.admin.tags %>:</span>
     <% thread_starter.tags.each do |tag| %>
       <ul class="vlist tag-list">

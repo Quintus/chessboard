@@ -332,6 +332,17 @@ You are receiving this mail as a member of the forum at <%= Chessboard::Configur
     watchers_dataset.all
   end
 
+  # This post's title with the forum's ML tag stripped from it.
+  # If you call this often, eager-load the +forum+ association
+  # as the method needs to access it.
+  def pretty_title
+    if forum.ml_tag
+      title.sub(/#{Regexp.escape(forum.ml_tag)}\s?/, "")
+    else
+      title
+    end
+  end
+
   private
 
   def before_create

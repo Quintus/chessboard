@@ -76,7 +76,7 @@ class Chessboard::Application < Sinatra::Base
                        .limit(tpp)
 
     # Go!
-    @thread_starters = @thread_starters.all
+    @thread_starters = @thread_starters.eager(:forum).all
 
     erb :forum
   end
