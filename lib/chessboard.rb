@@ -78,6 +78,14 @@ module Chessboard
       end
     end
 
+    # r18n-sinatra checks session[:locale] for the locale to use,
+    # so make it honour the user's configured locale.
+    before do
+      if logged_in?
+        session[:locale] = logged_in_user.locale
+      end
+    end
+
     error do
       # Sinatra's own #logged method does not work in an error handler (contains a Rack::NullLogger)
       Chessboard::Application.logger.error("#{env["sinatra.error"].class}: #{env["sinatra.error"].message}: #{env["sinatra.error"].backtrace.join("\n")}")
