@@ -52,19 +52,6 @@ class Chessboard::Forum < Sequel::Model
     Chessboard::Post.create_from_file!(path, self)
   end
 
-  # Takes a post's title and strips the forum's ML tag from it.
-  # The method may be more logical to be on the Post class,
-  # but having it here is more performant as the Post class would
-  # have to wire the Forum instance out of the database first,
-  # whereas one is usually already available.
-  def prettify_post_title(post_title)
-    if ml_tag
-      post_title.sub(/#{Regexp.escape(ml_tag)}\s?/, "")
-    else
-      post_title
-    end
-  end
-
   private
 
   def before_create
