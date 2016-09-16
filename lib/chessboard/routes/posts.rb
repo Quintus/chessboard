@@ -175,7 +175,7 @@ class Chessboard::Application < Sinatra::Base
       @post.update(:ip => request.ip) unless Chessboard::Configuration[:max_ip_store_timespan].nil?
 
       message t.posts.created
-      redirect post_url(@post)
+      redirect post_url(@post.thread_starter)
     else
       alert t.posts.creation_failed(Chessboard::Configuration[:admin_email])
       redirect "/forums/#{@forum.id}"
