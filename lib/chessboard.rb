@@ -232,83 +232,80 @@ EOF
 
     get "/search" do
       halt 401 unless logged_in?
-      erb :search
-    end
 
-    post "/search" do
-      halt 401 unless logged_in?
-      halt 400 unless params["query"]
+      if params["query"]
 
-      p params
+        query_elements = params["query"].split(/\s/)
+        dataset = Post.order(Sequel.desc(:created_at))
+        onlytitle = false
+        onlycontent = false
 
-      query_elements = params["query"].split(/\s/)
-      dataset = Post.order(Sequel.desc(:created_at))
-      onlytitle = false
-      onlycontent = false
-
-      query_elements.each do |element|
-        case element
-        when /^root:(yes|no)$/
-          dataset = dataset.where(:parent_id => ($1 == "yes"))
-        when /^author:(\d+)$/
-          dataset = dataset.where(:author_id => $1.to_i)
-        when /^forum:(\d+)$/
-          dataset = dataset.where(:forum_id => $1.to_i)
-        when /^sticky:(yes|no)$/
-          dataset = dataset.where(:sticky => ($1 == "yes"))
-        when /^announcement:(yes|no)$/
-          dataset = dataset.where(:announcement => ($1 == "yes"))
-        when /^before:(.*)$/
-          dataset = dataset.where{created_at < Time.parse($1)}
-        when /^after:(.*)$/
-          dataset = dataset.where{created_at > Time.parse($1)}
-        when /^msgid:(.*)$/
-          dataset = dataset.where(:message_id => $1)
-        when /^minviews:(\d+)$/
-          dataset = dataset.where{views >= $1.to_i}
-        when /^maxviews:(\d+)$/
-          dataset = dataset.where{views <= $1.to_i}
-        when /^htmlonly:(yes|no)$/
-          dataset = dataset.where(:was_html_only => ($1 == "yes"))
-        when /^alias:(.*)$/
-          dataset = dataset.where(Sequel.like(:used_alias, "%#{$1}%"))
-        when /^onlycontent:(yes|no)$/
-          onlycontent = $1 == "yes"
-        when /^onlytitle:(yes|no)$/
-          onlytitle = $1 == "yes"
-        when /^limit:(\d+)$/
-          dataset = dataset.limit($1.to_i) if $1.to_i <= 100
-        # TODO: Tags?
-        when /^order:(asc|desc)$/
-          if $1 == "asc" then
-            dataset = dataset.order(Sequel.asc(:created_at))
+        query_elements.each do |element|
+          case element
+          when /^root:(yes|no)$/
+            dataset = dataset.where(:parent_id => ($1 == "yes"))
+          when /^author:(\d+)$/
+            dataset = dataset.where(:author_id => $1.to_i)
+          when /^forum:(\d+)$/
+            dataset = dataset.where(:forum_id => $1.to_i)
+          when /^sticky:(yes|no)$/
+            dataset = dataset.where(:sticky => ($1 == "yes"))
+          when /^announcement:(yes|no)$/
+            dataset = dataset.where(:announcement => ($1 == "yes"))
+          when /^before:(.*)$/
+            dataset = dataset.where{created_at < Time.parse($1)}
+          when /^after:(.*)$/
+            dataset = dataset.where{created_at > Time.parse($1)}
+          when /^msgid:(.*)$/
+            dataset = dataset.where(:message_id => $1)
+          when /^minviews:(\d+)$/
+            dataset = dataset.where{views >= $1.to_i}
+          when /^maxviews:(\d+)$/
+            dataset = dataset.where{views <= $1.to_i}
+          when /^htmlonly:(yes|no)$/
+            dataset = dataset.where(:was_html_only => ($1 == "yes"))
+          when /^alias:(.*)$/
+            dataset = dataset.where(Sequel.like(:used_alias, "%#{$1}%"))
+          when /^onlycontent:(yes|no)$/
+            onlycontent = $1 == "yes"
+          when /^onlytitle:(yes|no)$/
+            onlytitle = $1 == "yes"
+          when /^limit:(\d+)$/
+            dataset = dataset.limit($1.to_i) if $1.to_i <= 100
+          # TODO: Tags?
+          when /^order:(asc|desc)$/
+            if $1 == "asc" then
+              dataset = dataset.order(Sequel.asc(:created_at))
+            else
+              dataset = dataset.order(Sequel.desc(:created_at))
+            end
           else
-            dataset = dataset.order(Sequel.desc(:created_at))
-          end
-        else
-          if onlycontent && onlytitle
-            # Error, this cannot be used together
-            halt 400
-          elsif onlycontent
-            dataset = dataset.where(Sequel.like(:content, "%#{element}%"))
-          elsif onlytitle
-            dataset = dataset.where(Sequel.like(:title, "%#{element}%"))
-          else
-            dataset = dataset.where(Sequel.like(:title, "%#{element}%") | Sequel.like(:content, "%#{element}%"))
+            if onlycontent && onlytitle
+              # Error, this cannot be used together
+              halt 400
+            elsif onlycontent
+              dataset = dataset.where(Sequel.like(:content, "%#{element}%"))
+            elsif onlytitle
+              dataset = dataset.where(Sequel.like(:title, "%#{element}%"))
+            else
+              dataset = dataset.where(Sequel.like(:title, "%#{element}%") | Sequel.like(:content, "%#{element}%"))
+            end
           end
         end
-      end
 
-      count = dataset.count
-      if count.zero?
-        alert t.search.failed
-        redirect "/search"
-      elsif count > 100 # Naïve DoS protection
-        alert t.search.too_big
-        redirect "/search"
-      else
-        @result_posts = dataset.eager(:forum).all
-        erb :search_results
+        count = dataset.count
+        if count.zero?
+          alert t.search.failed
+          redirect "/search"
+        elsif count > 100 # Naïve DoS protection
+          alert t.search.too_big
+          redirect "/search"
+        else
+          @result_posts = dataset.eager(:forum).all
+          erb :search_results
+        end
+      else # No query, show search form.
+        erb :search
       end
     end
 
