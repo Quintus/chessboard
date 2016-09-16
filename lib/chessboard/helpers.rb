@@ -74,8 +74,24 @@ module Chessboard::Helpers
   # A much more unobtrusive version of #process_markup
   # that returns a <pre> element.
   def process_raw(str)
-    r = Chessboard::RawDocument.new(str)
-    r.to_html
+    if ENV["RACK_ENV"] == "production"
+      begin
+        r = Chessboard::RawDocument.new(str)
+        r.to_html
+      rescue => e
+        # This is an archive, it must not be unable to display a message just
+        # because some weird message fails to parse. Log the incident still so
+        # that the parser can later be improved.
+        Chessboard::Application.logger.error("#{e.class.name}: #{e.message}: #{e.backtrace.join("\n")}")
+        Chessboard::Application.logger.error("Failed to process this, returning raw unprocessed text")
+        str
+      end
+    else
+      # If not running in production, crash it so the problem
+      # can more easily be debugged.
+      r = Chessboard::RawDocument.new(str)
+      r.to_html
+    end
   end
 
   # Return a URL to this post, adapting to the user's configuration
