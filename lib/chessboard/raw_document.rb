@@ -75,11 +75,11 @@ class Chessboard::RawDocument
     if @scanner.scan(%r!(https?|ftps?)://!)
       @mode = :link
     elsif @scanner.scan(/\*[[:graph:]]+\*/)
-      @output << "<strong>" << escape_html(@scanner.matched) << "</strong>"
+      parse_inline_markup("<strong>", "</strong>")
     elsif @scanner.scan(%r!/[[:graph:]]+/!)
-      @output << "<em>" << escape_html(@scanner.matched) << "</em>"
+      parse_inline_markup("<em>", "</em>")
     elsif @scanner.scan(/_[[:graph:]]+_/)
-      @output << "<em class=\"underline\">" << escape_html(@scanner.matched) << "</em>"
+      parse_inline_markup("<em class=\"underline\">", "</em>")
     elsif str = parse_emoticon
       @output << str
     else
@@ -176,6 +176,25 @@ class Chessboard::RawDocument
 
     @output << "<a href=\"#{url}\">#{url}</a>" << @scanner.matched
     @mode = :normal
+  end
+
+  def parse_inline_markup(start, fin)
+    mainstr = @scanner.matched
+
+    # Check if this came behind a space or newline
+    if @text[@scanner.pos - mainstr.size - 1] =~ /\s|\n/
+      # Check if afterwards comes a space or newline or punctuation
+      if @scanner.scan(/\s|\n|[[:punct:]]/)
+        # Okay, this is inline markup. Format.
+        @output << start << escape_html(mainstr) << fin << @scanner.matched
+      else
+        # Inter-word. Do not format.
+        @output << escape_html(mainstr)
+      end
+    else
+      # Inter-word. Do not format.
+      @output << escape_html(mainstr)
+    end
   end
 
   def parse_emoticon
