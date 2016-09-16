@@ -227,6 +227,73 @@ module Chessboard
         end
       end
 
+      # This configuration snippet is meant for debugging, but you may find
+      # it useful still. It allows to run Chessboard without an actual associated
+      # mailinglist by simply doing nothing other than submitting send posts
+      # to the email processor directly, skipping the mailinglist. If you use
+      # this config snippet, you thus do not need to run the mailinglist monitor
+      # (and trying to do so will cause it to terminate with an error).
+      # If you use this snippet, the forum's +mailinglist+ attribute is only
+      # used to distinguish the forums from each other, so you can set it to
+      # any value as long as each forum gets a unique one.
+      module NullML
+        def self.extended(other)
+          other.module_eval do
+            load_ml_users do |forum_ml|
+              Chessboard::User.order(Sequel.asc(:created_at)).select_map(:email)
+            end
+
+            subscribe_to_nomail { }
+            unsubscribe_from_ml { }
+
+            load_ml_mails do
+              raise(NotImplementedError, "Cannot load mails from NullML config!")
+            end
+
+            send_to_ml do |forum_ml, post, refs, tags, attachments|
+                            mail = Mail.new do
+                from "#{post.author.current_alias.delete('<>')} <#{post.author.email}>"
+                to Chessboard::Configuration[:board_email]
+                subject post.title
+                body post.content
+
+                unless refs.empty? # New topic (root post) if empty
+                  in_reply_to refs.last
+                  references refs
+                end
+
+                # `attachments' is an empty array if no attachments are there.
+                attachments.each do |attachment|
+                  add_file :filename => attachment[:filename], :content => attachment[:tempfile].read
+                end
+              end
+
+              mail["User-Agent"] = "Chessboard/#{Chessboard::VERSION}"
+              mail["X-Chessboard-Tags"] = tags.select_map(:name).join(",") unless tags.empty?
+
+              file = Tempfile.new("nullml")
+              begin
+                file.write(mail.to_s)
+                file.flush
+                Chessboard::Post.create_from_file!(file.path, Forum.first(:mailinglist => forum_ml))
+              ensure
+                file.unlink
+              end
+
+              mail.message_id
+            end
+
+            monitor_ml do
+              raise(NotImplementedError, "NullML config does not need a mail monitor!")
+            end
+
+            stop_ml_monitor do
+              raise(NotImplementedError, "NullML config does not need a mail monitor!")
+            end
+          end
+        end
+      end
+
       # This premade configuration snippet simply disables code highlighting.
       module NoHilit
         def self.extended(other)
