@@ -114,7 +114,7 @@ class Chessboard::RawDocument
           # Add the line to the actual quote content. Note that leading
           # space is stripped out so that both quotes like "> str" and ">str"
           # (note the space difference) look equal in the output.
-          @output << self.class.new(@scanner.scan_until(/\n/).lstrip).to_html
+          @output << self.class.new(@scanner.scan_until(/\n|\z/).lstrip).to_html
         end
       end
     end
@@ -171,7 +171,16 @@ class Chessboard::RawDocument
 
   def process_link
     protocol = @scanner.matched
-    path = @scanner.scan_until(/[[[:space:]]>\)\]\}\(\[\{]/).chop
+
+    if path = @scanner.scan_until(/[[[:space:]]\n>\)\]\}\(\[\{]/)
+      # Do not make the actual delimiter found with the above regexp
+      # part of the link.
+      path.chop!
+    else
+      # Link at end of string; most likely signature. Note \z
+      # sets `@scanner.matched' to the empty string.
+      path = @scanner.scan_until(/\z/)
+    end
     url = protocol + path
 
     @output << "<a href=\"#{url}\">#{url}</a>" << @scanner.matched
