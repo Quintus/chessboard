@@ -13,7 +13,19 @@ module Chessboard::Helpers
   def logged_in_user
     return nil unless logged_in?
 
-    Chessboard::User[session["user"].to_i]
+    # Cache the logged in user to not always query the database
+    # for each call to #logged_in_user.
+    env["chessboard.logged_in_user"] ||= nil
+    if env["chessboard.logged_in_user"] && env["chessboard.logged_in_user"].id == session["user"].to_i
+      # Normal case. The same user has made some more requests,
+      # return the cached version.
+      env["chessboard.logged_in_user"]
+    else
+      # User has logged in; note that it may be a log in under a
+      # new user ID (in that case the part behind the && above
+      # triggers). In any case, renew the cache.
+      env["chessboard.logged_in_user"] = Chessboard::User[session["user"].to_i]
+    end
   end
 
   # Convenience method for calling Sinatra's halt method
