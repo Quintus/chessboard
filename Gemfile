@@ -15,4 +15,5 @@ gem "rb-inotify"
 
 group :development do
   gem "sqlite3"
+  gem "pg"
 end

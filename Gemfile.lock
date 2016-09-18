@@ -13,6 +13,7 @@ GEM
     mini_magick (4.5.1)
     multi_json (1.12.1)
     net-ldap (0.15.0)
+    pg (0.18.4)
     r18n-core (2.1.4)
     rack (1.6.4)
     rack-protection (1.5.3)
@@ -49,6 +50,7 @@ DEPENDENCIES
   mail
   mini_magick
   net-ldap
+  pg
   rake
   rb-inotify
   sequel
