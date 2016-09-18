@@ -131,6 +131,8 @@ class Chessboard::Application < Sinatra::Base
     @suggested_title = "Re: #{@suggested_title}" unless @suggested_title =~ /^Re:/i
     @tags = Chessboard::Tag.order(Sequel.asc(:name))
 
+    @thread_info = construct_thread_info(@post, logged_in_user)
+
     erb :reply
   end
 

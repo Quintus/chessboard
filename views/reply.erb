@@ -10,4 +10,4 @@
 
 <h2><%= t.posts.replied_to_post %></h2>
 
-<%= erb :_post, :locals => {:post => @post, :forum => @forum, :disable_actions => true} %>
+<%= erb :_post, :locals => {:post => @post, :forum => @forum, :disable_actions => true, :thread_info => @thread_info} %>
