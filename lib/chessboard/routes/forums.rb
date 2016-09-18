@@ -1,3 +1,4 @@
+# coding: utf-8
 class Chessboard::Application < Sinatra::Base
 
   get "/forums" do
@@ -115,11 +116,15 @@ class Chessboard::Application < Sinatra::Base
                .limit(ppp)
     end
 
+    @posts = @posts.all # execute query
+
+    # TODO: This currently loads ALL posts in this thread, which is
+    # unperformant ands voids the efforts the above query carefully
+    # makes...
+    @thread_info = construct_thread_info(@root_post, logged_in_user)
+
     if logged_in?
-      mark_posts_in_dataset_as_read(@posts)
-      @watched_posts = logged_in_user.watched_posts_dataset.select_map(:id)
-    else
-      @watched_posts = []
+      mark_posts_as_read(@posts.map(&:id))
     end
 
     @root_post.update(:views => @root_post.views + 1)
@@ -132,30 +137,80 @@ class Chessboard::Application < Sinatra::Base
     @forum     = Chessboard::Forum[params["forum_id"].to_i]
     halt 404 unless @forum
     halt 404 unless @root_post
-    halt 400 unless @root_post.forum == @forum
+    halt 400 unless @root_post.forum_id == @forum.id
+
+    # Somehow one can't eager-load the authors on a recursive dataset,
+    # so this needs to be done manually.
+    @thread_info = construct_thread_info(@root_post, logged_in_user)
 
     if logged_in?
       # Thread view displays the entire thread, so mark
       # all posts in this thread as read by this user.
-      mark_posts_in_dataset_as_read(@root_post.descendants_dataset)
-
-      @watched_posts = logged_in_user.watched_posts_dataset.select_map(:id)
-    else
-      @watched_posts = []
+      mark_posts_as_read([@root_post.id, @root_post.descendants.map(&:id)].flatten)
     end
 
     # Increase view count
     @root_post.update(:views => @root_post.views + 1)
+    @reply_count = @root_post.children.count # children are eager-loaded here already, so no extra query
 
     erb :thread
   end
 
   private
 
-  def mark_posts_in_dataset_as_read(dataset)
-    all_post_ids = dataset.select_map(:id)
+  def mark_posts_as_read(all_post_ids)
     unread_post_ids = all_post_ids - Chessboard::Application::DB[:read_posts].where(:post_id => all_post_ids, :user_id => logged_in_user.id).select_map(:post_id)
     Chessboard::Application::DB[:read_posts].import([:user_id, :post_id], Array.new(unread_post_ids.length){[logged_in_user.id, unread_post_ids.pop]})
+  end
+
+  # This method is to overcome the problem that one can't
+  # eager-load cascades on recursive datasets in Sequel (bug?).
+  # It returns a hash containing all authors and attachments for
+  # all posts in the thread below +post+ in this form:
+  # {:authors =>
+  #   {<uid> =>
+  #     {:user => User instance, :post_count => total post count of this user},
+  #    …},
+  #  :attachments =>
+  #    {<post_id> =>
+  #      {<aid> => Attachment instance},
+  #       …},
+  #    …},
+  #  :watched_posts => [list_of_post_ids]
+  # }
+  def construct_thread_info(post, logged_in_user)
+    result = {:authors => {}, :attachments => {}}
+
+    Chessboard::User
+      .where(
+        :id => [post.author_id, post.descendants.map(&:author_id)].flatten.uniq)
+      .each do |user|
+
+      result[:authors][user.id] = {:user       => user,
+                                   :post_count => user.posts_dataset.count}
+    end
+
+    # Ensure posts with no attachments get an empty attachments hash
+    result[:attachments][post.id] = {}
+    post.descendants.map(&:id).each{|id| result[:attachments][id] = {}}
+
+    Chessboard::Attachment
+      .where(
+        :post_id => [post.id,
+                     post.descendants.map(&:id)].flatten)
+      .order(Sequel.asc(:filename))
+      .each do |attachment|
+
+      result[:attachments][attachment.post_id][attachment.id] = attachment
+    end
+
+    if logged_in_user
+      result[:watched_posts] = logged_in_user.watched_posts_dataset.select_map(:id)
+    else
+      result[:watched_posts] = []
+    end
+
+    result
   end
 
 end

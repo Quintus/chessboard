@@ -13,7 +13,7 @@
 
 <div class="topic">
   <% @posts.each do |post| %>
-    <%= erb :_post, :locals => {:post => post, :forum => @forum, :watched_posts => @watched_posts } %>
+    <%= erb :_post, :locals => {:post => post, :forum => @forum, :thread_info => @thread_info } %>
   <% end %>
 </div>
 

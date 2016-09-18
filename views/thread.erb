@@ -12,12 +12,11 @@
 <% end %>
 
 <div class="topic thread">
-  <%= erb :_post, :locals => {:post => @root_post, :forum => @forum, :watched_posts => @watched_posts } %>
-
+  <%= erb :_post, :locals => {:post => @root_post, :forum => @forum, :thread_info => @thread_info } %>
 </div>
 
 <ul class="topic-actions topic-actions-thread">
-  <% unless @root_post.replies.empty? %>
+  <% if @reply_count > 0 %>
     <li class="expand-all"><a href="#" class="button-normal"><%= t.topics.expand_all %></a></li>
     <li class="collapse-all"><a href="#" class="button-normal"><%= t.topics.collapse_all %></a></li>
   <% end %>
@@ -25,8 +24,8 @@
 
 <div class="clear"></div>
 
-<% unless @root_post.replies.empty? %>
+<% if @reply_count > 0 %>
   <div class="thread-tree">
-    <%= erb :_thread_tree_post, :locals => {:post => @root_post, :forum => @forum, :watched_posts => @watched_posts} %>
+    <%= erb :_thread_tree_post, :locals => {:post => @root_post, :forum => @forum, :thread_info => @thread_info} %>
   </div>
 <% end %>

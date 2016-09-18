@@ -1,17 +1,19 @@
 <% level ||= 0 %>
 <% disable_actions ||= false %>
-<% watched_posts ||= [] %>
+<% watched_posts = thread_info[:watched_posts] %>
+<% author = thread_info[:authors][post.author_id][:user] %>
+<% attachments = thread_info[:attachments][post.id].values %>
 
 <div class="post post-nest-<%= level %>">
   <div class="post-author">
     <p class="author-name"><a href="/users/<%= post.author_id %>"><%= h post.used_alias %></a></p>
-    <p class="author-membership"><%= post.author.title %></p>
-    <% if post.author.avatar? %>
-      <p class="author-avatar"><img src="<%= post.author.avatar_url %>" alt="<%= t.users.avatar_alt %>"/></p>
+    <p class="author-membership"><%= author.title %></p>
+    <% if author.avatar? %>
+      <p class="author-avatar"><img src="<%= author.avatar_url %>" alt="<%= t.users.avatar_alt %>"/></p>
     <% end %>
-    <p class="author-registered"><%= t.users.registered %>: <%= l post.author.created_at %></p>
+    <p class="author-registered"><%= t.users.registered %>: <%= l author.created_at %></p>
     <p class="author-posts"><%= t.users.posts %>:
-      <%= post.author.posts.count %></p>
+      <%= thread_info[:authors][post.author_id][:post_count] %></p>
     <% if logged_in? && logged_in_user.admin? %>
       <p class="author-ip">IP:
         <% if post.ip.to_s.empty? %>
@@ -79,9 +81,9 @@
       </ul>
     <% end %>
 
-    <% unless post.attachments.empty? %>
+    <% unless attachments.empty? %>
       <div class="post-attachments">
-      <% post.attachments_dataset.order(Sequel.asc(:filename)).each do |attachment| %>
+      <% attachments.each do |attachment| %>
         <div class="post-attachment">
           <div class="attachment-icon"><!-- for screenreaders not an <img> --></div>
           <p>
