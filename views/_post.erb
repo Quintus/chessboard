@@ -12,7 +12,7 @@
     <p class="author-registered"><%= t.users.registered %>: <%= l post.author.created_at %></p>
     <p class="author-posts"><%= t.users.posts %>:
       <%= post.author.posts.count %></p>
-    <% if logged_in_user.admin? %>
+    <% if logged_in? && logged_in_user.admin? %>
       <p class="author-ip">IP:
         <% if post.ip.to_s.empty? %>
           <%= t.posts.no_ip %>
