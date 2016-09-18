@@ -375,6 +375,10 @@ posts:
   reply: "Reply"
   replied_to_post: "Post you reply to"
   your_reply: "Your reply"
+  reply_line_length: >
+    Please break your text lines at around 60-70 characters, which is
+    where the line in the above form is drawn.<br/>This makes it easier for
+    people who follow the board with an email client to read your messages.
   new: New Topic
   watch: "Watch"
   unwatch: "Unwatch"

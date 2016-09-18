@@ -574,6 +574,19 @@ ul.post-bottom-actions {
     text-align: left;
 }
 
+/*********** Post reply form ***********/
+
+textarea#content, input#post-title {
+    font-size: 14px;
+    font-family: Courier New, Courier, monospace;
+    width: 700px;
+    background: url("/images/misc/edit-background.png") repeat-y white;
+}
+
+input#post-title {
+    background: white;
+}
+
 /******* tags **********/
 
 .tag-color {

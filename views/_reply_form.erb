@@ -1,7 +1,7 @@
 <form action="<%= target %>" accept-charset="UTF-8" method="post" enctype="multipart/form-data">
   <p>
     <label for="title"><%= t.posts.title %>:</label><br/>
-    <input type="text" name="title" value="<%= suggested_title %>"/>
+    <input type="text" name="title" id="post-title" value="<%= suggested_title %>"/>
   </p>
   <p>
     <label for="content"><%= t.posts.content %>:</label><br/>
@@ -26,6 +26,10 @@
       <% end %>
     </p>
   <% end %>
+
+  <p>
+    <%= t.posts.reply_line_length %>
+  </p>
 
   <p>
     <%= t.posts.attachments %>:
