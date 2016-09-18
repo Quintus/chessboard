@@ -16,15 +16,15 @@ task :setup do
     String :pgp_key
     String :signature
     String :title,              :null => false
-    TrueClass :hide_status,     :default => false
-    TrueClass :hide_email,      :default => false
-    TrueClass :auto_watch,      :default => false
-    TrueClass :administrator,   :default => false
-    TrueClass :confirmed,       :default => false
+    TrueClass :hide_status,     :default => false, :null => false
+    TrueClass :hide_email,      :default => false, :null => false
+    TrueClass :auto_watch,      :default => false, :null => false
+    TrueClass :administrator,   :default => false, :null => false
+    TrueClass :confirmed,       :default => false, :null => false
     String    :confirmation_string
-    Integer   :view_mode_ident, :default => Chessboard::User::VIEWMODE2IDENT[:default]
+    Integer   :view_mode_ident, :default => Chessboard::User::VIEWMODE2IDENT[:default], :null => false
     DateTime :last_login
-    DateTime :created_at
+    DateTime :created_at, :null => false
   end
 
   Chessboard::Application::DB.create_table :forums do
@@ -34,8 +34,8 @@ task :setup do
     String   :description, :null => false
     String   :mailinglist, :null => false
     String   :ml_tag
-    Integer  :ordernum,    :default => 0
-    DateTime :created_at
+    Integer  :ordernum,    :default => 0, :null => false
+    DateTime :created_at,  :null => false
   end
 
   Chessboard::Application::DB.create_table :posts do
@@ -45,14 +45,14 @@ task :setup do
     foreign_key :parent_id, :posts, :null => true
 
     String    :title,        :null => false
-    String    :content,      :text => true
+    String    :content,      :text => true, :null => false
     String    :ip
     String    :message_id
-    TrueClass :sticky,       :default => false
-    TrueClass :announcement, :default => false
-    TrueClass :was_html_only,:default => false
-    Integer   :views,        :default => 0
-    DateTime :created_at
+    TrueClass :sticky,       :default => false, :null => false
+    TrueClass :announcement, :default => false, :null => false
+    TrueClass :was_html_only,:default => false, :null => false
+    Integer   :views,        :default => 0, :null => false
+    DateTime :created_at,     :null => false
     DateTime :last_post_date, :null => false
     String   :used_alias,     :null => false
   end
@@ -60,7 +60,7 @@ task :setup do
   Chessboard::Application::DB.create_table :tags do
     primary_key :id
     String :name, :null => :false
-    String :description
+    String :description, :null => false
     String :color, :null => false, :default => "FFFFFF"
   end
 
