@@ -29,11 +29,9 @@
 	<p><%= l post.created_at, :full %></p>
       </div>
       <div class="post-num">
-	<%# The link to the tread view is intentional. A topic cut off might miss
-          # information at unexpected places when a user replied not to the most current
-          # reply. And that even though the current view shows the information! %>
 	<p>
 	  <a href="/forums/<%= forum.id %>/threads/<%= post.id %>">¶</a>
+	  <a href="/forums/<%= forum.id %>/topics/<%= post.id %>">↓</a>
 	  <span class="post-title"><%= h post.title %></span>
 	</p>
       </div>
