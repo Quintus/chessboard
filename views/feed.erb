@@ -14,7 +14,7 @@
       <published><%= post.created_at.iso8601 %></published>
       <author><name><%= post.used_alias %></name></author>
       <content type="html">
-	<%= process_raw(post.content) %>
+	<%= process_email(post.content) %>
       </content>
     </entry>
   <% end %>

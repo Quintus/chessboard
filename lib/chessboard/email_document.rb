@@ -1,4 +1,4 @@
-class Chessboard::RawDocument
+class Chessboard::EmailDocument
 
   # Maximum length of a single line.
   MAX_LINE_LENGTH = 100

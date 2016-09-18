@@ -76,19 +76,12 @@ module Chessboard::Helpers
     !!session[:alert]
   end
 
-  # Process +str+ as markdown and return the corresponding HTML.
-  def process_markup(str)
-    Chessboard::EmailDocument.debug_preprocessor = true
-    k = Chessboard::EmailDocument.new(str, :enable_coderay => true)
-    k.to_html
-  end
-
   # A much more unobtrusive version of #process_markup
   # that returns a <pre> element.
-  def process_raw(str)
+  def process_email(str)
     if ENV["RACK_ENV"] == "production"
       begin
-        r = Chessboard::RawDocument.new(str)
+        r = Chessboard::EmailDocument.new(str)
         r.to_html
       rescue => e
         # This is an archive, it must not be unable to display a message just
@@ -101,7 +94,7 @@ module Chessboard::Helpers
     else
       # If not running in production, crash it so the problem
       # can more easily be debugged.
-      r = Chessboard::RawDocument.new(str)
+      r = Chessboard::EmailDocument.new(str)
       r.to_html
     end
   end

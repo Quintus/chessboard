@@ -64,7 +64,7 @@
       <% if post.was_html_only %>
 	<p class="html-only-post"><%= t.posts.was_html_only %></p>
       <% end %>
-      <div class="post-raw-markup"><%= process_raw(post.content) %></div>
+      <div class="post-raw-markup"><%= process_email(post.content) %></div>
       <div class="clear"></div>
     </div>
 
