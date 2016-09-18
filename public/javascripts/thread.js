@@ -1,6 +1,6 @@
 $(document).ready(function(){
     $(".thread-tree-link").click(function(){
-	$(this).parent().find(".intree-post").toggle();
+	hide_recurse($(this).parent().children("ul"));
 	return false;
     });
 
@@ -37,3 +37,20 @@ $(document).ready(function(){
 	return false;
     });
 });
+
+/**
+ * Toggle all posts until a post with multiple answers is encountered.
+ * Since one cannot know which way the user wants, stop expanding
+ * posts there and have him choose again.
+ */
+function hide_recurse(node)
+{
+    // Each <ul> has exactly on div.intree-post in its parent <li>.
+    node.parent().children("div.intree-post").toggle();
+
+    var child_lis = node.children("li.thread-tree-li");
+    if (child_lis.length == 1) {
+	// Each <li> can only ever have one <ul>.
+	hide_recurse(child_lis.children("ul.thread-tree-ul"));
+    }
+}
