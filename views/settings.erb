@@ -180,6 +180,23 @@
     </div>
   </div>
 
+  <div class="setting">
+    <div class="header settings-header">
+      <p><%= t.settings.titles.signature %></p>
+    </div>
+
+    <div class="settings-desc">
+      <p><%= t.settings.descriptions.signature %></p>
+    </div>
+
+    <div class="settings-content">
+      <p>
+	<textarea name="signature" class="signature-form"><%= @user.signature %></textarea>
+      </p>
+    </div>
+  </div>
+
+
   <p class="submit-separator">
     <input type="submit" value="<%= t.general.update %>" class="button-ok"></input>
   </p>

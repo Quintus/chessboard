@@ -576,7 +576,7 @@ ul.post-bottom-actions {
 
 /*********** Post reply form ***********/
 
-textarea#content, input#post-title {
+textarea#content, input#post-title, textarea.signature-form {
     font-size: 14px;
     font-family: Courier New, Courier, monospace;
     width: 700px;

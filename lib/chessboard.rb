@@ -189,6 +189,13 @@ EOF
       @user.email           = params["email"] unless params["email"].to_s.empty?
       @user.view_mode_ident = params["view_mode"].to_i if Chessboard::User::IDENT2VIEWMODE.has_key?(params["view_mode"].to_i)
 
+      if params["signature"].to_s.strip.empty?
+        # Allow user to clear the signature
+        @user.signature = nil
+      else
+        @user.signature = params["signature"].to_s.strip
+      end
+
       unless params["password"].to_s.empty?
         if params["password"] != params["repeat_password"]
           alert t.settings.password_mismatch

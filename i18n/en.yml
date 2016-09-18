@@ -296,6 +296,7 @@ settings:
     password: Password
     email: E-Mail address
     view_mode: View mode
+    signature: Signature
   descriptions:
     hide_status: >
       Activating this option makes your online status invisible
@@ -340,6 +341,10 @@ settings:
       instead just sorts all posts in a discussion by date, without indentation.
       The thread view offers more functionality, while the topic view might be
       simpler to use.
+    signature: >
+      This signature is appended automatically to each of the posts you write.
+      If you change it, this only affects future messages, i.e. posts you have
+      already written are not affected by the change.
   view_mode_titles:
     default: Forum default
     threads: Threads
