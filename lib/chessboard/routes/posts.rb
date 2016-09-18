@@ -257,10 +257,14 @@ class Chessboard::Application < Sinatra::Base
 
   def construct_post(params, forum)
     post = Chessboard::Post.new
-    post.content = params["content"]
     post.title   = params["title"]
     post.forum   = forum
     post.author  = logged_in_user
+
+    post.content = params["content"]
+    unless logged_in_user.signature.to_s.empty?
+      post.content = post.content.rstrip + "\n\n-- \n" + logged_in_user.signature
+    end
 
     # Ensure the attachments' total size does not exceed what is allowed
     if params["attachments"]
