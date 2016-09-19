@@ -88,14 +88,18 @@ class Chessboard::Application < Sinatra::Base
       logged_in_user.subscribe_to_mailinglist(@forum)
     end
 
-        @post = nil
+    @post = nil
     begin
       @post = construct_post(params, @forum)
-    rescue RangeError # Attachment size too large
-      halt 413, erb(:new_post)
-    rescue Sequel::ConstraintViolation
-      user_error!
-      halt 422, erb(:new_post)
+    rescue RangeError, Sequel::ConstraintViolation => e
+      @tags = Chessboard::Tag.order(Sequel.asc(:name)).all
+
+      if e.class == RangeError  # Attachment size too large
+        halt 413, erb(:new_post)
+      else
+        user_error!
+        halt 422, erb(:new_post)
+      end
     end
 
     @post.parent  = @parent_post
@@ -157,11 +161,18 @@ class Chessboard::Application < Sinatra::Base
     @post = nil
     begin
       @post = construct_post(params, @forum)
-    rescue RangeError # Attachment size too large
-      halt 413, erb(:reply)
-    rescue Sequel::ConstraintViolation
-      user_error!
-      halt 422, erb(:reply)
+    rescue RangeError, Sequel::ConstraintViolation => e
+      @post  = Chessboard::Post[params["id"].to_i]
+      @suggested_title = @post.title
+      @tags = Chessboard::Tag.order(Sequel.asc(:name))
+      @thread_info = construct_thread_info(@post, logged_in_user)
+
+      if e.class == RangeError  # Attachment size too large
+        halt 413, erb(:reply)
+      else
+        user_error!
+        halt 422, erb(:reply)
+      end
     end
 
     @post.parent  = @parent_post

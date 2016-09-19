@@ -2,6 +2,10 @@
   <script type="text/javascript" src="/javascripts/attachments.js"></script>
 <% end %>
 
+<% if @attachment_error %>
+  <p class="flash alert"><%= @attachment_error %></p>
+<% end %>
+
 <h1><%= t.posts.reply %></h1>
 
 <h2><%= t.posts.your_reply %></h2>
