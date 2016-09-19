@@ -92,7 +92,10 @@ class Chessboard::Application < Sinatra::Base
     begin
       @post = construct_post(params, @forum)
     rescue RangeError # Attachment size too large
-      halt 413, erb(:reply)
+      halt 413, erb(:new_post)
+    rescue Sequel::ConstraintViolation
+      user_error!
+      halt 422, erb(:new_post)
     end
 
     @post.parent  = @parent_post
@@ -156,6 +159,9 @@ class Chessboard::Application < Sinatra::Base
       @post = construct_post(params, @forum)
     rescue RangeError # Attachment size too large
       halt 413, erb(:reply)
+    rescue Sequel::ConstraintViolation
+      user_error!
+      halt 422, erb(:reply)
     end
 
     @post.parent  = @parent_post

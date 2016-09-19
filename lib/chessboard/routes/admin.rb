@@ -24,7 +24,13 @@ class Chessboard::Application < Sinatra::Base
     @tag.description = params["description"]
     @tag.color = params["color"]
 
-    @tag.save
+    begin
+      @tag.save
+    rescue Sequel::ConstraintViolation
+      @tags = Chessboard::Tag.order(Sequel.asc(:name))
+      user_error!
+      halt 422, erb(:admin_tags_edit)
+    end
 
     message t.admin.tag_created
     redirect "/admin/tags"
@@ -48,7 +54,7 @@ class Chessboard::Application < Sinatra::Base
     erb :admin_tags_edit
   end
 
-  # Actually this should be patch /admin/tags/:id,
+  # Actually this should be PATCH /admin/tags/:id,
   # but browsers cannot do other methods than GET
   # and POST in HTML forms.
   post "/admin/tags/:id/edit" do
@@ -62,7 +68,12 @@ class Chessboard::Application < Sinatra::Base
     @tag.description = params["description"]
     @tag.color = params["color"]
 
-    @tag.save
+    begin
+      @tag.save
+    rescue Sequel::ConstraintViolation
+      user_error!
+      halt 422, erb(:admin_tags_edit)
+    end
 
     message t.admin.tag_updated
     redirect "/admin/tags"
@@ -125,7 +136,12 @@ class Chessboard::Application < Sinatra::Base
     @forum.ml_tag = params["ml_tag"]
     @forum.ordernum = params["ordernum"].to_i
 
-    @forum.save
+    begin
+      @forum.save
+    rescue Sequel::ConstraintViolation
+      user_error!
+      halt 422, erb(:admin_forum_edit)
+    end
 
     message t.admin.forums.updated
     redirect "/admin/forums"
@@ -196,7 +212,12 @@ class Chessboard::Application < Sinatra::Base
     @forum.ordernum = params["ordernum"].to_i
     @forum.mailinglist = params["mailinglist"]
 
-    @forum.save
+    begin
+      @forum.save
+    rescue Sequel::ConstraintViolation
+      user_error!
+      halt 422, erb(:admin_forum_edit)
+    end
 
     message t.admin.forums.created
     redirect "/admin/forums"
@@ -229,7 +250,13 @@ class Chessboard::Application < Sinatra::Base
 
     @user.administrator = params["admin"]
     @user.title         = params["title"]
-    @user.save
+
+    begin
+      @user.save
+    rescue Sequel::ConstraintViolation
+      user_error!
+      halt 422, erb(:admin_user_edit)
+    end
 
     message t.admin.users.user_updated(@user.email)
     redirect "/admin/users"

@@ -205,8 +205,12 @@ EOF
         end
       end
 
-      # TODO: Rescue validation error
-      @user.save
+      begin
+        @user.save
+      rescue Sequel::ConstraintViolation
+        user_error!
+        halt 422, erb(:settings)
+      end
 
       if params["avatar"] && !params["delete_avatar"]
         begin

@@ -47,6 +47,9 @@
       <% if message? %>
         <p class="flash notice"><%= message %></p>
       <% end %>
+      <% if user_error? %>
+	<p class="flash alert"><%= t.general.user_error %></p>
+      <% end %>
 
       <%= yield %>
 

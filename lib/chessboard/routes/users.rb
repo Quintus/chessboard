@@ -10,7 +10,13 @@ class Chessboard::Application < Sinatra::Base
     @user.email = params["email"]
     @user.change_password(params["password"])
     @user.confirmation_string = generate_registration_token(@user)
-    @user.save
+
+    begin
+      @user.save
+    rescue Sequel::ConstraintViolation
+      user_error!
+      halt 422, erb(:register)
+    end
 
     @user.add_alias(params["alias"])
     send_registration_email(@user)

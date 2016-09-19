@@ -142,6 +142,18 @@ module Chessboard::Helpers
     end
   end
 
+  # Display an error message to the user when the template of this handler
+  # is rendered that says he made an input error.
+  def user_error!
+    @user_error = true
+  end
+
+  # Returns true if #user_error! was called during the handling of this request,
+  # nil otherwise.
+  def user_error?
+    @user_error
+  end
+
   def send_registration_email(user)
     link = sprintf("%s/users/%d/confirm/%s",
                    Chessboard::Configuration[:board_url],
