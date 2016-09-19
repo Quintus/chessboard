@@ -27,7 +27,7 @@ task :setup do
     DateTime :created_at, :null => false
 
     constraint(:email_format){Sequel.like(:email, "%_@_%")}
-    constraint(:title_length){char_length(title) > 2}
+    constraint(:title_length, Sequel.char_length(:title) > 2)
     constraint(:valid_view_mode, :view_mode_ident => Chessboard::User::VIEWMODE2IDENT.values)
   end
 
@@ -41,9 +41,9 @@ task :setup do
     Integer  :ordernum,    :default => 0, :null => false
     DateTime :created_at,  :null => false
 
-    constraint(:name_length){char_length(name) > 2}
-    constraint(:description_length){char_length(description) > 2}
-    constraint(:mailinglist_length){char_length(mailinglist) > 2}
+    constraint(:name_length, Sequel.char_length(:name) > 2)
+    constraint(:description_length, Sequel.char_length(:description) > 2)
+    constraint(:mailinglist_length, Sequel.char_length(:mailinglist) > 2)
   end
 
   Chessboard::Application::DB.create_table :posts do
@@ -64,11 +64,11 @@ task :setup do
     DateTime :last_post_date, :null => false
     String   :used_alias,     :null => false
 
-    constraint(:title_length){char_length(title) > 2}
-    constraint(:content_length, Sequel.function(:char_length, :content) => 2..100_000)
-    check{views >= 0}
+    constraint(:title_length, Sequel.char_length(:title) > 2)
+    constraint(:content_length, Sequel.char_length(:content) => 2..100_000)
+    constraint(:view_count){views >= 0}
     constraint(:last_post_date_order){last_post_date >= created_at}
-    constraint(:used_alias_length){char_length(used_alias) > 2}
+    constraint(:used_alias_length, Sequel.char_length(:used_alias) > 2)
   end
 
   Chessboard::Application::DB.create_table :tags do
@@ -77,9 +77,9 @@ task :setup do
     String :description, :null => false
     String :color, :null => false, :default => "FFFFFF"
 
-    constraint(:name_length){char_length(name) > 2}
-    constraint(:description_length){char_length(description) > 2}
-    #constraint(:color_length){char_length(color) == 6}
+    constraint(:name_length, Sequel.char_length(:name) > 2)
+    constraint(:description_length, Sequel.char_length(:description) > 2)
+    #constraint(:color_length, Sequel.char_length(:color) == 6)
   end
 
   Chessboard::Application::DB.create_table :user_aliases do
@@ -87,7 +87,7 @@ task :setup do
     String      :name,            :null => false
     DateTime    :created_at,      :null => false
 
-    constraint(:name_length){char_length(name) > 2}
+    constraint(:name_length, Sequel.char_length(:name) > 2)
   end
 
   Chessboard::Application::DB.create_join_table :tag_id => :tags, :post_id => :posts
@@ -99,7 +99,7 @@ task :setup do
     String:filename,   :null => false
     String :mime_type, :null => false
 
-    constraint(:filename_length){char_length(filename) > 2}
+    constraint(:filename_length, Sequel.char_length(:filename) > 2)
     constraint(:mime_type_format, Sequel.like(:mime_type, "%_/_%"))
   end
 
