@@ -79,7 +79,7 @@ task :setup do
 
     constraint(:name_length, Sequel.char_length(:name) > 2)
     constraint(:description_length, Sequel.char_length(:description) > 2)
-    #constraint(:color_length, Sequel.char_length(:color) == 6)
+    constraint(:color_length, Sequel.char_length(:color) => 6)
   end
 
   Chessboard::Application::DB.create_table :user_aliases do
