@@ -29,14 +29,16 @@ task :setup do
     constraint(:email_format){Sequel.like(:email, "%_@_%")}
     constraint(:title_length, Sequel.char_length(:title) > 2)
     constraint(:valid_view_mode, :view_mode_ident => Chessboard::User::VIEWMODE2IDENT.values)
+    # The following constraint needs an update each time a new locale is added.
+    constraint(:supported_locale, :locale => R18n.available_locales.map(&:code))
   end
 
   Chessboard::Application::DB.create_table :forums do
     primary_key :id
 
-    String   :name,        :null => false
+    String   :name,        :null => false, :unique => true
     String   :description, :null => false
-    String   :mailinglist, :null => false
+    String   :mailinglist, :null => false, :unique => true
     String   :ml_tag
     Integer  :ordernum,    :default => 0, :null => false
     DateTime :created_at,  :null => false
@@ -73,7 +75,7 @@ task :setup do
 
   Chessboard::Application::DB.create_table :tags do
     primary_key :id
-    String :name, :null => :false
+    String :name, :null => :false, :unique => true
     String :description, :null => false
     String :color, :null => false, :default => "FFFFFF"
 
@@ -96,7 +98,7 @@ task :setup do
     primary_key :id
     foreign_key :post_id, :null => false
 
-    String:filename,   :null => false
+    String :filename,  :null => false
     String :mime_type, :null => false
 
     constraint(:filename_length, Sequel.char_length(:filename) > 2)
