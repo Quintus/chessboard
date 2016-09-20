@@ -1,11 +1,14 @@
 class Chessboard::Application < Sinatra::Base
 
   get "/users/register" do
+    halt 403 if Chessboard::Configuration[:ldap]
     @user = Chessboard::User.new
     erb :register
   end
 
   post "/users" do
+    halt 403 if Chessboard::Configuration[:ldap]
+
     @user = Chessboard::User.new
     @user.email = params["email"]
     @user.change_password(params["password"])
