@@ -88,11 +88,18 @@ class Chessboard::Application < Sinatra::Base
       logged_in_user.subscribe_to_mailinglist(@forum)
     end
 
-    @post = nil
+    params["tags"] ||= {}
+    params["attachments"] ||= []
+
+    tags = Chessboard::Tag.where(:id => params["tags"].keys.map(&:to_i)).all
+
+    @post      = nil
+    message_id = nil
     begin
-      @post = construct_post(params, @forum)
-    rescue RangeError, Sequel::ConstraintViolation => e
-      @tags = Chessboard::Tag.order(Sequel.asc(:name)).all
+      @post      = construct_post(params, @forum)
+      message_id = @post.send_to_mailinglist(tags, params["attachments"])
+    rescue RangeError, Sequel::ValidationFailed => e
+      @tags = Chessboard::Tag.order(Sequel.asc(:name))
 
       if e.class == RangeError  # Attachment size too large
         halt 413, erb(:new_post)
@@ -101,13 +108,6 @@ class Chessboard::Application < Sinatra::Base
         halt 422, erb(:new_post)
       end
     end
-
-    @post.parent  = @parent_post
-
-    params["tags"] ||= {}
-    @tags = Chessboard::Tag.where(:id => params["tags"].keys.map(&:to_i)).all
-
-    message_id = @post.send_to_mailinglist(@tags, params["attachments"] || [])
 
     # See reply route as to why we sleep here.
     sleep 3
@@ -152,20 +152,27 @@ class Chessboard::Application < Sinatra::Base
     halt 404 unless @parent_post
     halt 404 unless @forum
 
+    params["attachments"] ||= []
+    params["tags"] ||= {}
+    tags = Chessboard::Tag.where(:id => params["tags"].keys.map(&:to_i)).all
+
     # If the user is not subscribed to the mailinglist behind
     # this forum, do that now.
     unless logged_in_user.subscribed_to_mailinglist?(@forum)
       logged_in_user.subscribe_to_mailinglist(@forum)
     end
 
-    @post = nil
+    @post      = nil
+    message_id = nil
     begin
-      @post = construct_post(params, @forum)
-    rescue RangeError, Sequel::ConstraintViolation => e
-      @post  = Chessboard::Post[params["id"].to_i]
+      @post        = construct_post(params, @forum)
+      @post.parent = @parent_post
+      message_id   = @post.send_to_mailinglist(tags, params["attachments"])
+    rescue RangeError, Sequel::ValidationFailed => e
+      @post            = Chessboard::Post[params["id"].to_i]
+      @tags            = Chessboard::Tag.order(Sequel.asc(:name))
+      @thread_info     = construct_thread_info(@post, logged_in_user)
       @suggested_title = @post.title
-      @tags = Chessboard::Tag.order(Sequel.asc(:name))
-      @thread_info = construct_thread_info(@post, logged_in_user)
 
       if e.class == RangeError  # Attachment size too large
         halt 413, erb(:reply)
@@ -174,13 +181,6 @@ class Chessboard::Application < Sinatra::Base
         halt 422, erb(:reply)
       end
     end
-
-    @post.parent  = @parent_post
-
-    params["tags"] ||= {}
-    @tags = Chessboard::Tag.where(:id => params["tags"].keys.map(&:to_i)).all
-
-    message_id = @post.send_to_mailinglist(@tags, params["attachments"] || [])
 
     # Give the email infrastructure opportunity to deliver the email.
     # The mailinglist monitor creates a post with the message ID set
@@ -273,10 +273,11 @@ class Chessboard::Application < Sinatra::Base
   private
 
   def construct_post(params, forum)
-    post = Chessboard::Post.new
-    post.title   = params["title"]
-    post.forum   = forum
-    post.author  = logged_in_user
+    post            = Chessboard::Post.new
+    post.title      = params["title"]
+    post.forum      = forum
+    post.author     = logged_in_user
+    post.used_alias = logged_in_user.current_alias
 
     post.content = params["content"]
     unless logged_in_user.signature.to_s.empty?

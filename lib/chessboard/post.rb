@@ -1,6 +1,7 @@
 # coding: utf-8
 class Chessboard::Post < Sequel::Model
   plugin :rcte_tree
+  plugin :validation_helpers
   many_to_one :forum
   many_to_one :author, :class => Chessboard::User
   many_to_many :tags
@@ -286,6 +287,12 @@ You are receiving this mail as a member of the forum at <%= Chessboard::Configur
   # to the database. This is intentional, because the post will be
   # picked up by the mailinglist monitor and then saved there.
   def send_to_mailinglist(tags, attachments)
+    # Since the post is not saved into the database directly, but
+    # transformed into an email first, the Post model uses explicit
+    # validations rather than only relying on the database constraints.
+    # These explicit validations match the database constraints closely
+    # (or should do that) and have the advantage that they can be checked
+    # without saving the object into the database.
     raise Sequel::ValidationFailed unless valid?
 
     # Since `self' is not serialised yet, the query must target
@@ -345,14 +352,40 @@ You are receiving this mail as a member of the forum at <%= Chessboard::Configur
 
   private
 
-  def before_create
+  def validate
+    super
+
+    validates_not_null [:forum_id, :author_id]
+    validates_presence [:title, :content, :sticky, :announcement, :was_html_only, :views, :created_at, :last_post_date, :used_alias]
+    validates_min_length 2, :title
+    validates_min_length 1, :used_alias
+    validates_length_range 2..100_000, :content
+    validates_integer :views
+
+    errors.add(:views, "View count must be >= 0") if views.to_i < 0
+    errors.add(:last_post_date, "The date of the last post in this thread must be >= the date of this post.") if last_post_date && created_at && last_post_date < created_at
+  end
+
+  def before_validation
     self[:created_at]     ||= Time.now.utc
     self[:last_post_date] ||= self[:created_at]
+    self[:sticky]         ||= false
+    self[:announcement]   ||= false
+    self[:was_html_only]  ||= false
+    self[:views]          ||= 0
+
+    # Delete "<" and ">" characters because they cannot be used in
+    # an email's display name.
+    if self[:used_alias]
+      self[:used_alias] = self[:used_alias].delete("<>")
+    end
 
     super
   end
 
   def after_create
+    super
+
     # Update the root post's last-post information.
     # Note that for a new topic `thread_starter' is identical
     # to `self', which does no harm here, but actually
@@ -426,6 +459,8 @@ MAIL
   # Also refresh the last-update information on the root post
   # and reparent children.
   def before_destroy
+    super
+
     if thread_starter?
       # All posts that are direct children of this post now need
       # to be made thread starters
@@ -459,8 +494,6 @@ MAIL
     # Clear records in the many2many tables
     Chessboard::Application::DB[:posts_tags].where(:post_id => id).delete
     Chessboard::Application::DB[:read_posts].where(:post_id => id).delete
-
-    super
   end
 
 end

@@ -70,7 +70,7 @@ task :setup do
     constraint(:content_length, Sequel.char_length(:content) => 2..100_000)
     constraint(:view_count){views >= 0}
     constraint(:last_post_date_order){last_post_date >= created_at}
-    constraint(:used_alias_length, Sequel.char_length(:used_alias) > 2)
+    constraint(:used_alias_length, Sequel.char_length(:used_alias) > 1)
   end
 
   Chessboard::Application::DB.create_table :tags do

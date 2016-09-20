@@ -1,11 +1,11 @@
 <form action="<%= target %>" accept-charset="UTF-8" method="post" enctype="multipart/form-data">
   <p>
     <label for="title"><%= t.posts.title %>:</label><br/>
-    <input type="text" name="title" id="post-title" value="<%= suggested_title %>" autofocus="autofocus"/>
+    <input type="text" name="title" id="post-title" value="<%= params["title"] || suggested_title %>" autofocus="autofocus"/>
   </p>
   <p>
     <label for="content"><%= t.posts.content %>:</label><br/>
-    <textarea name="content" id="content"></textarea>
+    <textarea name="content" id="content"><%= params["content"] %></textarea>
   </p>
   <p id="automatic_line_breaks_container">
     <input type="checkbox" name="automatic_line_breaks" id="automatic_line_breaks"/>
