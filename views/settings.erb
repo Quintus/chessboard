@@ -12,59 +12,25 @@
 <% end %>
 
 <form class="settings-form"  action="/settings" method="post" accept-charset="UTF-8" enctype="multipart/form-data">
-  <div class="setting">
-    <div class="header settings-header">
-      <p><%= t.settings.titles.hide_status %></p>
-    </div>
+  <% [:hide_status, :hide_email, :auto_watch].each do |sym| %>
+    <div class="setting">
+      <div class="header settings-header">
+	<p><%= t.settings.titles.send(sym) %></p>
+      </div>
 
-    <div class="settings-desc">
-      <p><%= t.settings.descriptions.hide_status %></p>
-    </div>
+      <div class="settings-desc">
+	<p><%= t.settings.descriptions.send(sym) %></p>
+      </div>
 
-    <div class="settings-content">
-      <p>
-	<input type="hidden"   value="0" name="hide_status"/>
-	<input type="checkbox" value="1" name="hide_status" id="hide_status" <%= checked(@user.hide_status) %>></input>
-	<label for="hide_status"> <%= t.settings.titles.hide_status %></label>
-      </p>
+      <div class="settings-content">
+	<p>
+	  <input type="hidden"   value="0" name="<%= sym %>"/>
+	  <input type="checkbox" value="1" name="<%= sym %>" id="<%= sym %>" <%= checked(@user[sym]) %>></input>
+	  <label for="<%= sym %>"> <%= t.settings.titles.send(sym) %></label>
+	</p>
+      </div>
     </div>
-  </div>
-
-  <div class="setting">
-    <div class="header settings-header">
-      <p><%= t.settings.titles.hide_email %></p>
-    </div>
-
-    <div class="settings-desc">
-      <p><%= t.settings.descriptions.hide_email %></p>
-    </div>
-
-    <div class="settings-content">
-      <p>
-	<input type="hidden"   value="0" name="hide_email"/>
-	<input type="checkbox" value="1" name="hide_email" id="hide_email" <%= checked(@user.hide_email) %>></input>
-	<label for="hide_email"><%= t.settings.titles.hide_email %></label>
-      </p>
-    </div>
-  </div>
-
-  <div class="setting">
-    <div class="header settings-header">
-      <p><%= t.settings.titles.auto_watch %></p>
-    </div>
-
-    <div class="settings-desc">
-      <p><%= t.settings.descriptions.auto_watch %></p>
-    </div>
-
-    <div class="settings-content">
-      <p>
-	<input type="hidden"   value="0" name="auto_watch"/>
-	<input type="checkbox" value="1" name="auto_watch" id="auto_watch" <%= checked(@user.auto_watch) %>></input>
-	<label for="auto_watch"><%= t.settings.titles.auto_watch %></label>
-      </p>
-    </div>
-  </div>
+  <% end %>
 
   <% [:email, :homepage, :location, :profession, :jabber_id, :pgp_key].each do |sym| %>
     <div class="setting">
