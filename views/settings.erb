@@ -66,21 +66,23 @@
     </div>
   </div>
 
-  <div class="setting">
-    <div class="header settings-header">
-      <p><%= t.settings.titles.email %></p>
-    </div>
+  <% [:email, :homepage, :location, :profession, :jabber_id, :pgp_key].each do |sym| %>
+    <div class="setting">
+      <div class="header settings-header">
+	<p><%= t.settings.titles.send(sym) %></p>
+      </div>
 
-    <div class="settings-desc">
-      <p><%= t.settings.descriptions.email %></p>
-    </div>
+      <div class="settings-desc">
+	<p><%= t.settings.descriptions.send(sym) %></p>
+      </div>
 
-    <div class="settings-content">
-      <p>
-	<input type="text" name="email" value="<%= @user.email %>"/>
-      </p>
+      <div class="settings-content">
+	<p>
+	  <input type="text" name="<%= sym %>" value="<%= @user.send(sym) %>"/>
+	</p>
+      </div>
     </div>
-  </div>
+  <% end %>
 
   <div class="setting">
     <div class="header settings-header">

@@ -300,6 +300,11 @@ settings:
     email: E-Mail address
     view_mode: View mode
     signature: Signature
+    homepage: Homepage
+    location: Location
+    profession: Profession
+    jabber_id: Jabber ID
+    pgp_key: PGP key
   descriptions:
     hide_status: >
       Activating this option makes your online status invisible
@@ -348,6 +353,20 @@ settings:
       This signature is appended automatically to each of the posts you write.
       If you change it, this only affects future messages, i.e. posts you have
       already written are not affected by the change.
+    homepage: >
+      If you have a website, you can have a link to it shown in your profile.
+      If you leave out the protocol, "http://" will be used.
+    location: >
+      This is shown as your location in your profile.
+    profession: >
+      This is shown as your profession in your profile.
+    jabber_id: >
+      If you use Jabber/XMPP, you can enter your Jabber ID (JID) here and it
+      will be shown on your profile page.
+    pgp_key: >
+      If you have a PGP/GPG keypair, you can enter the fingerprint here and it
+      will be shown on your profile page. Please only enter this if your key
+      is available on the keyservers, otherwise this is confusing.
   view_mode_titles:
     default: Forum default
     threads: Threads

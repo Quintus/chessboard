@@ -189,11 +189,18 @@ EOF
       @user.email           = params["email"] unless params["email"].to_s.empty?
       @user.view_mode_ident = params["view_mode"].to_i if Chessboard::User::IDENT2VIEWMODE.has_key?(params["view_mode"].to_i)
 
-      if params["signature"].to_s.strip.empty?
-        # Allow user to clear the signature
-        @user.signature = nil
-      else
-        @user.signature = params["signature"].to_s.strip
+      [:homepage, :location, :profession, :jabber_id, :pgp_key, :signature].each do |sym|
+        if params[sym.to_s].to_s.strip.empty?
+          # Allow user to clear the attribute
+          @user[sym] = nil
+        else
+          @user[sym] = params[sym.to_s].to_s.strip
+
+          # Prepend "http://" if the user did not specify a protocol.
+          if sym == :homepage
+            @user[sym] = "http://#{@user[sym]}" unless @user[sym] =~ /^\w+:\//
+          end
+        end
       end
 
       unless params["password"].to_s.empty?
