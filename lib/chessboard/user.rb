@@ -243,7 +243,7 @@ class Chessboard::User < Sequel::Model
 
     Chessboard::Application::DB[:user_aliases]
       .insert(:user_id => id,
-              :name => display_name,
+              :name => display_name.delete("<>"), # "<" and ">" are no good in email display names
               :created_at => creation_time)
   end
 

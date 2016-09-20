@@ -71,6 +71,8 @@ task :setup do
     constraint(:view_count){views >= 0}
     constraint(:last_post_date_order){last_post_date >= created_at}
     constraint(:used_alias_length, Sequel.char_length(:used_alias) > 1)
+    constraint(:used_alias_format_no_left_angle, ~Sequel.like(:used_alias, "%<%"))
+    constraint(:used_alias_format_no_right_angle, ~Sequel.like(:used_alias, "%>%"))
   end
 
   Chessboard::Application::DB.create_table :tags do
@@ -90,6 +92,8 @@ task :setup do
     DateTime    :created_at,      :null => false
 
     constraint(:name_length, Sequel.char_length(:name) > 2)
+    constraint(:name_format_no_left_angle,  ~Sequel.like(:name, "%<%"))
+    constraint(:name_format_no_right_angle, ~Sequel.like(:name, "%>%"))
   end
 
   Chessboard::Application::DB.create_join_table :tag_id => :tags, :post_id => :posts
