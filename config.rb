@@ -175,9 +175,19 @@ EOF
   # In order to authenticate users, Chessboard will try to BIND
   # as the user who wants to authenticate. The DN it tries to
   # bind with is specified by this option, which is actually
-  # a pattern of how to build the full DN. %s in this string
-  # is replaced by the email address of the user to authenticate.
-  # ldap_user_dn "uid=%s,ou=users,dc=example,dc=com"
+  # a pattern of how to build the full DN. The following
+  # % escapes are recognised in this string:
+  #
+  # %{email}
+  #   This is replaced by the full email address of the
+  #   authenticating user.
+  # %{localpart}
+  #   This is replaced by the part before the @ of the
+  #   user's email address.
+  # %{domain}
+  #   This is replaced by the part after the @ of the user's
+  #   email address.
+  # ldap_user_dn "uid=%{email},ou=users,dc=example,dc=com"
 
   ########################################
   # Mailinglist-specific config

@@ -7,16 +7,20 @@ module Chessboard
   module LDAP
 
     # Returns the arguments hash for Net::LDAP.new.
-    # The username is interpolated into the +ldap_user_dn+
+    # The email is interpolated into the +ldap_user_dn+
     # configuration setting.
-    def self.arguments(username, password)
+    def self.arguments(email, password)
       raise "LDAP support not configured!" unless Chesboard::Configuration.ldap
+
+      localpart, domain = email.split("@")
 
       args = {
         :host => Chessboard::Configuration.ldap_host,
         :port => Chessboard::Configuration.ldap_port,
         :auth => {
-          :username => sprintf(Chessboard::Configuration.ldap_user_dn, username),
+          :username => sprintf(Chessboard::Configuration.ldap_user_dn,
+                               :email => email, :localpart => localpart,
+                               :domain => domain),
           :password => password
         }
       }
@@ -32,13 +36,13 @@ module Chessboard
     end
 
     # Calls Net::LDAP.new with the arguments as per the config file.
-    def self.new(username, password)
-      Net::LDAP.new(arguments(username, password))
+    def self.new(email, password)
+      Net::LDAP.new(arguments(email, password))
     end
 
     # Calls Net::LDAP.open with the arguments as per the config file.
-    def self.open(&block)
-      Net::LDAP.open(arguments(username, password), &block)
+    def self.open(email, password, &block)
+      Net::LDAP.open(arguments(email, password), &block)
     end
 
   end
