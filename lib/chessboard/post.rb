@@ -86,11 +86,13 @@ You are receiving this mail as a member of the forum at <%= Chessboard::Configur
       content.encode!("UTF-8")
 
       # If the mail lacks a proper display name in the From: header, use the
-      # part before the email address' @ sign.
-      if mail["From"].address_list.addresses.first.display_name
-        display_name = mail["From"].address_list.addresses.first.display_name.encode("UTF-8")
-      else
+      # part before the email address' @ sign. A display is not proper if it
+      # contains only whitespace, is the empty string, or the From: header is
+      # missing altogether.
+      if mail["From"].address_list.addresses.first.display_name.strip.empty?
         display_name = mail.from.first.split("@")[0]
+      else
+        display_name = mail["From"].address_list.addresses.first.display_name.encode("UTF-8")
       end
 
       post.forum        = forum
