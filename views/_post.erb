@@ -6,7 +6,7 @@
 
 <div class="post post-nest-<%= level %>">
   <div class="post-author">
-    <p class="author-name"><%= h post.used_alias %> <span class="author-uid">(<a href="/users/<%= post.author_id %>"><%= h post.author.uid %></a>)</span></p>
+    <p class="author-name"><%= h post.used_alias %> <span class="author-uid">(<a href="/users/<%= post.author_id %>"><%= h thread_info[:authors][post.author_id][:uid] %></a>)</span></p>
     <p class="author-membership"><%= author.title %></p>
     <% if author.avatar? %>
       <p class="author-avatar"><img src="<%= author.avatar_url %>" alt="<%= t.users.avatar_alt %>"/></p>

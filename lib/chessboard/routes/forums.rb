@@ -187,7 +187,8 @@ class Chessboard::Application < Sinatra::Base
       .each do |user|
 
       result[:authors][user.id] = {:user       => user,
-                                   :post_count => user.posts_dataset.count}
+                                   :post_count => user.posts_dataset.count,
+                                   :uid        => user.uid}
     end
 
     # Ensure posts with no attachments get an empty attachments hash
