@@ -4,6 +4,10 @@ class Chessboard::Application < Sinatra::Base
     halt 403 if !Chessboard::Configuration[:enable_registration]
     halt 403 if Chessboard::Configuration[:ldap]
 
+    @num1, @num2 = rand(100), rand(100)
+
+    session["as"] = @num1 + @num2
+
     @user = Chessboard::User.new
     erb :register
   end
@@ -14,7 +18,18 @@ class Chessboard::Application < Sinatra::Base
 
     if Chessboard::Configuration[:forum_rules] && params["forum_rules"] != "1"
       @must_accept_forum_rules = true
+      @num1, @num2 = rand(100), rand(100)
+      session["as"] = @num1 + @num2
       halt 400, erb(:register)
+    end
+
+    if !session["as"] || params["as"].to_i != session["as"].to_i
+      @anti_spam_failed = true
+      @num1, @num2 = rand(100), rand(100)
+      session["as"] = @num1 + @num2
+      halt 400, erb(:register)
+    else
+      session.delete("as")
     end
 
     @user = Chessboard::User.new

@@ -37,6 +37,8 @@ general:
     agree to be bound by them.
   must_accept_forum_rules: >
     You have to accept the Forum Rules.
+  anti_spam: Please add %1 and %2 and enter the result into the field below.
+  anti_spam_failed: Anti-spam question was incorrectly answered.
   user_error: >
     You have entered errorneous data into the form you just sent to the server.
     Please re-check you filled in everything properly.

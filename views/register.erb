@@ -2,6 +2,10 @@
   <p class="flash alert"><%= t.general.must_accept_forum_rules %></p>
 <% end %>
 
+<% if @anti_spam_failed %>
+  <p class="flash alert"><%= t.general.anti_spam_failed %></p>
+<% end %>
+
 <h1><%= t.general.register %></h1>
 
 <p>
@@ -27,6 +31,11 @@
   <p>
     <label for="password_repeat"><%= t.general.repeat_password %>:</label><br/>
     <input type="password" id="password" name="password"/>
+  </p>
+
+  <p>
+    <label for="as"><%= t.general.anti_spam(@num1, @num2) %></label><br/>
+    <input type="text" id="as" name="as"/>
   </p>
 
   <% if Chessboard::Configuration[:forum_rules] %>
