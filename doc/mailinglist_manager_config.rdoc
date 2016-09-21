@@ -1,0 +1,177 @@
+= Creating configuration for a new mailinglist manager ♜
+
+Chessboard is agnostic with regard to the mailinglist manager in use,
+but it only comes with a limited amount of premade configuration
+snippets for mailinglist managers. You are not restricted to them, but
+have to write up the full configuration yourself if they do not
+suffice. First and foremost, this requires some knowledge of the Ruby
+programming language.
+
+== Idea
+
+Pre-made configuration snippets are stored under the
+Chessboard::Configuration::Mailinglists namespace module. The
+Chessboard::Configuration::use_premade_config method looks for a
+constant inside this module and extends the Chessboard::Configuration
+module with the contents of whatever it found. The configuration
+snippet modules make use of the +extended+ Ruby hook together with
++module_eval+ to act as if they were part of the configuration file.
+
+A mailinglist configuration does not have to be converted into a
+pre-made configuration snippet module, but doing so gives you the
+possibility to contribute it to Chessboard. If you do not need or want
+this status, you can include the statements directly into config.rb
+and remove the corresponding +use_premade_config+ command from it.
+
+Each forum has a “mailinglist” attribute the administrator configures
+when creating a new forum. This attribute is passed unchanged to the
+settings explained below, and thus its usage is defined by them. The
+mlmmj premade configuration module for example treats this as the path
+to the directory of the mailinglist.
+
+== Framework
+
+If you want to write a pre-made config snippet module, you start with
+this framework:
+
+    module Chessboard::Configuration::Mailinglists
+      module MyMailinglistManager
+
+        def self.extended(other)
+          other.module_eval do
+            # Here comes the actual code
+          end
+        end
+      end
+    end
+
+In config.rb, you then use this command to load it:
+
+    use_premade_config "MyMailinglistManager"
+
+If you do not want to write such a module, simply insert any code into
+config.rb itself.
+
+== Examples
+
+You should take a look at how the mlmmj and NullML pre-made config
+snippet modules are implemented. The NullML module is what can be used
+to run Chessboard standalone.
+
+== Required config settings
+
+For a new mailinglist module, the following configuration settings
+need to be implemented by you:
+
+* load_ml_users
+* subscribe_to_nomail
+* unsubscribe_from_ml
+* load_ml_mails
+* send_to_ml
+* monitor_ml
+* stop_ml_monitor
+
+Each of these settings needs to be implemented using a Ruby block
+using the following structure:
+
+    config_setting do |...arguments...|
+      # Code
+    end
+
+All settings take at least the forum_ml parameter, which is the value
+the administrator entered for the “mailinglist” attribute of the forum
+whose mailinglist is handled.
+
+=== load_ml_users
+
+Takes only the forum_ml parameter. The block has to return a sorted
+array of all email addresses that are subscribed to the mailinglist.
+
+=== subscribe_to_nomail
+
+Takes the forum_ml and the email address to subscribe as
+parameters. The block is required to subscribe that email address to
+the no-mail mailinglist, without any further action required. The user
+has to be subscribed to the no-mail version of the mailinglist,
+i.e. the user may not receive any emails from the mailinglist.
+
+If the user is subscribed to the mailinglist already, this block
+should usually not be executed. If it is, simply do nothing.
+
+=== unsubscribe_from_ml
+
+Takes the forum_ml and the email address to unsubscribe. The callback
+is required to unsubscribe to email address from the mailinglist
+without further questions.
+
+=== load_ml_mails
+
+Takes only the forum_ml as parameter. The callback is required to
+return an array of files where each file contains a post. The array
+has to be sorted by date ascending, i.e. the oldest post needs to come
+first.
+
+=== send_to_ml
+
+Takes 5 parameters: The forum_ml, a preliminary Chessboard::Post
+instance, an array of references, an array of Chessboard::Tag
+instances, and an array of attachment info hashes.
+
+The Post instance does not contain all information a full
+Chessboard::Post has, and the instance is not saved into the
+database. Be careful when using it.
+
+The references array is an array of strings where each string is a
+message ID (email <tt>Message-ID:</tt> header) of a parent
+message. This array is empty for new topic posts.
+
+The array of Chessboard::Tag instances contains the list of tags to
+attach to the post. These need to be transformed into an email header
+<tt>X-Chessboard-Tags</tt> where the tags are comma-separated.
+
+The attachments array contains each a hash as it was received from
+Rack when handling the request. Most importantly, each of these hashes
+has a :filename key that represents the filename of the
+attachment, and a :tempfile key that contains a Tempfile (File
+subclass) instance for the attachment's content (opened with "rb"
+mode).
+
+Use the Mail class to construct the email and set the
+<tt>User-Agent</tt> header to this value:
+
+    "Chessboard/#{Chessboard::VERSION}"
+
+The Mail class comes from the +mail+ gem.
+
+Finally, this callback needs to return the Message-ID of the generated
+message as a string.
+
+=== monitor_ml
+
+Takes 3 arguments: The forum_ml, the Forum instance corresponding to
+the mirrored mailinglist, and the user's chosen +monitor_method+ as
+per the config file.
+
+The block is called inside a process separate from the main
+application, so don't make any assumptions on the application's
+state. It has to monitor the mailinglist for new posts, and when it
+detects a new post, it has to pass it into
+Forum#process_new_ml_message, which takes a filename (if you don't
+detect the messages as files, you need to temporaryly save them to
+one).
+
+Feel free to raise NotImplementedError if the user requests an
+unsupported monitoring method. You should however implement both :poll
+and :inotify if feasable.
+
+The rb-inotify gem's facilities are available to you inside this
+block.
+
+=== stop_ml_monitor
+
+Takes 3 arguments: The forum_ml, the thread +monitor_ml+ runs in, and
+the user's chosen +monitor_method+ as per the config file. The block
+is required to signal the thread +monitor_ml+ runs in to stop
+gracefully.
+
+♚ ♛
