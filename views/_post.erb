@@ -2,11 +2,15 @@
 <% disable_actions ||= false %>
 <% watched_posts = thread_info[:watched_posts] %>
 <% author = thread_info[:authors][post.author_id][:user] %>
+<% author_uid = thread_info[:authors][post.author_id][:uid] %>
 <% attachments = thread_info[:attachments][post.id].values %>
 
 <div class="post post-nest-<%= level %>">
   <div class="post-author">
-    <p class="author-name"><%= h post.used_alias %> <span class="author-uid">(<a href="/users/<%= post.author_id %>"><%= h thread_info[:authors][post.author_id][:uid] %></a>)</span></p>
+    <p class="author-name"><%= h post.used_alias %>
+      <% unless author_uid == Chessboard::User::GUEST_UID %>
+	<span class="author-uid">(<a href="/users/<%= post.author_id %>"><%= h author_uid %></a>)</span></p>
+      <% end %>
     <p class="author-membership"><%= author.title %></p>
     <% if author.avatar? %>
       <p class="author-avatar"><img src="<%= author.avatar_url %>" alt="<%= t.users.avatar_alt %>"/></p>
