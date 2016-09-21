@@ -153,6 +153,29 @@ Your E-Mail-Address
 </p>
 EOF
 
+  # This setting specifies a program that is run each time a new user
+  # is added to the database. The following percent escapes may be
+  # used in this string:
+  #
+  # %{email}
+  #   The user's email address.
+  # %{localpart}
+  #   The user email's part before the @.
+  # %{domain}
+  #   The user email's part after the @.
+  #
+  # Note that even if you have registration disabled, new users may be added
+  # to the database (causing this hook to be executed) when they are encountered
+  # for the first time in an email send to a monitored mailinglist. To prevent
+  # that, you have to make your mailinglist reject posts from unsubscribed
+  # users and prevent subscription.
+  #create_user_hook "/usr/bin/logger 'New user %{email} registered.'"
+
+  # This setting specifies a program that is run each time a user
+  # is deleted from the database. It supports the same escape
+  # sequences as the `create_user_hook' setting.
+  #delete_user_hook "/usr/bin/logger 'User %{email} deleted.'"
+
   ########################################
   # LDAP authentication
 

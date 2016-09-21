@@ -324,6 +324,21 @@ class Chessboard::User < Sequel::Model
     super
   end
 
+  def after_create
+    super
+
+    if Chessboard::Configuration[:create_user_hook]
+      localpart, domain = email.split("@")
+      cmd = sprintf(Chessboard::Configuration[:create_user_hook],
+                    :email => email,
+                    :localpart => localpart,
+                    :domain => domain)
+
+      Chessboard::Application.logger.info("Executing: #{cmd}")
+      system(cmd)
+    end
+  end
+
   def before_destroy
     Chessboard::Forum.all.each do |forum|
       if subscribed_to_mailinglist?(forum)
@@ -337,6 +352,21 @@ class Chessboard::User < Sequel::Model
     posts.each(&:destroy)
 
     super
+  end
+
+  def after_destroy
+    super
+
+    if Chessboard::Configuration[:delete_user_hook]
+      localpart, domain = email.split("@")
+      cmd = sprintf(Chessboard::Configuration[:delete_user_hook],
+                    :email => email,
+                    :localpart => localpart,
+                    :domain => domain)
+
+      Chessboard::Application.logger.info("Executing: #{cmd}")
+      system(cmd)
+    end
   end
 
 end

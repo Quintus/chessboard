@@ -86,6 +86,8 @@ module Chessboard
     config_setting :max_ip_store_timespan, 60 * 60 * 24 * 14 # 2 weeks
     config_setting :forum_rules, nil
     config_setting :imprint, nil
+    config_setting :create_user_hook, nil
+    config_setting :delete_user_hook, nil
 
     # This namespace contains pre-made configuration snippets for
     # certain mailinglist software.
