@@ -113,6 +113,11 @@ it encounters an unknown email address, the post will be assigned to
 the Guest user. This way, it does not interfer with the user
 management of your mailinglist manager.
 
+If synchronisation fails, please check that the user you run
+Chessboard as has sufficient privileges to read the files inside the
+archive/ directory of your mlmmj mailinglist. mlmmj tends to set the
+file permissions very strictly.
+
 ♟ How to maintain ♟
 
 Chessboard needs to do some occasional cleanup work. For this, a Rake
