@@ -177,6 +177,29 @@ task :maintenance do
     .update(:ip => nil)
 end
 
+desc "List all users with nickname (uid) and email address."
+task :listusers do
+  Chessboard::User.each do |user|
+    printf("%03d %20s <%s>\n", user.id, user.uid, user.email)
+  end
+end
+
+desc "Delete a user with a given UID."
+task :deluser do
+  uid = query(:uid, "UID of the user to delete: ")
+  destroy_posts = query(:destroyposts, "Destroy posts? (yes/no) ", "no") == "yes"
+
+  if user = Chessboard::User.first(:uid => uid) # Single = intended
+    unless destroy_posts
+      user.move_all_posts_to_other_user_id!(Chessboard::User::guest_id)
+    end
+
+    user.destroy
+  else
+    fail "No such user."
+  end
+end
+
 ########################################
 # Helper methods
 
