@@ -1,0 +1,134 @@
+
+		       ♞ C H E S S B O A R D ♜
+
+Chessboard is a forum-mailinglist gateway software. The web interface
+acts mostly like an ordinary web forum, but in the background each
+post is send to and received from one or more mailinglists the forum
+mirrors. Since it does only very minor modification of the posts
+received, it can serve as a mailinglist archive as well. It can also
+be run standalone if required, i.e. without a mailinglist to mirror.
+
+Chessboard is a little inspired by DFeed
+(<https://github.com/CyberShadow/DFeed>), which powers the D
+programming language's forum. Chessboard however is written in Ruby
+and is based on the popular Sinatra library rather than RubyOnRails,
+which makes it a rather slim application with little dependencies.
+
+♟ How to install ♟
+
+Chessboard is currently in the testing phase, thus there are no stable
+releases yet. The v0.0.1 tag you find in the Git repository is an old
+attempt that should not be used. Thus, you need to download the Git
+repository:
+
+    $ git clone git://github.com/Quintus/chessboard.git
+
+You need to install the Ruby Programming Language and RubyGems before
+you proceed; both should be available from your Linux distribution's
+repositories. Then you need to install the Bundler package manager:
+
+    $ gem install bundler
+
+With that available, you can install the actual dependencies of
+Chessboard:
+
+    $ cd chessboard
+    $ bundle install --path .gems --without development test
+
+I try to keep the amount of gems required low, but a little number is
+unavoidable. Some of these gems require native extensions, mostly
+rb-inotify, so if you don't have a C compiler available, the above
+step will fail.
+
+Since Chessboard is mainly intended to be used as a mailinglist
+mirror, you need to have a mailinglist available that will be
+mirrored. This file assumes that you use mlmmj (<http://mlmmj.org/>)
+to manager your mailinglists and you have a mailinglist you want to
+mirror under /var/mlmmj/my-ml. Other mailinglist managers can be used
+as well, see below.
+
+Chessboard also needs to send emails. All posts made via the board are
+not stored into the database directly, but instead send to the
+mailinglist under the email address of the posting user. To achieve
+this, Chessboard automatically subscribes the user to the no-mail
+version of the mailinglist before sending an email under his address
+to it. You shouldn't notice much of this if you use one of the
+pre-made configuration snippets. Most importantly, however, Chessboard
+relies on a working “sendmail” binary to be available at the path
+given in the configuration file. If “sendmail” fails to work, no posts
+made via Chessboard will become available.
+
+♟ How to configure ♟
+
+There is a comprehensively commented configuration file in “config.rb”
+that you should consult and edit before you do anything else. At the
+bottom of this file, the actual mailinglist mapping is
+configured. Chessboard ships with two pre-made configuration snippets
+for the mlmmj mailinglist manager and for running standalone without a
+mailinglist backend. If this does not cover your needs, you need to
+write your own mailinglist manager configuration mapping, which is
+rather complex. Take a look at the file
+doc/mailinglist_manager_config.rdoc if you want to know how this
+works; for now, I assume you use the mlmmj configuration snippet.
+
+There's little runtime configuration of Chessboard, nearly everything
+happens in config.rb.
+
+Once you're done with it, you need to populate the database with the
+minimal setup required. To do so, run these commands:
+
+    $ export RACK_ENV=production
+    $ bundle exec rake setup
+
+This will ask you some questions with regard to the administrative
+user. Answer them, and you're good to go.
+
+♟ How to run ♟
+
+For taking a first glance at the software, simply run this command and
+then browse to <http://localhost:3000>:
+
+    $ bundle exec rackup -p 3000
+
+This binds to localhost by default. If you are running this on a
+server, you need to explicitely specify that it should be reachable
+from the outside by passing an extra -o option:
+
+    $ bundle exec rackup -p 3000 -o 0.0.0.0
+
+This will bind to the wildcard address. You can then reach the
+application under your server's IP address or DNS host name at port
+3000.
+
+The interface will be fairly empty, as no mailinglist is configured
+yet. Head over to the administration panel, add a new forum, and for
+the “mailinglist” attribute you say “/var/mlmmj/my-ml”, which is where
+you have your mlmmj-managed mailinglist stored. Finish the
+configuration and click “Synchronise”. Chessboard will now pull in all
+posts ever made to that mailinglist and assign all of them except
+those made under the email address you gave for the admin user to the
+Guest user, as no users have registered yet. It is important to note
+that Chessboard will never automatically create any users for you. If
+it encounters an unknown email address, the post will be assigned to
+the Guest user. This way, it does not interfer with the user
+management of your mailinglist manager.
+
+♟ License ♟
+
+Chessboard is a forum<->mailinglist gateway.
+Copyright © 2016 Marvin Gülker <m-guelker@guelkerdev.de>
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+				 ♚ ♛
