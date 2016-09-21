@@ -384,6 +384,18 @@ div.CodeRay {
     font-size: 12px;
 }
 
+.author-uid {
+    color: #AAAAAA;
+}
+
+.author-uid a {
+    color: #AAAAAA;
+}
+
+.author-uid a:hover {
+    color: #0b8ae1;
+}
+
 .post-author p.author-registered {
     margin-top: 4px;
 }

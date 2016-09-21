@@ -277,7 +277,7 @@ class Chessboard::Application < Sinatra::Base
     post.title      = params["title"]
     post.forum      = forum
     post.author     = logged_in_user
-    post.used_alias = logged_in_user.current_alias
+    post.used_alias = logged_in_user.display_name
 
     post.content = params["content"]
     unless logged_in_user.signature.to_s.empty?

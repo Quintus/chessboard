@@ -117,7 +117,34 @@ module Chessboard
     end
 
     post "/login" do
-      user = User.first(:email => params["email"])
+      if Chessboard::Configuration[:ldap]
+        ldap = Chessboard::LDAP.new_app_ldap
+        # TODO: Simply construct the full DN and retrieve that one
+        result = ldap.search(:base => Chessboard::Configuration[:ldap_user_subtree],
+                             :filter => Net::LDAP::Filter.eq("uid", params["uid"]),
+                             :attributes => [Chessboard::Configuration[:ldap_user_email_attr],
+                                             Chessboard::Configuration[:ldap_user_name_attr],
+                                             Chessboard::Configuration[:ldap_user_uid_attr]],
+                             :size => 1,
+                             :result_set => true)
+
+        if result.nil?
+          # LDAP error
+          Chessboard::Application.logger.error("LDAP failure on login of #{params['uid']}:")
+          Chessboard::Application.logger.error(ldap.get_operation_result.inspect)
+          halt 502
+        else
+          # Only one entry can match this query, get it from the result array
+          if result.first
+            user = Chessboard::User.get_from_ldap_entry!(result.first)
+          else
+            # User not in LDAP.
+            halt 400, t.general.login_failure
+          end
+        end
+      else
+        user = User.first(:uid => params["uid"])
+      end
 
       if user && user.confirmed && user.authenticate(params["password"])
         message t.general.logged_in_successfully
@@ -148,7 +175,7 @@ module Chessboard
         to user.email
         subject "Password reset"
         body <<EOF
-Hi #{user.current_alias},
+Hi #{user.uid},
 
 you have used the password reset function to reset
 your password. Your old password has been removed,

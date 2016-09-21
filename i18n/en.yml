@@ -187,9 +187,6 @@ users:
     a user whose nickname contains the given characters.
   list_query: "Query:"
   profile: "%1’s user profile"
-  known_aliases: Known aliases of this user
-  column_alias: Alias
-  column_first_used: First used
   total_posts: "Total posts"
   homepage: Homepage
   location: Location
@@ -464,7 +461,6 @@ admin:
     forum_title: Title
     registered: Registered
     last_login: Last Login
-    current_alias: Current Alias
     # %1 is replaced by the user email
     administer: Administer %1
     delete: Delete User

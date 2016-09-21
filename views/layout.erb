@@ -24,7 +24,7 @@
 
     <div id="login-info">
       <% if logged_in? %>
-	<%= t.general.logged_in logged_in_user.current_alias %>
+	<%= t.general.logged_in h(logged_in_user.uid) %>
       <% else %>
 	<%= t.general.not_logged_in %>
       <% end %>

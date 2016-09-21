@@ -201,16 +201,43 @@ EOF
   # a pattern of how to build the full DN. The following
   # % escapes are recognised in this string:
   #
+  # %{uid}
+  #   UID of the user login is attempted for.
+  #   It will be set to whatever the user entered into the login
+  #   form as the "login ID".
   # %{email}
-  #   This is replaced by the full email address of the
-  #   authenticating user.
+  #   The user's email address.
   # %{localpart}
-  #   This is replaced by the part before the @ of the
-  #   user's email address.
+  #   The part before the @ of the user's email address.
   # %{domain}
-  #   This is replaced by the part after the @ of the user's
-  #   email address.
-  # ldap_user_dn "uid=%{email},ou=users,dc=example,dc=com"
+  #   The part after the @ of the user's email address.
+  #
+  # ldap_user_dn "uid=%{uid},ou=users,dc=example,dc=com"
+
+  # When an email comes in from a mailinglist, Chessboard needs to
+  # match it to a user. It does this by searching the subtree
+  # given with this option for a match of the email address with
+  # the `ldap_user_email_attr' attribute.
+  ldap_user_subtree "ou=users,dc=example,dc=com"
+
+  # This attribute is used to get a user's email address.
+  ldap_user_email_attr "email"
+
+  # This attribute is used to get the user's display name
+  # (e.g. when sending out emails).
+  ldap_user_name_attr "cn"
+
+  # The attribute that uniquely identifies a user, i.e. that
+  # one that is part of its DN.
+  ldap_user_uid_attr "uid"
+
+  # Chessboard needs to query some data from the LDAP server
+  # on itself, most notably when emails from the mailinglists
+  # are received. For this, it BINDs to the LDAP under the DN
+  # given with this option. The data it needs to query are the
+  # `email', `cn', and `uid' attributes.
+  ldap_app_dn "cn=chessboard,ou=applications,dc=example,dc=com"
+  ldap_app_password "secretpassword"
 
   ########################################
   # Mailinglist-specific config

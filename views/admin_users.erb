@@ -11,7 +11,7 @@
   <thead>
     <tr>
       <th>#</th>
-      <th><%= t.admin.users.current_alias %></th>
+      <th><%= t.general.nickname %></th>
       <th><%= t.admin.users.forum_title %></th>
       <th><%= t.admin.users.email %></th>
       <th><%= t.admin.users.is_admin %></th>
@@ -24,7 +24,7 @@
     <% @users.each do |user| %>
       <tr>
 	<td><%= user.id %></td>
-	<td><%= user.current_alias %></td>
+	<td><%= user.uid %></td>
 	<td><%= user.title %></td>
 	<td><%= user.email %></td>
 	<td><%= user.admin? ? t.yes : t.no %></td>

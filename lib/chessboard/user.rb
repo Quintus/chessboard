@@ -11,6 +11,10 @@ class Chessboard::User < Sequel::Model
   # E-Mail address of the Guest user.
   GUEST_EMAIL = "guest@chessboard.invalid".freeze
 
+  # The UID of the Guest user. This is the only UID that may not
+  # ever be present in the LDAP.
+  GUEST_UID = "chessboardguest".freeze
+
   # Possible configuration options for viewing a thread. :default
   # means to defer to the +default_view_mode+ global configuration
   # setting. The values are the integers under which the modes
@@ -26,47 +30,35 @@ class Chessboard::User < Sequel::Model
 
   # Returns the user representing "guests". This is a placeholder
   # user not used under normal circumstances, but comes into play
-  # if users delete their accounts.
-  # The return value is an instance of User with a special, invalid
-  # email address assigned to it (GUEST_EMAIL constant).
+  # if users delete their accounts or a mail is received from
+  # a user who is susbcribed to a mailinglist, but not registered
+  # on the forum.
+  #
+  # The return value is an instance of User with the UID GUEST_UID.
   def self.guest
-    Chessboard::User.where(:email => GUEST_EMAIL).first
+    Chessboard::User.where(:uid => GUEST_UID).first
   end
 
   # Like ::guest, but only returns the numeric ID of the Guest user.
   def self.guest_id
-    Chessboard::User.where(:email => GUEST_EMAIL).limit(1).get(:id)
+    Chessboard::User.where(:uid => GUEST_UID).limit(1).get(:id)
   end
 
-  # Synchronise the list of accounts on the forum with the subscribers
-  # list of the mailinglist management program. All accounts whose
-  # address is not in the mailinglist registers will be deleted, and
-  # for each account in the mailinglist registers that is not in
-  # Chessboard's database a new account will be created.
-  def self.sync_with_mailinglists!
-    mailinglists = Chessboard::Configuration.mirrored_mailinglists
-
-    # Get a list of all subscribers of all mailinglists.
-    emails = []
-    mailinglists.each do |mailinglist|
-      Chessboard::Configuration[:load_ml_users].call(mailinglist).each do |subscriber_mail|
-        emails << subscriber_mail unless emails.include?(subscriber_mail)
-      end
+  # Fetch the User instance corresponding to the given Net::LDAP::Entry
+  # instance from the SQL database. If there is no corresponding entry,
+  # create it and return that one.
+  def self.get_from_ldap_entry!(entry)
+    if user = first(:uid => result[Chessboard::Configuration[:ldap_user_uid_attr]]) # Single = intended
+      user
+    else
+      user = Chessboard::User.new
+      user.uid = result[Chessboard::Configuration[:ldap_user_uid_attr]]
+      user.email = result[Chessboard::Configuration[:ldap_user_email_attr]]
+      user.confirmed = true # Confirmation happens in LDAP already
+      user.reset_password # Does not matter, will be check against LDAP BIND anyway
+      user.save
+      user
     end
-
-    emails.sort!
-
-    current_registered_emails = Chessboard::User.select_map(:email)
-
-    # Delete all users not in this list
-    deleted_emails = current_registered_emails - emails
-    deleted_emails.each{|email| Chessboard::Application.logger.info("Deleting #{email}")}
-    Chessboard::User.where(:email => deleted_emails).all.each(&:destroy)
-
-    # Do not add users in the ML to the forum. This is done on-the-fly
-    # when a message from a new user is encountered (code deduplication).
-
-    # TODO: Sync with LDAP if enabled.
   end
 
   # Check the given plaintext password against the password
@@ -75,7 +67,7 @@ class Chessboard::User < Sequel::Model
   # on success, false otherwise.
   def authenticate(password)
     if Chessboard::Configuration[:ldap]
-      ldap = Chessboard::LDAP.new(self[:email], password)
+      ldap = Chessboard::LDAP.new_user_ldap(self, password)
       if ldap.bind
         true
       else
@@ -197,77 +189,6 @@ class Chessboard::User < Sequel::Model
     !unread?(post)
   end
 
-  # Returns the most recent alias name of this user.
-  # Returns nil if there is no alias associated with this
-  # user (which indicates a bug as any user creation should
-  # always add at least one alias).
-  #
-  # See also #alias_at_time.
-  def current_alias
-    alias_at_time(Time.now.utc)
-  end
-
-  # Return the alias that was in use at the given point in time.
-  # Returns nil if there was no alias for this user at the given
-  # time.
-  #
-  # Raises RangeError if the user was not registered at the time
-  # requested.
-  #
-  # See also #current_alias.
-  def alias_at_time(time)
-    # Force DateTime over to Time, make it UTC
-    time = time.to_time if time.respond_to?(:to_time)
-    time = time.utc
-
-    if time < created_at
-      raise RangeError, "Requested to retrieve an alias from before the user #{id} was registered (#{created_at}, requested was #{time})!"
-    end
-
-    Chessboard::Application::DB[:user_aliases]
-      .where(:user_id => id)
-      .where{created_at <= time}
-      .order(Sequel.desc(:created_at))
-      .limit(1)
-      .get(:name)
-  end
-
-  # Add a new alias for this user. You may override the
-  # creation time to insert an older alias if you have an
-  # old message from this user with a not-yet-used alias
-  # that is as of now not used anymore.
-  def add_alias(display_name, creation_time = Time.now)
-    # Force DateTime over to Time and make it UTC
-    creation_time = creation_time.to_time if creation_time.respond_to?(:to_time)
-    creation_time = creation_time.dup.utc
-
-    Chessboard::Application::DB[:user_aliases]
-      .insert(:user_id => id,
-              :name => display_name.delete("<>"), # "<" and ">" are no good in email display names
-              :created_at => creation_time)
-  end
-
-  # Returns all aliases this user ever used as a two-dimensional
-  # array of this form:
-  #
-  #   [[start_time, alias_name], ...]
-  #
-  #
-  # +start_time+ indicates when the user started using this alias,
-  # +alias_name+ is the alias as a string.
-  #
-  # If the user switched back to an earlier used alias, you might get
-  # duplicate alias names for different times.
-  #
-  # The array is sorted in ascending order, i.e. the first alias ever
-  # used comes first.
-  def all_aliases
-    Chessboard::Application::DB[:user_aliases]
-      .where(:user_id => id)
-      .order(Sequel.asc(:created_at))
-      .select_map([:name, :created_at])
-  end
-
   # Move all posts of this user to another user.
   # Note the post's 'used_alias' attribute is left untouched,
   # so the UI will still display the old name next to the post
@@ -315,11 +236,69 @@ class Chessboard::User < Sequel::Model
     raise NotImplementedError, "TODO"
   end
 
+  # Returns the DN of this user in the LDAP, using the
+  # configuration's +ldap_user_dn+. This method raises
+  # a NotImplementedError if LDAP authentication is not
+  # enabled.
+  def full_ldap_dn
+    if Chessboard::Configuration[:ldap]
+      sprintf(Chessboard::Configuration[:ldap_user_dn], uid)
+    else
+      raise NotImplementedError, "#full_ldap_dn is only implemented for LDAP authentication!"
+    end
+  end
+
+  # Some information needs to be retrieved from the LDAP instead
+  # of the DB when LDAP is enabled.
+  if Chessboard::Configuration[:ldap]
+
+    # Returns the user's email address as it is stored in the DB.
+    # If LDAP auth is enabled, returns what is stored in the LDAP instead.
+    def email
+      retrieve_ldap_attrs[:email]
+    end
+
+    # Returns the user's display name as it is stored in the DB.
+    # If LDAP auth is enabled, returns what is stored in the LDAP instead.
+    def display_name
+      retrieve_ldap_attrs[:name]
+    end
+  end
+
   private
+
+  def retrieve_ldap_attrs
+    @cached_ldap_attrs ||= {}
+    if @cached_ldap_attrs.empty?
+      ldap = Chessboard::LDAP.new_app_ldap
+      result = ldap.search(:base => full_ldap_dn,
+                           :return_result => true,
+                           :scope => Net::LDAP::SearchScope_BaseObject,
+                           :attributes => [Chessboard::Configuraiton[:ldap_user_email_attr],
+                                           Chessboard::Configuration[:ldap_user_name_attr]],
+                           :size => 1)
+
+      if result.nil?
+        # LDAP error
+        raise ldap.get_operation_result.inspect
+      else
+        if result = result.first
+          @cached_ldap_attrs[:email] = result[Chessboard::Configuraiton[:ldap_user_email_attr]]
+          @cached_ldap_attrs[:name]  = result[Chessboard::Configuration[:ldap_user_name_attr]]
+        else
+          # This should never happen for a saved user instance.
+          raise "Unexpected condition encountered (LDAP search for #{full_dn} returned empty result). This is a bug."
+        end
+      end
+    end
+
+    @cached_ldap_attrs
+  end
 
   def before_create
     self[:created_at]   ||= Time.now.utc
     self[:title]        ||= Chessboard::Configuration[:default_user_title]
+    self[:display_name] ||= self[:uid]
 
     super
   end
@@ -346,7 +325,6 @@ class Chessboard::User < Sequel::Model
       end
     end
 
-    Chessboard::Application::DB[:user_aliases].where(:user_id => id).delete
     Chessboard::Application::DB[:read_posts].where(:user_id => id).delete
 
     posts.each(&:destroy)

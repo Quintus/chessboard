@@ -164,7 +164,7 @@ module Chessboard::Helpers
     mail.subject = t.users.registration_email_subject.to_s
     mail.from = Chessboard::Configuration[:board_email]
     mail.to   = user.email
-    mail.body = t.users.registration_email_body(user.current_alias,
+    mail.body = t.users.registration_email_body(user.uid,
                                                 Chessboard::Configuration[:board_url],
                                                 link,
                                                 user.confirmation_expiry_time.strftime("%Y-%m-%d %H:%M")).to_s
@@ -183,7 +183,7 @@ this post has been reported as abuse:
 
   #{Chessboard::Configuration[:board_url]}#{post_url(post)}
 
-The reporting user was #{user.current_alias} (#{user.email}).
+The reporting user was #{user.uid} (#{user.email}).
 The report was filed on #{Time.now.utc.strftime('%Y-%m-%d %H:%M %z')}.
 
 A copy of the post is below.

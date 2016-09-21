@@ -63,6 +63,12 @@ module Chessboard
     config_setting :ldap_port, 389
     config_setting :ldap_encryption, nil
     config_setting :ldap_user_dn
+    config_setting :ldap_user_subtree
+    config_setting :ldap_user_email_attr, "email"
+    config_setting :ldap_user_name_attr, "cn"
+    config_setting :ldap_user_uid_attr, "uid"
+    config_setting :ldap_app_dn
+    config_setting :ldap_app_password
     config_setting :load_ml_users
     config_setting :load_ml_mails
     config_setting :subscribe_to_nomail
@@ -254,7 +260,7 @@ module Chessboard
 
             send_to_ml do |forum_ml, post, refs, tags, attachments|
                             mail = Mail.new do
-                from "#{post.author.current_alias.delete('<>')} <#{post.author.email}>"
+                from "#{post.author.display_name.delete('<>')} <#{post.author.email}>"
                 to Chessboard::Configuration[:board_email]
                 subject post.title
                 body post.content

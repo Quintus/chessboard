@@ -1,4 +1,4 @@
-<h1><%= t.users.profile @user.current_alias %></h1>
+<h1><%= t.users.profile h(@user.uid) %></h1>
 
 <div class="user-profile">
   <div class="profile-system-info">
@@ -7,7 +7,7 @@
 	<img src="<%= @user.avatar_url %>" alt="User avatar"/>
       <% end %>
 
-      <p class="profile-nickname"><%= h @user.current_alias %></p>
+      <p class="profile-nickname"><%= h @user.uid %></p>
       <p class="profile-membership"><%= @user.title %></p>
     </div>
     <% unless @user.homepage.to_s.empty? %>
@@ -48,24 +48,6 @@
       <td><%= l @user.created_at %></td>
       <td><%= @user.last_login ? l(@user.last_login) : t.general.never %></td>
       <td><%= @user.posts_dataset.count %></td>
-    </tbody>
-  </table>
-
-  <p><%= t.users.known_aliases %>:</p>
-  <table class="profile-user-stats">
-    <thead>
-      <tr>
-	<th><%= t.users.column_alias %></th>
-	<th><%= t.users.column_first_used %></th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @user.all_aliases.each do |user_alias, created| %>
-	<tr>
-	  <td><%= user_alias %></td>
-	  <td><%= l created %></td>
-	</tr>
-      <% end %>
     </tbody>
   </table>
 </div>

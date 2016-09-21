@@ -6,6 +6,7 @@ task :setup do
   Chessboard::Application::DB.create_table :users do
     primary_key :id
 
+    String :uid,                :null => false, :unique => true
     String :email,              :null => false, :unique => true
     String :encrypted_password, :null => false
     String :locale,             :default => "en", :null => false
@@ -16,6 +17,7 @@ task :setup do
     String :pgp_key
     String :signature
     String :title,              :null => false
+    String :display_name,       :null => false
     TrueClass :hide_status,     :default => false, :null => false
     TrueClass :hide_email,      :default => false, :null => false
     TrueClass :auto_watch,      :default => false, :null => false
@@ -28,9 +30,13 @@ task :setup do
 
     constraint(:email_format){Sequel.like(:email, "%_@_%")}
     constraint(:title_length, Sequel.char_length(:title) > 2)
+    constraint(:display_name_length, Sequel.char_length(:title) > 1)
     constraint(:valid_view_mode, :view_mode_ident => Chessboard::User::VIEWMODE2IDENT.values)
     # The following constraint needs an update each time a new locale is added.
     constraint(:supported_locale, :locale => R18n.available_locales.map(&:code))
+
+    constraint(:display_name_format_no_left_angle,  ~Sequel.like(:display_name, "%<%"))
+    constraint(:display_name_format_no_right_angle, ~Sequel.like(:display_name, "%>%"))
   end
 
   Chessboard::Application::DB.create_table :forums do
@@ -86,16 +92,6 @@ task :setup do
     constraint(:color_length, Sequel.char_length(:color) => 6)
   end
 
-  Chessboard::Application::DB.create_table :user_aliases do
-    foreign_key :user_id, :users, :null => false
-    String      :name,            :null => false
-    DateTime    :created_at,      :null => false
-
-    constraint(:name_length, Sequel.char_length(:name) > 2)
-    constraint(:name_format_no_left_angle,  ~Sequel.like(:name, "%<%"))
-    constraint(:name_format_no_right_angle, ~Sequel.like(:name, "%>%"))
-  end
-
   Chessboard::Application::DB.create_join_table :tag_id => :tags, :post_id => :posts
 
   Chessboard::Application::DB.create_table :attachments do
@@ -135,20 +131,21 @@ end
 task :create_minimal_data do
   puts "Creating Guest user"
   guest = Chessboard::User.new
+  guest.uid   = Chessboard::User::GUEST_UID
   guest.email = Chessboard::User::GUEST_EMAIL
+  guest.title = "Guest"
   guest.reset_password
   guest.confirmed = true
   guest.save
-  guest.add_alias("Guest", guest.created_at)
 
   puts "Creating Admin user"
   admin = Chessboard::User.new
-  admin.email        = query(:email, "Your email: ")
+  admin.uid           = query(:name, "Your nickname: ")
+  admin.email         = query(:email, "Your email: ")
   admin.change_password(query(:password, "Your password: "))
   admin.administrator = true
   admin.confirmed     = true
   admin.save
-  admin.add_alias(query(:name, "Your nickname: "), admin.created_at)
 end
 
 desc "Print the routing table."
