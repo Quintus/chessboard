@@ -18,3 +18,7 @@ group :development do
   gem "sqlite3"
   gem "pg"
 end
+
+# If there's a Gemfile.local, load that one.
+user_gemfile = File.join(File.expand_path(File.dirname(__FILE__)), "Gemfile.local")
+eval_gemfile(user_gemfile) if File.exist?(user_gemfile)

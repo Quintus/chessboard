@@ -118,6 +118,17 @@ Chessboard as has sufficient privileges to read the files inside the
 archive/ directory of your mlmmj mailinglist. mlmmj tends to set the
 file permissions very strictly.
 
+It is not recommended to run Ruby's default web server (WEBrick) in a
+production environment as it is known to perform badly, albeit it is
+handy for testing. Instead, use an optmised web server like thin or
+puma. To do so, create a file named “Gemfile.local” next to the
+“Gemfile” and add a line like this:
+
+    gem "thin"
+
+If present, the “bundle install” command given above will
+automatically honour the content of the “Gemfile.local” file.
+
 ♟ How to maintain ♟
 
 Chessboard needs to do some occasional cleanup work. For this, a Rake

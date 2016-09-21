@@ -6,3 +6,4 @@ public/attachments/*
 !public/attachments/delete.me
 *.pid
 html/
+Gemfile.local
