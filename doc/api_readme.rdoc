@@ -1,0 +1,6 @@
+= Chessboard API Documentation ♜
+
+This is the API documentation for Chessboard. It is mainly targetted
+at developers.
+
+♚ ♛

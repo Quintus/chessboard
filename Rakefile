@@ -1,4 +1,5 @@
 require "rake"
+require "rdoc/task"
 require_relative"lib/chessboard"
 
 desc "Create the tables in the database (call before first use)."
@@ -198,6 +199,12 @@ task :deluser do
   else
     fail "No such user."
   end
+end
+
+RDoc::Task.new do |rt|
+  rt.main = "api_readme.rdoc"
+  rt.rdoc_files.include("README", "doc/*.rdoc", "lib/**/*.rb")
+  rt.generator = "hanna"
 end
 
 ########################################

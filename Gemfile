@@ -14,6 +14,7 @@ gem "mini_magick"
 gem "rb-inotify"
 
 group :development do
+  gem "hanna-nouveau"
   gem "sqlite3"
   gem "pg"
 end
