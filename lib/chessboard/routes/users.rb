@@ -12,6 +12,11 @@ class Chessboard::Application < Sinatra::Base
     halt 403 if !Chessboard::Configuration[:enable_registration]
     halt 403 if Chessboard::Configuration[:ldap]
 
+    if Chessboard::Configuration[:forum_rules] && params["forum_rules"] != "1"
+      @must_accept_forum_rules = true
+      halt 400, erb(:register)
+    end
+
     @user = Chessboard::User.new
     @user.uid = params["uid"]
     @user.email = params["email"]

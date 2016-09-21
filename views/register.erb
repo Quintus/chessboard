@@ -1,3 +1,7 @@
+<% if @must_accept_forum_rules %>
+  <p class="flash alert"><%= t.general.must_accept_forum_rules %></p>
+<% end %>
+
 <h1><%= t.general.register %></h1>
 
 <p>
@@ -24,6 +28,13 @@
     <label for="password_repeat"><%= t.general.repeat_password %>:</label><br/>
     <input type="password" id="password" name="password"/>
   </p>
+
+  <% if Chessboard::Configuration[:forum_rules] %>
+    <p>
+      <input type="checkbox" name="forum_rules" id="forum_rules" value="1"/>
+      <label for="forum_rules"><%= t.general.forum_rules_checkbox %></label>
+    </p>
+  <% end %>
 
   <p class="submit-separator">
     <input type="submit" class="button-ok" value="<%= t.general.register %>"/>

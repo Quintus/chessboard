@@ -32,6 +32,11 @@ general:
     confirmation email with further instructions to validate your account.
   imprint: Imprint
   forum_rules: Forum Rules
+  forum_rules_checkbox: >
+    I have read <a href="/forum_rules">the Forum Rules</a> and I
+    agree to be bound by them.
+  must_accept_forum_rules: >
+    You have to accept the Forum Rules.
   user_error: >
     You have entered errorneous data into the form you just sent to the server.
     Please re-check you filled in everything properly.
