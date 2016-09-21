@@ -1,13 +1,13 @@
 class Chessboard::Application < Sinatra::Base
 
   get "/users/register" do
-    halt 403 if Chessboard::Configuration[:ldap]
+    halt 403 if Chessboard::Configuration[:enable_registration]
     @user = Chessboard::User.new
     erb :register
   end
 
   post "/users" do
-    halt 403 if Chessboard::Configuration[:ldap]
+    halt 403 if Chessboard::Configuration[:enable_registration]
 
     @user = Chessboard::User.new
     @user.email = params["email"]
@@ -58,6 +58,7 @@ class Chessboard::Application < Sinatra::Base
 
   # Should be a DELETE method, but browsers don't support that.
   post "/users/:id/delete" do
+    halt 401 unless Chessboard::Configuration[:enable_registration]
     halt 401 unless logged_in?
     @user = Chessboard::User[params["id"].to_i]
 

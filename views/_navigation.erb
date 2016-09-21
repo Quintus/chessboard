@@ -17,7 +17,7 @@
       <% if logged_in_user.admin? %>
 	<li><a href="/admin"><%= t.admin.administration %></a></li>
       <% end %>
-    <% elsif !Chessboard::Configuration[:ldap] %>
+    <% elsif !Chessboard::Configuration[:enable_registration] %>
       <li><a href="/users/register"><%= t.general.register %></a></li>
     <% end %>
 

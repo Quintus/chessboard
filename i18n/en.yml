@@ -386,6 +386,10 @@ settings:
     If you want your posts to be deleted together with your account,
     please contact the administration at %1 instead of using this
     deletion form.
+  account_deletion_disabled: >
+    Account deletion is disabled. Please contact the board administration
+    at %1 to delete your account if there is no other possibility to delete
+    your account.
 posts:
   edit: "Edit"
   edit_post: "Edit posting"
