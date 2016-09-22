@@ -129,6 +129,25 @@ puma. To do so, create a file named “Gemfile.local” next to the
 If present, the “bundle install” command given above will
 automatically honour the content of the “Gemfile.local” file.
 
+Once the forum itself is up and running, you need to start the
+mailinglist monitor, i.e. the software that watches the mailinglists
+for new posts and adds them to the forum. If you forget this, any new
+posts made to the mailinglist -- including those made via Chessboard
+-- will not show up in the forum. Only if you choose to run Chessboard
+standalone without a mailinglist backend you don't need this step. To
+start the monitor, execute this:
+
+    $ ./bin/ml_monitor start
+
+The command will fork and run as a daemon by default. Ensure it has
+the required privileges to read the mails in the mailinglist archive.
+
+Lastly, be sure the environment variable RACK_ENV is set to the string
+value "production" whenever you run a command related to chessboard,
+be it the server start, the monitor start, or Rake tasks. If this
+environment variable is unset, Chessboard assumes a development
+environment, which is not what you want if you are not developing it.
+
 ♟ How to maintain ♟
 
 Chessboard needs to do some occasional cleanup work. For this, a Rake
