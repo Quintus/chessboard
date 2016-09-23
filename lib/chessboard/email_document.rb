@@ -11,7 +11,7 @@ class Chessboard::EmailDocument
     # Some text preparation. Remove the noisy carriage returns and
     # mask all email addresses. Also escape all HTML.
     @text.gsub!("\r", "")
-    @text.gsub!(/@.*?(\>|\s|$)/, '@xxxxxxx\\1')
+    @text.gsub!(/([[:alnum:]])@.+?(\>|\s|$)/, '\\1@xxxxxxx\\2')
 
     @scanner = StringScanner.new(@text)
     @mode = :normal
