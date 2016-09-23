@@ -26,4 +26,9 @@
       <%= t.general.never %>
     <% end %>
   </td>
+  <td class="forumalsovia">
+    <% if forum.ml_subscribe_url %>
+      <a href="<%= forum.ml_subscribe_url %>"><%= t.forums.mailinglist %></a>
+    <% end %>
+  </td>
 </tr>

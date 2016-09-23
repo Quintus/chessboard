@@ -136,6 +136,12 @@ class Chessboard::Application < Sinatra::Base
     @forum.ml_tag = params["ml_tag"]
     @forum.ordernum = params["ordernum"].to_i
 
+    if params["ml_subscribe_url"].to_s.empty?
+      @forum.ml_subscribe_url = nil
+    else
+      @forum.ml_subscribe_url = params["ml_subscribe_url"]
+    end
+
     begin
       @forum.save
     rescue Sequel::ConstraintViolation
@@ -211,6 +217,10 @@ class Chessboard::Application < Sinatra::Base
     @forum.ml_tag = params["ml_tag"]
     @forum.ordernum = params["ordernum"].to_i
     @forum.mailinglist = params["mailinglist"]
+
+    unless params["ml_subscribe_url"].to_s.empty?
+      @forum.ml_subscribe_url = params["ml_subscribe_url"]
+    end
 
     begin
       @forum.save

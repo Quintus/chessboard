@@ -155,6 +155,8 @@ forums:
   lastpost: "Last Post"
   author_by: "by"
   new_topic: "New Topic"
+  also_via: "Also via"
+  mailinglist: Mailinglist
 personal:
   settings: "Settings"
   misc: "Miscellaneous"
@@ -508,3 +510,4 @@ admin:
     description: Description
     ordernum: Ordering number
     new: Create new forum…
+    ml_subscribe_url: Mailinglist subscription page URL

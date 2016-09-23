@@ -64,6 +64,18 @@ end
 
   <div class="setting">
     <div class="header settings-header">
+      <label><%= t.admin.forums.ml_subscribe_url %></label>
+    </div>
+    <div class="settings-content">
+      <p>
+	<input type="text" name="ml_susbcribe_url" value="<%= @forum.ml_subscribe_url %>"/>
+      </p>
+    </div>
+  </div>
+
+
+  <div class="setting">
+    <div class="header settings-header">
       <label><%= t.admin.forums.description %></label>
     </div>
     <div class="settings-content">
