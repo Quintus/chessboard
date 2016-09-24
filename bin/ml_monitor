@@ -62,6 +62,22 @@ def start_monitor
 
   Dir.chdir("/")
 
+  # Drop privileges as we might get started as root.
+  if Process.uid == 0
+    stat = File.stat(Chessboard::Application.root)
+
+    Process::Sys.setgid(stat.gid)
+    Process::Sys.setuid(stat.uid)
+
+    begin
+      Process::Sys.setuid(0)
+    rescue Errno::EPERM
+      Chessboard::Application.logger.info "Successfully dropped privileges to #{stat.uid}:#{stat.gid}"
+    end
+  else
+    Chessboard::Application.logger.info "Not dropping privileges as running already as #{Process.uid}:#{Process.gid}"
+  end
+
   Chessboard::MailinglistWatcher.start_monitoring_threads
 
   Signal.trap("TERM") do
