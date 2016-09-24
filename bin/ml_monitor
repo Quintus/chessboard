@@ -65,8 +65,8 @@ def start_monitor
 
   # Drop privileges as we might get started as root.
   if $options[:uid]
-    Process::Sys.setuid($options[:uid]) if $options[:uid]
     Process::Sys.setgid($options[:gid]) if $options[:gid]
+    Process::Sys.setuid($options[:uid]) if $options[:uid]
 
     begin
       Process::Sys.setuid(0)
