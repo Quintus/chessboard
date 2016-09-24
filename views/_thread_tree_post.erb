@@ -1,7 +1,7 @@
 <%# Template expects that "post" itself is already displayed. %>
 
 <ul class="thread-tree-ul">
-  <% post.replies.each do |reply| %>
+  <% post.children_dataset.order(Sequel.asc(:created_at)).each do |reply| %>
     <li class="thread-tree-li">
       <%# Forced thread view is intended. %>
       <a class="thread-tree-link" href="/forums/<%= @forum.id %>/threads/<%= reply.id %>"><%= reply.title %></a>
