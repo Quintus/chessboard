@@ -270,6 +270,13 @@ class Chessboard::Application < Sinatra::Base
     redirect post_url(@post.thread_starter, @forum)
   end
 
+  get "/posts/:id" do
+    post = Chessboard::Post[params["id"].to_i]
+    halt 404 unless post
+
+    redirect post_url(post), 307
+  end
+
   private
 
   def construct_post(params, forum)
