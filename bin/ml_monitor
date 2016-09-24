@@ -48,6 +48,16 @@ def start_monitor
     STDOUT.close
     STDERR.close
 
+    # Log anything that might go to standard input/standard output
+    # (child commands may do that).
+    @r, $stdout = IO.pipe
+    $stderr = $stdout
+    Thread.new do
+      while line = @r.gets
+        Chessboard::Application.logger.warn("stdout/stderr output: #{line.chomp}")
+      end
+    end
+
     File.open($options[:pidfile], "w"){|f| f.write($$)}
   end
 
