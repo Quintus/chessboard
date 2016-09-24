@@ -161,7 +161,7 @@ module Chessboard
               end
 
               mail["User-Agent"] = "Chessboard/#{Chessboard::VERSION}"
-              mail["X-Chessboard-Tags"] = tags.select_map(:name).join(",") unless tags.empty?
+              mail["X-Chessboard-Tags"] = tags.map(&:name).join(",") unless tags.empty?
               mail.deliver!
 
               mail.message_id
@@ -277,7 +277,7 @@ module Chessboard
               end
 
               mail["User-Agent"] = "Chessboard/#{Chessboard::VERSION}"
-              mail["X-Chessboard-Tags"] = tags.select_map(:name).join(",") unless tags.empty?
+              mail["X-Chessboard-Tags"] = tags.map(&:name).join(",") unless tags.empty?
 
               file = Tempfile.new("nullml")
               begin
