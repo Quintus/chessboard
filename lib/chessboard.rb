@@ -252,6 +252,8 @@ EOF
           image.resize("80x80") if image.width > 80 || image.height > 80
           image.format "gif"
           image.write @user.avatar_path
+
+          File.chmod(0644, @user.avatar_path)
         rescue => e
           alert t.settings.avatar_upload_failed
           logger.error("#{e.class}: #{e.message}: #{e.backtrace.join("\n\t")}")
