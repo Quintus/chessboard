@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 require "bundler/setup"
 require "optparse"
+require "etc"
 require_relative "../lib/chessboard"
 
 # Shortcut for Chessboard.logger.
@@ -63,19 +64,15 @@ def start_monitor
   Dir.chdir("/")
 
   # Drop privileges as we might get started as root.
-  if Process.uid == 0
-    stat = File.stat(Chessboard::Application.root)
-
-    Process::Sys.setgid(stat.gid)
-    Process::Sys.setuid(stat.uid)
+  if $options[:uid]
+    Process::Sys.setgid($options[:uid]) if $options[:uid]
+    Process::Sys.setuid($options[:gid]) if $options[:gid]
 
     begin
       Process::Sys.setuid(0)
     rescue Errno::EPERM
-      Chessboard::Application.logger.info "Successfully dropped privileges to #{stat.uid}:#{stat.gid}"
+      Chessboard::Application.logger.info "Successfully dropped privileges to #{Process.uid}:#{Process.gid}"
     end
-  else
-    Chessboard::Application.logger.info "Not dropping privileges as running already as #{Process.uid}:#{Process.gid}"
   end
 
   Chessboard::MailinglistWatcher.start_monitoring_threads
@@ -111,7 +108,9 @@ end
 
 $options = {
   :pidfile    => File.expand_path(File.join(File.dirname(__FILE__), ".."), "chessboard-ml_monitor.pid"),
-  :foreground => ENV["RACK_ENV"] != "production"
+  :foreground => ENV["RACK_ENV"] != "production",
+  :uid => nil,
+  :gid => nil
 }
 
 OptionParser.new do |op|
@@ -143,6 +142,30 @@ BANNER
   op.on("-p", "--pid-file PATH",
         "Write the PID to the file PATH.") do |path|
     $options[:pidfile] = path
+  end
+
+  op.on("-u", "--user UID",
+        "Drop privileges to the given user name or numeric user ID.") do |arg|
+    uid = nil
+    begin
+      uid = Integer(arg)
+    rescue ArgumentError # User name
+      uid = Etc.getpwnam(arg).uid
+    end
+
+    $options[:uid] = uid
+  end
+
+  op.on("-g", "--group GID",
+        "Drop privileges to the given group name or numeric group ID") do |arg|
+    gid = nil
+    begin
+      gid = Integer(arg)
+    rescue ArgumentError # User name
+      gid = Etc.getgrnam(arg).gid
+    end
+
+    $options[:gid] = gid
   end
 
   op.on("-h", "--help") { puts(op); exit(0) }
