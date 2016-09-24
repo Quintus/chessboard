@@ -13,6 +13,13 @@ class Chessboard::MailinglistWatcher
   def self.start_monitoring_threads
     @ml_monitoring_threads = []
 
+    if ENV["RACK_ENV"] == "production"
+      # Sequel appearently has severe problems if the connection
+      # was established before forking. Thus reconnect.
+      Chessboard::Application::DB.disconnect
+      Chessboard::Application.const_set(:DB,Sequel.connect(Chessboard::Configuration[:database_url]))
+    end
+
     Chessboard::Forum.all.each do |forum|
       Chessboard.logger.info("Monitoring #{forum.mailinglist}")
 
