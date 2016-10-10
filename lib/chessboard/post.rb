@@ -434,6 +434,8 @@ You are receiving this mail as a member of the forum at <%= Chessboard::Configur
       mail.from = Chessboard::Configuration[:board_email]
       mail.to   = user.email
       mail.body = MENTION_EMAIL.result(binding)
+      mail.charset = 'UTF-8'
+      mail.content_transfer_encoding = '8bit'
 
       mail.deliver
     end
@@ -458,6 +460,8 @@ The post was written by #{used_alias} <#{author.email}> on
 ******************** Start of post ********************
 #{content}
 MAIL
+      mail.charset = 'UTF-8'
+      mail.content_transfer_encoding = '8bit'
       mail.deliver
     end
   end

@@ -162,6 +162,8 @@ module Chessboard
 
               mail["User-Agent"] = "Chessboard/#{Chessboard::VERSION}"
               mail["X-Chessboard-Tags"] = tags.map(&:name).join(",") unless tags.empty?
+              mail.charset = 'UTF-8'
+              mail.content_transfer_encoding = '8bit'
               mail.deliver!
 
               mail.message_id
@@ -259,7 +261,7 @@ module Chessboard
             end
 
             send_to_ml do |forum_ml, post, refs, tags, attachments|
-                            mail = Mail.new do
+              mail = Mail.new do
                 from "#{post.author.display_name.delete('<>')} <#{post.author.email}>"
                 to Chessboard::Configuration[:board_email]
                 subject post.title
@@ -278,6 +280,8 @@ module Chessboard
 
               mail["User-Agent"] = "Chessboard/#{Chessboard::VERSION}"
               mail["X-Chessboard-Tags"] = tags.map(&:name).join(",") unless tags.empty?
+              mail.charset = 'UTF-8'
+              mail.content_transfer_encoding = '8bit'
 
               file = Tempfile.new("nullml")
               begin

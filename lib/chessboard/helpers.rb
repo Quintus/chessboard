@@ -168,6 +168,8 @@ module Chessboard::Helpers
                                                 Chessboard::Configuration[:board_url],
                                                 link,
                                                 user.confirmation_expiry_time.strftime("%Y-%m-%d %H:%M")).to_s
+    mail.charset = 'UTF-8'
+    mail.content_transfer_encoding = '8bit'
     mail.deliver
   end
 
@@ -198,6 +200,8 @@ Subject: #{post.title}
 ************** End of Post Copy **************
 REPORT
 
+    mail.charset = 'UTF-8'
+    mail.content_transfer_encoding = '8bit'
     mail.deliver
   end
 
