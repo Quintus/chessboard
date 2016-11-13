@@ -150,8 +150,8 @@ module Chessboard
                 body post.content
 
                 unless refs.empty? # New topic (root post) if empty
-                  in_reply_to refs.last
-                  references refs
+                  in_reply_to "<#{refs.last}>"
+                  references refs.map{|r| "<#{r}>"}.join(" ")
                 end
 
                 # `attachments' is an empty array if no attachments are there.
