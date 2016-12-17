@@ -136,7 +136,11 @@ class Chessboard::Application < Sinatra::Base
 
     @suggested_title = @post.title
     @suggested_title = "Re: #{@suggested_title}" unless @suggested_title =~ /^Re:/i
-    @tags = Chessboard::Tag.order(Sequel.asc(:name))
+
+    # Do not allow tags in replies. While technically possible, this
+    # is confusing to the user as that part of the UI appears to have
+    # no use (tags on replies are not shown anywhere).
+    @tags = []
 
     @thread_info = construct_thread_info(@post, logged_in_user)
 
