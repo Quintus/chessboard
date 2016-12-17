@@ -633,6 +633,10 @@ a.tag {
     margin-right: 20px;
 }
 
+.edit-tags {
+    font-size: 12px;
+}
+
 /******** Spoiler **********/
 
 .spoiler {

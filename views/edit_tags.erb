@@ -1,0 +1,25 @@
+<h1><%= t.admin.edit_tags_for_post @post.title %></h1>
+
+<form action="/forums/<%= @forum.id %>/posts/<%= @post.id %>/tags" accept-charset="UTF-8" method="post">
+  <p><%= t.admin.tags %>:</p>
+
+  <p>
+    <% @tags.each do |tag| %>
+      <span class="tag-selector">
+	<input type="checkbox"
+	       name="tags[<%= tag.id %>]"
+	       id="tag-<%= tag.id %>"
+	       value="1"
+	       <% if @post_tag_ids.include?(tag.id) %>
+		 checked="checked"
+	       <% end %>
+	       />
+	<label for="tag-<%= tag.id %>" class="tag" style="background-color: #<%= tag.color %>"><%= tag.name %></label>
+      </span>
+    <% end %>
+  </p>
+
+  <p class="submit-separator">
+    <input type="submit" value="<%= t.admin.edit_tags %>" class="button-ok"/>
+  </p>
+</form>

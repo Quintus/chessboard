@@ -9,6 +9,9 @@
       <% end %>
     </ul>
   <% end %>
+  <% if logged_in? && logged_in_user.admin? %>
+    <a class="edit-tags" href="/forums/<%= @forum.id %>/posts/<%= @root_post.id %>/tags">[<%= t.admin.edit_tags %>]</a>
+  <% end %>
 </h1>
 
 <% unless @root_post.thread_starter? %>

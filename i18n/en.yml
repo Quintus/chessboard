@@ -463,6 +463,9 @@ admin:
   tag_create: Create Tag
   tag_created: Tag successfully created.
   tag_updated: Tag successfully updated.
+  edit_tags: Edit tags
+  edit_tags_for_post: Edit tags for post “%1”
+  edited_tags: Tags successfully updated.
   users:
     title: Users
     email: E-Mail

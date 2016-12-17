@@ -281,6 +281,42 @@ class Chessboard::Application < Sinatra::Base
     redirect post_url(post), 307
   end
 
+  get "/forums/:forum_id/posts/:id/tags" do
+    halt 401 unless logged_in?
+    halt 403 unless logged_in_user.admin?
+    @post  = Chessboard::Post[params["id"].to_i]
+    @forum = Chessboard::Forum[params["forum_id"].to_i]
+
+    halt 404 unless @post
+    halt 404 unless @forum
+    halt 400 unless @post.forum == @forum
+
+    @tags         = Chessboard::Tag.order(Sequel.asc(:name)).all
+    @post_tag_ids = @post.tags_dataset.select_map(:id)
+
+    erb :edit_tags
+  end
+
+  post "/forums/:forum_id/posts/:id/tags" do
+    halt 401 unless logged_in?
+    halt 403 unless logged_in_user.admin?
+    @post  = Chessboard::Post[params["id"].to_i]
+    @forum = Chessboard::Forum[params["forum_id"].to_i]
+
+    halt 404 unless @post
+    halt 404 unless @forum
+    halt 400 unless @post.forum == @forum
+
+    params["tags"] ||= {}
+    tags = Chessboard::Tag.where(:id => params["tags"].keys.map(&:to_i)).all
+
+    @post.remove_all_tags
+    tags.each{|tag| @post.add_tag(tag)}
+
+    message t.admin.edited_tags
+    redirect post_url(@post, @forum)
+  end
+
   private
 
   def construct_post(params, forum)
