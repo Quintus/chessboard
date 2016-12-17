@@ -1,5 +1,15 @@
 <p class="post-forum"><a href="/forums/<%= @forum.id %>"><%= @forum.name %></a></p>
-<h1><%= h @root_post.pretty_title %></h1>
+<h1>
+  <%= h @root_post.pretty_title %>
+  <% unless @root_post.tags.empty? %>
+    <span class="offscreen"><%= t.admin.tags %>:</span>
+    <ul class="vlist tag-list">
+      <% @root_post.tags.each do |tag| %>
+	<li><a class="tag" style="background-color: #<%= tag.color %>" href="/forums/<%= @forum.id %>?tag[]=<%= tag.id %>"><%= tag.name %></a></li>
+      <% end %>
+    </ul>
+  <% end %>
+</h1>
 
 <% unless @root_post.thread_starter? %>
   <div class="flash info">
