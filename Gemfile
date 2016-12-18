@@ -17,6 +17,7 @@ group :development do
   gem "hanna-nouveau"
   gem "sqlite3"
   gem "pg"
+  gem "faker"
 end
 
 # If there's a Gemfile.local, load that one.

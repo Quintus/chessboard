@@ -212,6 +212,11 @@ task :deluser do
   end
 end
 
+desc "Fill the database with some example data."
+task :seed do
+  sh "bundle exec ruby db/seed.rb"
+end
+
 RDoc::Task.new do |rt|
   rt.main = "api_readme.rdoc"
   rt.rdoc_files.include("README", "doc/*.rdoc", "lib/**/*.rb")

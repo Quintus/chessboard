@@ -1,6 +1,6 @@
 .bundle
 .gems
-db/
+db/*.db3
 public/images/avatars/*.gif
 public/attachments/*
 !public/attachments/delete.me
