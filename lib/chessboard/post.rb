@@ -85,6 +85,9 @@ You are receiving this mail as a member of the forum at <%= Chessboard::Configur
       # Ensure only UTF-8 gets into the database
       content.encode!("UTF-8")
 
+      # Blank email without content
+      content = "[This message had no content]" if content.empty?
+
       # If the mail lacks a proper display name in the From: header, use the
       # part before the email address' @ sign. A display is not proper if it
       # contains only whitespace, is the empty string, or the From: header is
