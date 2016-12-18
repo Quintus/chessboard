@@ -160,13 +160,17 @@ class Chessboard::Application < Sinatra::Base
     if request.xhr? # AJAX request for checking the import status
       halt 400 unless $sync_ml_status # No sync in progress
 
-      result = {:current_message => 0, :total_messages => 0}
+      result = {:current_message => 0, :total_messages => 0, :exception => nil}
       $sync_ml_status[:mutex].synchronize do
         result[:current_message] = $sync_ml_status[:current_message]
         result[:total_messages]  = $sync_ml_status[:total_messages]
+        result[:exception]       = $sync_ml_status[:exception]
       end
 
-      if result[:current_message] >= result[:total_messages]
+      if result[:exception]
+        Chessboard::Application.logger.error("#{result[:exception].class.name}: #{result[:exception].message}: #{result[:exception].backtrace.join('\n\t')}")
+        500
+      elsif result[:current_message] >= result[:total_messages]
         # This means all mails have been processed and it is guaranteed
         # that the other thread does not make any further access to
         # $sync_ml_status, which we can now clean up safely thus.
@@ -185,12 +189,18 @@ class Chessboard::Application < Sinatra::Base
       # A global variable is probably a little hacky, but still cleaner
       # than any alternative approach I can come up with to get the mutex
       # over into the AJAX requests handled above.
-      $sync_ml_status = {:mutex => Mutex.new, :current_message => 0, :total_messages => 0}
+      $sync_ml_status = {:mutex => Mutex.new, :current_message => 0, :total_messages => 0, :exception => nil}
       Thread.new do
-        @forum.sync_with_mailinglist! do |path, cur_msg, total_msgs|
+        begin
+          @forum.sync_with_mailinglist! do |path, cur_msg, total_msgs|
+            $sync_ml_status[:mutex].synchronize do
+              $sync_ml_status[:current_message] = cur_msg
+              $sync_ml_status[:total_messages]  = total_msgs
+            end
+          end
+        rescue => e
           $sync_ml_status[:mutex].synchronize do
-            $sync_ml_status[:current_message] = cur_msg
-            $sync_ml_status[:total_messages]  = total_msgs
+            $sync_ml_status[:exception] = e
           end
         end
       end
