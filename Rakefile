@@ -1,6 +1,16 @@
 require "rake"
+require "rake/clean"
 require "rdoc/task"
 require_relative"lib/chessboard"
+
+CLEAN.include("public/attachments/[0-9]*",
+              "public/images/avatars/*.gif",
+              "/tmp/chessboard-mls")
+task :clean => :drop_dbs
+
+task :drop_dbs do
+  rm_f FileList["db/*.db3"]
+end
 
 desc "Create the tables in the database (call before first use)."
 task :setup do
