@@ -448,6 +448,8 @@ posts:
   # Post content toggle
   show_raw: Show raw
   show_normal: Show normal
+  cannot_edit: This post cannot be edited anymore, either because it is too old, or because someone replied to it.
+  edited: Posting edited.
 admin:
   administration: Administration
   startpage_text: >

@@ -83,6 +83,8 @@ task :setup do
     DateTime :created_at,     :null => false
     DateTime :last_post_date, :null => false
     String   :used_alias,     :null => false
+    DateTime :edited_at
+    String   :edited_msgid
 
     constraint(:title_length, Sequel.char_length(:title) > 2)
     constraint(:content_length, Sequel.char_length(:content) => 1..100_000)

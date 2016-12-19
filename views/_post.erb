@@ -47,6 +47,10 @@
       <% if logged_in? && !disable_actions %>
 	<li><a href="/forums/<%= forum.id %>/posts/<%= post.id %>/report"><img src="/images/icons/report.png" alt="report this"/>&nbsp;<%= t.posts.report_this %></a></li>
 
+	<% if post.editable? && (logged_in_user.admin? || logged_in_user.id == post.author_id) %>
+	  <li><a href="/forums/<%= forum.id %>/posts/<%= post.id %>/edit"><img src="/images/icons/edit.png" alt="edit this"/>&nbsp;<%= t.posts.edit %></a></li>
+	<% end %>
+
 	<% if logged_in_user.admin? %>
 	  <li><a href="/forums/<%= forum.id %>/posts/<%= post.id %>" class="delete-post"><img src="/images/icons/delete.png" alt="delete this"/>&nbsp;<%= t.posts.delete %></a></li>
 	  <% if post.announcement? %>

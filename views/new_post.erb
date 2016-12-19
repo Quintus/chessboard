@@ -8,4 +8,4 @@
 
 <h1><%= t.posts.new %></h1>
 
-<%= erb :_reply_form, :locals => {:suggested_title => "", :tags => @tags, :target => "/forums/#{@forum.id}/posts"} %>
+<%= erb :_reply_form, :locals => {:suggested_title => "", :suggested_content => "", :tags => @tags, :target => "/forums/#{@forum.id}/posts"} %>

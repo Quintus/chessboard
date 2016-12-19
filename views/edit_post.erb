@@ -1,0 +1,19 @@
+<% content_for :header do %>
+  <script type="text/javascript" src="/javascripts/attachments.js"></script>
+<% end %>
+
+<% if @attachment_error %>
+  <p class="flash alert"><%= @attachment_error %></p>
+<% end %>
+
+<h1><%= t.posts.edit_post %></h1>
+
+<% unless @origpost.thread_starter? %>
+  <h2><%= t.posts.your_reply %></h2>
+<% end %>
+
+<%= erb :_reply_form, :locals => {:suggested_title => @suggested_title, :suggested_content => @suggested_content, :tags => @tags, :target => "/forums/#{@forum.id}/posts/#{@origpost.id}/edit"} %>
+
+<% unless @origpost.thread_starter? %>
+  <%= erb :_post, :locals => {:post => @post, :forum => @forum, :disable_actions => true, :thread_info => @thread_info} %>
+<% end %>

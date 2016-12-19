@@ -368,6 +368,21 @@ You are receiving this mail as a member of the forum at <%= Chessboard::Configur
     end
   end
 
+  # Checks whether this post can still be edited. A post is editable,
+  # if a) it has no replies (i.e. children_dataset is empty) and b)
+  # no more time than configured in the +edit_timespan+ configuration
+  # option has passed since its creation (created_at).
+  def editable?
+    (Time.now - Chessboard::Configuration[:edit_timespan] <= created_at) &&
+      (children_dataset.empty?)
+  end
+
+  # Checks whether this post has been edited and if so, returns true.
+  # Otherwise returns false.
+  def edited?
+    !!edited_at
+  end
+
   private
 
   def validate

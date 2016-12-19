@@ -58,6 +58,7 @@ module Chessboard
     config_setting :threads_per_page, 15
     config_setting :posts_per_page, 10
     config_setting :max_total_attachment_size, 1024 * 1024
+    config_setting :edit_timespan, 60 * 60 * 24 * 2 # 2 days
     config_setting :ldap, false
     config_setting :ldap_host
     config_setting :ldap_port, 389
@@ -147,7 +148,15 @@ module Chessboard
                 from "#{post.used_alias} <#{post.author.email}>"
                 to File.read(File.join(forum_ml, "control", "listaddress")).strip
                 subject post.title
-                body post.content
+
+                if post.edited?
+                  body sprintf("*** Edit of message from %s (%s) ***\n\n%s",
+                               post.edited_at.to_time.strftime("%Y-%m-%d %H:%M:%S"),
+                               post.edited_msgid || "unknown message id",
+                               post.content)
+                else
+                  body post.content
+                end
 
                 unless refs.empty? # New topic (root post) if empty
                   in_reply_to "<#{refs.last}>"
@@ -162,6 +171,7 @@ module Chessboard
 
               mail["User-Agent"] = "Chessboard/#{Chessboard::VERSION}"
               mail["X-Chessboard-Tags"] = tags.map(&:name).join(",") unless tags.empty?
+              mail["X-Chessboard-Edited"] = post.edited_msgid
               mail.charset = 'UTF-8'
               mail.content_transfer_encoding = '8bit'
               mail.deliver!
@@ -265,7 +275,15 @@ module Chessboard
                 from "#{post.author.display_name.delete('<>')} <#{post.author.email}>"
                 to Chessboard::Configuration[:board_email]
                 subject post.title
-                body post.content
+
+                if post.edited?
+                  body sprintf("*** Edit of message from %s (%s) ***\n\n%s",
+                               post.edited_at.to_time.strftime("%Y-%m-%d %H:%M:%S"),
+                               post.edited_msgid || "unknown message id",
+                               post.content)
+                else
+                  body post.content
+                end
 
                 unless refs.empty? # New topic (root post) if empty
                   in_reply_to "<#{refs.last}>"
@@ -280,6 +298,7 @@ module Chessboard
 
               mail["User-Agent"] = "Chessboard/#{Chessboard::VERSION}"
               mail["X-Chessboard-Tags"] = tags.map(&:name).join(",") unless tags.empty?
+              mail["X-Chessboard-Edited"] = post.edited_msgid
               mail.charset = 'UTF-8'
               mail.content_transfer_encoding = '8bit'
 

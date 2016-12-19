@@ -47,6 +47,22 @@ Chessboard::Configuration.create do |config|
   # processed in any case.
   max_total_attachment_size 1048576
 
+  # Time span after post creation in which a post can be edited
+  # on the forum, in seconds. Editing causes Chessboard to send
+  # out a new mail with an editing note to the mailinglist, and
+  # deletes the original post from the forum database.
+  # To disable editing, set this setting to 0.
+  #
+  # Editing interfers with the idea of Chessboard as a mailinglist
+  # gateway and archive, because emails cannot be edited after
+  # they went out. Keep this value as low as possible for you,
+  # ideally set it to 0 to disable editing completely.
+  #
+  # Once a post has been replied to, Chessboard forbids editing
+  # regardless of the value of this setting so that the archive
+  # functionality works as expected.
+  edit_timespan 172800
+
   # Some persons have the annoying habit to send HTML-only email.
   # For these messages, Chessboard invokes the program
   # specified with this option and reads the result from

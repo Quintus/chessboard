@@ -205,6 +205,121 @@ class Chessboard::Application < Sinatra::Base
     end
   end
 
+  get "/forums/:forum_id/posts/:id/edit" do
+    halt 401 unless logged_in?
+
+    @forum = Chessboard::Forum[params["forum_id"].to_i]
+    @origpost  = Chessboard::Post[params["id"].to_i]
+
+    halt 404 unless @origpost
+    halt 404 unless @forum
+    halt 400 unless @origpost.forum == @forum
+    halt 403 unless @origpost.author_id == logged_in_user.id || logged_in_user.admin?
+
+    if @origpost.editable?
+      @suggested_title   = @origpost.title
+      @suggested_content = @origpost.content
+
+      if @origpost.thread_starter?
+        @tags = Chessboard::Tag.order(Sequel.asc(:name)).all
+      else
+        @post        = @origpost.parent
+        @thread_info = construct_thread_info(@post, logged_in_user)
+        # Again, no tags in replies
+        @tags = []
+      end
+
+      erb :edit_post
+    else
+      alert t.posts.cannot_edit
+      redirect post_url(@origpost, @forum)
+    end
+  end
+
+  post "/forums/:forum_id/posts/:id/edit" do
+    halt 401 unless logged_in?
+
+    @forum = Chessboard::Forum[params["forum_id"].to_i]
+    @origpost  = Chessboard::Post[params["id"].to_i]
+
+    halt 404 unless @origpost
+    halt 404 unless @forum
+    halt 400 unless @origpost.forum == @forum
+    halt 403 unless @origpost.author_id == logged_in_user.id || logged_in_user.admin?
+
+    if @origpost.editable?
+      params["attachments"] ||= []
+      params["tags"] ||= {}
+      tags = Chessboard::Tag.where(:id => params["tags"].keys.map(&:to_i)).all
+
+      # If the user is not subscribed to the mailinglist behind
+      # this forum, do that now.
+      unless logged_in_user.subscribed_to_mailinglist?(@forum)
+        logged_in_user.subscribe_to_mailinglist(@forum)
+      end
+
+      if @origpost.thread_starter?
+        @parent_post = nil
+      else
+        # Note how the parent post is set to the edited post's parent.
+        # Since the original post (@origpost) is going to be deleted
+        # further below, this ensures that the reply chain stays valid
+        # if Chessboard is used solely (a reply on the mailinglist to the
+        # deleted may happen still, but Chessboard can handle that by searching
+        # the parent references until a match is found).
+        @parent_post = @origpost.parent
+      end
+
+      @post      = nil
+      message_id = nil
+      begin
+        @post              = construct_post(params, @forum)
+        @post.parent       = @parent_post if @parent_post
+        @post.edited_at    = Time.now.utc
+        @post.edited_msgid = @origpost.message_id
+        message_id         = @post.send_to_mailinglist(tags, params["attachments"])
+      rescue RangeError, Sequel::ValidationFailed => e
+        @origpost        = Chessboard::Post[params["id"].to_i]
+        @suggested_title = @origpost.title
+
+        if @origpost.thread_starter?
+          @tags = Chessboard::Tag.order(Sequel.asc(:name))
+        else
+          @tags = []
+          @thread_info = construct_thread_info(@origpost, logged_in_user)
+        end
+
+        if e.class == RangeError  # Attachment size too large
+          halt 413, erb(:edit_post)
+        else
+          user_error!
+          halt 422, erb(:edit_post)
+        end
+      end
+
+      # Remove original post from database so that it is not part of
+      # any discussion anymore.
+      @origpost.destroy
+
+      # Give the email infrastructure opportunity to deliver the email.
+      sleep 60
+
+      if @post = Chessboard::Post.where(:message_id => message_id).first # Single = intended
+        @post.update(:ip => request.ip) unless Chessboard::Configuration[:max_ip_store_timespan].nil?
+
+        message t.posts.edited
+        redirect post_url(@post.thread_starter)
+      else
+        alert t.posts.creation_failed(Chessboard::Configuration[:admin_email])
+        redirect "/forums/#{@forum.id}"
+      end
+    else
+      # If this happens, someone replied or time expired during editing
+      alert t.posts.cannot_edit
+      redirect post_url(@origpost, @forum)
+    end
+  end
+
   # One shouldn't delete from a mail archive in general, but in case
   # of spam and illegal content there are exceptions to this rule,
   # hence such a possibility has to be provided.

@@ -5,7 +5,7 @@
   </p>
   <p>
     <label for="content"><%= t.posts.content %>:</label><br/>
-    <textarea name="content" id="content"><%= params["content"] %></textarea>
+    <textarea name="content" id="content"><%= params["content"] || suggested_content %></textarea>
   </p>
   <p id="automatic_line_breaks_container">
     <input type="checkbox" name="automatic_line_breaks" id="automatic_line_breaks"/>
