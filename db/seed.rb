@@ -69,7 +69,14 @@ def fake_thread(ml, refs = [])
   author = Chessboard::User.all.sample
 
   mail = Mail.new do
-    from "#{author.display_name} <#{author.email}>"
+    if rand(10) > 9
+      # ML-only user without Chessboard account
+      from "#{Faker::Name.name} <#{Faker::Internet.email}>"
+    else
+      # Regular user
+      from "#{author.display_name} <#{author.email}>"
+    end
+
     to "#{ml}@localhost"
     subject "[#{ml}] #{Faker::Lorem.sentence.chop}"
     body Faker::Lorem.paragraphs(rand(5)).join("\n\n")
