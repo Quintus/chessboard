@@ -302,7 +302,7 @@ class Chessboard::Application < Sinatra::Base
       @origpost.destroy
 
       # Give the email infrastructure opportunity to deliver the email.
-      sleep 60
+      sleep 3
 
       if @post = Chessboard::Post.where(:message_id => message_id).first # Single = intended
         @post.update(:ip => request.ip) unless Chessboard::Configuration[:max_ip_store_timespan].nil?
