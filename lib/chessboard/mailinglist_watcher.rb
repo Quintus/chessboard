@@ -24,7 +24,24 @@ class Chessboard::MailinglistWatcher
       Chessboard.logger.info("Monitoring #{forum.mailinglist}")
 
       t = Thread.new(forum.mailinglist) do |ml|
-        Chessboard::Configuration[:monitor_ml].call(ml, forum, Chessboard::Configuration[:monitor_method])
+        last_crash = Time.at(0)
+        begin
+          Chessboard::Configuration[:monitor_ml].call(ml, forum, Chessboard::Configuration[:monitor_method])
+        rescue => e
+          Chessboard.logger.error("Mailinglist monitor for #{ml} crashed: #{e.class.name}: #{e.message}: #{e.backtrace.join("|")}")
+          now = Time.now.utc
+
+          # Try to remedy from the crash by restarting the monitor. If another
+          # crash follows quickly (within 10 seconds), crash the thread finally.
+          if now - last_crash > 10
+            last_crash = now
+            Chessboard.logger.error("Restarting mailinglist monitor for #{ml}")
+            retry
+          else
+            Chessboard.logger.fatal("Repeated crash on mailinglist monitor for #{ml} within 10 seconds, exiting!")
+            raise #re-raise
+          end
+        end
       end
 
       @ml_monitoring_threads << MonitoredMLThread.new(forum.id, forum.mailinglist, t)
