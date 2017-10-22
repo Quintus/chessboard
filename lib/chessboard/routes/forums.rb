@@ -35,7 +35,7 @@ class Chessboard::Application < Sinatra::Base
       # tags set by means of SQL Common Table Expressions (CTEs) that each build
       # on top of the preceeding one, filtering it down until all tags have
       # been processed.
-      tags = params["tag"].map(&:to_i).sort
+      tags = params["tag"].map(&:to_i).sort.uniq
       tags.each_with_index do |tag_id, index|
         dataset = index.zero? ? Chessboard::Post : DB[Sequel.identifier("tag#{index - 1}")]
 

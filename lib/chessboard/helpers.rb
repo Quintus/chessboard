@@ -118,15 +118,23 @@ module Chessboard::Helpers
   # Append the given key-value pair to this URL's query string
   # and return the resulting full path such that it can be
   # used in an anchor tag's HREF attribute.
+  # Does return the current full path including query string
+  # without any modification if the current query string
+  # already includes this key-value pair.
   def add_to_querystr(key, value)
-    str = "?#{request.query_string.dup}"
+    newelement = CGI.escape(key.to_s) + "=" + CGI.escape(value.to_s)
+    if request.query_string.include?(newelement)
+      request.path + "?" + request.query_string
+    else
+      str = "?#{request.query_string}"
 
-    unless str == "?"
-      str << "&"
+      unless str == "?"
+        str << "&"
+      end
+
+      str << newelement
+      request.path + str
     end
-
-    str << CGI.escape(key.to_s) << "=" << CGI.escape(value.to_s)
-    request.path + str
   end
 
   # Takes a number and formats it as a byte size with appropriate
