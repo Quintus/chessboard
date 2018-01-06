@@ -1,6 +1,10 @@
 
 		       ♞ C H E S S B O A R D ♜
 
+    **************************************************************
+    * NOTE: THIS IS UNMAINTAINED SOFTWARE. USE AT YOUR OWN RISK. *
+    **************************************************************
+
 Chessboard is a forum-mailinglist gateway software. The web interface
 acts mostly like an ordinary web forum, but in the background each
 post is send to and received from one or more mailinglists the forum
